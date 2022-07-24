@@ -76,6 +76,8 @@ export default function CreateForm() {
       justifyContent="center"
       alignItems="center"
       padding="20px"
+      mr={['1%', '5%', '15%', '25%']}
+      ml={['1%', '5%', '15%', '25%']}
       onSubmit={handleSubmit(onSubmit)}
     >
       <FormControl>
