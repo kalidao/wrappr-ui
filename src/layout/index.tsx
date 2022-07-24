@@ -18,7 +18,7 @@ export default function Layout({ heading, content, children }: LayoutProps) {
         <meta name="description" content={content} key="description" />
       </Head>
       <Box minHeight="100vh">
-      <Header />
+        <Header />
         {children}
       </Box>
     </>
