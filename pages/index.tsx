@@ -4,9 +4,7 @@ import Image from 'next/image'
 import Layout from '../src/layout'
 
 const Home: NextPage = () => {
-  return <Layout heading="Home" content="Wrap anything">
-
-  </Layout>
+  return <Layout heading="Home" content="Wrap anything"></Layout>
 }
 
 export default Home
