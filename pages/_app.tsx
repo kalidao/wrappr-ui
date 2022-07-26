@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import { useState } from 'react'
 import type { AppProps } from 'next/app'
 import '@rainbow-me/rainbowkit/styles.css'
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
@@ -6,6 +7,7 @@ import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { ChakraProvider } from '@chakra-ui/react'
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const { chains, provider } = configureChains(
   [chain.rinkeby],
@@ -24,11 +26,17 @@ const wagmiClient = createClient({
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [queryClient] = useState(() => new QueryClient())
+
   return (
     <ChakraProvider>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains}>
-          <Component {...pageProps} />
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
+              <Component {...pageProps} />
+            </Hydrate>
+          </QueryClientProvider>
         </RainbowKitProvider>
       </WagmiConfig>
     </ChakraProvider>

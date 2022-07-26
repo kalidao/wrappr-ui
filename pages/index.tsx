@@ -1,19 +1,55 @@
-import type { NextPage } from 'next'
+import type { NextPage, GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '../src/layout'
-import { Flex, Button } from '@chakra-ui/react'
+import { Button, SimpleGrid, Flex } from '@chakra-ui/react'
+import { WrapprCard } from '../src/wrap'
 
-const Home: NextPage = () => {
+const Home: NextPage = ({ wrapprs }) => {
   const router = useRouter()
+
+  console.log('wrapprs', wrapprs['data']['wrapprs'])
 
   return (
     <Layout heading="Home" content="Wrap anything" back={false}>
-      <Flex minH="90vh" justifyContent="center" alignItems="center" gap="10px">
-        <Button onClick={() => router.push('/wrap')}>Wrap Now</Button>
-        <Button onClick={() => router.push('/create')}>Create Wrappr</Button>
+      <Flex direction="column" gap={5} margin={[2, 4, 6, 10]}>
+        <Button onClick={() => router.push('/create')} maxW="fit-content">
+          Create Wrappr
+        </Button>
+        <SimpleGrid columns={[1, 2, 3, 4]} spacing={10}>
+          {wrapprs['data']['wrapprs'].map((wrappr) => (
+            <WrapprCard key={wrappr['id']} wrappr={wrappr} />
+          ))}
+        </SimpleGrid>
       </Flex>
     </Layout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const res = await fetch('https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: `query {
+        wrapprs {
+          id
+          name
+          symbol
+          baseURI
+          mintFee
+          admin
+        }
+      }`,
+    }),
+  })
+
+  const data = await res.json()
+
+  return {
+    props: { wrapprs: data },
+  }
 }
 
 export default Home
