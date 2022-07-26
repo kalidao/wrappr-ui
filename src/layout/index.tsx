@@ -28,7 +28,12 @@ export default function Layout({ heading, content, back, children }: LayoutProps
       <Box minHeight="100vh">
         <Header />
         {back && (
-          <Button variant="ghost" leftIcon={<MdOutlineArrowBack />} onClick={() => router.back()}>
+          <Button
+            variant="ghost"
+            leftIcon={<MdOutlineArrowBack />}
+            onClick={() => router.back()}
+            marginLeft={[2, 4, 6, 8]}
+          >
             Back
           </Button>
         )}
