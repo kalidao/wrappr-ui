@@ -30,10 +30,10 @@ export default function WrapprCard({ wrappr }) {
         </Text>
       </Flex>
       <Button
-        variant="outline"
+        variant="solid"
+        colorScheme={'brand'}
         onClick={() => router.push(`/wrappr/4/${wrappr['id']}`)}
         borderTopRadius={0}
-        background="gray.300"
         width={'100%'}
       >
         Expand

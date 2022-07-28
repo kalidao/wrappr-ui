@@ -30,6 +30,7 @@ export default function Layout({ heading, content, back, children }: LayoutProps
         {back && (
           <Button
             variant="ghost"
+            colorScheme={'brand'}
             leftIcon={<MdOutlineArrowBack />}
             onClick={() => router.back()}
             marginLeft={[2, 4, 6, 8]}
