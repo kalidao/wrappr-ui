@@ -48,7 +48,9 @@ export default function MintWrappr({ chainId, wrappr }: { chainId: number; wrapp
           Switch
         </Button>
       </Flex>
-      <Button onClick={mint}>Mint</Button>
+      <Button onClick={mint} variant="solid" colorScheme="brand">
+        Mint
+      </Button>
     </Flex>
   )
 }

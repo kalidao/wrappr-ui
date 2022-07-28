@@ -2,6 +2,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  FormErrorMessage,
   Input,
   NumberInput,
   NumberInputField,
@@ -41,7 +42,11 @@ const schema = yup
   .required()
 
 export default function CreateForm() {
-  const { register, handleSubmit } = useForm<Create>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<Create>({
     resolver: yupResolver(schema),
   })
   const {
@@ -80,33 +85,38 @@ export default function CreateForm() {
       ml={['1%', '5%', '15%', '25%']}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <FormControl>
+      <FormControl isInvalid={errors.name}>
         <FormLabel htmlFor="name">Name</FormLabel>
-        <Input {...register('name')} placeholder="Agreement Name" />
+        <Input id="name" {...register('name')} placeholder="Agreement Name" variant="flushed" />
+        <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
       </FormControl>
-      <FormControl>
+      <FormControl isInvalid={errors.symbol}>
         <FormLabel htmlFor="symbol">Symbol</FormLabel>
-        <Input {...register('symbol')} placeholder="SYMBOL" />
+        <Input id="symbol" {...register('symbol')} placeholder="SYMBOL" variant="flushed" />
+        <FormErrorMessage>{errors.symbol && errors.symbol.message}</FormErrorMessage>
       </FormControl>
-      <FormControl>
+      <FormControl isInvalid={errors.admin}>
         <FormLabel htmlFor="admin">Admin</FormLabel>
-        <Input {...register('admin')} placeholder={ethers.constants.AddressZero} />
+        <Input id="admin" {...register('admin')} placeholder={ethers.constants.AddressZero} variant="flushed" />
+        <FormErrorMessage>{errors.admin && errors.admin.message}</FormErrorMessage>
       </FormControl>
-      <FormControl>
+      <FormControl isInvalid={errors.mintFee}>
         <FormLabel htmlFor="mintFee">Minting Fee</FormLabel>
-        <NumberInput defaultValue={5} min={0}>
+        <NumberInput id="mintFee" defaultValue={5} min={0} variant="flushed">
           <NumberInputField {...register('mintFee')} />
           <NumberInputStepper>
             <NumberIncrementStepper />
             <NumberDecrementStepper />
           </NumberInputStepper>
         </NumberInput>
+        <FormErrorMessage>{errors.mintFee && errors.mintFee.message}</FormErrorMessage>
       </FormControl>
-      <FormControl>
+      <FormControl isInvalid={errors.baseURI}>
         <FormLabel htmlFor="baseURI">Base URI</FormLabel>
-        <Input {...register('baseURI')} placeholder="ipfs://" />
+        <Input {...register('baseURI')} placeholder="ipfs://" variant="flushed" />
+        <FormErrorMessage>{errors.baseURI && errors.baseURI.message}</FormErrorMessage>
       </FormControl>
-      <Button type="submit" width="100%">
+      <Button type="submit" width="100%" colorScheme="brand" variant="solid" borderRadius={'none'}>
         Create
       </Button>
     </Flex>
