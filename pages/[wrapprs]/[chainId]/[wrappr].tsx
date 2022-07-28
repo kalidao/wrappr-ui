@@ -31,7 +31,9 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
             {isLoading ? (
               <Spinner />
             ) : (
-              data['attributes'].map((trait: TraitType, index: number) => <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} />)
+              data['attributes'].map((trait: TraitType, index: number) => (
+                <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} />
+              ))
             )}
           </Flex>
         </Flex>
@@ -41,7 +43,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
 }
 
 type TraitType = {
-  trait_type: string,
+  trait_type: string
   value: string | number
 }
 
@@ -81,7 +83,7 @@ const fetchWrapprData = async (URI: string) => {
 
 export default Wrappr
 
-const Trait = ({trait_type, value}: TraitType) => {
+const Trait = ({ trait_type, value }: TraitType) => {
   return (
     <Flex alignItems="center" justifyContent="space-between">
       <Text>{trait_type}</Text>
