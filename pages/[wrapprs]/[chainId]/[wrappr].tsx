@@ -23,21 +23,26 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
           </Text>
           {isLoading ? <Spinner /> : data['description']}
           <Flex direction="column" gap={3}>
-            <Trait type={'Admin'} value={wrappr['admin']} />
-            <Trait type={'Mint Fee'} value={wrappr['mintFee']} />
+            <Trait trait_type={'Admin'} value={wrappr['admin']} />
+            <Trait trait_type={'Mint Fee'} value={wrappr['mintFee']} />
             <Text as="h2" fontWeight={500}>
               Traits
             </Text>
             {isLoading ? (
               <Spinner />
             ) : (
-              data['attributes'].map((trait) => <Trait type={trait['trait_type']} value={trait['value']} />)
+              data['attributes'].map((trait: TraitType, index: number) => <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} />)
             )}
           </Flex>
         </Flex>
       </Flex>
     </Layout>
   )
+}
+
+type TraitType = {
+  trait_type: string,
+  value: string | number
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -69,17 +74,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const fetchWrapprData = async (URI) => {
+const fetchWrapprData = async (URI: string) => {
   const res = await fetch(URI)
   return res.json()
 }
 
 export default Wrappr
 
-const Trait = ({ type, value }) => {
+const Trait = ({trait_type, value}: TraitType) => {
   return (
     <Flex alignItems="center" justifyContent="space-between">
-      <Text>{type}</Text>
+      <Text>{trait_type}</Text>
       <Text>{value}</Text>
     </Flex>
   )
