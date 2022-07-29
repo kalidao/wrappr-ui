@@ -10,14 +10,16 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Button,
+  Textarea,
 } from '@chakra-ui/react'
+import ImageDisplay from './ImageDisplay'
 
 import { useContractWrite } from 'wagmi'
 import { ethers } from 'ethers'
 
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
 
 import { deployments } from '../constants'
 import { WRAPPR_FACTORY } from '../constants'
@@ -25,30 +27,39 @@ import { WRAPPR_FACTORY } from '../constants'
 type Create = {
   name: string
   symbol: string
+  description: string
   admin: string
   mintFee: number
   baseURI: string
+  image: FileList
+  agreement: FileList
 }
 
-const schema = yup
-  .object()
-  .shape({
-    name: yup.string().required(),
-    symbol: yup.string().required(),
-    admin: yup.string().required(),
-    mintFee: yup.number().required(),
-    baseURI: yup.string().required(),
-  })
-  .required()
+const schema = z.object({
+  name: z.string().min(1, { message: 'A name is required' }),
+  symbol: z.string().min(1, { message: 'A symbol is required' }),
+  description: z.string().min(1, { message: 'A symbol is required' }),
+  admin: z.string().min(1, { message: 'An admin is required' }),
+  mintFee: z
+    .number({
+      required_error: 'Mint fees must be set. Set to zero if you want it to be free.',
+      invalid_type_error: 'Mint fee must be a number',
+    })
+    .nonnegative({ message: 'Mint fees must be a non-negative number.' }),
+  image: z.any(),
+  agreement: z.any(),
+})
 
 export default function CreateForm() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<Create>({
-    resolver: yupResolver(schema),
+    resolver: zodResolver(schema),
   })
+
   const {
     data: result,
     isError,
@@ -85,6 +96,11 @@ export default function CreateForm() {
       ml={['1%', '5%', '15%', '25%']}
       onSubmit={handleSubmit(onSubmit)}
     >
+      <FormControl isInvalid={errors.image}>
+        <FormLabel htmlFor="image">Image</FormLabel>
+        <input id="image" type="file" accept="image/*" {...register('image')} />
+        {/* <ImageDisplay control={control} /> */}
+      </FormControl>
       <FormControl isInvalid={errors.name}>
         <FormLabel htmlFor="name">Name</FormLabel>
         <Input id="name" {...register('name')} placeholder="Agreement Name" variant="flushed" />
@@ -94,6 +110,10 @@ export default function CreateForm() {
         <FormLabel htmlFor="symbol">Symbol</FormLabel>
         <Input id="symbol" {...register('symbol')} placeholder="SYMBOL" variant="flushed" />
         <FormErrorMessage>{errors.symbol && errors.symbol.message}</FormErrorMessage>
+      </FormControl>
+      <FormControl isInvalid={errors.description}>
+        <FormLabel htmlFor="description">Description</FormLabel>
+        <Textarea id="description" placeholder="" variant="outline" borderRadius="none" {...register('description')} />
       </FormControl>
       <FormControl isInvalid={errors.admin}>
         <FormLabel htmlFor="admin">Admin</FormLabel>
@@ -111,10 +131,9 @@ export default function CreateForm() {
         </NumberInput>
         <FormErrorMessage>{errors.mintFee && errors.mintFee.message}</FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={errors.baseURI}>
-        <FormLabel htmlFor="baseURI">Base URI</FormLabel>
-        <Input {...register('baseURI')} placeholder="ipfs://" variant="flushed" />
-        <FormErrorMessage>{errors.baseURI && errors.baseURI.message}</FormErrorMessage>
+      <FormControl isInvalid={errors.agreement}>
+        <FormLabel htmlFor="agreement">Agreement</FormLabel>
+        <Input id="agreement" type="file" {...register('agreement')} variant="flushed" />
       </FormControl>
       <Button type="submit" width="100%" colorScheme="brand" variant="solid" borderRadius={'none'}>
         Create

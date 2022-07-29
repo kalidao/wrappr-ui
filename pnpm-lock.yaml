@@ -25,6 +25,7 @@ specifiers:
   typescript: 4.7.4
   wagmi: ^0.5.11
   yup: ^0.32.11
+  zod: ^3.17.10
 
 dependencies:
   '@chakra-ui/react': 2.2.4_tij2njokttso6734ktuzwjh5a4
@@ -43,6 +44,7 @@ dependencies:
   react-icons: 4.4.0_react@18.2.0
   wagmi: 0.5.11_um4cugg2i3ywhvigsmvsir7hgy
   yup: 0.32.11
+  zod: 3.17.10
 
 devDependencies:
   '@types/node': 18.0.6
@@ -5434,6 +5436,10 @@ packages:
       nanoclone: 0.2.1
       property-expr: 2.0.5
       toposort: 2.0.2
+    dev: false
+
+  /zod/3.17.10:
+    resolution: {integrity: sha512-IHXnQYQuOOOL/XgHhgl8YjNxBHi3xX0mVcHmqsvJgcxKkEczPshoWdxqyFwsARpf41E0v9U95WUROqsHHxt0UQ==}
     dev: false
 
   /zustand/4.0.0-rc.4_react@18.2.0:
