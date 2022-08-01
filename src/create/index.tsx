@@ -1,3 +1,4 @@
+import React, { useCallback } from 'react'
 import {
   Flex,
   FormControl,
@@ -12,13 +13,14 @@ import {
   Button,
   Textarea,
 } from '@chakra-ui/react'
-
+import styled from './create.module.css'
 import { useContractWrite } from 'wagmi'
 import { ethers } from 'ethers'
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
+import { useDropzone, FileWithPath } from 'react-dropzone'
 
 import { deployments } from '../constants'
 import { WRAPPR_FACTORY } from '../constants'
@@ -58,6 +60,13 @@ export default function CreateForm() {
   } = useForm<Create>({
     resolver: zodResolver(schema),
   })
+  const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({ accept: { 'image/*': [] } })
+
+  const files = acceptedFiles.map((file: FileWithPath) => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ))
 
   const {
     data: result,
@@ -97,7 +106,22 @@ export default function CreateForm() {
     >
       <FormControl isInvalid={Boolean(errors.image)}>
         <FormLabel htmlFor="image">Image</FormLabel>
-        <input id="image" type="file" accept="image/*" {...register('image')} />
+        <div
+          {...getRootProps({
+            className: styled.uploadContainer,
+          })}
+        >
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
+          )}
+          <aside>
+            <h4>Files</h4>
+            <ul>{files}</ul>
+          </aside>
+        </div>
         {/* <ImageDisplay control={control} /> */}
       </FormControl>
       <FormControl isInvalid={Boolean(errors.name)}>
