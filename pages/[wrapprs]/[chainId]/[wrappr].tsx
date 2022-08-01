@@ -14,7 +14,11 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
     <Layout heading="Wrappr" content="Wrap now" back={true}>
       <Flex direction="row" gap={5} marginTop={2} marginRight={[2, 4, 6, 8]} marginLeft={[2, 4, 6, 8]}>
         <Flex direction="column" gap={5}>
-          {isLoading ? <Spinner /> : <Image src={data['image']} height="300px" width="300px" />}
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <Image src={data['image']} height="300px" width="300px" alt={`Image for ${data['name']}`} />
+          )}
           <MintWrappr chainId={4} wrappr={wrappr['id']} />
         </Flex>
         <Flex direction="column" gap={5}>

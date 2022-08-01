@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import Layout from '../src/layout'
 import { Button, SimpleGrid, Flex } from '@chakra-ui/react'
 import { WrapprCard } from '../src/wrap'
+import { Wrappr } from '../src/types/wrappr.types'
 
 const Home: NextPage = ({ wrapprs }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
@@ -13,8 +14,14 @@ const Home: NextPage = ({ wrapprs }: InferGetServerSidePropsType<typeof getServe
     <Layout heading="Home" content="Wrap anything" back={false}>
       <Flex direction="column" gap={5} marginRight={[2, 4, 6, 8]} marginLeft={[2, 4, 6, 8]} alignItems={'flex-end'}>
         <SimpleGrid columns={[1, 2, 3, 4]} spacing={10}>
-          {wrapprs.map((wrappr) => (
-            <WrapprCard key={wrappr['id']} wrappr={wrappr} />
+          {wrapprs.map((wrappr: Wrappr) => (
+            <WrapprCard
+              key={wrappr['id']}
+              name={wrappr.name}
+              id={wrappr.id}
+              baseURI={wrappr.baseURI}
+              mintFee={wrappr.mintFee}
+            />
           ))}
         </SimpleGrid>
       </Flex>
@@ -33,10 +40,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
         wrapprs {
           id
           name
-          symbol
           baseURI
           mintFee
-          admin
         }
       }`,
     }),

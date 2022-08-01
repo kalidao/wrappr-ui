@@ -12,7 +12,6 @@ import {
   Button,
   Textarea,
 } from '@chakra-ui/react'
-import ImageDisplay from './ImageDisplay'
 
 import { useContractWrite } from 'wagmi'
 import { ethers } from 'ethers'
@@ -96,31 +95,31 @@ export default function CreateForm() {
       ml={['1%', '5%', '15%', '25%']}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <FormControl isInvalid={errors.image}>
+      <FormControl isInvalid={Boolean(errors.image)}>
         <FormLabel htmlFor="image">Image</FormLabel>
         <input id="image" type="file" accept="image/*" {...register('image')} />
         {/* <ImageDisplay control={control} /> */}
       </FormControl>
-      <FormControl isInvalid={errors.name}>
+      <FormControl isInvalid={Boolean(errors.name)}>
         <FormLabel htmlFor="name">Name</FormLabel>
         <Input id="name" {...register('name')} placeholder="Agreement Name" variant="flushed" />
         <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={errors.symbol}>
+      <FormControl isInvalid={Boolean(errors.symbol)}>
         <FormLabel htmlFor="symbol">Symbol</FormLabel>
         <Input id="symbol" {...register('symbol')} placeholder="SYMBOL" variant="flushed" />
         <FormErrorMessage>{errors.symbol && errors.symbol.message}</FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={errors.description}>
+      <FormControl isInvalid={Boolean(errors.description)}>
         <FormLabel htmlFor="description">Description</FormLabel>
         <Textarea id="description" placeholder="" variant="outline" borderRadius="none" {...register('description')} />
       </FormControl>
-      <FormControl isInvalid={errors.admin}>
+      <FormControl isInvalid={Boolean(errors.admin)}>
         <FormLabel htmlFor="admin">Admin</FormLabel>
         <Input id="admin" {...register('admin')} placeholder={ethers.constants.AddressZero} variant="flushed" />
         <FormErrorMessage>{errors.admin && errors.admin.message}</FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={errors.mintFee}>
+      <FormControl isInvalid={Boolean(errors.mintFee)}>
         <FormLabel htmlFor="mintFee">Minting Fee</FormLabel>
         <NumberInput id="mintFee" defaultValue={5} min={0} variant="flushed">
           <NumberInputField {...register('mintFee')} />
@@ -131,7 +130,7 @@ export default function CreateForm() {
         </NumberInput>
         <FormErrorMessage>{errors.mintFee && errors.mintFee.message}</FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={errors.agreement}>
+      <FormControl isInvalid={Boolean(errors.agreement)}>
         <FormLabel htmlFor="agreement">Agreement</FormLabel>
         <Input id="agreement" type="file" {...register('agreement')} variant="flushed" />
       </FormControl>
