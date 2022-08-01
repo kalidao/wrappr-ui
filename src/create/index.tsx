@@ -14,6 +14,8 @@ import {
   Textarea,
 } from '@chakra-ui/react'
 import styled from './create.module.css'
+import { BsUpload } from 'react-icons/bs'
+
 import { useContractWrite } from 'wagmi'
 import { ethers } from 'ethers'
 
@@ -106,22 +108,25 @@ export default function CreateForm() {
     >
       <FormControl isInvalid={Boolean(errors.image)}>
         <FormLabel htmlFor="image">Image</FormLabel>
-        <div
-          {...getRootProps({
-            className: styled.uploadContainer,
-          })}
+        <Flex
+          flexDirection="column"
+          alignItems="center"
+          gap="10px"
+          padding="20px"
+          background="gray.700"
+          border="1px"
+          borderColor="gray.500"
+          borderRadius={'5px'}
+          {...getRootProps()}
         >
           <input {...getInputProps()} />
+          <BsUpload size={24} />
           {isDragActive ? (
-            <p>Drop the files here ...</p>
+            <p>Drop the image here ...</p>
           ) : (
-            <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
+            <p>Drag &apos;n&apos; drop image here, or click to select it</p>
           )}
-          <aside>
-            <h4>Files</h4>
-            <ul>{files}</ul>
-          </aside>
-        </div>
+        </Flex>
         {/* <ImageDisplay control={control} /> */}
       </FormControl>
       <FormControl isInvalid={Boolean(errors.name)}>
