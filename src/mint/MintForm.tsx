@@ -55,7 +55,7 @@ export default function MintForm({ setView }: Props) {
       </FormControl>
       <FormControl isInvalid={Boolean(errors.jurisdiction)}>
         <FormLabel htmlFor="jurisdiction">Jurisdiction</FormLabel>
-        <Select placeholder="Select jurisdiction" variant="flushed">
+        <Select placeholder="Select jurisdiction" variant="flushed" {...register('jurisdiction')}>
           <option value="del">Delaware</option>
           <option value="wyo">Wyoming</option>
         </Select>
@@ -63,7 +63,7 @@ export default function MintForm({ setView }: Props) {
       </FormControl>
       <FormControl isInvalid={Boolean(errors.type)}>
         <FormLabel htmlFor="type">Entity Type</FormLabel>
-        <Select placeholder="Select entity type" variant="flushed">
+        <Select placeholder="Select entity type" variant="flushed" {...register('type')}>
           <option value="llc">LLC</option>
           <option value="una">UNA</option>
         </Select>
