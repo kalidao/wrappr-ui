@@ -2,6 +2,7 @@
   "name": "wrappr-ui",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "^pnpm@6.32.4",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
