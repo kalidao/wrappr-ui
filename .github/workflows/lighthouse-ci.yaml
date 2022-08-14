@@ -12,7 +12,10 @@ jobs:
           node-version: 10.x
       - name: Install
         run: |
-          pnpm i --frozen-lockfile
+          pnpm install 
+      - name: Build
+        run: |
+          pnpm run build
       - name: Run Lighthouse CI
         run: |
           pnpm install -g @lhci/cli@0.3.x
