@@ -5,11 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
-type Mint = {
-  name: string
-  jurisdiction: string
-  type: string
-}
+import { MintT } from './types'
 
 const schema = z.object({
   name: z.string().min(1, { message: 'A name is required' }),
@@ -19,20 +15,24 @@ const schema = z.object({
 
 type Props = {
   setView: Dispatch<SetStateAction<string>>
+  setData: Dispatch<SetStateAction<MintT>>
+  data: MintT
 }
 
-export default function MintForm({ setView }: Props) {
+export default function MintForm({ setView, setData, data }: Props) {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
-  } = useForm<Mint>({
+  } = useForm<MintT>({
     resolver: zodResolver(schema),
+    defaultValues: data,
   })
 
-  const onSubmit = (data: Mint) => {
+  const onSubmit = (data: MintT) => {
     console.log(data)
+    setData(data)
     setView('confirm')
   }
 
@@ -43,9 +43,6 @@ export default function MintForm({ setView }: Props) {
       gap="10px"
       justifyContent="center"
       alignItems="center"
-      padding="20px"
-      mr={['1%', '5%', '15%', '25%']}
-      ml={['1%', '5%', '15%', '25%']}
       onSubmit={handleSubmit(onSubmit)}
     >
       <FormControl isInvalid={Boolean(errors.name)}>
