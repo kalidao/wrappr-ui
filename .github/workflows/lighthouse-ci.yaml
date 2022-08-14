@@ -10,10 +10,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 10.x
-      - name: install
+      - name: Install
         run: |
-          pnpm install
-      - name: run Lighthouse CI
+          pnpm i --frozen-lockfile
+      - name: Run Lighthouse CI
         run: |
           pnpm install -g @lhci/cli@0.3.x
           lhci autorun --upload.target=temporary-public-storage || echo "LHCI failed!"
