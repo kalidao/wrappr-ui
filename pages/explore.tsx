@@ -7,7 +7,14 @@ import { Wrappr } from '../src/types/wrappr.types'
 const Explore: NextPage = ({ wrapprs }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <Layout heading="Explore" content="Explore wrapprs. Wrap anything." back={true}>
-      <Flex direction="column" gap={5} marginRight={[2, 4, 6, 8]} marginLeft={[2, 4, 6, 8]} alignItems={'flex-end'}>
+      <Flex
+        direction="column"
+        gap={5}
+        paddingTop={2}
+        marginRight={[2, 4, 6, 8]}
+        marginLeft={[2, 4, 6, 8]}
+        alignItems={'flex-end'}
+      >
         <SimpleGrid columns={[1, 2, 3, 4]} spacing={10}>
           {wrapprs.map((wrappr: Wrappr) => (
             <WrapprCard

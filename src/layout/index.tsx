@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { Box, Button, Text } from '@chakra-ui/react'
+import { Box, IconButton } from '@chakra-ui/react'
 import { MdOutlineArrowBack } from 'react-icons/md'
 import Header from './Header'
 
@@ -28,15 +28,16 @@ export default function Layout({ heading, content, back, children }: LayoutProps
       <Box minHeight="100vh">
         <Header />
         {back && (
-          <Button
+          <IconButton
             variant="ghost"
+            maxWidth={1}
             colorScheme={'brand'}
-            leftIcon={<MdOutlineArrowBack />}
             onClick={() => router.back()}
+            aria-label="Go back!"
+            icon={<MdOutlineArrowBack />}
+            isRound
             marginLeft={[2, 4, 6, 8]}
-          >
-            Back
-          </Button>
+          />
         )}
         {children}
       </Box>
