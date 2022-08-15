@@ -1,11 +1,13 @@
-import React, { Dispatch, SetStateAction } from 'react'
-import { Flex, FormControl, IconButton, FormErrorMessage, Input, Button, Select } from '@chakra-ui/react'
-import { MdOutlineArrowForward } from 'react-icons/md'
+import React from 'react'
+import { Flex, FormControl, FormErrorMessage, Input, Button, Select, Text } from '@chakra-ui/react'
+import { useAccount, useNetwork } from 'wagmi'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
 import { MintT } from './types'
+import WatchedMint from './WatchedMint'
 
 const schema = z.object({
   name: z.string().min(1, { message: 'A name is required' }),
@@ -13,13 +15,9 @@ const schema = z.object({
   type: z.string().min(1, { message: 'Entity type is required' }),
 })
 
-type Props = {
-  setView: Dispatch<SetStateAction<string>>
-  setData: Dispatch<SetStateAction<MintT>>
-  data: MintT
-}
-
-export default function MintForm({ setView, setData, data }: Props) {
+export default function MintForm() {
+  const { address, isConnected, isConnecting, isDisconnected } = useAccount()
+  const { openConnectModal } = useConnectModal()
   const {
     register,
     handleSubmit,
@@ -27,13 +25,16 @@ export default function MintForm({ setView, setData, data }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<MintT>({
     resolver: zodResolver(schema),
-    defaultValues: data,
+    defaultValues: {
+      name: 'Name',
+      jurisdiction: 'del',
+      type: 'llc',
+    },
   })
 
   const onSubmit = (data: MintT) => {
     console.log(data)
-    setData(data)
-    setView('confirm')
+    const { name, jurisdiction, type } = data
   }
 
   return (
@@ -66,15 +67,17 @@ export default function MintForm({ setView, setData, data }: Props) {
         </Select>
         <FormErrorMessage>{errors.type && errors.type.message}</FormErrorMessage>
       </FormControl>
-      <IconButton
-        type="submit"
-        variant="solid"
-        maxWidth={1}
-        colorScheme={'brand'}
-        aria-label="Next screen"
-        icon={<MdOutlineArrowForward />}
-        isRound
-      />
+      <WatchedMint control={control} />
+      {!address && openConnectModal && (
+        <Button onClick={openConnectModal} width="100%" colorScheme="brand" variant="solid" borderRadius={'none'}>
+          Connect Wallet to Mint!
+        </Button>
+      )}
+      {isConnected && (
+        <Button type="submit" width="100%" colorScheme="brand" variant="solid" borderRadius={'none'}>
+          Confirm
+        </Button>
+      )}
     </Flex>
   )
 }
