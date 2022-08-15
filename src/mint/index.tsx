@@ -42,9 +42,11 @@ export default function MintControl() {
       direction="column"
       padding="20px"
       justify={'center'}
-      mr={['1%', '5%', '15%', '25%']}
-      ml={['1%', '5%', '15%', '25%']}
+      ml={['2.5%', '5%', '15%', '25%']}
+      mr={['2.5%', '5%', '15%', '25%']}
+      mt={['10%', '1.3%', '2.5%', '5%']}
       gap={5}
+      boxShadow={'0 5px 5px #E6FFFF'}
     >
       <Flex align="center" justifyContent={'space-between'}>
         <Heading>{screen[view]['heading']}</Heading>

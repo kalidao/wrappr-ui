@@ -31,7 +31,7 @@ export default function Header() {
         >
           Create
         </Button>
-        <ConnectButton />
+        <ConnectButton label="Login" />
       </Flex>
     </Flex>
   )

@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react'
-import { Flex, FormControl, FormLabel, FormErrorMessage, Input, Button, Select } from '@chakra-ui/react'
-
+import { Flex, FormControl, IconButton, FormErrorMessage, Input, Button, Select } from '@chakra-ui/react'
+import { MdOutlineArrowForward } from 'react-icons/md'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -42,16 +42,16 @@ export default function MintForm({ setView, setData, data }: Props) {
       flexDirection="column"
       gap="10px"
       justifyContent="center"
-      alignItems="center"
+      alignItems="flex-end"
       onSubmit={handleSubmit(onSubmit)}
     >
       <FormControl isInvalid={Boolean(errors.name)}>
-        <FormLabel htmlFor="name">Name</FormLabel>
+        {/* <FormLabel htmlFor="name">Name</FormLabel> */}
         <Input id="name" {...register('name')} placeholder="Name" variant="flushed" />
         <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
       </FormControl>
       <FormControl isInvalid={Boolean(errors.jurisdiction)}>
-        <FormLabel htmlFor="jurisdiction">Jurisdiction</FormLabel>
+        {/* <FormLabel htmlFor="jurisdiction">Jurisdiction</FormLabel> */}
         <Select placeholder="Select jurisdiction" variant="flushed" {...register('jurisdiction')}>
           <option value="del">Delaware</option>
           <option value="wyo">Wyoming</option>
@@ -59,16 +59,22 @@ export default function MintForm({ setView, setData, data }: Props) {
         <FormErrorMessage>{errors.jurisdiction && errors.jurisdiction.message}</FormErrorMessage>
       </FormControl>
       <FormControl isInvalid={Boolean(errors.type)}>
-        <FormLabel htmlFor="type">Entity Type</FormLabel>
+        {/* <FormLabel htmlFor="type">Entity Type</FormLabel> */}
         <Select placeholder="Select entity type" variant="flushed" {...register('type')}>
           <option value="llc">LLC</option>
           <option value="una">UNA</option>
         </Select>
         <FormErrorMessage>{errors.type && errors.type.message}</FormErrorMessage>
       </FormControl>
-      <Button type="submit" width="100%" colorScheme="brand" variant="solid" borderRadius={'none'}>
-        Mint Legal Entity!
-      </Button>
+      <IconButton
+        type="submit"
+        variant="solid"
+        maxWidth={1}
+        colorScheme={'brand'}
+        aria-label="Next screen"
+        icon={<MdOutlineArrowForward />}
+        isRound
+      />
     </Flex>
   )
 }

@@ -26,10 +26,10 @@ export default function Confirm({ setView, data }: Props) {
 
   return (
     <VStack spacing={5} align="stretch" divider={<StackDivider borderColor="gray.200" />}>
-      <Choice type={'Name'} value={name} />
+      {/* <Choice type={'Name'} value={name} />
       <Choice type={'Entity Type'} value={type === 'llc' ? 'LLC' : 'UNA'} />
       <Choice type={'Jurisdiction'} value={jurisdiction === 'del' ? 'Delaware' : 'Wyoming'} />
-      {chain && <Choice type={'Network'} value={chain?.name} />}
+      {chain && <Choice type={'Network'} value={chain?.name} />} */}
       <Text>
         You are minting {name} {type === 'llc' ? 'LLC' : 'UNA'} in {jurisdiction === 'del' ? 'Delaware' : 'Wyoming'}
         {chain && ` on ${chain?.name}`}.

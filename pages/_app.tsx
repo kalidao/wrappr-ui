@@ -7,6 +7,8 @@ import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { ChakraProvider, extendTheme, type ThemeConfig } from '@chakra-ui/react'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import '@fontsource/alumni-sans-pinstripe/400.css'
+import '@fontsource/oswald/700.css'
 
 const { chains, provider } = configureChains(
   [chain.rinkeby],
@@ -30,6 +32,10 @@ const config: ThemeConfig = {
 
 export const theme = extendTheme({
   config,
+  fonts: {
+    heading: `'Alumni Sans Pinstripe', sans-serif`,
+    body: `'Oswald', sans-serif`,
+  },
   colors: {
     gray: {
       '50': '#3a3f42',
