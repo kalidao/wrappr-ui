@@ -10,7 +10,10 @@ import { MintT } from './types'
 import WatchedMint from './WatchedMint'
 
 const schema = z.object({
-  name: z.string().min(1, { message: 'A name is required' }),
+  name: z
+    .string()
+    .min(1, { message: 'A name is required' })
+    .max(100, { message: 'Name cannot be longer than 100 characters.' }),
   jurisdiction: z.string().min(1, { message: 'Jurisdiction is required' }),
   type: z.string().min(1, { message: 'Entity type is required' }),
 })

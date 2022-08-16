@@ -13,10 +13,10 @@ export default function WatchedMint({ control }: { control: Control<MintT> }) {
 
   return (
     <Text>
-      You are minting {watched.name} {watched.type === 'llc' ? 'LLC' : 'UNA'} in{' '}
+      You are minting an NFT representing {watched.name} {watched.type === 'llc' ? 'LLC' : 'UNA'} in{' '}
       {watched.jurisdiction === 'del' ? 'Delaware' : 'Wyoming'}
       {isConnected ? ' to ' + smolAddress : null}
       {chain && ` on ${chain?.name}`}.
     </Text>
-  ) // only re-render at the custom hook level, when firstName changes
+  )
 }
