@@ -15,6 +15,7 @@
     "@chakra-ui/react": "^2.2.4",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@fleekhq/fleek-storage-js": "^1.0.22",
     "@fontsource/alumni-sans-pinstripe": "^4.5.0",
     "@fontsource/oswald": "^4.5.10",
     "@hookform/resolvers": "^2.9.6",

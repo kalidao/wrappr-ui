@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
   Flex,
   FormControl,
@@ -26,6 +26,10 @@ import { useDropzone, FileWithPath } from 'react-dropzone'
 
 import { deployments } from '../constants'
 import { WRAPPR_FACTORY } from '../constants'
+import Image from 'next/image'
+import UploadImage from './UploadImage'
+
+import { createWrappr } from './createWrappr'
 
 type Create = {
   name: string
@@ -43,12 +47,7 @@ const schema = z.object({
   symbol: z.string().min(1, { message: 'A symbol is required' }),
   description: z.string().min(1, { message: 'A symbol is required' }),
   admin: z.string().min(1, { message: 'An admin is required' }),
-  mintFee: z
-    .number({
-      required_error: 'Mint fees must be set. Set to zero if you want it to be free.',
-      invalid_type_error: 'Mint fee must be a number',
-    })
-    .nonnegative({ message: 'Mint fees must be a non-negative number.' }),
+  mintFee: z.string(),
   image: z.any(),
   agreement: z.any(),
 })
@@ -62,13 +61,8 @@ export default function CreateForm() {
   } = useForm<Create>({
     resolver: zodResolver(schema),
   })
-  const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({ accept: { 'image/*': [] } })
-
-  const files = acceptedFiles.map((file: FileWithPath) => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ))
+  const [image, setImage] = useState([])
+  const [submitting, setSubmitting] = useState(false)
 
   const {
     data: result,
@@ -78,20 +72,28 @@ export default function CreateForm() {
   } = useContractWrite({
     addressOrName: deployments[4]['factory'],
     contractInterface: WRAPPR_FACTORY,
-    functionName: 'deployWrappr',
+    functionName: 'registerWrappr',
   })
 
-  const onSubmit = (data: Create) => {
-    console.log(data)
-    const { name, symbol, baseURI, mintFee, admin } = data
+  const onSubmit = async (data: Create) => {
+    setSubmitting(true)
+    console.log(data, 'image: ', image)
+    const { name, description, agreement, symbol, mintFee, admin } = data
+    let baseURI
+    try {
+      baseURI = await createWrappr(name, description, image[0], agreement[0])
+    } catch (e) {
+      console.error('Failed to create Wrappr JSON: ', e)
+    }
 
     try {
       const res = writeAsync({
         args: [name, symbol, baseURI, ethers.utils.parseEther(mintFee.toString()), admin],
       })
     } catch (e) {
-      console.error(e)
+      console.error('Failed to deploy Wrappr: ', e)
     }
+    setSubmitting(false)
   }
 
   return (
@@ -108,26 +110,7 @@ export default function CreateForm() {
     >
       <FormControl isInvalid={Boolean(errors.image)}>
         <FormLabel htmlFor="image">Image</FormLabel>
-        <Flex
-          flexDirection="column"
-          alignItems="center"
-          gap="10px"
-          padding="20px"
-          background="gray.700"
-          border="1px"
-          borderColor="gray.500"
-          borderRadius={'5px'}
-          {...getRootProps()}
-        >
-          <input {...getInputProps()} />
-          <BsUpload size={24} />
-          {isDragActive ? (
-            <p>Drop the image here ...</p>
-          ) : (
-            <p>Drag &apos;n&apos; drop image here, or click to select it</p>
-          )}
-        </Flex>
-        {/* <ImageDisplay control={control} /> */}
+        <UploadImage file={image} setFile={setImage} />
       </FormControl>
       <FormControl isInvalid={Boolean(errors.name)}>
         <FormLabel htmlFor="name">Name</FormLabel>
@@ -163,7 +146,15 @@ export default function CreateForm() {
         <FormLabel htmlFor="agreement">Agreement</FormLabel>
         <Input id="agreement" type="file" {...register('agreement')} variant="flushed" />
       </FormControl>
-      <Button type="submit" width="100%" colorScheme="brand" variant="solid" borderRadius={'none'}>
+      <Button
+        type="submit"
+        width="100%"
+        colorScheme="brand"
+        variant="solid"
+        borderRadius={'none'}
+        disabled={submitting}
+        isLoading={submitting}
+      >
         Create
       </Button>
     </Flex>
