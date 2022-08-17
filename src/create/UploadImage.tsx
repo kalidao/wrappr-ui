@@ -35,6 +35,7 @@ export default function UploadImage({ file, setFile }: UploadProps) {
         onLoad={() => {
           URL.revokeObjectURL(file.preview)
         }}
+        alt="Uploaded Image"
       />
     </Flex>
   ))
