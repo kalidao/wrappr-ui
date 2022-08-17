@@ -1,5 +1,6 @@
 type Contracts = {
   factory: string
+  delSeries?: string
 }
 
 export const deployments: { [key: number]: Contracts } = {
