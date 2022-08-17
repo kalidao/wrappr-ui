@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 import { Flex, Button, Box } from '@chakra-ui/react'
@@ -7,11 +8,18 @@ import { MdExplore, MdCreate } from 'react-icons/md'
 
 export default function Header() {
   const router = useRouter()
+
   return (
     <Flex padding="0 10px" alignItems="center" justifyContent="space-between" minH="10vh">
-      <Box onClick={() => router.push('/')}>
+      <motion.div
+        whileHover={{
+          rotate: Math.floor(Math.random() * (360 - 20)) + 20,
+          transition: { duration: 0.2 },
+        }}
+        onClick={() => router.push('/')}
+      >
         <Image src={'/logo.png'} height={60} width={80} alt={`Wrappr logo`} />
-      </Box>
+      </motion.div>
       <Flex gap="15px">
         <Button
           onClick={() => router.push('/explore')}
