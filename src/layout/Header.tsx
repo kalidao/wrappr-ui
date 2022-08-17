@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Flex, Button, Box } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { MdExplore, MdCreate } from 'react-icons/md'
+import { FaScroll } from 'react-icons/fa'
 
 export default function Header() {
   const router = useRouter()
@@ -40,6 +41,18 @@ export default function Header() {
           rightIcon={<MdCreate />}
         >
           Create
+        </Button>
+        <Button
+          as="a"
+          href="http://docs.wrappr.wtf/"
+          target="_blank"
+          maxW="fit-content"
+          colorScheme={'brand'}
+          variant="outline"
+          borderRadius={'none'}
+          rightIcon={<FaScroll />}
+        >
+          Docs
         </Button>
         <ConnectButton label="Login" />
       </Flex>
