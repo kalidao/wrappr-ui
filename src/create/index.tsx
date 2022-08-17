@@ -81,7 +81,7 @@ export default function CreateForm() {
     const { name, description, agreement, symbol, mintFee, admin } = data
     let baseURI
     try {
-      baseURI = await createWrappr(name, description, image[0], agreement[0])
+      baseURI = await createWrappr({ name: name, description: description, image: image[0], agreement: agreement[0] })
     } catch (e) {
       console.error('Failed to create Wrappr JSON: ', e)
     }

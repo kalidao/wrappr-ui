@@ -6,10 +6,17 @@ type Props = {
   name: string
   description: string
   image: FileWithPath
-  agreement: FileList
+  agreement: FileWithPath
 }
 
-export async function createWrappr(name, description, image, agreement) {
+type FileUpload = {
+  apiKey: string
+  apiSecret: string
+  key: string
+  bucket: string
+  data: any
+}
+export async function createWrappr({ name, description, image, agreement }: Props) {
   let imageHash, agreementHash
 
   try {
@@ -19,7 +26,7 @@ export async function createWrappr(name, description, image, agreement) {
   }
 
   try {
-    agreementHash = await uploadFile(agreement[0])
+    agreementHash = await uploadFile(agreement)
   } catch (e) {
     console.error('Error uploading agreement: ', e)
   }
@@ -32,15 +39,13 @@ export async function createWrappr(name, description, image, agreement) {
       agreement: agreementHash,
     }
 
-    const input = {
-      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
-      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
+    // idk ts :(
+    const input: FileUpload = {
+      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY ? process.env.NEXT_PUBLIC_FLEEK_API_KEY : '',
+      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET ? process.env.NEXT_PUBLIC_FLEEK_API_SECRET : '',
       bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
       key: 'wrappr',
       data: JSON.stringify(wrappr, null, 2),
-      httpUploadProgressCallback: (event) => {
-        console.log(Math.round((event.loaded / event.total) * 100) + '% done')
-      },
     }
 
     const result = await fleek.upload(input)

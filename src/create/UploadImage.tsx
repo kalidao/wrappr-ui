@@ -25,12 +25,12 @@ export default function UploadImage({ file, setFile }: UploadProps) {
     },
   })
 
-  const preview = file.map((file) => (
-    <Flex align="center" justify="center">
+  const preview = file.map((file: FileWithPath & { preview: 'string' }) => (
+    <Flex align="center" justify="center" key={file.path}>
       <Image
-        src={file.preview}
-        width="300px"
-        height="300px"
+        src={file?.preview}
+        width={'300px'}
+        height={'300px'}
         // Revoke data uri after image is loaded
         onLoad={() => {
           URL.revokeObjectURL(file.preview)
@@ -38,10 +38,12 @@ export default function UploadImage({ file, setFile }: UploadProps) {
       />
     </Flex>
   ))
+
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => file.forEach((file) => URL.revokeObjectURL(file.preview))
+    return () => file.forEach((file: FileWithPath & { preview: 'string' }) => URL.revokeObjectURL(file.preview))
   }, [])
+
   return (
     <Flex
       flexDirection="column"
