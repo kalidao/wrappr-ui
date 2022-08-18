@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Flex, FormControl, FormErrorMessage, Input, Button, Select, Text } from '@chakra-ui/react'
-import { useAccount, useNetwork } from 'wagmi'
+import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { ethers } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
 import { MintT } from './types'
 import WatchedMint from './WatchedMint'
+
+import { deployments, WRAPPR } from '../constants'
 
 const schema = z.object({
   name: z
@@ -19,8 +22,21 @@ const schema = z.object({
 })
 
 export default function MintForm() {
+  const [type, setType] = useState('delSeries')
+  const [loading, setLoading] = useState(false)
   const { address, isConnected, isConnecting, isDisconnected } = useAccount()
+  const { chain } = useNetwork()
   const { openConnectModal } = useConnectModal()
+  const {
+    data: result,
+    isError,
+    isLoading,
+    writeAsync,
+  } = useContractWrite({
+    addressOrName: chain ? deployments[chain?.id]['delSeries'] : ethers.constants.AddressZero,
+    contractInterface: WRAPPR,
+    functionName: 'mint',
+  })
   const {
     register,
     handleSubmit,
@@ -36,8 +52,30 @@ export default function MintForm() {
   })
 
   const onSubmit = (data: MintT) => {
+    setLoading(true)
+    if (!isConnected && !chain) return
     console.log(data)
+
     const { name, jurisdiction, type } = data
+
+    if (jurisdiction === 'del' && type === 'llc') {
+      setType('delSeries')
+    } else if (jurisdiction === 'wyo' && type === 'llc') {
+      setType('wyoSeries')
+    } else if (type === 'una') {
+      // TODO: Add jurisdiction to UNA json
+      setType('una')
+    }
+
+    // TODO: remove hardcoded tokenID
+    try {
+      const res = writeAsync({
+        args: [address, 1, 1, ethers.constants.HashZero, '', address],
+      })
+    } catch (e) {
+      console.error('Error minting: ', e)
+    }
+    setLoading(false)
   }
 
   return (
@@ -71,13 +109,21 @@ export default function MintForm() {
         <FormErrorMessage>{errors.type && errors.type.message}</FormErrorMessage>
       </FormControl>
       <WatchedMint control={control} />
-      {!address && openConnectModal && (
+      {!isConnected && openConnectModal && (
         <Button onClick={openConnectModal} width="100%" colorScheme="brand" variant="solid" borderRadius={'none'}>
           Connect Wallet to Mint!
         </Button>
       )}
       {isConnected && (
-        <Button type="submit" width="100%" colorScheme="brand" variant="solid" borderRadius={'none'}>
+        <Button
+          type="submit"
+          width="100%"
+          colorScheme="brand"
+          variant="solid"
+          borderRadius={'none'}
+          disabled={loading}
+          isLoading={loading}
+        >
           Confirm
         </Button>
       )}
