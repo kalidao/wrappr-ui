@@ -173,7 +173,7 @@
 			{
 				"indexed": false,
 				"internalType": "bool",
-				"name": "approval",
+				"name": "set",
 				"type": "bool"
 			}
 		],
@@ -242,7 +242,7 @@
 			{
 				"indexed": false,
 				"internalType": "bool",
-				"name": "permission",
+				"name": "set",
 				"type": "bool"
 			}
 		],
@@ -341,7 +341,7 @@
 			{
 				"indexed": false,
 				"internalType": "bool",
-				"name": "transferability",
+				"name": "set",
 				"type": "bool"
 			}
 		],
@@ -391,7 +391,7 @@
 			{
 				"indexed": false,
 				"internalType": "bool",
-				"name": "permission",
+				"name": "set",
 				"type": "bool"
 			}
 		],
@@ -534,14 +534,14 @@
 		"name": "checkpoints",
 		"outputs": [
 			{
-				"internalType": "uint64",
+				"internalType": "uint40",
 				"name": "fromTimestamp",
-				"type": "uint64"
+				"type": "uint40"
 			},
 			{
-				"internalType": "uint192",
+				"internalType": "uint216",
 				"name": "votes",
-				"type": "uint192"
+				"type": "uint216"
 			}
 		],
 		"stateMutability": "view",
@@ -580,7 +580,7 @@
 		],
 		"name": "delegate",
 		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -926,7 +926,7 @@
 		],
 		"name": "safeBatchTransferFrom",
 		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -959,7 +959,7 @@
 		],
 		"name": "safeTransferFrom",
 		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -990,7 +990,7 @@
 		],
 		"name": "setApprovalForAll",
 		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -1015,7 +1015,7 @@
 			},
 			{
 				"internalType": "bool",
-				"name": "approval",
+				"name": "set",
 				"type": "bool"
 			}
 		],
@@ -1064,7 +1064,7 @@
 			},
 			{
 				"internalType": "bool",
-				"name": "permission",
+				"name": "set",
 				"type": "bool"
 			}
 		],
@@ -1082,7 +1082,7 @@
 			},
 			{
 				"internalType": "bool",
-				"name": "transferability",
+				"name": "set",
 				"type": "bool"
 			}
 		],
@@ -1123,7 +1123,7 @@
 			},
 			{
 				"internalType": "bool",
-				"name": "permission",
+				"name": "set",
 				"type": "bool"
 			}
 		],
