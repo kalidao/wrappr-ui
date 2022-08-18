@@ -24,13 +24,15 @@ export default function WrapprCard({ name, id, baseURI, mintFee }: Wrappr) {
     >
       {isLoading ? (
         <Spinner />
-      ) : (
+      ) : data ? (
         <Image src={data['image']} height="300px" width="250px" alt={`Image for ${data['name']}`} />
+      ) : (
+        'No image found'
       )}
       <Flex direction="column" padding={2} minHeight={'6rem'}>
         <Text fontWeight="700">{name}</Text>
         <Text fontWeight="500" noOfLines={2}>
-          {isLoading ? 'Loading...' : data['description']}
+          {isLoading ? 'Loading...' : data ? data['description'] : 'No desription found'}
         </Text>
       </Flex>
       <Button

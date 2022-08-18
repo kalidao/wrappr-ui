@@ -23,14 +23,16 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
         <Flex direction="column" gap={5}>
           {isLoading ? (
             <Spinner />
-          ) : (
+          ) : data ? (
             <Image src={data['image']} height="300px" width="300px" alt={`Image for ${data['name']}`} />
+          ) : (
+            'No image found'
           )}
           <MintWrappr chainId={4} wrappr={wrappr['id']} />
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
-          <Heading size="2xl">{isLoading ? <Spinner /> : data['name']}</Heading>
-          <Text fontWeight={400}>{isLoading ? <Spinner /> : data['description']}</Text>
+          <Heading size="2xl">{isLoading ? <Spinner /> : data ? data['name'] : 'No name found'}</Heading>
+          <Text fontWeight={400}>{isLoading ? <Spinner /> : data ? data['description'] : 'No description found'}</Text>
           <Heading size="lg">Traits</Heading>
           <VStack
             gap={3}
@@ -46,6 +48,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
             {isLoading ? (
               <Spinner />
             ) : (
+              data &&
               data['attributes'].map((trait: TraitType, index: number) => (
                 <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} />
               ))
