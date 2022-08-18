@@ -1,8 +1,4 @@
-type Contracts = {
-  factory: string
-  delSeries: string
-  wyoSeries: string
-}
+import { Contracts } from '../types/contracts.types'
 
 export const deployments: { [key: number]: Contracts } = {
   1: {

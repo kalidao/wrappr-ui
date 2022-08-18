@@ -33,7 +33,7 @@ export default function MintForm() {
     isLoading,
     writeAsync,
   } = useContractWrite({
-    addressOrName: chain ? deployments[chain?.id]['delSeries'] : ethers.constants.AddressZero,
+    addressOrName: chain ? deployments[chain?.id][type as string] : ethers.constants.AddressZero,
     contractInterface: WRAPPR,
     functionName: 'mint',
   })
@@ -67,10 +67,13 @@ export default function MintForm() {
       setType('una')
     }
 
+    const tokenId = 3
+    const amount = 1
     // TODO: remove hardcoded tokenID
     try {
+      console.log('args: ', address, tokenId, amount, ethers.constants.HashZero, '', address, 'contract: ', type)
       const res = writeAsync({
-        args: [address, 1, 1, ethers.constants.HashZero, '', address],
+        args: [address, tokenId, amount, ethers.constants.HashZero, '', address],
       })
     } catch (e) {
       console.error('Error minting: ', e)
