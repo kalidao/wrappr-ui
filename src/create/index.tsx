@@ -72,7 +72,7 @@ export default function CreateForm() {
   } = useContractWrite({
     addressOrName: deployments[4]['factory'],
     contractInterface: WRAPPR_FACTORY,
-    functionName: 'registerWrappr',
+    functionName: 'deployWrappr',
   })
 
   const onSubmit = async (data: Create) => {
