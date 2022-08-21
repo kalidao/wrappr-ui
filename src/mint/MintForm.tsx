@@ -33,7 +33,7 @@ export default function MintForm() {
     isLoading,
     writeAsync,
   } = useContractWrite({
-    addressOrName: chain ? deployments[chain?.id][type as string] : ethers.constants.AddressZero,
+    addressOrName: chain ? deployments[chain.id][type] : ethers.constants.AddressZero,
     contractInterface: WRAPPR,
     functionName: 'mint',
   })
