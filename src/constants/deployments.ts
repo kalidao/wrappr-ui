@@ -1,4 +1,6 @@
-import { Contracts } from '../types/contracts.types'
+interface Contracts {
+  [key: string]: string
+}
 
 export const deployments: { [key: number]: Contracts } = {
   1: {
