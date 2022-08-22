@@ -11,7 +11,7 @@ import '@fontsource/alumni-sans-pinstripe/400.css'
 import '@fontsource/oswald/700.css'
 
 const { chains, provider } = configureChains(
-  [chain.rinkeby],
+  [chain.rinkeby, chain.goerli],
   [infuraProvider({ infuraId: process.env.INFURA_ID }), publicProvider()],
 )
 
