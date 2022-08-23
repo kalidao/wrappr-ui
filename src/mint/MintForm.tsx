@@ -12,6 +12,9 @@ import WatchedMint from './WatchedMint'
 
 import { deployments, WRAPPR } from '../constants'
 
+import { useQuery } from '@tanstack/react-query'
+import { gql, request } from 'graphql-request'
+
 const schema = z.object({
   name: z
     .string()
@@ -56,10 +59,32 @@ export default function MintForm() {
       type: 'llc',
     },
   })
+  const {
+    status,
+    data: collections,
+    error,
+    isFetching,
+  } = useQuery(['collections'], async () => {
+    const {
+      collections: { data },
+    } = await request(
+      'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr',
+      gql`
+        query {
+          collections(where: {
+            wrappr: "${chain ? deployments[chain.id][type] : ethers.constants.AddressZero}"
+          }) {
+            id
+          }
+        }
+      `,
+    )
+    return data
+  })
 
   const onSubmit = (data: MintT) => {
     setLoading(true)
-    if (!isConnected && !chain) return
+    if (!isConnected && !chain && !collections) return
     console.log(data)
 
     const { name, jurisdiction, type } = data
