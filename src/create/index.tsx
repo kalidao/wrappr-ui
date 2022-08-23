@@ -70,6 +70,7 @@ export default function CreateForm() {
     isLoading,
     writeAsync,
   } = useContractWrite({
+    mode: 'recklesslyUnprepared',
     addressOrName: chain ? deployments[chain.id]['factory'] : ethers.constants.AddressZero,
     contractInterface: WRAPPR_FACTORY,
     functionName: 'deployWrappr',
@@ -88,7 +89,7 @@ export default function CreateForm() {
 
     try {
       const res = writeAsync({
-        args: [name, symbol, baseURI, ethers.utils.parseEther(mintFee.toString()), admin],
+        recklesslySetUnpreparedArgs: [name, symbol, baseURI, ethers.utils.parseEther(mintFee.toString()), admin],
       })
     } catch (e) {
       console.error('Failed to deploy Wrappr: ', e)
