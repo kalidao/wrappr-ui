@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Flex, FormControl, FormErrorMessage, Input, Button, Select, Text } from '@chakra-ui/react'
+import { Flex, FormControl, FormErrorMessage, Input, Button, Select, Text, useToast } from '@chakra-ui/react'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { ethers } from 'ethers'
@@ -22,20 +22,26 @@ const schema = z.object({
 })
 
 export default function MintForm() {
+  const toast = useToast()
   const [type, setType] = useState('delSeries')
   const [loading, setLoading] = useState(false)
   const { address, isConnected, isConnecting, isDisconnected } = useAccount()
   const { chain } = useNetwork()
   const { openConnectModal } = useConnectModal()
-  const {
-    data: result,
-    isError,
-    isLoading,
-    writeAsync,
-  } = useContractWrite({
+  const { write } = useContractWrite({
+    mode: 'recklesslyUnprepared',
     addressOrName: chain ? deployments[chain.id][type] : ethers.constants.AddressZero,
     contractInterface: WRAPPR,
     functionName: 'mint',
+    onError(error) {
+      toast({
+        title: 'Error minting!',
+        description: error.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    },
   })
   const {
     register,
@@ -62,18 +68,19 @@ export default function MintForm() {
       setType('delSeries')
     } else if (jurisdiction === 'wyo' && type === 'llc') {
       setType('wyoSeries')
-    } else if (type === 'una') {
-      // TODO: Add jurisdiction to UNA json
-      setType('una')
+    } else if (jurisdiction === 'del' && type === 'una') {
+      setType('delUNA')
+    } else if (jurisdiction === 'wyo' && type === 'una') {
+      setType('wyoUNA')
     }
 
-    const tokenId = 3
+    const tokenId = 1
     const amount = 1
     // TODO: remove hardcoded tokenID
     try {
       console.log('args: ', address, tokenId, amount, ethers.constants.HashZero, '', address, 'contract: ', type)
-      const res = writeAsync({
-        args: [address, tokenId, amount, ethers.constants.HashZero, '', address],
+      const res = write({
+        recklesslySetUnpreparedArgs: [address, tokenId, amount, ethers.constants.HashZero, '', address],
       })
     } catch (e) {
       console.error('Error minting: ', e)
