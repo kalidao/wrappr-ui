@@ -16,7 +16,7 @@ import {
 import styled from './create.module.css'
 import { BsUpload } from 'react-icons/bs'
 
-import { useContractWrite } from 'wagmi'
+import { useContractWrite, useNetwork } from 'wagmi'
 import { ethers } from 'ethers'
 
 import { useForm } from 'react-hook-form'
@@ -63,14 +63,14 @@ export default function CreateForm() {
   })
   const [image, setImage] = useState([])
   const [submitting, setSubmitting] = useState(false)
-
+  const { chain } = useNetwork()
   const {
     data: result,
     isError,
     isLoading,
     writeAsync,
   } = useContractWrite({
-    addressOrName: deployments[4]['factory'],
+    addressOrName: chain ? deployments[chain.id]['factory'] : ethers.constants.AddressZero,
     contractInterface: WRAPPR_FACTORY,
     functionName: 'deployWrappr',
   })
