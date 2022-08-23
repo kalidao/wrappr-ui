@@ -10,6 +10,7 @@ export const deployments: { [key: number]: Contracts } = {
     wyoSeries: '0x8d18D533047129dF8172feC7931a3933C47645D2',
     delUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyoUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
+    charter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
   },
   // Goerli
   5: {
@@ -18,6 +19,7 @@ export const deployments: { [key: number]: Contracts } = {
     wyoSeries: '0x8d18D533047129dF8172feC7931a3933C47645D2',
     delUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyoUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
+    charter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
   },
   // Optimism
   10: {
@@ -26,6 +28,7 @@ export const deployments: { [key: number]: Contracts } = {
     wyoSeries: '0x8d18D533047129dF8172feC7931a3933C47645D2',
     delUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyoUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
+    charter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
   },
   // Binance
   56: {
@@ -34,6 +37,7 @@ export const deployments: { [key: number]: Contracts } = {
     wyoSeries: '0x8d18D533047129dF8172feC7931a3933C47645D2',
     delUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyoUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
+    charter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
   },
   // Gnosis
   100: {
@@ -42,6 +46,7 @@ export const deployments: { [key: number]: Contracts } = {
     wyoSeries: '0x8d18D533047129dF8172feC7931a3933C47645D2',
     delUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyoUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
+    charter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
   },
   // Polygon
   137: {
@@ -50,6 +55,7 @@ export const deployments: { [key: number]: Contracts } = {
     wyoSeries: '0x8d18D533047129dF8172feC7931a3933C47645D2',
     delUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyoUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
+    charter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
   },
   // Fantom
   250: {
@@ -58,6 +64,7 @@ export const deployments: { [key: number]: Contracts } = {
     wyoSeries: '0x8d18D533047129dF8172feC7931a3933C47645D2',
     delUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyoUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
+    charter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
   },
   // Arbitrum
   42161: {
@@ -66,6 +73,7 @@ export const deployments: { [key: number]: Contracts } = {
     wyoSeries: '0x8d18D533047129dF8172feC7931a3933C47645D2',
     delUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyoUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
+    charter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
   },
   // Nova
   42170: {
@@ -74,6 +82,7 @@ export const deployments: { [key: number]: Contracts } = {
     wyoSeries: '0x8d18D533047129dF8172feC7931a3933C47645D2',
     delUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyoUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
+    charter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
   },
   // Avalanche
   43114: {
@@ -82,5 +91,6 @@ export const deployments: { [key: number]: Contracts } = {
     wyoSeries: '0x8d18D533047129dF8172feC7931a3933C47645D2',
     delUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyoUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
+    charter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
   },
 }
