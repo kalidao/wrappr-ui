@@ -12,16 +12,13 @@ import WatchedMint from './WatchedMint'
 
 import { deployments, WRAPPR } from '../constants'
 
-import { useQuery } from '@tanstack/react-query'
-import { gql, request } from 'graphql-request'
-
 const schema = z.object({
   name: z
     .string()
     .min(1, { message: 'A name is required' })
     .max(100, { message: 'Name cannot be longer than 100 characters.' }),
   jurisdiction: z.string().min(1, { message: 'Jurisdiction is required' }),
-  type: z.string().min(1, { message: 'Entity type is required' }),
+  entity: z.string().min(1, { message: 'Entity type is required' }),
 })
 
 export default function MintForm() {
@@ -56,52 +53,58 @@ export default function MintForm() {
     defaultValues: {
       name: 'Name',
       jurisdiction: 'del',
-      type: 'llc',
+      entity: 'llc',
     },
   })
-  const {
-    status,
-    data: collections,
-    error,
-    isFetching,
-  } = useQuery(['collections'], async () => {
-    const {
-      collections: { data },
-    } = await request(
-      'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr',
-      gql`
-        query {
-          collections(where: {
-            wrappr: "${chain ? deployments[chain.id][type] : ethers.constants.AddressZero}"
-          }) {
-            id
-          }
-        }
-      `,
-    )
-    return data
-  })
 
-  const onSubmit = (data: MintT) => {
+  const onSubmit = async (data: MintT) => {
     setLoading(true)
-    if (!isConnected && !chain && !collections) return
+    if (!isConnected || !chain) return
     console.log(data)
 
-    const { name, jurisdiction, type } = data
+    const { name, jurisdiction, entity } = data
 
-    if (jurisdiction === 'del' && type === 'llc') {
+    if (jurisdiction === 'del' && entity === 'llc') {
       setType('delSeries')
-    } else if (jurisdiction === 'wyo' && type === 'llc') {
+    } else if (jurisdiction === 'wyo' && entity === 'llc') {
       setType('wyoSeries')
-    } else if (jurisdiction === 'del' && type === 'una') {
+    } else if (jurisdiction === 'del' && entity === 'una') {
       setType('delUNA')
-    } else if (jurisdiction === 'wyo' && type === 'una') {
+    } else if (jurisdiction === 'wyo' && entity === 'una') {
       setType('wyoUNA')
     }
 
-    const tokenId = 1
+    let len = 0
+    try {
+      const query = deployments[chain.id][type].toLowerCase()
+
+      const result = await fetch('https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: `query {
+              collections(where: {
+                wrappr: "${query}"
+              }) {
+                id
+                wrappr {
+                  id
+                  name
+                }
+                collectionId
+                owner
+              }
+            }`,
+        }),
+      }).then((res) => res.json())
+      len = result['data']['collections'].length
+    } catch (e) {
+      console.error('Error fetching collections', e)
+    }
+
+    const tokenId = len + 1
     const amount = 1
-    // TODO: remove hardcoded tokenID
+
     try {
       console.log('args: ', address, tokenId, amount, ethers.constants.HashZero, '', address, 'contract: ', type)
       const res = write({
@@ -137,11 +140,11 @@ export default function MintForm() {
       </FormControl>
       <FormControl isInvalid={Boolean(errors.type)}>
         {/* <FormLabel htmlFor="type">Entity Type</FormLabel> */}
-        <Select placeholder="Select entity type" variant="flushed" {...register('type')}>
+        <Select placeholder="Select entity type" variant="flushed" {...register('entity')}>
           <option value="llc">LLC</option>
           <option value="una">UNA</option>
         </Select>
-        <FormErrorMessage>{errors.type && errors.type.message}</FormErrorMessage>
+        <FormErrorMessage>{errors.entity && errors.entity.message}</FormErrorMessage>
       </FormControl>
       <WatchedMint control={control} />
       {!isConnected && openConnectModal && (

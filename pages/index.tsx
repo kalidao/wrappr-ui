@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { InferGetStaticPropsType, GetStaticProps, NextPage } from 'next'
 import Layout from '../src/layout'
 import MintForm from '../src/mint'
 
