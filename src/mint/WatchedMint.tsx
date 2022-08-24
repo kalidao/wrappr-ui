@@ -10,7 +10,7 @@ export default function WatchedMint({ control }: { control: Control<MintT> }) {
 
   return (
     <Text>
-      You are minting an NFT representing {watched.name} {watched.type === 'llc' ? 'LLC' : 'UNA'} in{' '}
+      You are minting an NFT representing {watched.name} {watched.entity === 'llc' ? 'LLC' : 'UNA'} in{' '}
       {watched.jurisdiction === 'del' ? 'Delaware' : 'Wyoming'}
     </Text>
   )

@@ -138,7 +138,7 @@ export default function MintForm() {
         </Select>
         <FormErrorMessage>{errors.jurisdiction && errors.jurisdiction.message}</FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={Boolean(errors.type)}>
+      <FormControl isInvalid={Boolean(errors.entity)}>
         {/* <FormLabel htmlFor="type">Entity Type</FormLabel> */}
         <Select placeholder="Select entity type" variant="flushed" {...register('entity')}>
           <option value="llc">LLC</option>
