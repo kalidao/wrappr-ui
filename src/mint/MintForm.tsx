@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Flex, FormControl, FormErrorMessage, Input, Button, Select, Text, useToast } from '@chakra-ui/react'
+import Confetti from './Confetti'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { ethers } from 'ethers'
@@ -28,7 +29,7 @@ export default function MintForm() {
   const { address, isConnected, isConnecting, isDisconnected } = useAccount()
   const { chain } = useNetwork()
   const { openConnectModal } = useConnectModal()
-  const { write } = useContractWrite({
+  const { write, isSuccess } = useContractWrite({
     mode: 'recklesslyUnprepared',
     addressOrName: chain ? deployments[chain.id][type] : ethers.constants.AddressZero,
     contractInterface: WRAPPR,
@@ -165,6 +166,7 @@ export default function MintForm() {
           Confirm
         </Button>
       )}
+      {isSuccess && <Confetti />}
     </Flex>
   )
 }
