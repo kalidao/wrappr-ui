@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Flex, FormControl, FormErrorMessage, Input, Button, Select, Text, useToast } from '@chakra-ui/react'
-import Confetti from './Confetti'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { ethers } from 'ethers'
+import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -22,28 +22,16 @@ const schema = z.object({
   entity: z.string().min(1, { message: 'Entity type is required' }),
 })
 
-export default function MintForm() {
+type MintFormProps = {
+  setView: React.Dispatch<React.SetStateAction<number>>
+}
+export default function MintForm({ setView }: MintFormProps) {
   const toast = useToast()
   const [type, setType] = useState('delSeries')
   const [loading, setLoading] = useState(false)
   const { address, isConnected, isConnecting, isDisconnected } = useAccount()
   const { chain } = useNetwork()
   const { openConnectModal } = useConnectModal()
-  const { write, isSuccess } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    addressOrName: chain ? deployments[chain.id][type] : ethers.constants.AddressZero,
-    contractInterface: WRAPPR,
-    functionName: 'mint',
-    onError(error) {
-      toast({
-        title: 'Error minting!',
-        description: error.message,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    },
-  })
   const {
     register,
     handleSubmit,
@@ -106,14 +94,8 @@ export default function MintForm() {
     const tokenId = len + 1
     const amount = 1
 
-    try {
-      console.log('args: ', address, tokenId, amount, ethers.constants.HashZero, '', address, 'contract: ', type)
-      const res = write({
-        recklesslySetUnpreparedArgs: [address, tokenId, amount, ethers.constants.HashZero, '', address],
-      })
-    } catch (e) {
-      console.error('Error minting: ', e)
-    }
+    // update store
+    setView(1)
     setLoading(false)
   }
 
@@ -162,11 +144,11 @@ export default function MintForm() {
           borderRadius={'none'}
           disabled={loading}
           isLoading={loading}
+          rightIcon={<BsFillArrowRightCircleFill />}
         >
-          Confirm
+          Next
         </Button>
       )}
-      {isSuccess && <Confetti />}
     </Flex>
   )
 }

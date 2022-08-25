@@ -3,9 +3,31 @@ import React, { useState } from 'react'
 import { Heading, Flex } from '@chakra-ui/react'
 
 import MintForm from './MintForm'
-import Confetti from './Confetti'
+import Review from './Review'
+import Minting from './Minting'
+import Minted from './Minted'
 
 export default function Minter() {
+  const [view, setView] = useState(0)
+  const views = [
+    {
+      title: 'Form Legal Entity',
+      component: <MintForm setView={setView} />,
+    },
+    {
+      title: 'Review Agreement',
+      component: <Review />,
+    },
+    {
+      title: 'Minting...',
+      component: <Minting />,
+    },
+    {
+      title: 'Congratulations!',
+      component: <Minted />,
+    },
+  ]
+
   return (
     <Flex
       direction="column"
@@ -17,8 +39,8 @@ export default function Minter() {
       gap={5}
       boxShadow={'1.5px -1.5px 5px 2px #30FDFD'}
     >
-      <Heading>Form Legal Entity</Heading>
-      <MintForm />
+      <Heading>{views[view]['title']}</Heading>
+      {views[view]['component']}
     </Flex>
   )
 }
