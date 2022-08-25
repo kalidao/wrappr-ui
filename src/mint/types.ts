@@ -3,3 +3,8 @@ export type MintT = {
   jurisdiction: string
   entity: string
 }
+
+export type StoreT = {
+  minting: string
+  name: string
+}

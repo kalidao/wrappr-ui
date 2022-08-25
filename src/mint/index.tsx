@@ -8,16 +8,23 @@ import Review from './Review'
 import Minting from './Minting'
 import Minted from './Minted'
 
+import { StoreT } from './types'
+
 export default function Minter() {
   const [view, setView] = useState(0)
+  const [store, setStore] = useState<StoreT>({
+    minting: 'delSeries',
+    name: 'Name',
+  })
+
   const views = [
     {
       title: 'Form Legal Entity',
-      component: <MintForm setView={setView} />,
+      component: <MintForm setView={setView} store={store} setStore={setStore} />,
     },
     {
       title: 'Review Agreement',
-      component: <Review setView={setView} />,
+      component: <Review store={store} />,
     },
     {
       title: 'Minting...',

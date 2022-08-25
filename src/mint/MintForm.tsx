@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
-import { MintT } from './types'
+import { MintT, StoreT } from './types'
 import WatchedMint from './WatchedMint'
 
 import { deployments, WRAPPR } from '../constants'
@@ -24,11 +24,12 @@ const schema = z.object({
 
 type MintFormProps = {
   setView: React.Dispatch<React.SetStateAction<number>>
+  store: StoreT
+  setStore: React.Dispatch<React.SetStateAction<StoreT>>
 }
 
-export default function MintForm({ setView }: MintFormProps) {
+export default function MintForm({ setView, store, setStore }: MintFormProps) {
   const toast = useToast()
-  const [type, setType] = useState('delSeries')
   const [loading, setLoading] = useState(false)
   const { address, isConnected, isConnecting, isDisconnected } = useAccount()
   const { chain } = useNetwork()
@@ -41,9 +42,9 @@ export default function MintForm({ setView }: MintFormProps) {
   } = useForm<MintT>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: 'Name',
-      jurisdiction: 'del',
-      entity: 'llc',
+      name: store.name,
+      jurisdiction: store.minting.slice(0, 3),
+      entity: store.minting.slice(3, 4)[0] === 'U' ? 'una' : 'llc',
     },
   })
 
@@ -55,13 +56,25 @@ export default function MintForm({ setView }: MintFormProps) {
     const { name, jurisdiction, entity } = data
 
     if (jurisdiction === 'del' && entity === 'llc') {
-      setType('delSeries')
+      setStore({
+        ...store,
+        minting: 'delSeries',
+      })
     } else if (jurisdiction === 'wyo' && entity === 'llc') {
-      setType('wyoSeries')
+      setStore({
+        ...store,
+        minting: 'wyoSeries',
+      })
     } else if (jurisdiction === 'del' && entity === 'una') {
-      setType('delUNA')
+      setStore({
+        ...store,
+        minting: 'delUNA',
+      })
     } else if (jurisdiction === 'wyo' && entity === 'una') {
-      setType('wyoUNA')
+      setStore({
+        ...store,
+        minting: 'wyoUNA',
+      })
     }
 
     let len = 0
