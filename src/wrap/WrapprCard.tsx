@@ -25,7 +25,7 @@ export default function WrapprCard({ name, id, baseURI, mintFee }: Wrappr) {
       {isLoading ? (
         <Spinner />
       ) : data ? (
-        <Image src={data['image']} height="300px" width="250px" alt={`Image for ${data['name']}`} />
+        <Image src={data['image']} height="250px" width="250px" alt={`Image for ${data['name']}`} />
       ) : (
         'No image found'
       )}
