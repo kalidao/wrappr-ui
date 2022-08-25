@@ -3,7 +3,7 @@ import Particles from 'react-tsparticles'
 import { loadFull } from 'tsparticles'
 
 export default function Confetti() {
-  const particlesInit = useCallback(async (engine: Engine) => {
+  const particlesInit = useCallback(async (engine: any) => {
     console.log(engine)
 
     // you can initialize the tsParticles instance (engine) here, adding custom shapes or presets
@@ -12,7 +12,7 @@ export default function Confetti() {
     await loadFull(engine)
   }, [])
 
-  const particlesLoaded = useCallback(async (container: Container | undefined) => {
+  const particlesLoaded = useCallback(async (container: any) => {
     await console.log(container)
   }, [])
 
