@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-import { Heading, Flex } from '@chakra-ui/react'
+import { Heading, Flex, IconButton } from '@chakra-ui/react'
+import { MdOutlineArrowBack } from 'react-icons/md'
 
 import MintForm from './MintForm'
 import Review from './Review'
@@ -16,7 +17,7 @@ export default function Minter() {
     },
     {
       title: 'Review Agreement',
-      component: <Review />,
+      component: <Review setView={setView} />,
     },
     {
       title: 'Minting...',
@@ -36,10 +37,24 @@ export default function Minter() {
       ml={['2.5%', '5%', '15%', '25%']}
       mr={['2.5%', '5%', '15%', '25%']}
       mt={['10%', '1.3%', '2.5%', '5%']}
+      mb={['10%', '1.3%', '2.5%', '5%']}
       gap={5}
       boxShadow={'1.5px -1.5px 5px 2px #30FDFD'}
     >
-      <Heading>{views[view]['title']}</Heading>
+      <Flex justify="space-between" align="center">
+        <Heading>{views[view]['title']}</Heading>
+        {view === 1 && (
+          <IconButton
+            variant="ghost"
+            maxWidth={1}
+            colorScheme={'brand'}
+            onClick={() => setView(0)}
+            aria-label="Go back!"
+            icon={<MdOutlineArrowBack />}
+            isRound
+          />
+        )}
+      </Flex>
       {views[view]['component']}
     </Flex>
   )

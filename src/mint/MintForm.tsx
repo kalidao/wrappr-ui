@@ -25,6 +25,7 @@ const schema = z.object({
 type MintFormProps = {
   setView: React.Dispatch<React.SetStateAction<number>>
 }
+
 export default function MintForm({ setView }: MintFormProps) {
   const toast = useToast()
   const [type, setType] = useState('delSeries')
