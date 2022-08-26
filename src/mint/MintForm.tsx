@@ -2,16 +2,15 @@ import React, { useState } from 'react'
 import { Flex, FormControl, FormErrorMessage, Input, Button, Select, Text, useToast } from '@chakra-ui/react'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
-import { ethers } from 'ethers'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
 import { MintT, StoreT } from './types'
+import { deployments } from '../constants'
 import WatchedMint from './WatchedMint'
 
-import { deployments, WRAPPR } from '../constants'
 
 const schema = z.object({
   name: z
@@ -55,31 +54,46 @@ export default function MintForm({ setView, store, setStore }: MintFormProps) {
 
     const { name, jurisdiction, entity } = data
 
+    let id: number
     if (jurisdiction === 'del' && entity === 'llc') {
+      id = await getTokenId('delSeries')
       setStore({
         ...store,
+        tokenId: id,
         minting: 'delSeries',
       })
     } else if (jurisdiction === 'wyo' && entity === 'llc') {
+      id = await getTokenId('wyoSeries')
       setStore({
         ...store,
+        tokenId: id,
         minting: 'wyoSeries',
       })
     } else if (jurisdiction === 'del' && entity === 'una') {
+      id = await getTokenId('delUNA')
       setStore({
         ...store,
+        tokenId: id,
         minting: 'delUNA',
       })
     } else if (jurisdiction === 'wyo' && entity === 'una') {
+      id = await getTokenId('wyoUNA')
       setStore({
         ...store,
+        tokenId: id,
         minting: 'wyoUNA',
       })
     }
+    
+    setView(1)
+    setLoading(false)
+  }
 
+  const getTokenId = async (x: string) => {
     let len = 0
+    if (chain !== undefined) {
     try {
-      const query = deployments[chain.id][type].toLowerCase()
+      const query = deployments[chain.id][x].toLowerCase()
 
       const result = await fetch('https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr', {
         method: 'POST',
@@ -104,13 +118,10 @@ export default function MintForm({ setView, store, setStore }: MintFormProps) {
     } catch (e) {
       console.error('Error fetching collections', e)
     }
-
-    const tokenId = len + 1
-    const amount = 1
-
-    // update store
-    setView(1)
-    setLoading(false)
+    return Number(len) + 1
+    } else {
+      return 0
+    }
   }
 
   return (

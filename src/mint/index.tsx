@@ -15,6 +15,7 @@ export default function Minter() {
   const [store, setStore] = useState<StoreT>({
     minting: 'delSeries',
     name: 'Name',
+    tokenId: 0,
   })
 
   const views = [

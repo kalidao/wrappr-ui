@@ -7,4 +7,5 @@ export type MintT = {
 export type StoreT = {
   minting: string
   name: string
+  tokenId: number
 }
