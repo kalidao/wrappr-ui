@@ -16,6 +16,7 @@ export default function Minter() {
     minting: 'delSeries',
     name: 'Name',
     tokenId: 0,
+    data: null,
   })
 
   const views = [
@@ -25,7 +26,7 @@ export default function Minter() {
     },
     {
       title: 'Review Agreement',
-      component: <Review store={store} />,
+      component: <Review store={store} setStore={setStore} setView={setView} />,
     },
     {
       title: 'Minting...',
@@ -33,7 +34,7 @@ export default function Minter() {
     },
     {
       title: 'Congratulations!',
-      component: <Minted />,
+      component: <Minted store={store} />,
     },
   ]
 

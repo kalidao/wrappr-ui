@@ -11,7 +11,6 @@ import { MintT, StoreT } from './types'
 import { deployments } from '../constants'
 import WatchedMint from './WatchedMint'
 
-
 const schema = z.object({
   name: z
     .string()
@@ -84,7 +83,7 @@ export default function MintForm({ setView, store, setStore }: MintFormProps) {
         minting: 'wyoUNA',
       })
     }
-    
+
     setView(1)
     setLoading(false)
   }
@@ -92,14 +91,14 @@ export default function MintForm({ setView, store, setStore }: MintFormProps) {
   const getTokenId = async (x: string) => {
     let len = 0
     if (chain !== undefined) {
-    try {
-      const query = deployments[chain.id][x].toLowerCase()
+      try {
+        const query = deployments[chain.id][x].toLowerCase()
 
-      const result = await fetch('https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          query: `query {
+        const result = await fetch('https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query: `query {
               collections(where: {
                 wrappr: "${query}"
               }) {
@@ -112,13 +111,13 @@ export default function MintForm({ setView, store, setStore }: MintFormProps) {
                 owner
               }
             }`,
-        }),
-      }).then((res) => res.json())
-      len = result['data']['collections'].length
-    } catch (e) {
-      console.error('Error fetching collections', e)
-    }
-    return Number(len) + 1
+          }),
+        }).then((res) => res.json())
+        len = result['data']['collections'].length
+      } catch (e) {
+        console.error('Error fetching collections', e)
+      }
+      return Number(len) + 1
     } else {
       return 0
     }
