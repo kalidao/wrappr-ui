@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Layout from '../../../../src/layout'
 import { Flex, Button, Spinner, Text, VStack, StackDivider, Heading } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
-import { MintWrappr } from '../../../../src/wrap'
+import { MintWrappr, Trait } from '../../../../src/wrap'
 
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
@@ -60,11 +60,6 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   )
 }
 
-type TraitType = {
-  trait_type: string
-  value: string | number
-}
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const wrappr = context?.params?.wrappr as string
 
@@ -103,11 +98,3 @@ const fetchWrapprData = async (URI: string) => {
 
 export default Wrappr
 
-const Trait = ({ trait_type, value }: TraitType) => {
-  return (
-    <Flex alignItems="center" justifyContent="space-between" paddingX={3} paddingY={1}>
-      <Text>{trait_type}</Text>
-      <Text>{value}</Text>
-    </Flex>
-  )
-}
