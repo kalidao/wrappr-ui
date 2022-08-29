@@ -109,11 +109,11 @@ export default function Confetti() {
             },
           },
           shape: {
-            type: ['circle', 'square', 'polygon', 'character', 'character', 'character', 'image', 'image', 'image'],
+            type: ['character', 'character', 'character', 'image'],
             options: {
               image: [
                 {
-                  src: 'https://particles.js.org/images/fruits/apple.png',
+                  src: '/logo.png',
                   width: 32,
                   height: 32,
                   particles: {
@@ -121,171 +121,13 @@ export default function Confetti() {
                       value: 16,
                     },
                   },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/avocado.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/banana.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/berries.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/cherry.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/grapes.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/lemon.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/orange.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/peach.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/pear.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/pepper.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/plum.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/star.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/strawberry.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/watermelon.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-                {
-                  src: 'https://particles.js.org/images/fruits/watermelon_slice.png',
-                  width: 32,
-                  height: 32,
-                  particles: {
-                    size: {
-                      value: 16,
-                    },
-                  },
-                },
-              ],
-              polygon: [
-                {
-                  sides: 5,
-                },
-                {
-                  sides: 6,
                 },
               ],
               character: [
                 {
                   fill: true,
                   font: 'Verdana',
-                  value: ['💩', '🤡', '🍀', '🍙', '🦄', '⭐️'],
+                  value: ['⚖️', '✒️', '📜'],
                   style: '',
                   weight: 400,
                 },
