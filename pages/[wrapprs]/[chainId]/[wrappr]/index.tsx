@@ -97,4 +97,3 @@ const fetchWrapprData = async (URI: string) => {
 }
 
 export default Wrappr
-

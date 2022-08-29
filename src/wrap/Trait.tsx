@@ -12,11 +12,13 @@ export default function Trait({ trait_type, value }: TraitType) {
     return (
       <Flex alignItems="center" justifyContent="space-between" paddingX={3} paddingY={1}>
         <Text>{trait_type}</Text>
-        <Link href={value as string} isExternal><HiExternalLink /></Link>
+        <Link href={value as string} isExternal>
+          <HiExternalLink />
+        </Link>
       </Flex>
     )
   }
-  
+
   return (
     <Flex alignItems="center" justifyContent="space-between" paddingX={3} paddingY={1}>
       <Text>{trait_type}</Text>
