@@ -16,7 +16,8 @@ export default function Minter() {
     minting: 'delSeries',
     name: 'Name',
     tokenId: 0,
-    data: null,
+    data: '',
+    uri: '',
   })
 
   const views = [

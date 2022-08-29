@@ -22,17 +22,19 @@ export default function Review({ store, setStore, setView }: ReviewProps) {
     addressOrName: chain ? deployments[chain.id][store.minting] : ethers.constants.AddressZero,
     contractInterface: WRAPPR,
     functionName: 'mint',
-    args: [address, store.tokenId, 1, ethers.constants.HashZero, '', address],
+    args: [address, store.tokenId, 1, ethers.constants.HashZero, store.uri, address],
   })
   const { write } = useContractWrite({
     ...config,
-    onSettled(data, error) {
+    onSuccess(data) {
       console.log('Settled', { data, error })
-      setStore({
-        ...store,
-        data: { ...data, ...error },
-      })
-      setView(3)
+      if (data !== undefined) {
+        setStore({
+          ...store,
+          data: data.hash,
+        })
+        setView(3)
+      }
     },
   })
 

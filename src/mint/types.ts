@@ -9,4 +9,5 @@ export type StoreT = {
   name: string
   tokenId: number
   data: any
+  uri: string
 }

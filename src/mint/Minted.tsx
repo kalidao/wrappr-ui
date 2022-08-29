@@ -11,7 +11,7 @@ type MintedProps = {
 export default function Minted({ store }: MintedProps) {
   const { chain } = useNetwork()
   const { data, isError, isLoading } = useTransaction({
-    hash: store.data.hash,
+    hash: store.data,
   })
 
   console.log('data', data)
@@ -22,7 +22,7 @@ export default function Minted({ store }: MintedProps) {
   return (
     <>
       <Flex flexDirection={'column'}>
-        <Link href={`${chain?.blockExplorers?.default?.url}/tx/${store.data.hash}`} isExternal>
+        <Link href={`${chain?.blockExplorers?.default?.url}/tx/${store.data}`} isExternal>
           <Flex>
             <FaWpexplorer /> View on Explorer
           </Flex>

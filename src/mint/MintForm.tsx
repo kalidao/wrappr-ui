@@ -1,5 +1,16 @@
 import React, { useState } from 'react'
-import { Flex, FormControl, FormErrorMessage, Input, Button, Select, Text, useToast } from '@chakra-ui/react'
+import {
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  Input,
+  Button,
+  Select,
+  InputGroup,
+  InputRightAddon,
+  Text,
+  useToast,
+} from '@chakra-ui/react'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
@@ -10,6 +21,7 @@ import * as z from 'zod'
 import { MintT, StoreT } from './types'
 import { deployments } from '../constants'
 import WatchedMint from './WatchedMint'
+import createURI from './createURI'
 
 const schema = z.object({
   name: z
@@ -54,33 +66,42 @@ export default function MintForm({ setView, store, setStore }: MintFormProps) {
     const { name, jurisdiction, entity } = data
 
     let id: number
+    let uri: string
     if (jurisdiction === 'del' && entity === 'llc') {
       id = await getTokenId('delSeries')
+      uri = await createURI(name, Number(id), 'delSeries')
       setStore({
         ...store,
         tokenId: id,
         minting: 'delSeries',
+        uri: uri,
       })
     } else if (jurisdiction === 'wyo' && entity === 'llc') {
       id = await getTokenId('wyoSeries')
+      uri = await createURI(name, Number(id), 'wyoSeries')
       setStore({
         ...store,
         tokenId: id,
         minting: 'wyoSeries',
+        uri: uri,
       })
     } else if (jurisdiction === 'del' && entity === 'una') {
       id = await getTokenId('delUNA')
+      uri = await createURI(name, Number(id), 'delUNA')
       setStore({
         ...store,
         tokenId: id,
         minting: 'delUNA',
+        uri: uri,
       })
     } else if (jurisdiction === 'wyo' && entity === 'una') {
       id = await getTokenId('wyoUNA')
+      uri = await createURI(name, Number(id), 'wyoUNA')
       setStore({
         ...store,
         tokenId: id,
         minting: 'wyoUNA',
+        uri: uri,
       })
     }
 
