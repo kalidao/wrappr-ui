@@ -8,6 +8,29 @@ type FileUpload = {
   data: any
 }
 
+// Example POST method implementation:
+async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
+  })
+  return response.json() // parses JSON response into native JavaScript objects
+}
+
+postData('https://example.com/answer', { answer: 42 }).then((data) => {
+  console.log(data) // JSON data parsed by `data.json()` call
+})
+
 export default async function createURI(name: string, tokenId: number, entity: string) {
   let obj
   switch (entity) {
@@ -27,17 +50,19 @@ export default async function createURI(name: string, tokenId: number, entity: s
 
   try {
     // idk ts :(
-    const input: FileUpload = {
-      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY ? process.env.NEXT_PUBLIC_FLEEK_API_KEY : '',
-      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET ? process.env.NEXT_PUBLIC_FLEEK_API_SECRET : '',
-      bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
-      key: 'wrappr' + entity + tokenId,
-      data: JSON.stringify(obj, null, 2),
-    }
-
-    const result = await fleek.upload(input)
-    console.log('hash', result)
-    return result.hash
+    const result = await fetch('api/wrap', {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify(obj),
+    }).then((res) => res.json())
+    return `ipfs://${result.IpfsHash}`
   } catch (e) {
     console.log(e)
     return ''

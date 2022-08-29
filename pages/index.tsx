@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import type { InferGetStaticPropsType, GetStaticProps, NextPage } from 'next'
 import Layout from '../src/layout'
 import Minter from '../src/mint'
