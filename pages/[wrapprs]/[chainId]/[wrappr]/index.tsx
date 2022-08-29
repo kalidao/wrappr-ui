@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Layout from '../../../../src/layout'
 import { Flex, Button, Spinner, Text, VStack, StackDivider, Heading } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
-import { MintWrappr, Trait } from '../../../../src/wrap'
+import { MintWrappr, Trait, TraitType } from '../../../../src/wrap'
 
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
@@ -28,7 +28,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
           ) : (
             'No image found'
           )}
-          <MintWrappr chainId={4} wrappr={wrappr['id']} />
+          {/* <MintWrappr chainId={4} wrappr={wrappr['id']} /> */}
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
           <Heading size="2xl">{isLoading ? <Spinner /> : data ? data['name'] : 'No name found'}</Heading>

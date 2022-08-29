@@ -2,7 +2,7 @@ import { Flex, Text, Link } from '@chakra-ui/react'
 import { isValidURL } from '../utils'
 import { HiExternalLink } from 'react-icons/hi'
 
-type TraitType = {
+export type TraitType = {
   trait_type: string
   value: string | number
 }
