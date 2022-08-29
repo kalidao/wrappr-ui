@@ -176,8 +176,16 @@ export default function MintForm({ setView, store, setStore }: MintFormProps) {
       </FormControl>
       <WatchedMint control={control} />
       {!isConnected && openConnectModal && (
-        <Button onClick={openConnectModal} width="100%" colorScheme="brand" variant="solid" borderRadius={'none'}>
-          Connect Wallet to Mint!
+        <Button
+          onClick={openConnectModal}
+          type="submit"
+          width="100%"
+          colorScheme="brand"
+          variant="solid"
+          borderRadius={'none'}
+          rightIcon={<BsFillArrowRightCircleFill />}
+        >
+          Next
         </Button>
       )}
       {isConnected && (

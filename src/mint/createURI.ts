@@ -31,11 +31,12 @@ export default async function createURI(name: string, tokenId: number, entity: s
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY ? process.env.NEXT_PUBLIC_FLEEK_API_KEY : '',
       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET ? process.env.NEXT_PUBLIC_FLEEK_API_SECRET : '',
       bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
-      key: 'wrappr',
+      key: 'wrappr' + entity + tokenId,
       data: JSON.stringify(obj, null, 2),
     }
 
     const result = await fleek.upload(input)
+    console.log('hash', result)
     return result.hash
   } catch (e) {
     console.log(e)

@@ -27,7 +27,6 @@ export default function Review({ store, setStore, setView }: ReviewProps) {
   const { write } = useContractWrite({
     ...config,
     onSuccess(data) {
-      console.log('Settled', { data, error })
       if (data !== undefined) {
         setStore({
           ...store,
