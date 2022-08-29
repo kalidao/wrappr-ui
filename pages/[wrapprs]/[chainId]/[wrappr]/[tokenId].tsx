@@ -1,9 +1,9 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
-import Layout from '../../../src/layout'
+import Layout from '../../../../src/layout'
 import { Flex, Button, Spinner, Text, VStack, StackDivider, Heading } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
-import { MintWrappr } from '../../../src/wrap'
+import { MintWrappr } from '../../../../src/wrap'
 
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
@@ -66,6 +66,8 @@ type TraitType = {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const wrappr = context?.params?.wrappr as string
+
   const res = await fetch('https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr', {
     method: 'POST',
     headers: {
@@ -74,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     body: JSON.stringify({
       query: `query {
         wrapprs (where: {
-          id: "${context?.params?.wrappr}"
+          id: "${wrappr.toLowerCase()}"
         }) {
           id
           name

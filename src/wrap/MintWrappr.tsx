@@ -12,10 +12,11 @@ export default function MintWrappr({ chainId, wrappr }: { chainId: number; wrapp
   const { config } = usePrepareContractWrite({
     addressOrName: wrappr,
     contractInterface: WRAPPR,
-    functionName: 'mint',
+    functionName: 'manageMint',
     chainId: chainId,
-    args: [account, 3, 1, ethers.constants.HashZero, '', account],
+    args: [account, 1, 1, ethers.constants.HashZero, '', account],
   })
+
   const { write } = useContractWrite({
     ...config,
     onError(error: any) {

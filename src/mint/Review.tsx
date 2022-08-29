@@ -44,7 +44,6 @@ export default function Review({ store, setStore, setView }: ReviewProps) {
     wyoUNA: '/legal/WyUNA.pdf',
   }
 
-  console.log('store minting', store.minting)
   return (
     <Flex flexDirection="column" gap="10px" justifyContent="center" alignItems="flex-start">
       <PDFViewer src={sources[store.minting]} />

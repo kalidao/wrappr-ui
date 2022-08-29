@@ -61,7 +61,6 @@ export default function MintForm({ setView, store, setStore }: MintFormProps) {
   const onSubmit = async (data: MintT) => {
     setLoading(true)
     if (!isConnected || !chain) return
-    console.log(data)
 
     const { name, jurisdiction, entity } = data
 

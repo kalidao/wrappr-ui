@@ -78,7 +78,7 @@ export default function CreateForm() {
 
   const onSubmit = async (data: Create) => {
     setSubmitting(true)
-    console.log(data, 'image: ', image)
+
     const { name, description, agreement, symbol, mintFee, admin } = data
     let baseURI
     try {
