@@ -9,13 +9,12 @@ import { useRouter } from 'next/router'
 import { WRAPPR } from '../../../../src/constants'
 import { ethers } from 'ethers'
 
-
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
     fetchWrapprData(wrappr?.['baseURI']),
   )
-  const { wrappr: wrapprAddress, tokenId} = router.query
+  const { wrappr: wrapprAddress, tokenId } = router.query
   const wrapprContract = {
     addressOrName: router.query.wrappr as string,
     contractInterface: WRAPPR,
@@ -25,9 +24,9 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
       {
         ...wrapprContract,
         functionName: 'ownerOf',
-        args: [tokenId]
-      }
-    ]
+        args: [tokenId],
+      },
+    ],
   })
 
   console.log('reads', reads)
@@ -65,7 +64,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
               'rgba(1, 50, 50, 0.4) 0px 2px 4px, rgba(1, 50, 50, 0.3) 0px 7px 13px -3px, rgba(1, 50, 50, 0.2) 0px -3px 0px inset'
             }
           >
-            {!isReading && <Trait trait_type={'Owner'} value={reads ? reads?.[0] as unknown as string : ''} />}
+            {!isReading && <Trait trait_type={'Owner'} value={reads ? (reads?.[0] as unknown as string) : ''} />}
             <Trait trait_type={'Mint Fee'} value={wrappr['mintFee']} />
             {isLoading ? (
               <Spinner />
