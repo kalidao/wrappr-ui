@@ -1,4 +1,3 @@
-import fleek from '@fleekhq/fleek-storage-js'
 import { FileWithPath } from 'react-dropzone'
 import { uploadFile } from '../utils/uploadFile'
 

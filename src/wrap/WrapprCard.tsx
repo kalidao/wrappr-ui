@@ -38,7 +38,7 @@ export default function WrapprCard({ name, id, baseURI, mintFee }: Wrappr) {
       <Button
         variant="solid"
         colorScheme={'brand'}
-        onClick={() => router.push(`/wrappr/4/${id}`)}
+        onClick={() => router.push(`/wrappr/5/${id}`)}
         borderTopRadius={0}
         width={'100%'}
       >
