@@ -4,11 +4,33 @@ import Layout from '../../../../src/layout'
 import { Flex, Button, Spinner, Text, VStack, StackDivider, Heading } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 import { MintWrappr } from '../../../../src/wrap'
+import { useContractReads } from 'wagmi'
+import { useRouter } from 'next/router'
+import { WRAPPR } from '../../../../src/constants'
+import { ethers } from 'ethers'
+
 
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const router = useRouter()
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
     fetchWrapprData(wrappr?.['baseURI']),
   )
+  const { wrappr: wrapprAddress, tokenId} = router.query
+  const wrapprContract = {
+    addressOrName: router.query.wrappr as string,
+    contractInterface: WRAPPR,
+  }
+  const { data: reads, isLoading: isReading } = useContractReads({
+    contracts: [
+      {
+        ...wrapprContract,
+        functionName: 'ownerOf',
+        args: [tokenId]
+      }
+    ]
+  })
+
+  console.log('reads', reads)
 
   return (
     <Layout heading="Wrappr" content="Wrap now" back={true}>
@@ -28,7 +50,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
           ) : (
             'No image found'
           )}
-          <MintWrappr chainId={4} wrappr={wrappr['id']} />
+          <MintWrappr chainId={4} wrappr={wrappr['id']} tokenId={tokenId as unknown as number} />
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
           <Heading size="2xl">{isLoading ? <Spinner /> : data ? data['name'] : 'No name found'}</Heading>
@@ -43,7 +65,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
               'rgba(1, 50, 50, 0.4) 0px 2px 4px, rgba(1, 50, 50, 0.3) 0px 7px 13px -3px, rgba(1, 50, 50, 0.2) 0px -3px 0px inset'
             }
           >
-            <Trait trait_type={'Admin'} value={wrappr['admin']} />
+            {!isReading && <Trait trait_type={'Owner'} value={reads ? reads?.[0] as unknown as string : ''} />}
             <Trait trait_type={'Mint Fee'} value={wrappr['mintFee']} />
             {isLoading ? (
               <Spinner />
