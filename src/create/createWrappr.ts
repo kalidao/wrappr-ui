@@ -16,6 +16,7 @@ type FileUpload = {
   bucket: string
   data: any
 }
+
 export async function createWrappr({ name, description, image, agreement }: Props) {
   let imageHash, agreementHash
 

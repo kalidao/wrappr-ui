@@ -1,11 +1,12 @@
-import type { NextPage } from 'next'
+import { useQuery } from '@tanstack/react-query'
+import type { InferGetStaticPropsType, GetStaticProps, NextPage } from 'next'
 import Layout from '../src/layout'
-import MintForm from '../src/mint'
+import Minter from '../src/mint'
 
 const Home: NextPage = () => {
   return (
     <Layout heading="Home" content="Wrap anything" back={false}>
-      <MintForm />
+      <Minter />
     </Layout>
   )
 }

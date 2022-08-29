@@ -12,7 +12,7 @@ import '@fontsource/oswald/700.css'
 
 const { chains, provider } = configureChains(
   [chain.rinkeby, chain.goerli],
-  [infuraProvider({ infuraId: process.env.INFURA_ID }), publicProvider()],
+  [infuraProvider({ apiKey: process.env.INFURA_ID }), publicProvider()],
 )
 
 const { connectors } = getDefaultWallets({
