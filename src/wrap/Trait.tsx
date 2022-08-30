@@ -11,7 +11,7 @@ export default function Trait({ trait_type, value }: TraitType) {
   if (isValidURL(value as string) === true) {
     return (
       <Flex alignItems="center" justifyContent="space-between" paddingX={3} paddingY={1}>
-        <Text>{trait_type}</Text>
+        <Text color="#e0e0e0">{trait_type}</Text>
         <Link href={value as string} isExternal>
           <HiExternalLink />
         </Link>
@@ -21,7 +21,7 @@ export default function Trait({ trait_type, value }: TraitType) {
 
   return (
     <Flex alignItems="center" justifyContent="space-between" paddingX={3} paddingY={1}>
-      <Text>{trait_type}</Text>
+      <Text color="#e0e0e0">{trait_type}</Text>
       <Text>{value}</Text>
     </Flex>
   )

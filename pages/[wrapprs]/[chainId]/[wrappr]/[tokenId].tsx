@@ -53,7 +53,9 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
           <Heading size="2xl">{isLoading ? <Spinner /> : data ? data['name'] : 'No name found'}</Heading>
-          <Text fontWeight={400}>{isLoading ? <Spinner /> : data ? data['description'] : 'No description found'}</Text>
+          <Text fontWeight={400} color="#e0e0e0">
+            {isLoading ? <Spinner /> : data ? data['description'] : 'No description found'}
+          </Text>
           <Heading size="lg">Traits</Heading>
           <VStack
             gap={3}
@@ -65,7 +67,6 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
             }
           >
             {!isReading && <Trait trait_type={'Owner'} value={reads ? (reads?.[0] as unknown as string) : ''} />}
-            <Trait trait_type={'Mint Fee'} value={wrappr['mintFee']} />
             {isLoading ? (
               <Spinner />
             ) : (

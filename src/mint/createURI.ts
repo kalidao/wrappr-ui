@@ -1,3 +1,5 @@
+import { convertIpfsHash } from '../utils/convertIpfsHash'
+
 export default async function createURI(name: string, tokenId: number, entity: string) {
   let obj
   switch (entity) {
@@ -29,7 +31,8 @@ export default async function createURI(name: string, tokenId: number, entity: s
       referrerPolicy: 'no-referrer',
       body: JSON.stringify(obj),
     }).then((res) => res.json())
-    return `ipfs://${result.IpfsHash}`
+    const url = convertIpfsHash(result.IpfsHash)
+    return url
   } catch (e) {
     console.log(e)
     return ''
