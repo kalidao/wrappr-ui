@@ -14,7 +14,7 @@ import {
   Textarea,
   IconButton,
   HStack,
-  VStack
+  VStack,
 } from '@chakra-ui/react'
 import { AiOutlineDelete } from 'react-icons/ai'
 
@@ -54,7 +54,7 @@ const schema = z.object({
   mintFee: z.string(),
   agreement: z.any(),
   attributes: z.any(),
-  image: z.any()
+  // image: z.any(),
 })
 
 export default function CreateForm() {
@@ -73,6 +73,7 @@ export default function CreateForm() {
     name: 'attributes',
     control,
   })
+  const [image, setImage] = useState([])
   const [submitting, setSubmitting] = useState(false)
   const { chain } = useNetwork()
   const {
@@ -89,8 +90,8 @@ export default function CreateForm() {
 
   const onSubmit = async (data: Create) => {
     setSubmitting(true)
-    console.log('form', data)
-    const { image, name, description, agreement, symbol, mintFee, admin, attributes } = data
+    if (image.length === 0) return
+    const { name, description, agreement, symbol, mintFee, admin, attributes } = data
 
     let baseURI
     try {
@@ -124,7 +125,8 @@ export default function CreateForm() {
     >
       <FormControl>
         <FormLabel htmlFor="image">Image</FormLabel>
-        <Input id="image" type="file" {...register('image')} variant="flushed" />
+        <UploadImage file={image} setFile={setImage} />
+        {/* <Input id="image" type="file" {...register('image')} variant="flushed" /> */}
       </FormControl>
       <FormControl isInvalid={Boolean(errors.name)}>
         <FormLabel htmlFor="name">Name</FormLabel>
@@ -164,25 +166,25 @@ export default function CreateForm() {
         <FormLabel>Traits</FormLabel>
         {fields.map((field, index) => {
           return (
-              <HStack key={field.id}>
-                <Input
-                  placeholder="Type"
-                  {...register(`attributes.${index}.trait_type` as const, {
-                    required: true,
-                  })}
-                  className={errors?.attributes?.[index]?.trait_type ? 'error' : ''}
-                />
-                <Input
-                  placeholder="Value"
-                  {...register(`attributes.${index}.value` as const, {
-                    required: true,
-                  })}
-                  className={errors?.attributes?.[index]?.value ? 'error' : ''}
-                />
-                <IconButton aria-label="Delete Item" onClick={() => remove(index)} colorScheme="red" isRound>
-                  <AiOutlineDelete />
-                </IconButton>
-              </HStack>
+            <HStack key={field.id}>
+              <Input
+                placeholder="Type"
+                {...register(`attributes.${index}.trait_type` as const, {
+                  required: true,
+                })}
+                className={errors?.attributes?.[index]?.trait_type ? 'error' : ''}
+              />
+              <Input
+                placeholder="Value"
+                {...register(`attributes.${index}.value` as const, {
+                  required: true,
+                })}
+                className={errors?.attributes?.[index]?.value ? 'error' : ''}
+              />
+              <IconButton aria-label="Delete Item" onClick={() => remove(index)} colorScheme="red" isRound>
+                <AiOutlineDelete />
+              </IconButton>
+            </HStack>
           )
         })}
         <Button

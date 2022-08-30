@@ -3,7 +3,6 @@ import { convertIpfsHash } from './convertIpfsHash'
 // General use case
 export async function uploadFile(attachment: any) {
   try {
-    console.log('uploading', attachment)
     const result = await fetch('api/file', {
       method: 'POST',
       body: attachment,

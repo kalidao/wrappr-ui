@@ -2,7 +2,13 @@ import { FileWithPath } from 'react-dropzone'
 import { uploadJSON } from '../utils'
 import { uploadFile } from '../utils/uploadFile'
 
-export async function createWrappr(name: string, description: string, image: FileList, agreement: FileList, attributes: any) {
+export async function createWrappr(
+  name: string,
+  description: string,
+  image: FileList,
+  agreement: FileList,
+  attributes: any,
+) {
   let imageHash, agreementHash
 
   try {
@@ -27,7 +33,7 @@ export async function createWrappr(name: string, description: string, image: Fil
       description: description,
       image: imageHash,
       agreement: agreementHash,
-      attributes: attributes
+      attributes: attributes,
     }
 
     const result = await uploadJSON(wrappr)
