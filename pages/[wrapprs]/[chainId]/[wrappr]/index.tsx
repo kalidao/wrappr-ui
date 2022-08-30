@@ -4,8 +4,25 @@ import Layout from '../../../../src/layout'
 import { Flex, Button, Spinner, Text, VStack, StackDivider, Heading } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 import { MintWrappr, Trait, TraitType } from '../../../../src/wrap'
+import { useAccount, useContractReads } from 'wagmi'
+import { useRouter } from 'next/router'
+import { WRAPPR } from '../../../../src/constants'
 
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const router = useRouter()
+  const { isConnected, address } = useAccount()
+  const wrapprContract = {
+    addressOrName: router.query.wrappr as string,
+    contractInterface: WRAPPR,
+  }
+  const { data: reads, isLoading: isReading } = useContractReads({
+    contracts: [
+      {
+        ...wrapprContract,
+        functionName: 'name',
+      },
+    ],
+  })
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
     fetchWrapprData(wrappr?.['baseURI']),
   )
@@ -28,10 +45,11 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
           ) : (
             'No image found'
           )}
+          {isConnected && address?.toLowerCase() === wrappr['admin'].toLowerCase() && <Button>Update BaseURI</Button>}
           {/* <MintWrappr chainId={4} wrappr={wrappr['id']} /> */}
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
-          <Heading size="2xl">{isLoading ? <Spinner /> : data ? data['name'] : 'No name found'}</Heading>
+          <Heading size="2xl">{isReading ? <Spinner /> : reads ? reads?.[0].toString() : 'No name found'}</Heading>
           <Text fontWeight={400}>{isLoading ? <Spinner /> : data ? data['description'] : 'No description found'}</Text>
           <Heading size="lg">Traits</Heading>
           <VStack
@@ -49,7 +67,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
               <Spinner />
             ) : (
               data &&
-              data['attributes'].map((trait: TraitType, index: number) => (
+              data?.['attributes']?.map((trait: TraitType, index: number) => (
                 <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} />
               ))
             )}

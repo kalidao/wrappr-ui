@@ -22,11 +22,9 @@ import { ethers } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { useDropzone, FileWithPath } from 'react-dropzone'
 
 import { deployments } from '../constants'
 import { WRAPPR_FACTORY } from '../constants'
-import Image from 'next/image'
 import UploadImage from './UploadImage'
 
 import { createWrappr } from './createWrappr'
