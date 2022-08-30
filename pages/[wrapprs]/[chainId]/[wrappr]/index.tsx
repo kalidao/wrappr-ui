@@ -1,12 +1,14 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 import Layout from '../../../../src/layout'
-import { Flex, Button, Spinner, Text, VStack, StackDivider, Heading } from '@chakra-ui/react'
+import { Link as ChakraLink, Flex, Button, Spinner, Text, VStack, StackDivider, Heading } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 import { MintWrappr, Trait, TraitType } from '../../../../src/wrap'
 import { useAccount, useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
 import { WRAPPR } from '../../../../src/constants'
+import { FaPenNib } from 'react-icons/fa'
 
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
@@ -26,6 +28,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
     fetchWrapprData(wrappr?.['baseURI']),
   )
+  console.log('baseURI', wrappr?.['baseURI'], reads)
 
   return (
     <Layout heading="Wrappr" content="Wrap now" back={true}>
@@ -45,7 +48,13 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
           ) : (
             'No image found'
           )}
-          {isConnected && address?.toLowerCase() === wrappr['admin'].toLowerCase() && <Button>Update BaseURI</Button>}
+          {isConnected && address?.toLowerCase() === wrappr['admin'].toLowerCase() && (
+            <Link href={`${router.asPath}/baseURI`} passHref>
+              <Button as={ChakraLink} leftIcon={<FaPenNib />}>
+                Update BaseURI
+              </Button>
+            </Link>
+          )}
           {/* <MintWrappr chainId={4} wrappr={wrappr['id']} /> */}
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>

@@ -27,7 +27,7 @@ import * as z from 'zod'
 
 import { deployments } from '../constants'
 import { WRAPPR_FACTORY } from '../constants'
-import UploadImage from './UploadImage'
+import UploadImage from '../utils/UploadImage'
 
 import { createWrappr } from './createWrappr'
 

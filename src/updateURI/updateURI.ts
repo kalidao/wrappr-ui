@@ -1,15 +1,12 @@
 import { uploadFile, uploadJSON } from '../utils/'
 
-interface Trait {
-  [key: string]: string
-}
-
-export async function updateURI(name: string, description: Trait, image: File, agreement: File, traits: Trait) {
+export async function updateURI(name: string, description: any, image: FileList, agreement: FileList, traits: any) {
   let imageHash, agreementHash
 
   try {
     const formData = new FormData()
-    formData.append('file', image)
+    formData.append('file', image[0])
+    console.log('image', formData, image)
     imageHash = await uploadFile(formData)
   } catch (e) {
     console.error('Error uploading image: ', e)
@@ -18,7 +15,8 @@ export async function updateURI(name: string, description: Trait, image: File, a
 
   try {
     const formData = new FormData()
-    formData.append('file', agreement)
+    formData.append('file', agreement[0])
+    console.log('image', formData, agreement)
     agreementHash = await uploadFile(formData)
   } catch (e) {
     console.error('Error uploading agreement: ', e)
