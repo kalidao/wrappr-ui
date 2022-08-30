@@ -11,6 +11,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import { AiOutlineDelete } from 'react-icons/ai'
 import UploadImage from '../utils/UploadImage'
+import { createWrappr } from '../create/createWrappr'
 
 interface Trait {
   [key: string]: string
@@ -18,7 +19,7 @@ interface Trait {
 
 type URI = {
   name: string
-  description: string
+  // description: string
   external_url: string
   agreement: FileList
   attributes: {
@@ -29,18 +30,19 @@ type URI = {
 
 export default function UpdateURI() {
   const router = useRouter()
-  // const [description, setDescription] = useState()
+  const [description, setDescription] = useState()
   const [image, setImage] = useState([])
-  // const editor = useEditor({
-  //   extensions: [StarterKit, Link],
-  //   content: 'Add new description',
-  //   onUpdate({ editor }: { editor: any }) {
-  //     // The content has changed.
-  //     if (editor !== null) {
-  //       setDescription(editor.getJSON())
-  //     }
-  //   },
-  // })
+  const [submitting, setSubmitting] = useState(false)
+  const editor = useEditor({
+    extensions: [StarterKit, Link],
+    content: 'Add new description',
+    onUpdate({ editor }: { editor: any }) {
+      // The content has changed.
+      if (editor !== null) {
+        setDescription(editor.getJSON())
+      }
+    },
+  })
 
   // form
   const {
@@ -64,17 +66,19 @@ export default function UpdateURI() {
     functionName: 'setBaseURI',
   })
   const create = async (data: URI) => {
+    setSubmitting(true)
     if (image.length === 0) return
-    const { name, description, agreement, attributes } = data
+    const { name, agreement, attributes } = data
 
     // if (editor) {
-    const uri = await updateURI(
-      name,
-      description as unknown as Trait,
-      agreement,
-      image as unknown as FileList,
-      attributes,
-    )
+    let uri
+    try {
+      uri = await createWrappr(name, description, agreement, image as unknown as FileList, attributes)
+    } catch (e) {
+      console.error('Failed to create Wrappr JSON: ', e)
+      return
+    }
+
     try {
       const res = await writeAsync({
         recklesslySetUnpreparedArgs: [uri],
@@ -83,7 +87,7 @@ export default function UpdateURI() {
       console.error(e)
       return
     }
-    // }
+    setSubmitting(false)
   }
 
   return (
@@ -104,8 +108,8 @@ export default function UpdateURI() {
         <Input id="name" defaultValue={'New Name'} {...register('name')} variant="flushed" />
       </FormControl>
       <FormControl>
-        <Input id="description" defaultValue={'New Description'} {...register('description')} variant="flushed" />
-        {/* <Editor editor={editor} /> */}
+        {/* <Input id="description" defaultValue={'New Description'} {...register('description')} variant="flushed" /> */}
+        <Editor editor={editor} />
       </FormControl>
       <FormControl>
         <Input id="external_url" defaultValue={'External URL'} {...register('external_url')} variant="flushed" />
@@ -133,7 +137,7 @@ export default function UpdateURI() {
                 })}
                 className={errors?.attributes?.[index]?.value ? 'error' : ''}
               />
-              <IconButton aria-label="Delete Item" onClick={() => remove(index)} colorScheme="red" isRound>
+              <IconButton aria-label="Delete Item" onClick={() => remove(index)} colorScheme="orange" isRound>
                 <AiOutlineDelete />
               </IconButton>
             </HStack>

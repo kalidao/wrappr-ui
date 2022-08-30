@@ -1,6 +1,6 @@
 import { uploadFile, uploadJSON } from '../utils/'
 
-export async function updateURI(name: string, description: any, image: FileList, agreement: FileList, traits: any) {
+export async function updateURI(name: string, description: any, image: FileList, agreement: FileList, attributes: any) {
   let imageHash, agreementHash
 
   try {
@@ -10,7 +10,6 @@ export async function updateURI(name: string, description: any, image: FileList,
     imageHash = await uploadFile(formData)
   } catch (e) {
     console.error('Error uploading image: ', e)
-    return
   }
 
   try {
@@ -20,7 +19,6 @@ export async function updateURI(name: string, description: any, image: FileList,
     agreementHash = await uploadFile(formData)
   } catch (e) {
     console.error('Error uploading agreement: ', e)
-    return
   }
 
   try {
@@ -29,12 +27,11 @@ export async function updateURI(name: string, description: any, image: FileList,
       description: description,
       image: imageHash,
       agreement: agreementHash,
-      attributes: traits,
+      attributes: attributes,
     }
     const hash = await uploadJSON(wrappr)
     return hash
   } catch (e) {
     console.log(e)
-    return
   }
 }

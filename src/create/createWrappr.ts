@@ -1,10 +1,9 @@
-import { FileWithPath } from 'react-dropzone'
 import { uploadJSON } from '../utils'
 import { uploadFile } from '../utils/uploadFile'
 
 export async function createWrappr(
   name: string,
-  description: string,
+  description: any,
   image: FileList,
   agreement: FileList,
   attributes: any,

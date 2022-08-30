@@ -1,10 +1,10 @@
 import { StoreT } from './types'
 import Link from 'next/link'
 import { useNetwork, useTransaction } from 'wagmi'
-import { Link as ChakraLink, Progress, Button, VStack, HStack } from '@chakra-ui/react'
+import { Link as ChakraLink, Progress, Button, VStack, HStack, Spinner } from '@chakra-ui/react'
 import { FaWpexplorer } from 'react-icons/fa'
 import { TbCandy } from 'react-icons/tb'
-import Confetti from './Confetti'
+import Confetti from '../utils/Confetti'
 import MintedImage from './MintedImage'
 import { deployments } from '../constants'
 
@@ -18,7 +18,12 @@ export default function Minted({ store }: MintedProps) {
     hash: store.data,
   })
 
-  if (isLoading) return <div>Fetching tx!</div>
+  if (isLoading)
+    return (
+      <div>
+        <Spinner />
+      </div>
+    )
   if (isError) return <div>Error fetching tx!</div>
 
   return (
