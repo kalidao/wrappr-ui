@@ -12,14 +12,16 @@ import {
   NumberDecrementStepper,
   Button,
   Textarea,
+  IconButton,
+  HStack,
+  VStack
 } from '@chakra-ui/react'
-import styled from './create.module.css'
-import { BsUpload } from 'react-icons/bs'
+import { AiOutlineDelete } from 'react-icons/ai'
 
 import { useContractWrite, useNetwork } from 'wagmi'
 import { ethers } from 'ethers'
 
-import { useForm } from 'react-hook-form'
+import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
@@ -30,14 +32,18 @@ import UploadImage from './UploadImage'
 import { createWrappr } from './createWrappr'
 
 type Create = {
+  image: FileList
   name: string
   symbol: string
   description: string
   admin: string
   mintFee: number
   baseURI: string
-  image: FileList
   agreement: FileList
+  attributes: {
+    trait_type: string
+    value: string
+  }[]
 }
 
 const schema = z.object({
@@ -46,8 +52,9 @@ const schema = z.object({
   description: z.string().min(1, { message: 'A symbol is required' }),
   admin: z.string().min(1, { message: 'An admin is required' }),
   mintFee: z.string(),
-  image: z.any(),
   agreement: z.any(),
+  attributes: z.any(),
+  image: z.any()
 })
 
 export default function CreateForm() {
@@ -58,8 +65,14 @@ export default function CreateForm() {
     formState: { errors, isSubmitting },
   } = useForm<Create>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      attributes: [{ trait_type: '', value: '' }],
+    },
   })
-  const [image, setImage] = useState([])
+  const { fields, append, remove } = useFieldArray({
+    name: 'attributes',
+    control,
+  })
   const [submitting, setSubmitting] = useState(false)
   const { chain } = useNetwork()
   const {
@@ -76,13 +89,15 @@ export default function CreateForm() {
 
   const onSubmit = async (data: Create) => {
     setSubmitting(true)
+    console.log('form', data)
+    const { image, name, description, agreement, symbol, mintFee, admin, attributes } = data
 
-    const { name, description, agreement, symbol, mintFee, admin } = data
     let baseURI
     try {
-      baseURI = await createWrappr({ name: name, description: description, image: image[0], agreement: agreement[0] })
+      baseURI = await createWrappr(name, description, image, agreement, attributes)
     } catch (e) {
       console.error('Failed to create Wrappr JSON: ', e)
+      return
     }
 
     try {
@@ -107,9 +122,9 @@ export default function CreateForm() {
       ml={['1%', '5%', '15%', '25%']}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <FormControl isInvalid={Boolean(errors.image)}>
+      <FormControl>
         <FormLabel htmlFor="image">Image</FormLabel>
-        <UploadImage file={image} setFile={setImage} />
+        <Input id="image" type="file" {...register('image')} variant="flushed" />
       </FormControl>
       <FormControl isInvalid={Boolean(errors.name)}>
         <FormLabel htmlFor="name">Name</FormLabel>
@@ -144,6 +159,42 @@ export default function CreateForm() {
       <FormControl isInvalid={Boolean(errors.agreement)}>
         <FormLabel htmlFor="agreement">Agreement</FormLabel>
         <Input id="agreement" type="file" {...register('agreement')} variant="flushed" />
+      </FormControl>
+      <FormControl as={VStack} align="stretch" isInvalid={Boolean(errors.attributes)}>
+        <FormLabel>Traits</FormLabel>
+        {fields.map((field, index) => {
+          return (
+              <HStack key={field.id}>
+                <Input
+                  placeholder="Type"
+                  {...register(`attributes.${index}.trait_type` as const, {
+                    required: true,
+                  })}
+                  className={errors?.attributes?.[index]?.trait_type ? 'error' : ''}
+                />
+                <Input
+                  placeholder="Value"
+                  {...register(`attributes.${index}.value` as const, {
+                    required: true,
+                  })}
+                  className={errors?.attributes?.[index]?.value ? 'error' : ''}
+                />
+                <IconButton aria-label="Delete Item" onClick={() => remove(index)} colorScheme="red" isRound>
+                  <AiOutlineDelete />
+                </IconButton>
+              </HStack>
+          )
+        })}
+        <Button
+          onClick={() =>
+            append({
+              trait_type: '',
+              value: '',
+            })
+          }
+        >
+          Add
+        </Button>
       </FormControl>
       <Button
         type="submit"

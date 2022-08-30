@@ -2,32 +2,21 @@ import { FileWithPath } from 'react-dropzone'
 import { uploadJSON } from '../utils'
 import { uploadFile } from '../utils/uploadFile'
 
-type Props = {
-  name: string
-  description: string
-  image: FileWithPath
-  agreement: FileWithPath
-}
-
-type FileUpload = {
-  apiKey: string
-  apiSecret: string
-  key: string
-  bucket: string
-  data: any
-}
-
-export async function createWrappr({ name, description, image, agreement }: Props) {
+export async function createWrappr(name: string, description: string, image: FileList, agreement: FileList, attributes: any) {
   let imageHash, agreementHash
 
   try {
-    imageHash = await uploadFile(image)
+    const formData = new FormData()
+    formData.append('file', image[0])
+    imageHash = await uploadFile(formData)
   } catch (e) {
     console.error('Error uploading image: ', e)
   }
 
   try {
-    agreementHash = await uploadFile(agreement)
+    const formData = new FormData()
+    formData.append('file', agreement[0])
+    agreementHash = await uploadFile(formData)
   } catch (e) {
     console.error('Error uploading agreement: ', e)
   }
@@ -38,6 +27,7 @@ export async function createWrappr({ name, description, image, agreement }: Prop
       description: description,
       image: imageHash,
       agreement: agreementHash,
+      attributes: attributes
     }
 
     const result = await uploadJSON(wrappr)
