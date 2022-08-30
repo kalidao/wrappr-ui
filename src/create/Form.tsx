@@ -112,10 +112,12 @@ export default function CreateForm({ store, setStore, setView }: Props) {
     let baseURI
     try {
       baseURI = await createWrappr(name, description, image as unknown as FileList, agreement, attributes)
-      setStore({
-        ...store,
-        uri: baseURI,
-      })
+      if (baseURI) {
+        setStore({
+          ...store,
+          uri: baseURI,
+        })
+      }
     } catch (e) {
       console.error('Failed to create Wrappr JSON: ', e)
       return

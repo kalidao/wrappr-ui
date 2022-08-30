@@ -65,6 +65,7 @@ export default function Confirmation({ store }: { store: StoreC }) {
             src={'https://content.wrappr.wtf/ipfs/QmXfxJJhkt1P7LmUVLPUnrQtVyrd29G85i23nKqg1QgpyU'}
             height="500px"
             width="500px"
+            alt="Uploaded Image for NFT"
           />
         )}
         <HStack>

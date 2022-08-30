@@ -10,6 +10,9 @@ export default function CreateControl() {
     uri: '',
   })
 
-  const views = [<CreateForm store={store} setView={setView} setStore={setStore} />, <Confirmation store={store} />]
+  const views = [
+    <CreateForm key={1} store={store} setView={setView} setStore={setStore} />,
+    <Confirmation key={1} store={store} />,
+  ]
   return <>{views[view]}</>
 }
