@@ -95,7 +95,7 @@ export default function CreateForm() {
 
     let baseURI
     try {
-      baseURI = await createWrappr(name, description, image, agreement, attributes)
+      baseURI = await createWrappr(name, description, image as unknown as FileList, agreement, attributes)
     } catch (e) {
       console.error('Failed to create Wrappr JSON: ', e)
       return
