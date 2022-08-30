@@ -29,18 +29,18 @@ type URI = {
 
 export default function UpdateURI() {
   const router = useRouter()
-  const [description, setDescription] = useState()
+  // const [description, setDescription] = useState()
   const [image, setImage] = useState([])
-  const editor = useEditor({
-    extensions: [StarterKit, Link],
-    content: 'Add new description',
-    onUpdate({ editor }: { editor: any }) {
-      // The content has changed.
-      if (editor !== null) {
-        setDescription(editor.getJSON())
-      }
-    },
-  })
+  // const editor = useEditor({
+  //   extensions: [StarterKit, Link],
+  //   content: 'Add new description',
+  //   onUpdate({ editor }: { editor: any }) {
+  //     // The content has changed.
+  //     if (editor !== null) {
+  //       setDescription(editor.getJSON())
+  //     }
+  //   },
+  // })
 
   // form
   const {
@@ -65,25 +65,25 @@ export default function UpdateURI() {
   })
   const create = async (data: URI) => {
     if (image.length === 0) return
-    const { name, agreement, attributes } = data
+    const { name, description, agreement, attributes } = data
 
-    if (editor) {
-      const uri = await updateURI(
-        name,
-        description as unknown as Trait,
-        agreement,
-        image as unknown as FileList,
-        attributes,
-      )
-      try {
-        const res = await writeAsync({
-          recklesslySetUnpreparedArgs: [uri],
-        })
-      } catch (e) {
-        console.error(e)
-        return
-      }
+    // if (editor) {
+    const uri = await updateURI(
+      name,
+      description as unknown as Trait,
+      agreement,
+      image as unknown as FileList,
+      attributes,
+    )
+    try {
+      const res = await writeAsync({
+        recklesslySetUnpreparedArgs: [uri],
+      })
+    } catch (e) {
+      console.error(e)
+      return
     }
+    // }
   }
 
   return (
@@ -104,7 +104,8 @@ export default function UpdateURI() {
         <Input id="name" defaultValue={'New Name'} {...register('name')} variant="flushed" />
       </FormControl>
       <FormControl>
-        <Editor editor={editor} />
+        <Input id="description" defaultValue={'New Description'} {...register('description')} variant="flushed" />
+        {/* <Editor editor={editor} /> */}
       </FormControl>
       <FormControl>
         <Input id="external_url" defaultValue={'External URL'} {...register('external_url')} variant="flushed" />
