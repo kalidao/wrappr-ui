@@ -1,3 +1,5 @@
+import { uploadFile, uploadJSON } from '../utils/'
+
 interface Trait {
   [key: string]: string
 }
@@ -6,15 +8,21 @@ export async function updateURI(name: string, description: Trait, image: File, a
   let imageHash, agreementHash
 
   try {
-    imageHash = await ''
+    const formData = new FormData()
+    formData.append('file', image)
+    imageHash = await uploadFile(formData)
   } catch (e) {
     console.error('Error uploading image: ', e)
+    return
   }
 
   try {
-    agreementHash = ''
+    const formData = new FormData()
+    formData.append('file', agreement)
+    agreementHash = await uploadFile(formData)
   } catch (e) {
     console.error('Error uploading agreement: ', e)
+    return
   }
 
   try {
@@ -23,10 +31,12 @@ export async function updateURI(name: string, description: Trait, image: File, a
       description: description,
       image: imageHash,
       agreement: agreementHash,
+      attributes: traits,
     }
-    const hash = ''
+    const hash = await uploadJSON(wrappr)
     return hash
   } catch (e) {
     console.log(e)
+    return
   }
 }
