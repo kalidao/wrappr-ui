@@ -17,7 +17,7 @@ export default async function createURI(name: string, tokenId: number, entity: s
 
   try {
     // idk ts :(
-    const result = await fetch('api/wrap', {
+    const result = await fetch('api/json', {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',

@@ -1,5 +1,5 @@
-import fleek from '@fleekhq/fleek-storage-js'
 import { FileWithPath } from 'react-dropzone'
+import { uploadJSON } from '../utils'
 import { uploadFile } from '../utils/uploadFile'
 
 type Props = {
@@ -40,17 +40,8 @@ export async function createWrappr({ name, description, image, agreement }: Prop
       agreement: agreementHash,
     }
 
-    // idk ts :(
-    const input: FileUpload = {
-      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY ? process.env.NEXT_PUBLIC_FLEEK_API_KEY : '',
-      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET ? process.env.NEXT_PUBLIC_FLEEK_API_SECRET : '',
-      bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
-      key: 'wrappr',
-      data: JSON.stringify(wrappr, null, 2),
-    }
-
-    const result = await fleek.upload(input)
-    return result.hash
+    const result = await uploadJSON(wrappr)
+    return result
   } catch (e) {
     console.log(e)
   }

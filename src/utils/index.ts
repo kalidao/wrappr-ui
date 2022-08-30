@@ -1,3 +1,5 @@
 import { isValidURL } from './isValidURL'
+import { uploadFile } from './uploadFile'
+import { uploadJSON } from './uploadJSON'
 
-export { isValidURL }
+export { isValidURL, uploadFile, uploadJSON }
