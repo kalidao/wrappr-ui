@@ -72,14 +72,14 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
           <Skeleton isLoaded={!isReading}>
-            <Heading size="2xl">{reads ? reads?.[0].toString() : 'No name found'}</Heading>
+            <h1 className="text-gray-100 font-semibold text-xl">{reads ? reads?.[0].toString() : 'No name found'}</h1>
           </Skeleton>
           <Skeleton isLoaded={!isReading}>
-            <Text fontWeight={400} color="gray.300">
+            <p className="whitespace-pre-line break-normal text-gray-400">
               {data ? data['description'] : 'No description found'}
-            </Text>
+            </p>
           </Skeleton>
-          <Heading size="lg">Traits</Heading>
+          <h2 className="text-gray-100 font-semibold text-xl">Traits</h2>
           <Skeleton isLoaded={!isLoading}>
             <VStack
               gap={3}

@@ -59,11 +59,13 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
           <MintWrappr chainId={4} wrappr={wrappr['id']} tokenId={tokenId as unknown as number} />
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
-          <Heading size="2xl">{isLoading ? <Spinner /> : data ? data['name'] : 'No name found'}</Heading>
-          <Text fontWeight={400} color="gray.300">
+          <h1 className="text-gray-100 font-semibold text-xl">
+            {isLoading ? <Spinner /> : data ? data['name'] : 'No name found'}
+          </h1>
+          <p className="whitespace-pre-line break-normal text-gray-400">
             {isLoading ? <Spinner /> : data ? data['description'] : 'No description found'}
-          </Text>
-          <Heading size="lg">Traits</Heading>
+          </p>
+          <h2 className="text-gray-100 font-semibold text-xl">Traits</h2>
           <Skeleton isLoaded={!isLoading && !isReading}>
             <VStack
               gap={3}
