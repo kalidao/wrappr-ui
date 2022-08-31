@@ -53,7 +53,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
           <Heading size="2xl">{isLoading ? <Spinner /> : data ? data['name'] : 'No name found'}</Heading>
-          <Text fontWeight={400} color="#e0e0e0">
+          <Text fontWeight={400} color="gray.300">
             {isLoading ? <Spinner /> : data ? data['description'] : 'No description found'}
           </Text>
           <Heading size="lg">Traits</Heading>

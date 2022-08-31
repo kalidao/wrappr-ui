@@ -29,7 +29,7 @@ export default function Trait({ trait_type, value, isBig }: TraitType) {
 
   return (
     <Flex alignItems="center" justifyContent="space-between" paddingX={3} paddingY={1}>
-      <Text color="#e0e0e0">{trait_type}</Text>
+      <Text color="gray.300">{trait_type}</Text>
       <Text>{renderValue}</Text>
     </Flex>
   )

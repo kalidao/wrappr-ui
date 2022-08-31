@@ -68,7 +68,9 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
             <Heading size="2xl">{reads ? reads?.[0].toString() : 'No name found'}</Heading>
           </Skeleton>
           <Skeleton isLoaded={!isReading}>
-            <Text fontWeight={400}>{data ? data['description'] : 'No description found'}</Text>
+            <Text fontWeight={400} color="gray.300">
+              {data ? data['description'] : 'No description found'}
+            </Text>
           </Skeleton>
           <Heading size="lg">Traits</Heading>
           <Skeleton isLoaded={!isLoading}>
