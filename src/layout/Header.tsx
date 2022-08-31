@@ -39,7 +39,7 @@ export default function Header() {
             <p className="hidden md:block">create</p>
           </div>
         </Link>
-        <Link href="http://docs.wrappr.wtf/" target="_blank" passHref>
+        <Link href="https://www.wrappr.wtf/get-started/what/" target="_blank" passHref>
           <div className="flex justify-center items-center gap-1 px-2 rounded-lg hover:ring-1 hover:ring-brand-400 hover:bg-brand-900 focus:bg-brand-800">
             <span>
               <FaScroll className="fill-brand-50" />
