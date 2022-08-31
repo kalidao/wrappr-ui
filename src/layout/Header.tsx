@@ -27,7 +27,7 @@ export default function Header() {
           maxW="fit-content"
           colorScheme={'brand'}
           variant="outline"
-          borderRadius={'none'}
+          borderRadius={'lg'}
           rightIcon={<MdExplore />}
         >
           Explore
@@ -37,7 +37,7 @@ export default function Header() {
           maxW="fit-content"
           colorScheme={'brand'}
           variant="outline"
-          borderRadius={'none'}
+          borderRadius={'lg'}
           rightIcon={<MdCreate />}
         >
           Create
@@ -49,7 +49,7 @@ export default function Header() {
           maxW="fit-content"
           colorScheme={'brand'}
           variant="outline"
-          borderRadius={'none'}
+          borderRadius={'lg'}
           rightIcon={<FaScroll />}
         >
           Docs

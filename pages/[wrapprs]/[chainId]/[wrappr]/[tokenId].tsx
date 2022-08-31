@@ -43,13 +43,19 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
         justify="space-evenly"
       >
         <Flex direction="column" gap={5}>
-          {isLoading ? (
-            <Spinner />
-          ) : data ? (
-            <Image src={data['image']} height="300px" width="300px" alt={`Image for ${data['name']}`} />
-          ) : (
-            'No image found'
-          )}
+          <Skeleton isLoaded={!isLoading}>
+            {data ? (
+              <Image
+                src={data['image']}
+                height="300px"
+                width="300px"
+                alt={`Image for ${data['name']}`}
+                className="rounded-lg shadow-gray-900 shadow-md"
+              />
+            ) : (
+              'No image found'
+            )}
+          </Skeleton>
           <MintWrappr chainId={4} wrappr={wrappr['id']} tokenId={tokenId as unknown as number} />
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
@@ -63,10 +69,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
               gap={3}
               align={'stretch'}
               divider={<StackDivider borderColor={'brand.900'} />}
-              paddingY={4}
-              boxShadow={
-                'rgba(1, 50, 50, 0.4) 0px 2px 4px, rgba(1, 50, 50, 0.3) 0px 7px 13px -3px, rgba(1, 50, 50, 0.2) 0px -3px 0px inset'
-              }
+              className="rounded-lg shadow-brand-900 shadow-md py-3"
             >
               {data &&
                 data['attributes'].map((trait: TraitType, index: number) => (

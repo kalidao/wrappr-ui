@@ -181,10 +181,10 @@ export default function MintForm({ setView, store, setStore }: MintFormProps) {
           width="100%"
           colorScheme="brand"
           variant="solid"
-          borderRadius={'none'}
+          borderRadius={'lg'}
           rightIcon={<BsFillArrowRightCircleFill />}
         >
-          Next
+          Connect
         </Button>
       )}
       {isConnected && (
@@ -193,7 +193,7 @@ export default function MintForm({ setView, store, setStore }: MintFormProps) {
           width="100%"
           colorScheme="brand"
           variant="solid"
-          borderRadius={'none'}
+          borderRadius={'lg'}
           disabled={loading}
           isLoading={loading}
           rightIcon={<BsFillArrowRightCircleFill />}

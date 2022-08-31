@@ -56,7 +56,7 @@ export default function Review({ store, setStore, setView }: ReviewProps) {
         width="100%"
         colorScheme="brand"
         variant="solid"
-        borderRadius={'none'}
+        borderRadius={'lg'}
         disabled={!checked || !write}
         onClick={() => write?.()}
       >

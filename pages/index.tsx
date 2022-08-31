@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
-import Layout from '../src/layout'
-import Minter from '../src/mint'
+import Layout from '~/layout'
+import Minter from '~/mint'
 
 const Home: NextPage = () => {
   return (

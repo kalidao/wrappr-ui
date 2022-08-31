@@ -7,8 +7,8 @@ import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { ChakraProvider, extendTheme, type ThemeConfig } from '@chakra-ui/react'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import '@fontsource/alumni-sans-pinstripe/400.css'
-import '@fontsource/oswald/700.css'
+import '@fontsource/alegreya-sans/'
+import '../styles/globals.css'
 
 const { chains, provider } = configureChains(
   [chain.goerli],
@@ -33,8 +33,8 @@ const config: ThemeConfig = {
 export const theme = extendTheme({
   config,
   fonts: {
-    heading: `'Alumni Sans Pinstripe', sans-serif`,
-    body: `'Oswald', sans-serif`,
+    heading: `"Alegreya Sans", sans-serif`,
+    body: `"Alegreya Sans", sans-serif`,
   },
   colors: {
     // "gray": {
@@ -85,10 +85,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <RainbowKitProvider
           chains={chains}
           coolMode={true}
+          modalSize="compact"
           theme={darkTheme({
             accentColor: '#02CACA',
             accentColorForeground: 'white',
-            borderRadius: 'none',
+            borderRadius: 'large',
             fontStack: 'system',
           })}
         >

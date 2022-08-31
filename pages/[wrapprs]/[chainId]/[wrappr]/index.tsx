@@ -53,7 +53,13 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
       >
         <Flex direction="column" gap={5}>
           <Skeleton isLoaded={!isLoading && data !== undefined}>
-            <Image src={data?.['image']} height="300px" width="300px" alt={`Image for ${data?.['name']}`} />
+            <Image
+              src={data?.['image']}
+              height="300px"
+              width="300px"
+              alt={`Image for ${data?.['name']}`}
+              className="rounded-lg shadow-gray-900 shadow-md"
+            />
           </Skeleton>
           {isConnected && address?.toLowerCase() === wrappr['admin'].toLowerCase() && (
             <Link href={`${router.asPath}/baseURI`} passHref>
@@ -79,10 +85,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
               gap={3}
               align={'stretch'}
               divider={<StackDivider borderColor={'brand.900'} />}
-              paddingY={4}
-              boxShadow={
-                'rgba(1, 50, 50, 0.4) 0px 2px 4px, rgba(1, 50, 50, 0.3) 0px 7px 13px -3px, rgba(1, 50, 50, 0.2) 0px -3px 0px inset'
-              }
+              className="rounded-lg shadow-brand-900 shadow-md py-3"
             >
               {data &&
                 data?.['attributes']?.map((trait: TraitType, index: number) => (

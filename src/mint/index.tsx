@@ -49,7 +49,8 @@ export default function Minter() {
       mt={['10%', '1.3%', '2.5%', '5%']}
       mb={['10%', '1.3%', '2.5%', '5%']}
       gap={5}
-      boxShadow={'1.5px -1.5px 5px 2px #30FDFD'}
+      border={'1px solid #30FDFD'}
+      borderRadius="lg"
     >
       <Flex justify="space-between" align="center">
         <Heading>{views[view]['title']}</Heading>

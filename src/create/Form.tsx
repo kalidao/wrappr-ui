@@ -203,13 +203,15 @@ export default function CreateForm({ store, setStore, setView }: Props) {
                 })}
                 className={errors?.attributes?.[index]?.value ? 'error' : ''}
               />
-              <IconButton aria-label="Delete Item" onClick={() => remove(index)} colorScheme="red" isRound>
+              <IconButton aria-label="Delete Item" onClick={() => remove(index)} colorScheme="orange" isRound>
                 <AiOutlineDelete />
               </IconButton>
             </HStack>
           )
         })}
         <Button
+          variant="ghost"
+          borderRadius={'lg'}
           onClick={() =>
             append({
               trait_type: '',
@@ -225,7 +227,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         width="100%"
         colorScheme="brand"
         variant="solid"
-        borderRadius={'none'}
+        borderRadius={'lg'}
         disabled={submitting}
         isLoading={submitting}
       >

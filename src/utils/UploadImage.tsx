@@ -54,7 +54,7 @@ export default function UploadImage({ file, setFile }: UploadProps) {
       background="gray.700"
       border="1px"
       borderColor="gray.500"
-      borderRadius={'5px'}
+      borderRadius={'lg'}
       {...getRootProps()}
     >
       {file.length > 0 ? (
