@@ -1,7 +1,7 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
 import Layout from '../../../../src/layout'
-import { Flex, Button, Link, Spinner, Text, VStack, StackDivider, Heading } from '@chakra-ui/react'
+import { Flex, Button, Link, Spinner, Text, VStack, StackDivider, Heading, Skeleton } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 import { MintWrappr, Trait, TraitType } from '../../../../src/wrap'
 import { useContractReads } from 'wagmi'
@@ -39,6 +39,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
         marginTop={2}
         marginRight={[2, 4, 6, 8]}
         marginLeft={[2, 4, 6, 8]}
+        marginBottom={[2, 4, 6, 8]}
         justify="space-evenly"
       >
         <Flex direction="column" gap={5}>
@@ -57,27 +58,23 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
             {isLoading ? <Spinner /> : data ? data['description'] : 'No description found'}
           </Text>
           <Heading size="lg">Traits</Heading>
-          <VStack
-            gap={3}
-            align={'stretch'}
-            divider={<StackDivider borderColor={'brand.900'} />}
-            paddingY={4}
-            boxShadow={
-              'rgba(1, 50, 50, 0.4) 0px 2px 4px, rgba(1, 50, 50, 0.3) 0px 7px 13px -3px, rgba(1, 50, 50, 0.2) 0px -3px 0px inset'
-            }
-          >
-            {!isReading && (
+          <Skeleton isLoaded={!isLoading && !isReading}>
+            <VStack
+              gap={3}
+              align={'stretch'}
+              divider={<StackDivider borderColor={'brand.900'} />}
+              paddingY={4}
+              boxShadow={
+                'rgba(1, 50, 50, 0.4) 0px 2px 4px, rgba(1, 50, 50, 0.3) 0px 7px 13px -3px, rgba(1, 50, 50, 0.2) 0px -3px 0px inset'
+              }
+            >
+              {data &&
+                data['attributes'].map((trait: TraitType, index: number) => (
+                  <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
+                ))}
               <Trait trait_type={'Owner'} value={reads ? (reads?.[0] as unknown as string) : ''} isBig={false} />
-            )}
-            {isLoading ? (
-              <Spinner />
-            ) : (
-              data &&
-              data['attributes'].map((trait: TraitType, index: number) => (
-                <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
-              ))
-            )}
-          </VStack>
+            </VStack>
+          </Skeleton>
         </Flex>
       </Flex>
     </Layout>
