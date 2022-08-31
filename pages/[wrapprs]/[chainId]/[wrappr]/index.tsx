@@ -43,13 +43,14 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   return (
     <Layout heading="Wrappr" content="Wrap now" back={true}>
       <Flex
-        direction="row"
+        direction={['column', 'row']}
         gap={5}
         marginTop={2}
         marginRight={[2, 4, 6, 8]}
         marginLeft={[2, 4, 6, 8]}
         marginBottom={[2, 4, 6, 8]}
         justify="space-evenly"
+        align={['center', 'start']}
       >
         <Flex direction="column" gap={5}>
           <Skeleton isLoaded={!isLoading && data !== undefined}>

@@ -7,7 +7,7 @@ import { Wrappr } from '~/types/wrappr.types'
 const Explore: NextPage = ({ wrapprs }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <Layout heading="Explore" content="Explore wrapprs. Wrap anything." back={true}>
-      <SimpleGrid columns={[1, 2, 3, 6]} spacing={10} px={[1, 2, 4, 6]} py={2}>
+      <SimpleGrid columns={[1, 2, 3, 6]} spacing={10} px={[4, 6]} py={2}>
         {wrapprs.map((wrappr: Wrappr) => (
           <WrapprCard
             key={wrappr['id']}

@@ -88,7 +88,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           modalSize="compact"
           theme={darkTheme({
             accentColor: '#02CACA',
-            accentColorForeground: 'white',
+            accentColorForeground: 'black',
             borderRadius: 'large',
             fontStack: 'system',
           })}
