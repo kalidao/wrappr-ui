@@ -5,7 +5,6 @@ specifiers:
   '@emotion/react': ^11.9.3
   '@emotion/styled': ^11.9.3
   '@fontsource/alegreya-sans': ^4.5.9
-  '@fontsource/josefin-sans': ^4.5.10
   '@hookform/resolvers': ^2.9.6
   '@pinata/sdk': ^1.1.26
   '@rainbow-me/rainbowkit': ^0.5.0
@@ -49,7 +48,6 @@ dependencies:
   '@emotion/react': 11.10.0_3hx2ussxxho4jajbwrd6gq34qe
   '@emotion/styled': 11.10.0_osjhb3oyc3dn55vkfbzx4nrkfi
   '@fontsource/alegreya-sans': 4.5.9
-  '@fontsource/josefin-sans': 4.5.10
   '@hookform/resolvers': 2.9.7_react-hook-form@7.34.2
   '@pinata/sdk': 1.1.26
   '@rainbow-me/rainbowkit': 0.5.0_3xap346o3pr2jghcbnuhkhdwi4
@@ -1585,10 +1583,6 @@ packages:
 
   /@fontsource/alegreya-sans/4.5.9:
     resolution: {integrity: sha512-1knHjrf9w6OjggWSx93dddbg3wio3CVjTgWg+a0No364f0bfNsf7lrBpJKKRuZ1EOdJbg9JosdXSLd76u2SC8g==}
-    dev: false
-
-  /@fontsource/josefin-sans/4.5.10:
-    resolution: {integrity: sha512-0NcbPafWsaAhnizeYSvYFvGgcDD08y2Hh2CgsLsj6z/in8G5gl3qHZXO3p/cvkwBIieWI1Yl+K0B3RJvEJ9c7Q==}
     dev: false
 
   /@hookform/resolvers/2.9.7_react-hook-form@7.34.2:
