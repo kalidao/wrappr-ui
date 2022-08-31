@@ -66,13 +66,15 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
               'rgba(1, 50, 50, 0.4) 0px 2px 4px, rgba(1, 50, 50, 0.3) 0px 7px 13px -3px, rgba(1, 50, 50, 0.2) 0px -3px 0px inset'
             }
           >
-            {!isReading && <Trait trait_type={'Owner'} value={reads ? (reads?.[0] as unknown as string) : ''} />}
+            {!isReading && (
+              <Trait trait_type={'Owner'} value={reads ? (reads?.[0] as unknown as string) : ''} isBig={false} />
+            )}
             {isLoading ? (
               <Spinner />
             ) : (
               data &&
               data['attributes'].map((trait: TraitType, index: number) => (
-                <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} />
+                <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
               ))
             )}
           </VStack>
