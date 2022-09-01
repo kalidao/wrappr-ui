@@ -10,8 +10,10 @@ const Home: NextPage = () => {
   const [jurisdiction, setJurisdiction] = useState('Delaware')
   const [id, setID] = useState(1)
   const [image, setImage] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const gen = async () => {
+    setLoading(true)
     if (!id || !name || !jurisdiction) return
     try {
       const res = await generateArt(name, jurisdiction, id)
@@ -21,6 +23,7 @@ const Home: NextPage = () => {
     } catch (e) {
       console.log('error', e)
     }
+    setLoading(false)
   }
 
   return (
@@ -55,6 +58,7 @@ const Home: NextPage = () => {
         />
         <button
           onClick={gen}
+          disabled={loading}
           className=" w-[500px] bg-brand-50 hover:bg-brand-100 text-black text-2xl font-extrabold  rounded-lg py-2"
         >
           Generate!

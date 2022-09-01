@@ -30,9 +30,10 @@ export default function handler(_req: NextApiRequest, res: NextApiResponse) {
   ctx.beginPath()
   ctx.moveTo(0, 500)
 
-  for (let i = 30; i < 500; i + 50) {
-    createBuilding(i)
-  }
+  // for (let i = 30; i < 500; i + 50) {
+  //   createBuilding(i)
+  // }
+
   // Write the image to file
   const buffer = canvas.toBuffer('image/png')
   res.setHeader('Content-Type', 'image/jpg')
