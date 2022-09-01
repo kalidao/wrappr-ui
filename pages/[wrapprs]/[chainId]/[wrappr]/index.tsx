@@ -62,13 +62,13 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
               className="rounded-lg shadow-gray-900 shadow-md"
             />
           </Skeleton>
-          {isConnected && address?.toLowerCase() === wrappr['admin'].toLowerCase() && (
+          {/* {isConnected && address?.toLowerCase() === wrappr['admin'].toLowerCase() && (
             <Link href={`${router.asPath}/baseURI`} passHref>
               <Button as={ChakraLink} leftIcon={<FaPenNib />}>
-                Update BaseURI
+                Update Metadata
               </Button>
             </Link>
-          )}
+          )} */}
           {/* <MintWrappr chainId={4} wrappr={wrappr['id']} /> */}
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
