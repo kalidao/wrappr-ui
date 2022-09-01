@@ -30,9 +30,15 @@ export default function handler(_req: NextApiRequest, res: NextApiResponse) {
   ctx.beginPath()
   ctx.moveTo(0, 500)
 
-  // for (let i = 30; i < 500; i + 50) {
-  //   createBuilding(i)
-  // }
+  // createBuilding(0, 30)
+  // createBuilding(30, 50)
+  let i = 0
+  let w = getRandomInt(30, 50)
+  while (i < 500) {
+    createBuilding(i, w)
+    w = getRandomInt(30, 50)
+    i = i + 30
+  }
 
   // Write the image to file
   const buffer = canvas.toBuffer('image/png')
@@ -44,9 +50,8 @@ const getNeonColor = (seed: number) => {
   return `hsl(${seed * 360}, ${seed * 19 + 80}%, ${seed * 9 + 50}%, 1)`
 }
 
-const createBuilding = (start: number) => {
+const createBuilding = (start: number, width: number) => {
   const height = getRandomInt(200, 400)
-  const width = getRandomInt(20, 40)
   createLine(start, height)
   createLine(width, height)
   createLine(width, 500)
