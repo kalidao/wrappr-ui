@@ -40,18 +40,7 @@ export default function Minter() {
   ]
 
   return (
-    <Flex
-      direction="column"
-      padding="20px"
-      justify={'center'}
-      ml={['2.5%', '5%', '15%', '25%']}
-      mr={['2.5%', '5%', '15%', '25%']}
-      mt={['10%', '1.3%', '2.5%', '5%']}
-      mb={['10%', '1.3%', '2.5%', '5%']}
-      gap={5}
-      border={'1px solid #30FDFD'}
-      borderRadius="lg"
-    >
+    <Flex direction="column" padding="20px" border={'1px solid #30FDFD'} borderRadius="lg">
       <Flex justify="space-between" align="center">
         <Heading>{views[view]['title']}</Heading>
         {view === 1 && (
