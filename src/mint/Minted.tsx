@@ -1,12 +1,13 @@
 import { StoreT } from './types'
 import Link from 'next/link'
 import { useNetwork, useTransaction } from 'wagmi'
-import { Link as ChakraLink, Progress, Button, VStack, HStack, Spinner } from '@chakra-ui/react'
+import { Link as ChakraLink, Button, VStack, HStack, Spinner } from '@chakra-ui/react'
 import { FaWpexplorer } from 'react-icons/fa'
 import { TbCandy } from 'react-icons/tb'
 import Confetti from '../utils/Confetti'
 import MintedImage from './MintedImage'
 import { deployments } from '../constants'
+import Progress from '@design/Progress'
 
 type MintedProps = {
   store: StoreT
@@ -30,7 +31,11 @@ export default function Minted({ store }: MintedProps) {
     <>
       <VStack spacing="5" align="stretch">
         <MintedImage entity={store.minting} tokenId={store.tokenId} />
-        <Progress value={data?.confirmations} max={12} size="lg" colorScheme={'brand'} hasStripe isAnimated />
+        <Progress
+          label="Confirmations"
+          value={data ? (data.confirmations <= 12 ? data.confirmations : 12) : 0}
+          max={12}
+        />
         <HStack>
           <Button
             as={ChakraLink}

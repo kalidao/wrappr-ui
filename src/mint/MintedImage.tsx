@@ -31,7 +31,15 @@ export default function MintedImage({ entity, tokenId }: { entity: string; token
 
   return (
     <Skeleton isLoaded={!isLoadingURI && !isLoading}>
-      <Image height="300px" width="300px" layout="responsive" src={data?.image} alt="Minted NFT image" />
+      <div className="flex items-center justify-center rounded-md">
+        <Image
+          height="300px"
+          width="300px"
+          src={data?.image}
+          alt="Minted NFT image"
+          className={'shadow-gray-900/40 shadow-sm rounded-lg overflow-hidden '}
+        />
+      </div>
     </Skeleton>
   )
 }
