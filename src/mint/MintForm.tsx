@@ -22,6 +22,7 @@ import { MintT, StoreT } from './types'
 import { deployments } from '../constants'
 import WatchedMint from './WatchedMint'
 import createURI from './createURI'
+import { checkName } from './checkName'
 
 const schema = z.object({
   name: z
@@ -41,6 +42,7 @@ type MintFormProps = {
 export default function MintForm({ setView, store, setStore }: MintFormProps) {
   const toast = useToast()
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const { address, isConnected, isConnecting, isDisconnected } = useAccount()
   const { chain } = useNetwork()
   const { openConnectModal } = useConnectModal()
@@ -67,6 +69,17 @@ export default function MintForm({ setView, store, setStore }: MintFormProps) {
     let id: number
     let uri: string
     if (jurisdiction === 'del' && entity === 'llc') {
+      try {
+        const check = await checkName(name)
+        if (check === true) {
+          setError('Choose another name. Entity with current name already exists.')
+          return
+        }
+      } catch (e) {
+        console.log('Error fetching')
+        return
+      }
+
       id = await getTokenId('delSeries')
       uri = await createURI(name, Number(id), 'delSeries')
       setStore({
