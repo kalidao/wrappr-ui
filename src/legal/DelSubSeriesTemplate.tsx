@@ -333,4 +333,4 @@ const DelRicardianTemplate = ({ chainId, ricardianId }: Props) => {
   )
 }
 
-export default RicardianTemplate
+export default DelRicardianTemplate
