@@ -105,25 +105,25 @@ const DelRicardianTemplate = ({ chainId, ricardianId }: Props) => {
       <Page style={styles.body}>
         <Text style={styles.heading1}>SCHEDULE C</Text>
         <Text style={styles.subheader}>SEPARATE SERIES OPERATING AGREEMENT</Text>
-        <Text style={styles.title}>Wrappr LLC, \n {chainId}:{ricardianId} Series</Text>
+        <Text style={styles.title}>
+          Wrappr LLC, \n {chainId}:{ricardianId} Series
+        </Text>
         <Text style={styles.heading2}>Delaware Limited Liability Company Agreement</Text>
-        <Text style={styles.text}>    
-          THIS LIMITED LIABILITY COMPANY AGREEMENT (this “Agreement”) of
-          Wrappr LLC, {chainId}:{ricardianId} Series, a Delaware limited liability company (the
-          “Company”), is effective among the party or parties controlling the private key of the Series
-          Ethereum Address (as defined below) (such party or parties, the “Members”). The acceptance
-          and formation of this Wrappr LLC Series shall be evidenced by a Ricardian Mint. All
-          capitalized or highlighted terms not otherwise defined herein shall have the meanings
-          ascribed in the Limited Liability Company Agreement of Wrappr LLC (the “Master LLC
-          Agreement”).
+        <Text style={styles.text}>
+          THIS LIMITED LIABILITY COMPANY AGREEMENT (this “Agreement”) of Wrappr LLC, {chainId}:{ricardianId} Series, a
+          Delaware limited liability company (the “Company”), is effective among the party or parties controlling the
+          private key of the Series Ethereum Address (as defined below) (such party or parties, the “Members”). The
+          acceptance and formation of this Wrappr LLC Series shall be evidenced by a Ricardian Mint. All capitalized or
+          highlighted terms not otherwise defined herein shall have the meanings ascribed in the Limited Liability
+          Company Agreement of Wrappr LLC (the “Master LLC Agreement”).
         </Text>
         <Text style={styles.heading1}>RECITALS</Text>
         <Text style={styles.numbered_list}>
           A. \t The Company has been organized as a separate Series of the Master LLC in accordance with the Delaware
           Limited Liability Company Act, 6 Del. C. Section 18-101, et seq. (as amended from time to time, the
           “Act”).\n\n B. \t The Master LLC Certificate of Formation includes a notice of limitation of liabilities of
-          series limited liability company interests in accordance with Section 18-215(b) of the Act.\n\n C. \t KaliCo Master,
-          the sole member of the Master LLC, desires to facilitate the convenient formation of limited liability
+          series limited liability company interests in accordance with Section 18-215(b) of the Act.\n\n C. \t KaliCo
+          Master, the sole member of the Master LLC, desires to facilitate the convenient formation of limited liability
           accounts on Ethereum, and to this end, invites the Company to establish a Series subject to the terms of the
           Master LLC Agreement.\n\n NOW, THEREFORE, in consideration of the agreements and obligations set forth herein
           and for other good and valuable consideration, the receipt and sufficiency of which are hereby acknowledged,
@@ -131,16 +131,14 @@ const DelRicardianTemplate = ({ chainId, ricardianId }: Props) => {
         </Text>
         <Text style={styles.heading1}>ARTICLE 1</Text>
         <Text style={styles.subheader}>ORGANIZATIONAL MATTERS</Text>
-        <Text style={styles.numbered_list}>  
+        <Text style={styles.numbered_list}>
           1.1 \t
           <Text style={{ textDecoration: 'underline' }}>Smart Contract.</Text>
-          \t This Agreement is entered into through a Ricardian Mint.
-          Any amendments to this Agreement shall only be valid if made with a Confirmed Transaction
-          with the `setURI()` function of the Ricardian Smart Contract and as otherwise permitted
-          under this Agreement and the Master LLC Agreement. Any signature or execution made
-          through the use of private keys on Ethereum for any matters relating to the Master LLC or a
-          Series LLC, including, but not limited to, a Ricardian Mint or Ricardian Revocation, shall be
-          valid, as if signed in writing.\n\n 1.2 \t
+          \t This Agreement is entered into through a Ricardian Mint. Any amendments to this Agreement shall only be
+          valid if made with a Confirmed Transaction with the `setURI()` function of the Ricardian Smart Contract and as
+          otherwise permitted under this Agreement and the Master LLC Agreement. Any signature or execution made through
+          the use of private keys on Ethereum for any matters relating to the Master LLC or a Series LLC, including, but
+          not limited to, a Ricardian Mint or Ricardian Revocation, shall be valid, as if signed in writing.\n\n 1.2 \t
           <Text style={{ textDecoration: 'underline' }}>Name.</Text>
           \t The name of the Company shall be “Ricardian LLC, {ricardianId}”. For the avoidance of doubt, “{ricardianId}
           ” reflects the RicardianId generated through a Ricardian Mint to the Address that created this Agreement under
