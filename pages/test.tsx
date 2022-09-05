@@ -29,7 +29,7 @@ const Home: NextPage = () => {
         body: JSON.stringify(obj),
       })
       const content = await rawResponse.json()
-      const res = await fetch('https://wrappr-engine.onrender.com/api/v1/gen', {
+      const res = await fetch('https://engine.wrappr.wtf/api/v1/gen', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
