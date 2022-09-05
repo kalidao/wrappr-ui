@@ -10,28 +10,36 @@ function validateResponse(response: any) {
 }
 const Home: NextPage = () => {
   const [creating, setCreating] = useState(false)
+
   const create = async () => {
     setCreating(true)
+
     try {
-      const res = await fetch('api/create', {
+      const obj = {
+        template_name: 'una_test',
+        agreement_params: {
+          name: 'Hello World!',
+        },
+      }
+      const rawResponse = await fetch('https://wrappr-engine.onrender.com/api/v1/gen', {
         method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json',
         },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify({
-          name: 'Shiv',
-        }),
+        body: JSON.stringify(obj),
+      })
+      const content = await rawResponse.json()
+      const res = await fetch('https://wrappr-engine.onrender.com/api/v1/gen', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(obj),
       })
         .then(validateResponse)
         .then((res) => res.blob())
-        .then((blob) => URL.createObjectURL(blob))
 
-      console.log('res', res.body)
+      console.log('res', res)
     } catch (e) {
       console.log('Error', e)
     }
