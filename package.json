@@ -18,7 +18,7 @@
     "@fontsource/alegreya-sans": "^4.5.9",
     "@hookform/resolvers": "^2.9.6",
     "@pinata/sdk": "^1.1.26",
-    "@rainbow-me/rainbowkit": "^0.5.0",
+    "@rainbow-me/rainbowkit": "^0.5.1",
     "@tanstack/react-query": "^4.0.10",
     "@tanstack/react-query-devtools": "^4.0.10",
     "@tiptap/extension-link": "2.0.0-beta.43",
@@ -36,7 +36,7 @@
     "react-icons": "^4.4.0",
     "react-tsparticles": "^2.2.3",
     "tsparticles": "^2.2.3",
-    "wagmi": "^0.6.4",
+    "wagmi": "^0.6.5",
     "zod": "^3.17.10"
   },
   "devDependencies": {
