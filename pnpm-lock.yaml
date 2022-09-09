@@ -5,6 +5,7 @@ specifiers:
   '@emotion/react': ^11.9.3
   '@emotion/styled': ^11.9.3
   '@fontsource/alegreya-sans': ^4.5.9
+  '@gnosis.pm/safe-apps-wagmi': ^1.0.3
   '@hookform/resolvers': ^2.9.6
   '@pinata/sdk': ^1.1.26
   '@rainbow-me/rainbowkit': ^0.5.1
@@ -48,6 +49,7 @@ dependencies:
   '@emotion/react': 11.10.0_3hx2ussxxho4jajbwrd6gq34qe
   '@emotion/styled': 11.10.0_osjhb3oyc3dn55vkfbzx4nrkfi
   '@fontsource/alegreya-sans': 4.5.9
+  '@gnosis.pm/safe-apps-wagmi': 1.0.3
   '@hookform/resolvers': 2.9.7_react-hook-form@7.34.2
   '@pinata/sdk': 1.1.26
   '@rainbow-me/rainbowkit': 0.5.1_q6bipzzqdtx5ndqm6ie3a2h5q4
@@ -1583,6 +1585,49 @@ packages:
 
   /@fontsource/alegreya-sans/4.5.9:
     resolution: {integrity: sha512-1knHjrf9w6OjggWSx93dddbg3wio3CVjTgWg+a0No364f0bfNsf7lrBpJKKRuZ1EOdJbg9JosdXSLd76u2SC8g==}
+    dev: false
+
+  /@gnosis.pm/safe-apps-provider/0.13.1:
+    resolution: {integrity: sha512-v84Apwb5SeDuRexcvzL2fyfYS3SR9MqPSKiSyFFOWo/Tpm4zgF/Z4ZKhsBKkgktqGoc0zFUZeQPVvqyQpixM9g==}
+    dependencies:
+      '@gnosis.pm/safe-apps-sdk': 7.8.0
+      events: 3.3.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    dev: false
+
+  /@gnosis.pm/safe-apps-sdk/7.8.0:
+    resolution: {integrity: sha512-kO8fJi1ebiKN9qH1NdDToVBuDQQ0U9NkL467U+84LtNTx5PzUJIu6O7tb4nZD24e/OItinf5W8GDWhhfZeiqOA==}
+    dependencies:
+      '@gnosis.pm/safe-react-gateway-sdk': 3.4.0
+      ethers: 5.7.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    dev: false
+
+  /@gnosis.pm/safe-apps-wagmi/1.0.3:
+    resolution: {integrity: sha512-UKzO/+7hRitjAr5uHqPXNzY1s5JV0y5aheLEpGQQlDEg42EMflo2nm+K4NV+S0mrgnTPW+/kk00sv8FuQqaFjA==}
+    peerDependencies:
+      '@wagmi/core': ^0.3.8
+    dependencies:
+      '@gnosis.pm/safe-apps-provider': 0.13.1
+      '@gnosis.pm/safe-apps-sdk': 7.8.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    dev: false
+
+  /@gnosis.pm/safe-react-gateway-sdk/3.4.0:
+    resolution: {integrity: sha512-HtxcXA3KHc3Z/b7jFG7fp9sVTPYyzfV2/8EAZN94qlP7GL2SqU+TuzAR7ZdgBzLhQGWwwvS5b8Ahxraqr1Fz1Q==}
+    dependencies:
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@hookform/resolvers/2.9.7_react-hook-form@7.34.2:

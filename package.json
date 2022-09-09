@@ -16,6 +16,7 @@
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@fontsource/alegreya-sans": "^4.5.9",
+    "@gnosis.pm/safe-apps-wagmi": "^1.0.3",
     "@hookform/resolvers": "^2.9.6",
     "@pinata/sdk": "^1.1.26",
     "@rainbow-me/rainbowkit": "^0.5.1",
