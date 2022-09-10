@@ -2,7 +2,12 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from '@chakra-ui/react'
-import { BsArrowRightCircleFill } from 'react-icons/bs'
+import { BsFillArrowRightCircleFill } from 'react-icons/bs'
+import { createAgreement } from './createAgreement'
+import { StoreT } from '../types'
+import { useNetwork, useAccount } from 'wagmi'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { getTokenId } from '../getTokenId'
 
 type UNA = {
   name: string
@@ -14,17 +19,51 @@ const schema = z.object({
   mission: z.string().min(1, { message: 'A mission is required' }),
 })
 
-export default function UNA() {
+type Props = {
+  store: StoreT
+  setStore: React.Dispatch<React.SetStateAction<StoreT>>
+  setView: React.Dispatch<React.SetStateAction<number>>
+}
+
+export default function UNA({ store, setStore, setView }: Props) {
+  const { address, isConnected, isConnecting, isDisconnected } = useAccount()
+  const { chain } = useNetwork()
+  const { openConnectModal } = useConnectModal()
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors, isSubmitting },
   } = useForm<UNA>({
     resolver: zodResolver(schema),
   })
 
-  const onSubmit = (data: UNA) => {}
+  const onSubmit = async (data: UNA) => {
+    const { name, mission } = data
+
+    try {
+      let tokenId
+      try {
+        const address =
+          store.juris === 'de'
+            ? '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b'
+            : '0x73Af00b92073D93b47e1077f796A3D6A12F63909'
+        tokenId = await getTokenId(address, 5)
+      } catch (e) {
+        console.log(e)
+      }
+
+      const entity = store.juris + store.entity
+      const obj = {
+        name: name,
+        ricardianId: tokenId,
+        mission: mission,
+      }
+      const res = await createAgreement(entity, obj)
+      console.log('res', res)
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
@@ -56,9 +95,23 @@ export default function UNA() {
           placeholder="Which shall primarily be..."
         ></textarea>
       </div>
-      <Button rightIcon={<BsArrowRightCircleFill />} type="submit" width="100%">
-        Next
-      </Button>
+      {!isConnected && openConnectModal ? (
+        <Button
+          onClick={openConnectModal}
+          type="submit"
+          width="100%"
+          colorScheme="brand"
+          variant="solid"
+          borderRadius={'lg'}
+          rightIcon={<BsFillArrowRightCircleFill />}
+        >
+          Connect
+        </Button>
+      ) : (
+        <Button rightIcon={<BsFillArrowRightCircleFill />} type="submit" width="100%" isLoading={isSubmitting}>
+          Next
+        </Button>
+      )}
     </form>
   )
 }

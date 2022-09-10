@@ -20,27 +20,27 @@ export default function Form({ store, setStore, setView }: Props) {
   const form: { [key: string]: Form } = {
     deLLC: {
       heading: 'Delaware LLC',
-      component: <LLC />,
+      component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
     wyLLC: {
       heading: 'Wyoming LLC',
-      component: <LLC />,
+      component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
     deUNA: {
       heading: 'Delaware UNA',
-      component: <UNA />,
+      component: <UNA store={store} setStore={setStore} setView={setView} />,
     },
     wyUNA: {
       heading: 'Wyoming UNA',
-      component: <UNA />,
+      component: <UNA store={store} setStore={setStore} setView={setView} />,
     },
     lexCharter: {
       heading: 'LexPunk Charter',
-      component: <Charter />,
+      component: <Charter store={store} setStore={setStore} setView={setView} />,
     },
     orCharter: {
       heading: 'Orange Charter',
-      component: <Charter />,
+      component: <Charter store={store} setStore={setStore} setView={setView} />,
     },
   }
   return (

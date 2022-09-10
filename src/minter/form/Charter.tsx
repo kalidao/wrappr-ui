@@ -2,7 +2,10 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from '@chakra-ui/react'
-import { BsArrowRightCircleFill } from 'react-icons/bs'
+import { BsFillArrowRightCircleFill } from 'react-icons/bs'
+import { StoreT } from '../types'
+import { useNetwork, useAccount } from 'wagmi'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 
 type Charter = {
   name: string
@@ -16,7 +19,16 @@ const schema = z.object({
   jurisdiction: z.string().min(1, { message: 'A jurisdiction is required' }),
 })
 
-export default function Charter() {
+type Props = {
+  store: StoreT
+  setStore: React.Dispatch<React.SetStateAction<StoreT>>
+  setView: React.Dispatch<React.SetStateAction<number>>
+}
+
+export default function Charter({ store, setStore, setView }: Props) {
+  const { address, isConnected, isConnecting, isDisconnected } = useAccount()
+  const { chain } = useNetwork()
+  const { openConnectModal } = useConnectModal()
   const {
     register,
     handleSubmit,
@@ -74,9 +86,23 @@ export default function Charter() {
           placeholder="Which shall primarily be..."
         ></textarea>
       </div>
-      <Button rightIcon={<BsArrowRightCircleFill />} type="submit" width="100%">
-        Next
-      </Button>
+      {!isConnected && openConnectModal ? (
+        <Button
+          onClick={openConnectModal}
+          type="submit"
+          width="100%"
+          colorScheme="brand"
+          variant="solid"
+          borderRadius={'lg'}
+          rightIcon={<BsFillArrowRightCircleFill />}
+        >
+          Connect
+        </Button>
+      ) : (
+        <Button rightIcon={<BsFillArrowRightCircleFill />} type="submit" width="100%" isLoading={isSubmitting}>
+          Next
+        </Button>
+      )}
     </form>
   )
 }
