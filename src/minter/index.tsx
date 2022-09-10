@@ -27,7 +27,16 @@ export default function Skeleton() {
   ]
 
   return (
-    <Tilt perspective={1300} transitionSpeed={300} tiltMaxAngleX={3} tiltMaxAngleY={3} glareEnable={true} glareMaxOpacity={0.1}>
+    <Tilt
+      className="rounded-lg"
+      perspective={1300}
+      transitionSpeed={300}
+      tiltMaxAngleX={1}
+      tiltMaxAngleY={1}
+      glareEnable={true}
+      glareMaxOpacity={0.01}
+      glarePosition={'all'}
+    >
       <div className="p-4 w-full bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 md:p-8 dark:bg-zinc-900 dark:border-zinc-800">
         {views[view]}
       </div>
