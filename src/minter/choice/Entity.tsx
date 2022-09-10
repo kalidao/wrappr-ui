@@ -18,9 +18,9 @@ export default function Entity({ choice, setChoice, setView }: Props) {
 
   return (
     <div className="grid gap-1 grid-cols-1">
-      <Card name="LLC" onClick={() => setEntity('llc')} />
-      <Card name="UNA" onClick={() => setEntity('una')} />
-      <Card name="Charter" onClick={() => setEntity('charter')} />
+      <Card name="LLC" onClick={() => setEntity('LLC')} />
+      <Card name="UNA" onClick={() => setEntity('UNA')} />
+      <Card name="Charter" onClick={() => setEntity('Charter')} />
     </div>
   )
 }

@@ -25,11 +25,11 @@ export default function Choice({ setScreen, setChoice, choice }: Props) {
 
   const views = [
     <Entity key={'entity'} choice={choice} setChoice={setChoice} setView={setView} />,
-    <Juris key={'juris'} choice={choice} setChoice={setChoice} />,
+    <Juris key={'juris'} choice={choice} setChoice={setChoice} setScreen={setScreen} />,
   ]
 
   return (
-    <div className="">
+    <div className="flex-col gap-4">
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-semibold">Mint Entity</h1>
         {view === 1 && (
@@ -44,7 +44,7 @@ export default function Choice({ setScreen, setChoice, choice }: Props) {
           />
         )}
       </div>
-      {views[view]}
+      <div>{views[view]}</div>
     </div>
   )
 }
