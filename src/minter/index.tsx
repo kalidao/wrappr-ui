@@ -28,7 +28,7 @@ export default function Skeleton() {
 
   return (
     <Tilt
-      className="rounded-lg"
+      className="rounded-xl"
       perspective={1300}
       transitionSpeed={300}
       tiltMaxAngleX={1}
