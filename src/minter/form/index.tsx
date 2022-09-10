@@ -14,7 +14,7 @@ interface Form {
 }
 
 export default function Form({ store, setStore, setView }: Props) {
-  const choice = store?.juris + store?.entity
+  const choice: string = store?.juris + store?.entity
   console.log('store', store, choice)
 
   const form: { [key: string]: Form } = {
@@ -44,7 +44,7 @@ export default function Form({ store, setStore, setView }: Props) {
     },
   }
   return (
-    <div>
+    <div className="flex-col space-y-2">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">{form[choice]['heading']}</h1>
         <IconButton
@@ -57,6 +57,7 @@ export default function Form({ store, setStore, setView }: Props) {
           isRound
         />
       </div>
+      <div>{form[choice]['component']}</div>
     </div>
   )
 }
