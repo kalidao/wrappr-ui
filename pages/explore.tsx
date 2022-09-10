@@ -1,32 +1,23 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import Layout from '../src/layout'
+import Layout from '~/layout'
 import { SimpleGrid, Flex } from '@chakra-ui/react'
-import { WrapprCard } from '../src/wrap'
-import { Wrappr } from '../src/types/wrappr.types'
+import { WrapprCard } from '~/wrap'
+import { Wrappr } from '~/types/wrappr.types'
 
 const Explore: NextPage = ({ wrapprs }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <Layout heading="Explore" content="Explore wrapprs. Wrap anything." back={true}>
-      <Flex
-        direction="column"
-        gap={5}
-        paddingTop={2}
-        marginRight={[2, 4, 6, 8]}
-        marginLeft={[2, 4, 6, 8]}
-        alignItems={'flex-end'}
-      >
-        <SimpleGrid columns={[1, 2, 3, 4]} spacing={10}>
-          {wrapprs.map((wrappr: Wrappr) => (
-            <WrapprCard
-              key={wrappr['id']}
-              name={wrappr.name}
-              id={wrappr.id}
-              baseURI={wrappr.baseURI}
-              mintFee={wrappr.mintFee}
-            />
-          ))}
-        </SimpleGrid>
-      </Flex>
+      <SimpleGrid columns={[1, 2, 3, 6]} spacing={10} px={[4, 6]} py={2}>
+        {wrapprs.map((wrappr: Wrappr) => (
+          <WrapprCard
+            key={wrappr['id']}
+            name={wrappr.name}
+            id={wrappr.id}
+            baseURI={wrappr.baseURI}
+            mintFee={wrappr.mintFee}
+          />
+        ))}
+      </SimpleGrid>
     </Layout>
   )
 }

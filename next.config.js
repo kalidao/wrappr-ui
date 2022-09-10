@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['gateway.pinata.cloud'],
+    domains: ['gateway.pinata.cloud', 'content.wrappr.wtf'],
   },
 }
 

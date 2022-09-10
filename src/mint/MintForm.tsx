@@ -1,16 +1,27 @@
 import React, { useState } from 'react'
-import { Flex, FormControl, FormErrorMessage, Input, Button, Select, Text } from '@chakra-ui/react'
+import {
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  Input,
+  Button,
+  Select,
+  InputGroup,
+  InputRightAddon,
+  Text,
+  useToast,
+} from '@chakra-ui/react'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
-import { ethers } from 'ethers'
+import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
-import { MintT } from './types'
+import { MintT, StoreT } from './types'
+import { deployments } from '../constants'
 import WatchedMint from './WatchedMint'
-
-import { deployments, WRAPPR } from '../constants'
+import createURI from './createURI'
 
 const schema = z.object({
   name: z
@@ -18,25 +29,21 @@ const schema = z.object({
     .min(1, { message: 'A name is required' })
     .max(100, { message: 'Name cannot be longer than 100 characters.' }),
   jurisdiction: z.string().min(1, { message: 'Jurisdiction is required' }),
-  type: z.string().min(1, { message: 'Entity type is required' }),
+  entity: z.string().min(1, { message: 'Entity type is required' }),
 })
 
-export default function MintForm() {
-  const [type, setType] = useState('delSeries')
+type MintFormProps = {
+  setView: React.Dispatch<React.SetStateAction<number>>
+  store: StoreT
+  setStore: React.Dispatch<React.SetStateAction<StoreT>>
+}
+
+export default function MintForm({ setView, store, setStore }: MintFormProps) {
+  const toast = useToast()
   const [loading, setLoading] = useState(false)
   const { address, isConnected, isConnecting, isDisconnected } = useAccount()
   const { chain } = useNetwork()
   const { openConnectModal } = useConnectModal()
-  const {
-    data: result,
-    isError,
-    isLoading,
-    writeAsync,
-  } = useContractWrite({
-    addressOrName: chain ? deployments[chain.id][type] : ethers.constants.AddressZero,
-    contractInterface: WRAPPR,
-    functionName: 'mint',
-  })
   const {
     register,
     handleSubmit,
@@ -45,40 +52,95 @@ export default function MintForm() {
   } = useForm<MintT>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: 'Name',
-      jurisdiction: 'del',
-      type: 'llc',
+      name: store.name,
+      jurisdiction: store.minting.slice(0, 3),
+      entity: store.minting.slice(3, 4)[0] === 'U' ? 'una' : 'llc',
     },
   })
 
-  const onSubmit = (data: MintT) => {
+  const onSubmit = async (data: MintT) => {
     setLoading(true)
-    if (!isConnected && !chain) return
-    console.log(data)
+    if (!isConnected || !chain) return
 
-    const { name, jurisdiction, type } = data
+    const { name, jurisdiction, entity } = data
 
-    if (jurisdiction === 'del' && type === 'llc') {
-      setType('delSeries')
-    } else if (jurisdiction === 'wyo' && type === 'llc') {
-      setType('wyoSeries')
-    } else if (type === 'una') {
-      // TODO: Add jurisdiction to UNA json
-      setType('una')
-    }
-
-    const tokenId = 3
-    const amount = 1
-    // TODO: remove hardcoded tokenID
-    try {
-      console.log('args: ', address, tokenId, amount, ethers.constants.HashZero, '', address, 'contract: ', type)
-      const res = writeAsync({
-        args: [address, tokenId, amount, ethers.constants.HashZero, '', address],
+    let id: number
+    let uri: string
+    if (jurisdiction === 'del' && entity === 'llc') {
+      id = await getTokenId('delSeries')
+      uri = await createURI(name, Number(id), 'delSeries')
+      setStore({
+        ...store,
+        tokenId: id,
+        minting: 'delSeries',
+        uri: uri,
       })
-    } catch (e) {
-      console.error('Error minting: ', e)
+    } else if (jurisdiction === 'wyo' && entity === 'llc') {
+      id = await getTokenId('wyoSeries')
+      uri = await createURI(name, Number(id), 'wyoSeries')
+      setStore({
+        ...store,
+        tokenId: id,
+        minting: 'wyoSeries',
+        uri: uri,
+      })
+    } else if (jurisdiction === 'del' && entity === 'una') {
+      id = await getTokenId('delUNA')
+      uri = await createURI(name, Number(id), 'delUNA')
+      setStore({
+        ...store,
+        tokenId: id,
+        minting: 'delUNA',
+        uri: uri,
+      })
+    } else if (jurisdiction === 'wyo' && entity === 'una') {
+      id = await getTokenId('wyoUNA')
+      uri = await createURI(name, Number(id), 'wyoUNA')
+      setStore({
+        ...store,
+        tokenId: id,
+        minting: 'wyoUNA',
+        uri: uri,
+      })
     }
+
+    setView(1)
     setLoading(false)
+  }
+
+  const getTokenId = async (x: string) => {
+    let len = 0
+    if (chain !== undefined) {
+      try {
+        const query = deployments[chain.id][x].toLowerCase()
+
+        const result = await fetch('https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query: `query {
+              collections(where: {
+                wrappr: "${query}"
+              }) {
+                id
+                wrappr {
+                  id
+                  name
+                }
+                collectionId
+                owner
+              }
+            }`,
+          }),
+        }).then((res) => res.json())
+        len = result['data']['collections'].length
+      } catch (e) {
+        console.error('Error fetching collections', e)
+      }
+      return Number(len) + 1
+    } else {
+      return 0
+    }
   }
 
   return (
@@ -103,18 +165,26 @@ export default function MintForm() {
         </Select>
         <FormErrorMessage>{errors.jurisdiction && errors.jurisdiction.message}</FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={Boolean(errors.type)}>
+      <FormControl isInvalid={Boolean(errors.entity)}>
         {/* <FormLabel htmlFor="type">Entity Type</FormLabel> */}
-        <Select placeholder="Select entity type" variant="flushed" {...register('type')}>
+        <Select placeholder="Select entity type" variant="flushed" {...register('entity')}>
           <option value="llc">LLC</option>
           <option value="una">UNA</option>
         </Select>
-        <FormErrorMessage>{errors.type && errors.type.message}</FormErrorMessage>
+        <FormErrorMessage>{errors.entity && errors.entity.message}</FormErrorMessage>
       </FormControl>
       <WatchedMint control={control} />
       {!isConnected && openConnectModal && (
-        <Button onClick={openConnectModal} width="100%" colorScheme="brand" variant="solid" borderRadius={'none'}>
-          Connect Wallet to Mint!
+        <Button
+          onClick={openConnectModal}
+          type="submit"
+          width="100%"
+          colorScheme="brand"
+          variant="solid"
+          borderRadius={'lg'}
+          rightIcon={<BsFillArrowRightCircleFill />}
+        >
+          Connect
         </Button>
       )}
       {isConnected && (
@@ -123,11 +193,12 @@ export default function MintForm() {
           width="100%"
           colorScheme="brand"
           variant="solid"
-          borderRadius={'none'}
+          borderRadius={'lg'}
           disabled={loading}
           isLoading={loading}
+          rightIcon={<BsFillArrowRightCircleFill />}
         >
-          Confirm
+          Next
         </Button>
       )}
     </Flex>

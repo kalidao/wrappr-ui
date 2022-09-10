@@ -1,5 +1,6 @@
-import { Flex, Text, Button, Spinner } from '@chakra-ui/react'
+import { Skeleton, Flex, Text, Button, Spinner } from '@chakra-ui/react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
 import { Wrappr } from '../types/wrappr.types'
@@ -14,36 +15,30 @@ export default function WrapprCard({ name, id, baseURI, mintFee }: Wrappr) {
   const { isLoading, error, data } = useQuery(['wrappr', baseURI], () => fetchWrapprData(baseURI))
 
   return (
-    <Flex
-      direction="column"
-      border="1px solid"
-      borderColor={'gray.300'}
-      padding={0}
-      borderBottomRadius="lg"
-      justifyContent={'space-between'}
-    >
-      {isLoading ? (
-        <Spinner />
-      ) : data ? (
-        <Image src={data['image']} height="300px" width="250px" alt={`Image for ${data['name']}`} />
-      ) : (
-        'No image found'
-      )}
-      <Flex direction="column" padding={2} minHeight={'6rem'}>
-        <Text fontWeight="700">{name}</Text>
-        <Text fontWeight="500" noOfLines={2}>
-          {isLoading ? 'Loading...' : data ? data['description'] : 'No desription found'}
-        </Text>
-      </Flex>
-      <Button
-        variant="solid"
-        colorScheme={'brand'}
-        onClick={() => router.push(`/wrappr/4/${id}`)}
-        borderTopRadius={0}
-        width={'100%'}
-      >
-        Expand
-      </Button>
-    </Flex>
+    <Skeleton isLoaded={!isLoading} className="rounded-lg">
+      <div className="rounded-lg gap-10 flex-col">
+        <Link href={`/wrappr/5/${id}`} passHref>
+          <div
+            className={
+              'hover:scale-105 m-1 transition duration-500 ease-in-out shadow-gray-900 shadow-md rounded-md hover:shadow-none'
+            }
+          >
+            {data ? (
+              <Image
+                src={data['image']}
+                height="200px"
+                width="200px"
+                layout="responsive"
+                alt={`Image for ${data['name']}`}
+                className={'rounded-lg overflow-hidden'}
+              />
+            ) : (
+              'No image found'
+            )}
+          </div>
+        </Link>
+        <p className={'text-gray-500 px-2 py-1'}>{name}</p>
+      </div>
+    </Skeleton>
   )
 }

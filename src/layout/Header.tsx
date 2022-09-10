@@ -6,6 +6,7 @@ import { Flex, Button, Box } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { MdExplore, MdCreate } from 'react-icons/md'
 import { FaScroll } from 'react-icons/fa'
+import Link from 'next/link'
 
 export default function Header() {
   const router = useRouter()
@@ -21,41 +22,33 @@ export default function Header() {
       >
         <Image src={'/logo.png'} height={60} width={80} alt={`Wrappr logo`} />
       </motion.div>
-      <Flex gap="15px">
-        <Button
-          onClick={() => router.push('/explore')}
-          maxW="fit-content"
-          colorScheme={'brand'}
-          variant="outline"
-          borderRadius={'none'}
-          rightIcon={<MdExplore />}
-        >
-          Explore
-        </Button>
-        <Button
-          onClick={() => router.push('/create')}
-          maxW="fit-content"
-          colorScheme={'brand'}
-          variant="outline"
-          borderRadius={'none'}
-          rightIcon={<MdCreate />}
-        >
-          Create
-        </Button>
-        <Button
-          as="a"
-          href="http://docs.wrappr.wtf/"
-          target="_blank"
-          maxW="fit-content"
-          colorScheme={'brand'}
-          variant="outline"
-          borderRadius={'none'}
-          rightIcon={<FaScroll />}
-        >
-          Docs
-        </Button>
+      <nav className="flex gap-3">
+        <Link href="/explore" passHref>
+          <div className="flex justify-center items-center gap-1 px-2 rounded-lg hover:ring-1 hover:ring-brand-400 hover:bg-brand-900 focus:bg-brand-800">
+            <span>
+              <MdExplore className="fill-brand-50" />
+            </span>
+            <p className="hidden md:block">explore</p>
+          </div>
+        </Link>
+        <Link href="/create" passHref>
+          <div className="flex justify-center items-center gap-1 px-2 rounded-lg hover:ring-1 hover:ring-brand-400 hover:bg-brand-900 focus:bg-brand-800">
+            <span>
+              <MdCreate className="fill-brand-50" />
+            </span>
+            <p className="hidden md:block">create</p>
+          </div>
+        </Link>
+        <Link href="https://www.wrappr.wtf/get-started/what/" target="_blank" passHref>
+          <div className="flex justify-center items-center gap-1 px-2 rounded-lg hover:ring-1 hover:ring-brand-400 hover:bg-brand-900 focus:bg-brand-800">
+            <span>
+              <FaScroll className="fill-brand-50" />
+            </span>
+            <p className="hidden md:block text-size">docs</p>
+          </div>
+        </Link>
         <ConnectButton label="Login" />
-      </Flex>
+      </nav>
     </Flex>
   )
 }

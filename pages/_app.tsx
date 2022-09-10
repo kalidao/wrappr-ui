@@ -7,12 +7,12 @@ import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { ChakraProvider, extendTheme, type ThemeConfig } from '@chakra-ui/react'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import '@fontsource/alumni-sans-pinstripe/400.css'
-import '@fontsource/oswald/700.css'
+import '@fontsource/alegreya-sans/'
+import '../styles/globals.css'
 
 const { chains, provider } = configureChains(
-  [chain.rinkeby],
-  [infuraProvider({ infuraId: process.env.INFURA_ID }), publicProvider()],
+  [chain.goerli],
+  [infuraProvider({ apiKey: process.env.INFURA_ID }), publicProvider()],
 )
 
 const { connectors } = getDefaultWallets({
@@ -33,17 +33,29 @@ const config: ThemeConfig = {
 export const theme = extendTheme({
   config,
   fonts: {
-    heading: `'Alumni Sans Pinstripe', sans-serif`,
-    body: `'Oswald', sans-serif`,
+    heading: `"Alegreya Sans", sans-serif`,
+    body: `"Alegreya Sans", sans-serif`,
   },
   colors: {
+    // "gray": {
+    //   "50": "#F2F2F2",
+    //   "100": "#DBDBDB",
+    //   "200": "#C4C4C4",
+    //   "300": "#ADADAD",
+    //   "400": "#969696",
+    //   "500": "#808080",
+    //   "600": "#666666",
+    //   "700": "#4D4D4D",
+    //   "800": "#333333",
+    //   "900": "#1A1A1A"
+    // },
     gray: {
-      '50': '#3a3f42',
-      '100': '#3a3f42',
-      '200': '#313538',
-      '300': '#2b2f31',
-      '400': '#26292b',
-      '500': '#202425',
+      '50': '#F2F2F2',
+      '100': '#DBDBDB',
+      '200': '#C4C4C4',
+      '300': '#ADADAD',
+      '400': '#969696',
+      '500': '#808080',
       '600': '#1a1d1e',
       '700': '#151718',
       '800': '#060707',
@@ -73,10 +85,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <RainbowKitProvider
           chains={chains}
           coolMode={true}
+          modalSize="compact"
           theme={darkTheme({
             accentColor: '#02CACA',
-            accentColorForeground: 'white',
-            borderRadius: 'none',
+            accentColorForeground: 'black',
+            borderRadius: 'large',
             fontStack: 'system',
           })}
         >

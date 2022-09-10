@@ -1,18 +1,12 @@
-import { uploadJSON } from '../utils'
-import { uploadFile } from '../utils/uploadFile'
+import { uploadFile, uploadJSON } from '../utils/'
 
-export async function createWrappr(
-  name: string,
-  description: any,
-  image: FileList,
-  agreement: FileList,
-  attributes: any,
-) {
+export async function updateURI(name: string, description: any, image: FileList, agreement: FileList, attributes: any) {
   let imageHash, agreementHash
 
   try {
     const formData = new FormData()
     formData.append('file', image[0])
+    console.log('image', formData, image)
     imageHash = await uploadFile(formData)
   } catch (e) {
     console.error('Error uploading image: ', e)
@@ -21,6 +15,7 @@ export async function createWrappr(
   try {
     const formData = new FormData()
     formData.append('file', agreement[0])
+    console.log('image', formData, agreement)
     agreementHash = await uploadFile(formData)
   } catch (e) {
     console.error('Error uploading agreement: ', e)
@@ -34,9 +29,8 @@ export async function createWrappr(
       agreement: agreementHash,
       attributes: attributes,
     }
-
-    const result = await uploadJSON(wrappr)
-    return result
+    const hash = await uploadJSON(wrappr)
+    return hash
   } catch (e) {
     console.log(e)
   }
