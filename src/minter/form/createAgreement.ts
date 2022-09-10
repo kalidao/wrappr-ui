@@ -1,4 +1,4 @@
-import { uploadFile } from '~/utils'
+import { uploadBlob } from '~/utils'
 
 export async function createAgreement(name: string, params: any) {
   try {
@@ -18,7 +18,7 @@ export async function createAgreement(name: string, params: any) {
 
     if (res.ok) {
       const url = window.URL.createObjectURL(blob)
-      const uploadedURL = await uploadFile(blob)
+      const uploadedURL = await uploadBlob(blob)
       return {
         blob: blob,
         url: url,
