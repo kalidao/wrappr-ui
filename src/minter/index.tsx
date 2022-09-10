@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import Tilt from 'react-parallax-tilt'
+
 import Choice from './choice'
 import Form from './form'
 import Confirm from './Confirm'
@@ -25,8 +27,10 @@ export default function Skeleton() {
   ]
 
   return (
-    <div className="p-4 w-full bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 md:p-8 dark:bg-zinc-900 dark:border-zinc-800">
-      {views[view]}
-    </div>
+    <Tilt perspective={1300} transitionSpeed={300} tiltMaxAngleX={3} tiltMaxAngleY={3} glareEnable={true}>
+      <div className="p-4 w-full bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 md:p-8 dark:bg-zinc-900 dark:border-zinc-800">
+        {views[view]}
+      </div>
+    </Tilt>
   )
 }
