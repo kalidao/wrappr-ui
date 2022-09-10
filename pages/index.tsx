@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import { Flex } from '@chakra-ui/react'
 import Layout from '~/layout'
-import Minter from '~/mint'
+import Minter from '~/minter'
 import Banner from '@design/Banner'
 
 const Home: NextPage = () => {
