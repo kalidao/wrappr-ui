@@ -10,28 +10,20 @@ function validateResponse(response: any) {
 }
 const Home: NextPage = () => {
   const [creating, setCreating] = useState(false)
+  const [url, setURL] = useState('')
 
   const create = async () => {
     setCreating(true)
 
     try {
       const obj = {
-        template_name: 'una_test',
-        agreement_params: {
-          name: 'Hello World!',
-        },
+        template_name: 'daoCharter',
+        agreement_params: { name: 'hello', ricardianId: '123', jurisdiction: 'Ethereum', mission: 'Testing' },
       }
-      const rawResponse = await fetch('https://wrappr-engine.onrender.com/api/v1/gen', {
+      const res = await fetch('https://engine.wrappr.wtf/v1/gen', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(obj),
-      })
-      const content = await rawResponse.json()
-      const res = await fetch('https://engine.wrappr.wtf/api/v1/gen', {
-        method: 'POST',
-        headers: {
+          Accept: 'application/pdf',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(obj),
@@ -39,7 +31,9 @@ const Home: NextPage = () => {
         .then(validateResponse)
         .then((res) => res.blob())
 
-      console.log('res', res)
+      setURL(window.URL.createObjectURL(res))
+
+      console.log('res', res, url)
     } catch (e) {
       console.log('Error', e)
     }
@@ -50,6 +44,7 @@ const Home: NextPage = () => {
       <Button onClick={create} disabled={creating}>
         Create PDF
       </Button>
+      <iframe src={url}></iframe>
     </Layout>
   )
 }
