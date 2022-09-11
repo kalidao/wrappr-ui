@@ -5,9 +5,13 @@ import { useAccount, useNetwork, useContractWrite } from 'wagmi'
 import { StoreT } from './types'
 import { ethers } from 'ethers'
 import { deployments, WRAPPR } from '../constants'
-import { MdOutlineArrowBack, MdConstruction, MdError, MdSend } from 'react-icons/md'
+import { MdOutlineArrowBack, MdConstruction, MdError, MdSend, MdSearch, MdAccessTimeFilled } from 'react-icons/md'
 import getName from './utils/getName'
 import { getTokenId } from './getTokenId'
+import { createAgreement } from './utils/createAgreement'
+import createTokenURI from './utils/createTokenURI'
+
+import { sources } from './constants/sources'
 
 type Props = {
   store: StoreT
@@ -44,80 +48,111 @@ export default function Confirm({ store, setStore, setView }: Props) {
       icon: <MdConstruction />,
     })
     if (!isConnected && !chain) return
-
-    // fetching tokenId
-    let tokenId = 0
-    try {
-      if (chain) {
-        tokenId = await getTokenId(contractAddress, chain.id)
-      } else {
+    if (chain) {
+      // fetching tokenId
+      let tokenId = 0
+      try {
         setMessage({
-          text: 'Could not find chainId, please try reconnecting to the network',
+          text: 'Fetching tokenId...',
+          icon: <MdSearch />,
+        })
+        tokenId = await getTokenId(contractAddress, chain.id)
+      } catch (e) {
+        console.error(e)
+        setMessage({
+          text: 'Something went wrong, please try again',
           icon: <MdError />,
         })
+        setLoading(false)
       }
-    } catch (e) {
-      console.error(e)
-      setMessage({
-        text: 'Something went wrong, please try again',
-        icon: <MdError />,
-      })
-      setLoading(false)
-    }
 
-    // creating agreement
-    try {
-    } catch (e) {
-      console.error(e)
-      setMessage({
-        text: 'Something went wrong, please try again',
-        icon: <MdError />,
-      })
-      setLoading(false)
-    }
-    // building token URI
-    try {
-    } catch (e) {
-      console.error(e)
-      setMessage({
-        text: 'Something went wrong, please try again',
-        icon: <MdError />,
-      })
-      setLoading(false)
-    }
-    // sending tx
-    try {
-      setMessage({
-        text: 'Sending your transaction...',
-        icon: <MdSend />,
-      })
-      //   address to,
-      //   uint256 id,
-      //   uint256 amount,
-      //   bytes calldata data,
-      //   string calldata tokenURI,
-      //   address owner
-      const res = await writeAsync({
-        recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, '', address],
-      })
-      await res.wait(1)
-      setStore({
-        ...store,
-        txHash: res.hash,
-      })
-      setView(3)
-    } catch (e) {
-      console.error(e)
-      setMessage({
-        text: 'Something went wrong, please try again',
-        icon: <MdError />,
-      })
-      setLoading(false)
-    }
+      let tokenURI = ''
+      // creating agreement
+      try {
+        setMessage({
+          text: 'Creating agreement...',
+          icon: <MdConstruction />,
+        })
+        const res = await createAgreement(
+          store.juris + store.entity,
+          store.name,
+          tokenId.toString(),
+          store.mission,
+          store.jurisdiction,
+          chain.id.toString(),
+        )
+        console.log('res', res)
+      } catch (e) {
+        console.error(e)
+        setMessage({
+          text: 'Something went wrong, please try again',
+          icon: <MdError />,
+        })
+        setLoading(false)
+      }
 
-    // success
+      // building token URI
+      try {
+        setMessage({
+          text: 'Building token metadata...',
+          icon: <MdConstruction />,
+        })
+        const res = await createTokenURI(store.name, tokenId, store.juris + store.entity)
+        if (res) {
+          tokenURI = res
+        }
+      } catch (e) {
+        console.error(e)
+        setMessage({
+          text: 'Something went wrong, please try again',
+          icon: <MdError />,
+        })
+        setLoading(false)
+      }
+
+      // sending tx
+      try {
+        setMessage({
+          text: 'Sending your transaction...',
+          icon: <MdSend />,
+        })
+        //   address to,
+        //   uint256 id,
+        //   uint256 amount,
+        //   bytes calldata data,
+        //   string calldata tokenURI,
+        //   address owner
+        const res = await writeAsync({
+          recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, '', address],
+        })
+        setMessage({
+          text: 'Awaiting confirmation...',
+          icon: <MdAccessTimeFilled />,
+        })
+        // success
+        await res.wait(1)
+        setStore({
+          ...store,
+          txHash: res.hash,
+        })
+        setView(3)
+      } catch (e) {
+        console.error(e)
+        setMessage({
+          text: 'Something went wrong, please try again',
+          icon: <MdError />,
+        })
+        setLoading(false)
+      }
+    } else {
+      setMessage({
+        text: 'Could not find chainId, please try reconnecting to the network',
+        icon: <MdError />,
+      })
+    }
   }
 
+  console.log('var', loading)
   return (
     <>
       {loading === false ? (
@@ -157,18 +192,11 @@ export default function Confirm({ store, setStore, setView }: Props) {
           )}
         </div>
       ) : (
-        <VStack align="center" justify="center">
+        <VStack align="center" justify="center" minHeight="500px">
           <span>{message.icon}</span>
           <p className="text-center font-semibold text-xl">{message.text}</p>
         </VStack>
       )}
     </>
   )
-}
-
-const sources: { [key: string]: string } = {
-  deLLC: '/legal/DelLLC.pdf',
-  wyLLC: '/legal/WyLLC.pdf',
-  deUNA: '/legal/DelUNA.pdf',
-  wyUNA: '/legal/WyUNA.pdf',
 }

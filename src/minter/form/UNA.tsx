@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from '@chakra-ui/react'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
-import { createAgreement } from './createAgreement'
+import { createAgreement } from '../utils/createAgreement'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
@@ -40,30 +40,6 @@ export default function UNA({ store, setStore, setView }: Props) {
   const onSubmit = async (data: UNA) => {
     console.log('UNA data: ', data)
     const { name, mission } = data
-
-    // try {
-    //   let tokenId
-    //   try {
-    //     const address =
-    //       store.juris === 'de'
-    //         ? '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b'
-    //         : '0x73Af00b92073D93b47e1077f796A3D6A12F63909'
-    //     tokenId = await getTokenId(address, 5)
-    //   } catch (e) {
-    //     console.log(e)
-    //   }
-
-    //   const entity = store.juris + store.entity
-    //   const obj = {
-    //     name: name,
-    //     ricardianId: tokenId,
-    //     mission: mission,
-    //   }
-    //   const res = await createAgreement(entity, obj)
-    //   console.log('res', res)
-    // } catch (e) {
-    //   console.log(e)
-    // }
 
     setStore({
       ...store,
