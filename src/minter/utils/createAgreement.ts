@@ -14,33 +14,33 @@ export async function createAgreement(
     case 'deLLC':
       agreement_params = {
         name: name,
-        ricardianId: tokenId,
+        ricardianId: `${chainId}:${tokenId}`,
       }
       break
     case 'wyLLC':
       agreement_params = {
-        name: name,
-        ricardianId: tokenId,
+        name: `Wrappr LLC - ${name} - Series ${tokenId}`,
+        ricardianId: `${chainId}:${tokenId}`,
       }
       break
     case 'deUNA':
       agreement_params = {
         name: name,
-        ricardianId: tokenId,
+        ricardianId: `${chainId}:${tokenId}`,
         mission: mission,
       }
       break
     case 'wyUNA':
       agreement_params = {
         name: name,
-        ricardianId: tokenId,
+        ricardianId: `${chainId}:${tokenId}`,
         mission: mission,
       }
       break
     case 'lexCharter':
       agreement_params = {
         name: name,
-        ricardianId: tokenId,
+        ricardianId: `${chainId}:${tokenId}`,
         mission: mission,
         jurisdiction: jurisdiction,
       }
@@ -48,7 +48,7 @@ export async function createAgreement(
     case 'orCharter':
       agreement_params = {
         name: name,
-        ricardianId: tokenId,
+        ricardianId: `${chainId}:${tokenId}`,
         mission: mission,
         jurisdiction: jurisdiction,
       }

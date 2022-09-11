@@ -2,36 +2,51 @@ import { convertIpfsHash } from '~/utils/convertIpfsHash'
 
 export default async function createURI(name: string, tokenId: number, entity: string, agreement: string) {
   let obj
+  let attributes
   switch (entity) {
     case 'deLLC':
-      obj = { ...deLLC, name: name, attributes: [...deLLC.attributes, { trait_type: 'Agreement', value: agreement }] }
+      attributes = deLLC.attributes
+      attributes[2].value = agreement
+      obj = { ...deLLC, name: name, attributes: [...attributes] }
       break
     case 'wyLLC':
+      attributes = wyLLC.attributes
+      attributes[2].value = agreement
       obj = {
         ...wyLLC,
         name: `Wrappr LLC - ${name} - Series ${tokenId}`,
-        attributes: [...wyLLC.attributes, { trait_type: 'Agreement', value: agreement }],
+        attributes: [...attributes],
       }
       break
     case 'deUNA':
-      obj = { ...deUNA, name: name, attributes: [...deUNA.attributes, { trait_type: 'Agreement', value: agreement }] }
+      attributes = deUNA.attributes
+      attributes[2].value = agreement
+      obj = { ...deUNA, name: name, attributes: [...attributes] }
       break
     case 'wyUNA':
-      obj = { ...wyUNA, name: name, attributes: [...wyUNA.attributes, { trait_type: 'Agreement', value: agreement }] }
+      attributes = wyUNA.attributes
+      attributes[2].value = agreement
+      obj = { ...wyUNA, name: name, attributes: [...attributes] }
       break
     case 'lexCharter':
+      attributes = lexCharter.attributes
+      attributes[1].value = agreement
       obj = {
         ...lexCharter,
         name: name,
-        attributes: [...lexCharter.attributes, { trait_type: 'Agreement', value: agreement }],
+        attributes: [...attributes],
       }
       break
+    // TODO //WIP
     case 'orCharter':
+      attributes = orCharter.attributes
+      attributes[2].value = agreement
       obj = {
         ...orCharter,
         name: name,
-        attributes: [...orCharter.attributes, { trait_type: 'Agreement', value: agreement }],
+        attributes: [...attributes],
       }
+      break
   }
 
   try {
@@ -110,11 +125,14 @@ const wyUNA = {
 
 // TODO
 const lexCharter = {
-  name: 'LexPunk',
+  name: 'LeXpunK DAO Charter',
+  description:
+    'Create a stateless entity with qualified code deference.\n\nReview the DAO Charter and Wrappr docs to understand your CHARTER NFT.',
+  external_url: 'https://www.wrappr.wtf/',
+  image: 'https://content.wrappr.wtf/ipfs/QmVPv3D1ZFPar6NEXoNTxyiknHG7pKfx21iyCb6siBcoqK',
   attributes: [
-    { trait_type: 'Jurisdiction', value: 'Wyoming' },
-    { trait_type: 'Entity', value: 'UNA' },
-    { trait_type: 'Agreement', value: 'https://wy.una.wrappr.documen.eth.link/' },
+    { trait_type: 'Entity', value: 'Charter' },
+    { trait_type: 'Agreement', value: 'https://lexpunk.charter.ricardian.eth.limo/' },
   ],
 }
 

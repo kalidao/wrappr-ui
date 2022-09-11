@@ -18,8 +18,6 @@ import getName from './utils/getName'
 import { getTokenId } from './getTokenId'
 import { createAgreement } from './utils/createAgreement'
 import createTokenURI from './utils/createTokenURI'
-
-import { sources } from './constants/sources'
 import { getAgreement } from './utils/getAgreement'
 
 type Props = {
