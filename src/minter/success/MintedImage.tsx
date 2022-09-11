@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useContractRead, useNetwork } from 'wagmi'
-import { WRAPPR, deployments } from '../constants'
+import { WRAPPR, deployments } from '~/constants'
 import { useQuery } from '@tanstack/react-query'
 import { ethers } from 'ethers'
 import { Skeleton } from '@chakra-ui/react'
@@ -33,8 +33,8 @@ export default function MintedImage({ entity, tokenId }: { entity: string; token
     <Skeleton isLoaded={!isLoadingURI && !isLoading}>
       <div className="flex items-center justify-center rounded-md">
         <Image
-          height="300px"
-          width="300px"
+          height="350px"
+          width="350px"
           src={data?.image}
           alt="Minted NFT image"
           className={'shadow-gray-900/40 shadow-sm rounded-lg overflow-hidden '}

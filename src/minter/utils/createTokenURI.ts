@@ -1,19 +1,51 @@
-import { convertIpfsHash } from '../utils/convertIpfsHash'
+import { convertIpfsHash } from '~/utils/convertIpfsHash'
 
-export default async function createURI(name: string, tokenId: number, entity: string) {
+export default async function createURI(name: string, tokenId: number, entity: string, agreement: string) {
   let obj
+  let attributes
   switch (entity) {
-    case 'delSeries':
-      obj = { ...delSeries, name: name }
+    case 'deLLC':
+      attributes = deLLC.attributes
+      attributes[2].value = agreement
+      obj = { ...deLLC, name: name, attributes: [...attributes] }
       break
-    case 'wyoSeries':
-      obj = { ...wyoSeries, name: `Wrappr LLC - ${name} - Series ${tokenId}` }
+    case 'wyLLC':
+      attributes = wyLLC.attributes
+      attributes[2].value = agreement
+      obj = {
+        ...wyLLC,
+        name: `Wrappr LLC - ${name} - Series ${tokenId}`,
+        attributes: [...attributes],
+      }
       break
-    case 'delUNA':
-      obj = { ...delUNA, name: name }
+    case 'deUNA':
+      attributes = deUNA.attributes
+      attributes[2].value = agreement
+      obj = { ...deUNA, name: name, attributes: [...attributes] }
       break
-    case 'wyoUNA':
-      obj = { ...wyoUNA, name: name }
+    case 'wyUNA':
+      attributes = wyUNA.attributes
+      attributes[2].value = agreement
+      obj = { ...wyUNA, name: name, attributes: [...attributes] }
+      break
+    case 'lexCharter':
+      attributes = lexCharter.attributes
+      attributes[1].value = agreement
+      obj = {
+        ...lexCharter,
+        name: name,
+        attributes: [...attributes],
+      }
+      break
+    // TODO //WIP
+    case 'orCharter':
+      attributes = orCharter.attributes
+      attributes[2].value = agreement
+      obj = {
+        ...orCharter,
+        name: name,
+        attributes: [...attributes],
+      }
       break
   }
 
@@ -39,7 +71,7 @@ export default async function createURI(name: string, tokenId: number, entity: s
   }
 }
 
-const delSeries = {
+const deLLC = {
   name: '{name}  Wrappr LLC (Delaware)', // user
   description: 'Secure your wallet or DAO as an LLC (Series) and make agreements',
   external_url: 'https://www.wrappr.wtf/',
@@ -53,7 +85,7 @@ const delSeries = {
   ],
 }
 
-const wyoSeries = {
+const wyLLC = {
   name: 'Wrappr LLC (Wyoming)',
   description: 'Secure your wallet or DAO as an LLC (Series) and make agreements',
   external_url: 'https://www.wrappr.wtf/',
@@ -67,7 +99,7 @@ const wyoSeries = {
   ],
 }
 
-const delUNA = {
+const deUNA = {
   name: 'Wrappr UNA (Delaware)',
   description: 'Secure your DAO as UNA non-profit and qualify for tax benefits',
   external_url: 'https://www.wrappr.wtf/',
@@ -79,11 +111,33 @@ const delUNA = {
   ],
 }
 
-const wyoUNA = {
+const wyUNA = {
   name: 'Wrappr UNA (Wyoming)',
   description: 'Secure your DAO as UNA non-profit and qualify for tax benefits',
   external_url: 'https://www.wrappr.wtf/',
   image: 'https://gateway.pinata.cloud/ipfs/QmNndADsqj7s4NC2tRraGxhSffCbdN1eHpPdusBQE4c84k',
+  attributes: [
+    { trait_type: 'Jurisdiction', value: 'Wyoming' },
+    { trait_type: 'Entity', value: 'UNA' },
+    { trait_type: 'Agreement', value: 'https://wy.una.wrappr.documen.eth.link/' },
+  ],
+}
+
+// TODO
+const lexCharter = {
+  name: 'LeXpunK DAO Charter',
+  description:
+    'Create a stateless entity with qualified code deference.\n\nReview the DAO Charter and Wrappr docs to understand your CHARTER NFT.',
+  external_url: 'https://www.wrappr.wtf/',
+  image: 'https://content.wrappr.wtf/ipfs/QmVPv3D1ZFPar6NEXoNTxyiknHG7pKfx21iyCb6siBcoqK',
+  attributes: [
+    { trait_type: 'Entity', value: 'Charter' },
+    { trait_type: 'Agreement', value: 'https://lexpunk.charter.ricardian.eth.limo/' },
+  ],
+}
+
+const orCharter = {
+  name: 'Orange',
   attributes: [
     { trait_type: 'Jurisdiction', value: 'Wyoming' },
     { trait_type: 'Entity', value: 'UNA' },
