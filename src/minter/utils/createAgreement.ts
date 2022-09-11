@@ -70,8 +70,8 @@ export async function createAgreement(
     const blob = await res.blob()
     console.log('res fetched', res)
     if (res.ok) {
-      const formData = new FormData();
-      formData.append('file', blob, 'agreement.pdf');
+      const formData = new FormData()
+      formData.append('file', blob, 'agreement.pdf')
       const upload = await uploadFile(formData)
       if (upload) {
         return upload
