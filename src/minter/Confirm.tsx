@@ -192,7 +192,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
               isRound
             />
           </div>
-          <PDFViewer src={sources[store.juris + store.entity]} />
+          <PDFViewer src={`/legal/${store.juris + store.entity}.pdf`} />
           <Checkbox colorScheme="brand" onChange={() => setChecked(!checked)}>
             I have read and accept the terms of this agreement.
           </Checkbox>
