@@ -1,27 +1,18 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
 import Layout from '../../../../src/layout'
-import {
-  Link as ChakraLink,
-  Flex,
-  Button,
-  Spinner,
-  Text,
-  VStack,
-  StackDivider,
-  Heading,
-  Skeleton,
-} from '@chakra-ui/react'
+import { Link as ChakraLink, Flex, VStack, StackDivider, Skeleton } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
-import { MintWrappr, Trait, TraitType } from '../../../../src/wrap'
+import { Trait, TraitType } from '~/wrap'
 import { useAccount, useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
-import { WRAPPR } from '../../../../src/constants'
-import { FaPenNib } from 'react-icons/fa'
+import { WRAPPR } from '~/constants'
+import MintWrapprNFT from '~/wrap/MintWrapprNFT'
+import { ethers } from 'ethers'
 
-const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Wrappr: NextPage = ({ wrappr, collections }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
+  const { chainId, wrappr: contractAddress } = router.query
   const { isConnected, address } = useAccount()
   const wrapprContract = {
     addressOrName: router.query.wrappr as string,
@@ -38,8 +29,8 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
     fetchWrapprData(wrappr?.['baseURI']),
   )
-  console.log('baseURI', wrappr?.['baseURI'], reads)
 
+  // TODO: Add mint fee
   return (
     <Layout heading="Wrappr" content="Wrap now" back={true}>
       <Flex
@@ -69,7 +60,11 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
               </Button>
             </Link>
           )} */}
-          {/* <MintWrappr chainId={4} wrappr={wrappr['id']} /> */}
+          <MintWrapprNFT
+            chainId={Number(chainId)}
+            wrappr={contractAddress ? (contractAddress as unknown as string) : ethers.constants.AddressZero}
+            tokenId={collections.length + 1}
+          />
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
           <Skeleton isLoaded={!isReading}>
@@ -122,6 +117,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           mintFee
           admin
         }
+
+        collections(where: {
+          wrappr: "${wrappr.toLowerCase()}"
+        }) {
+          id
+          wrappr {
+            id
+            name
+          }
+          collectionId
+          owner
+        }
       }`,
     }),
   })
@@ -129,7 +136,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const data = await res.json()
 
   return {
-    props: { wrappr: data['data']['wrapprs'][0] },
+    props: { wrappr: data['data']['wrapprs'][0], collections: data['data']['collections'] },
   }
 }
 
