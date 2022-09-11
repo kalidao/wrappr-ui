@@ -8,7 +8,6 @@ import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useState } from 'react'
 
-
 type LLC = {
   name: string
 }
@@ -35,8 +34,8 @@ export default function LLC({ store, setStore, setView }: Props) {
   } = useForm<LLC>({
     resolver: zodResolver(schema),
   })
-  const [message, setMessage] = useState('');
-  
+  const [message, setMessage] = useState('')
+
   const onSubmit = async (data: LLC) => {
     console.log('LLC data: ', data)
     const { name } = data
