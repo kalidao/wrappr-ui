@@ -8,7 +8,9 @@ export type StoreT = {
   entity: string
   juris: string
   name: string
+  jurisdiction: string
+  mission: string
   tokenId: number
-  data: any
   uri: string
+  txHash: string
 }

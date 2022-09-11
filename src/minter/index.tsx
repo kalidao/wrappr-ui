@@ -4,7 +4,7 @@ import Tilt from 'react-parallax-tilt'
 import Choice from './choice'
 import Form from './form'
 import Confirm from './Confirm'
-import Success from './Success'
+import Success from './success/Success'
 
 import { StoreT } from './types'
 
@@ -14,9 +14,11 @@ export default function Skeleton() {
     entity: '',
     juris: '',
     name: '',
+    mission: '',
+    jurisdiction: '',
     tokenId: 0,
-    data: '',
     uri: '',
+    txHash: '',
   })
 
   const views = [
