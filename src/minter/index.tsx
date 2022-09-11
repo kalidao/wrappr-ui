@@ -22,8 +22,8 @@ export default function Skeleton() {
   const views = [
     <Choice key={'choice'} setScreen={setView} setChoice={setStore} choice={store} />,
     <Form key={'form'} store={store} setStore={setStore} setView={setView} />,
-    <Confirm key={'confirm'} />,
-    <Success key={'success'} />,
+    <Confirm key={'confirm'} store={store} setStore={setStore} setView={setView} />,
+    <Success key={'success'} store={store} />,
   ]
 
   return (

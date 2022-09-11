@@ -38,7 +38,17 @@ export default function Charter({ store, setStore, setView }: Props) {
     resolver: zodResolver(schema),
   })
 
-  const onSubmit = (data: Charter) => {}
+  const onSubmit = (data: Charter) => {
+    console.log('Charter data: ', data)
+    const { name, jurisdiction, mission } = data
+
+    setStore({
+      ...store,
+      name: name,
+    })
+
+    setView(2)
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">

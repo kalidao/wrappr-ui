@@ -13,8 +13,6 @@ type LLC = {
 
 const schema = z.object({
   name: z.string().min(1, { message: 'A name is required' }),
-  mission: z.string().min(1, { message: 'A mission is required' }),
-  jurisdiction: z.string().min(1, { message: 'A jurisdiction is required' }),
 })
 
 type Props = {
@@ -36,7 +34,17 @@ export default function LLC({ store, setStore, setView }: Props) {
     resolver: zodResolver(schema),
   })
 
-  const onSubmit = (data: LLC) => {}
+  const onSubmit = (data: LLC) => {
+    console.log('LLC data: ', data)
+    const { name } = data
+
+    setStore({
+      ...store,
+      name: name,
+    })
+
+    setView(2)
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-1">
@@ -55,6 +63,7 @@ export default function LLC({ store, setStore, setView }: Props) {
         >
           Name
         </label>
+        {errors.name && <span>{errors.name.message}</span>}
       </div>
       {!isConnected && openConnectModal ? (
         <Button
