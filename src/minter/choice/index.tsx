@@ -29,9 +29,8 @@ export default function Choice({ setScreen, setChoice, choice }: Props) {
   ]
 
   return (
-    <div className="flex-col gap-4">
-      <div className="flex justify-between items-center">
-        <h1 className="text-xl font-semibold">Mint Entity</h1>
+    <div className="flex-col space-y-4">
+      <div className="flex justify-end items-center">
         {view === 1 && (
           <IconButton
             variant="ghost"

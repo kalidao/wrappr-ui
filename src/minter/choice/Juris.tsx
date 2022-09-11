@@ -15,10 +15,30 @@ export default function Juris({ choice, setChoice, setScreen }: Props) {
 
   console.log('choice', choice)
   return (
-    <div className="grid gap-1 grid-cols-1">
+    <div className="grid gap-1 grid-cols-2">
       {choice.entity.toLowerCase() !== 'charter'
-        ? entity.map(({ text, set }) => <Card key={text} name={text} onClick={() => setJuris(set)} />)
-        : charter.map(({ text, set }) => <Card key={text} name={text} onClick={() => setJuris(set)} />)}
+        ? entity.map(({ text, icon, learn, description, set }) => (
+            <Card
+              key={text}
+              name={text}
+              description={description}
+              cta="Use"
+              icon={icon}
+              learn={learn}
+              onClick={() => setJuris(set)}
+            />
+          ))
+        : charter.map(({ text, icon, learn, description, set }) => (
+            <Card
+              key={text}
+              name={text}
+              description={description}
+              cta="Use"
+              icon={icon}
+              learn={learn}
+              onClick={() => setJuris(set)}
+            />
+          ))}
     </div>
   )
 }
@@ -26,18 +46,34 @@ export default function Juris({ choice, setChoice, setScreen }: Props) {
 const entity = [
   {
     text: 'Delaware',
+    description: 'Preferred state for doing business',
     set: 'de',
+    type: 'Jurisdiction',
+    icon: <span className="text-4xl">🏢</span>,
+    learn: 'https://www.wrappr.wtf/get-started/where/#%F0%9F%8F%A2-delaware',
   },
   {
     text: 'Wyoming',
+    description: 'Crypto-friendly jurisdiction',
     set: 'wy',
+    icon: <span className="text-4xl">🌇</span>,
+    learn: 'https://www.wrappr.wtf/get-started/where/#%F0%9F%A6%AC-wyoming',
   },
 ]
 
 const charter = [
   {
     text: 'LexPunk',
+    icon: <span className="text-4xl">🦍</span>,
+    description: 'Open source jurisdiction',
     set: 'lex',
+    learn: 'https://www.wrappr.wtf/how-to/charter/#%F0%9F%A6%8D-lexpunk-dao-charter',
   },
-  { text: 'Orange', set: 'or' },
+  {
+    text: 'Orange',
+    icon: <span className="text-4xl">🍊</span>,
+    description: 'Managed',
+    set: 'or',
+    learn: 'https://www.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
+  },
 ]
