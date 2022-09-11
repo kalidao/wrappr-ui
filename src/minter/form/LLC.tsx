@@ -6,6 +6,7 @@ import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import isNameAvailable from '../utils/isNameAvailable'
 
 type LLC = {
   name: string
@@ -34,9 +35,18 @@ export default function LLC({ store, setStore, setView }: Props) {
     resolver: zodResolver(schema),
   })
 
-  const onSubmit = (data: LLC) => {
+  const onSubmit = async (data: LLC) => {
     console.log('LLC data: ', data)
     const { name } = data
+
+    if (store.juris === 'de') {
+      const available = await isNameAvailable(name)
+      console.log('available', available)
+      if (!available) {
+        alert('This name is already taken')
+        return
+      }
+    }
 
     setStore({
       ...store,
