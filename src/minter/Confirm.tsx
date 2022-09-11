@@ -5,13 +5,22 @@ import { useAccount, useNetwork, useContractWrite } from 'wagmi'
 import { StoreT } from './types'
 import { ethers } from 'ethers'
 import { deployments, WRAPPR } from '../constants'
-import { MdOutlineArrowBack, MdConstruction, MdError, MdSend, MdSearch, MdAccessTimeFilled } from 'react-icons/md'
+import {
+  MdOutlineArrowBack,
+  MdConstruction,
+  MdError,
+  MdSend,
+  MdSearch,
+  MdAccessTimeFilled,
+  MdCheckCircle,
+} from 'react-icons/md'
 import getName from './utils/getName'
 import { getTokenId } from './getTokenId'
 import { createAgreement } from './utils/createAgreement'
 import createTokenURI from './utils/createTokenURI'
 
 import { sources } from './constants/sources'
+import { getAgreement } from './utils/getAgreement'
 
 type Props = {
   store: StoreT
@@ -66,8 +75,8 @@ export default function Confirm({ store, setStore, setView }: Props) {
         setLoading(false)
       }
 
-      let tokenURI = ''
       // creating agreement
+      let agreement = getAgreement(store.juris + store.entity)
       try {
         setMessage({
           text: 'Creating agreement...',
@@ -82,6 +91,13 @@ export default function Confirm({ store, setStore, setView }: Props) {
           chain.id.toString(),
         )
         console.log('res', res)
+        if (typeof res === 'string') {
+          agreement = res
+          setMessage({
+            text: 'Agreement created',
+            icon: <MdCheckCircle />,
+          })
+        }
       } catch (e) {
         console.error(e)
         setMessage({
@@ -92,12 +108,13 @@ export default function Confirm({ store, setStore, setView }: Props) {
       }
 
       // building token URI
+      let tokenURI = ''
       try {
         setMessage({
           text: 'Building token metadata...',
           icon: <MdConstruction />,
         })
-        const res = await createTokenURI(store.name, tokenId, store.juris + store.entity)
+        const res = await createTokenURI(store.name, tokenId, store.juris + store.entity, agreement)
         if (res) {
           tokenURI = res
         }
@@ -123,7 +140,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
         //   string calldata tokenURI,
         //   address owner
         const res = await writeAsync({
-          recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, '', address],
+          recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
         })
         setMessage({
           text: 'Awaiting confirmation...',

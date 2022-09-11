@@ -1,4 +1,4 @@
-import { uploadBlob } from '~/utils'
+import { uploadBlob, uploadFile } from '~/utils'
 import { convertIpfsHash } from '~/utils/convertIpfsHash'
 
 export async function createAgreement(
@@ -68,12 +68,13 @@ export async function createAgreement(
       body: JSON.stringify(obj),
     })
     const blob = await res.blob()
-
+    console.log('res fetched', res)
     if (res.ok) {
-      const url = window.URL.createObjectURL(blob)
-      const hash = await uploadBlob(blob)
-      if (hash) {
-        return convertIpfsHash(hash)
+      const formData = new FormData();
+      formData.append('file', blob, 'agreement.pdf');
+      const upload = await uploadFile(formData)
+      if (upload) {
+        return upload
       }
     } else {
       return Error(`${res.status.toString()} ${res.statusText}`)

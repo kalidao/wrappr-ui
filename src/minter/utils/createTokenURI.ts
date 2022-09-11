@@ -1,25 +1,37 @@
 import { convertIpfsHash } from '~/utils/convertIpfsHash'
 
-export default async function createURI(name: string, tokenId: number, entity: string) {
+export default async function createURI(name: string, tokenId: number, entity: string, agreement: string) {
   let obj
   switch (entity) {
     case 'deLLC':
-      obj = { ...deLLC, name: name }
+      obj = { ...deLLC, name: name, attributes: [...deLLC.attributes, { trait_type: 'Agreement', value: agreement }] }
       break
     case 'wyLLC':
-      obj = { ...wyLLC, name: `Wrappr LLC - ${name} - Series ${tokenId}` }
+      obj = {
+        ...wyLLC,
+        name: `Wrappr LLC - ${name} - Series ${tokenId}`,
+        attributes: [...wyLLC.attributes, { trait_type: 'Agreement', value: agreement }],
+      }
       break
     case 'deUNA':
-      obj = { ...deUNA, name: name }
+      obj = { ...deUNA, name: name, attributes: [...deUNA.attributes, { trait_type: 'Agreement', value: agreement }] }
       break
     case 'wyUNA':
-      obj = { ...wyUNA, name: name }
+      obj = { ...wyUNA, name: name, attributes: [...wyUNA.attributes, { trait_type: 'Agreement', value: agreement }] }
       break
     case 'lexCharter':
-      obj = { ...lexCharter, name: name }
+      obj = {
+        ...lexCharter,
+        name: name,
+        attributes: [...lexCharter.attributes, { trait_type: 'Agreement', value: agreement }],
+      }
       break
     case 'orCharter':
-      obj = { ...orCharter, name: name }
+      obj = {
+        ...orCharter,
+        name: name,
+        attributes: [...orCharter.attributes, { trait_type: 'Agreement', value: agreement }],
+      }
   }
 
   try {
@@ -99,8 +111,18 @@ const wyUNA = {
 // TODO
 const lexCharter = {
   name: 'LexPunk',
+  attributes: [
+    { trait_type: 'Jurisdiction', value: 'Wyoming' },
+    { trait_type: 'Entity', value: 'UNA' },
+    { trait_type: 'Agreement', value: 'https://wy.una.wrappr.documen.eth.link/' },
+  ],
 }
 
 const orCharter = {
   name: 'Orange',
+  attributes: [
+    { trait_type: 'Jurisdiction', value: 'Wyoming' },
+    { trait_type: 'Entity', value: 'UNA' },
+    { trait_type: 'Agreement', value: 'https://wy.una.wrappr.documen.eth.link/' },
+  ],
 }
