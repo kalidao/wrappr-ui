@@ -9,10 +9,12 @@ export default function MintWrapprNFT({
   chainId,
   tokenId,
   wrappr,
+  mintFee,
 }: {
   chainId: number
   tokenId: number
   wrappr: string
+  mintFee: any
 }) {
   const toast = useToast()
   const { address, isConnected } = useAccount()
@@ -23,6 +25,9 @@ export default function MintWrapprNFT({
     functionName: 'mint',
     chainId: chainId,
     args: [account, tokenId, 1, ethers.constants.HashZero, '', account],
+    overrides: {
+      value: mintFee,
+    },
   })
   const { write } = useContractWrite({
     ...config,
@@ -46,7 +51,7 @@ export default function MintWrapprNFT({
     },
   })
 
-  console.log('error', error)
+  console.log('mintFee', mintFee)
 
   return (
     <Flex direction="column" gap={1}>

@@ -64,6 +64,7 @@ const Wrappr: NextPage = ({ wrappr, collections }: InferGetServerSidePropsType<t
             chainId={Number(chainId)}
             wrappr={contractAddress ? (contractAddress as unknown as string) : ethers.constants.AddressZero}
             tokenId={collections.length + 1}
+            mintFee={wrappr['mintFee']}
           />
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
