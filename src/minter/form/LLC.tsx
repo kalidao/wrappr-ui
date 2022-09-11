@@ -6,7 +6,8 @@ import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
-import isNameAvailable from '../utils/isNameAvailable'
+import { useState } from 'react'
+
 
 type LLC = {
   name: string
@@ -34,16 +35,21 @@ export default function LLC({ store, setStore, setView }: Props) {
   } = useForm<LLC>({
     resolver: zodResolver(schema),
   })
-
+  const [message, setMessage] = useState('');
+  
   const onSubmit = async (data: LLC) => {
     console.log('LLC data: ', data)
     const { name } = data
 
     if (store.juris === 'de') {
-      const available = await isNameAvailable(name)
-      console.log('available', available)
-      if (!available) {
-        alert('This name is already taken')
+      const res = await fetch('api/isNameAvailable', {
+        method: 'POST',
+        body: name,
+      }).then((res) => res.json())
+
+      console.log('available', res)
+      if (!res.isAvailable === false) {
+        setMessage('Name is not available. Please choose another one.')
         return
       }
     }
@@ -75,6 +81,7 @@ export default function LLC({ store, setStore, setView }: Props) {
         </label>
         {errors.name && <span>{errors.name.message}</span>}
       </div>
+      {message}
       {!isConnected && openConnectModal ? (
         <Button
           onClick={openConnectModal}
