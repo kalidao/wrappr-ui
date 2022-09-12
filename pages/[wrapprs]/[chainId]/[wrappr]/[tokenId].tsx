@@ -1,13 +1,23 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import Link from 'next/link'
 import Image from 'next/image'
 import Layout from '../../../../src/layout'
-import { Flex, Button, Link, Spinner, Text, VStack, StackDivider, Heading, Skeleton } from '@chakra-ui/react'
+import {
+  Flex,
+  Button,
+  Link as ChakraLink,
+  Spinner,
+  Text,
+  VStack,
+  StackDivider,
+  Heading,
+  Skeleton,
+} from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 import { MintWrappr, Trait, TraitType } from '../../../../src/wrap'
 import { useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
 import { WRAPPR } from '../../../../src/constants'
-import { ethers } from 'ethers'
 
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
@@ -57,6 +67,9 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
             )}
           </Skeleton>
           <MintWrappr chainId={4} wrappr={wrappr['id']} tokenId={tokenId as unknown as number} />
+          <Link href="/clinic" passHref>
+            <ChakraLink>Need help with your entity?</ChakraLink>
+          </Link>
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
           <h1 className="text-gray-100 font-semibold text-xl">
