@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Tilt from 'react-parallax-tilt'
-
+import { Box } from '@chakra-ui/react'
 import Choice from './choice'
 import Form from './form'
 import Confirm from './Confirm'
@@ -39,9 +39,7 @@ export default function Skeleton() {
       glareMaxOpacity={0.01}
       glarePosition={'all'}
     >
-      <div className="p-4 w-full bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 md:p-8 dark:bg-zinc-900 dark:border-zinc-800">
-        {views[view]}
-      </div>
+      <Box>{views[view]}</Box>
     </Tilt>
   )
 }

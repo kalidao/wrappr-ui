@@ -1,17 +1,29 @@
 import Image from 'next/image'
-
+import { Text, Box, useColorModeValue } from '@chakra-ui/react'
 type Props = { title: string; description: string; to: string }
 
 export default function Banner({ title, description, to }: Props) {
+  const colorA = useColorModeValue('brand.100', 'brand.900')
+  const colorB = useColorModeValue('brand.200', 'brand.800')
   return (
     <div className="bg-gradient-to-r from-brand-600 via-brand-700 to-brand-800 p-1 rounded-lg">
       <a href={to} target="_blank" rel="nooppenner">
-        <div className="flex justify-evenly items-center bg-gradient-to-r from-zinc-900 to-black rounded-lg p-1 hover:from-black hover:to-zinc-900">
+        <Box
+          bgGradient="linear(to-r, colorA, colorB)"
+          display="flex"
+          justifyContent={'space-evenly'}
+          alignItems="center"
+          _hover={{
+            bgGradient: 'linear(to-r, colorB, colorA)',
+          }}
+        >
           <div className="flex-col">
-            <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-brand-400 to-brand-700">
+            <Text as="h2" fontSize="4xl" fontWeight="extrabold">
               {title}
-            </h2>
-            <p className="text-md font-md text-neutral-300">{description}</p>
+            </Text>
+            <Text as="p" fontSize="md" colorScheme="gray">
+              {description}
+            </Text>
           </div>
           <div>
             <Image
@@ -22,7 +34,7 @@ export default function Banner({ title, description, to }: Props) {
               className="hover:animate-spin"
             />
           </div>
-        </div>
+        </Box>
       </a>
     </div>
   )

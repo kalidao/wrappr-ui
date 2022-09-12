@@ -1,4 +1,4 @@
-import { Box, Button } from '@chakra-ui/react'
+import { VStack, Button, HStack, Text, useColorModeValue } from '@chakra-ui/react'
 
 type CardProps = {
   name: string
@@ -10,24 +10,41 @@ type CardProps = {
 }
 
 const Card = ({ name, icon, description, learn, cta, onClick }: CardProps) => {
+  const bgColor = useColorModeValue('gray.100', 'gray.700')
   return (
-    <Box className="p-3 w-full flex-col space-y-2 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:border-zinc-700 dark:hover:border-zinc-600 ">
-      <div className="flex align-center justify-start space-x-2">
-        {icon && <span className="[&>*]:w-10 [&>*]:h-10 [&>*]:text-gray-500 [&>*]:dark:text-gray-400">{icon}</span>}
-        <h5 className="text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white">{name}</h5>
-      </div>
-      <p className="font-normal text-gray-500 dark:text-zinc-200">{description}</p>
-      <div className="flex align-center justify-start space-x-2 h-min">
+    <VStack
+      p={3}
+      w={'full'}
+      display="flex"
+      flexDir={'column'}
+      gap={'2'}
+      border="gray.800"
+      borderWidth="1px"
+      borderRadius="lg"
+      _hover={{
+        background: bgColor,
+      }}
+    >
+      <HStack>
+        {icon && <span className="[&>*]:w-7 [&>*]:h-7 [&>*]:text-gray-500 [&>*]:dark:text-gray-400">{icon}</span>}
+        <Text as="h2" fontSize="2xl" fontWeight="semibold" colorScheme="gray" mr={3}>
+          {name}
+        </Text>
+      </HStack>
+      <Text as={'p'} fontSize="md" colorScheme="gray" mt={2}>
+        {description}
+      </Text>
+      <HStack>
         {learn && (
-          <Button as="a" href={learn} rel="no-oppener" target="_blank" variant="ghost">
+          <Button as="a" href={learn} rel="no-oppener" target="_blank" variant="ghost" borderRadius="2xl">
             Learn More
           </Button>
         )}
-        <Button onClick={onClick} colorScheme="brand" variant="outline">
+        <Button onClick={onClick} colorScheme="brand" variant="outline" borderRadius="2xl">
           {cta}
         </Button>
-      </div>
-    </Box>
+      </HStack>
+    </VStack>
   )
 }
 
