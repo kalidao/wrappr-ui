@@ -15,7 +15,7 @@ const Wrappr: NextPage = ({ wrappr, collections }: InferGetServerSidePropsType<t
   const { chainId, wrappr: contractAddress } = router.query
   const { isConnected, address } = useAccount()
   const wrapprContract = {
-    addressOrName: router.query.wrappr as string,
+    addressOrName: contractAddress as string,
     contractInterface: WRAPPR,
   }
   const { data: reads, isLoading: isReading } = useContractReads({
@@ -62,7 +62,7 @@ const Wrappr: NextPage = ({ wrappr, collections }: InferGetServerSidePropsType<t
           )} */}
           <MintWrapprNFT
             chainId={Number(chainId)}
-            wrappr={contractAddress ? (contractAddress as unknown as string) : ethers.constants.AddressZero}
+            wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
             tokenId={collections.length + 1}
             mintFee={wrappr['mintFee']}
           />
