@@ -7,6 +7,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { MdExplore, MdCreate } from 'react-icons/md'
 import { FaScroll } from 'react-icons/fa'
 import Link from 'next/link'
+import ToggleMode from './ToggleMode'
 
 export default function Header() {
   const router = useRouter()
@@ -47,6 +48,7 @@ export default function Header() {
             <p className="hidden md:block text-size">docs</p>
           </div>
         </Link>
+        <ToggleMode />
         <ConnectButton label="Login" />
       </nav>
     </Flex>
