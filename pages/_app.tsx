@@ -1,7 +1,13 @@
 import { useState } from 'react'
 import type { AppProps } from 'next/app'
 import '@rainbow-me/rainbowkit/styles.css'
-import { getDefaultWallets, RainbowKitProvider, lightTheme, cssStringFromTheme, darkTheme } from '@rainbow-me/rainbowkit'
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+  lightTheme,
+  cssStringFromTheme,
+  darkTheme,
+} from '@rainbow-me/rainbowkit'
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
