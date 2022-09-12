@@ -39,6 +39,9 @@ export default function Minted({ store }: MintedProps) {
             </Button>
           </Link>
         </HStack>
+        <Link href={`/clinic`} passHref>
+          <ChakraLink>Need help with your new entity?</ChakraLink>
+        </Link>
       </VStack>
       <Confetti />
     </>
