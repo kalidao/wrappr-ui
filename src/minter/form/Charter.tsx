@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Button } from '@chakra-ui/react'
+import { Button, Input, Textarea } from '@chakra-ui/react'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
@@ -53,13 +53,15 @@ export default function Charter({ store, setStore, setView }: Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
       <div className="relative z-0 mb-6 w-full group">
-        <input
+        <Input
           type="text"
           {...register('name')}
           id="name"
-          className="block py-2.5 px-0 w-full text-sm text-zinc-900 bg-transparent border-0 border-b-2 border-zinc-300 appearance-none dark:text-white dark:border-zinc-600 dark:focus:border-zinc-500 focus:outline-none focus:ring-0 focus:border-zinc-600 peer"
           placeholder=" "
           required
+          className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none peer"
+          variant="flushed"
+          colorScheme="brand"
         />
         <label
           htmlFor="name"
@@ -69,13 +71,15 @@ export default function Charter({ store, setStore, setView }: Props) {
         </label>
       </div>
       <div className="relative z-0 mb-6 w-full group">
-        <input
+        <Input
           type="text"
           {...register('jurisdiction')}
           id="jurisdiction"
-          className="block py-2.5 px-0 w-full text-sm text-zinc-900 bg-transparent border-0 border-b-2 border-zinc-300 appearance-none dark:text-white dark:border-zinc-600 dark:focus:border-zinc-500 focus:outline-none focus:ring-0 focus:border-zinc-600 peer"
           placeholder=" "
           required
+          className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none peer"
+          variant="flushed"
+          colorScheme="brand"
         />
         <label
           htmlFor="jurisdiction"
@@ -88,13 +92,14 @@ export default function Charter({ store, setStore, setView }: Props) {
         <label htmlFor="mission" className="block mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-400">
           Your mission
         </label>
-        <textarea
+        <Textarea
           id="mission"
           {...register('mission')}
           rows={4}
-          className="block p-2.5 w-full text-sm text-zinc-900 bg-zinc-50 rounded-lg border border-brand-300 focus:ring-brand-500 focus:border-brand-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-brand-500 dark:focus:border-brand-500"
+          colorScheme="brand"
+          variant="unstyled"
           placeholder="Which shall primarily be..."
-        ></textarea>
+        />
       </div>
       {!isConnected && openConnectModal ? (
         <Button

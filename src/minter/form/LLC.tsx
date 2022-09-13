@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Button } from '@chakra-ui/react'
+import { Button, Input } from '@chakra-ui/react'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
@@ -64,13 +64,15 @@ export default function LLC({ store, setStore, setView }: Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-1">
       <div className="relative z-0 mb-6 w-full group">
-        <input
+        <Input
           type="text"
           {...register('name')}
           id="name"
-          className="block py-2.5 px-0 w-full text-sm text-zinc-900 bg-transparent border-0 border-b-2 border-zinc-300 appearance-none dark:text-white dark:border-zinc-600 dark:focus:border-zinc-500 focus:outline-none focus:ring-0 focus:border-zinc-600 peer"
           placeholder=" "
           required
+          className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none peer"
+          variant="flushed"
+          colorScheme="brand"
         />
         <label
           htmlFor="name"
