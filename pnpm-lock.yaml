@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@chakra-ui/react': ^2.2.4
+  '@chakra-ui/react': ^2.2.8
   '@emotion/react': ^11.9.3
   '@emotion/styled': ^11.9.3
   '@fontsource/alegreya-sans': ^4.5.9
@@ -28,6 +28,7 @@ specifiers:
   graphql: ^16.6.0
   graphql-request: ^4.3.0
   husky: ^8.0.0
+  lodash.merge: ^4.6.2
   next: 12.2.3
   node-fetch: ^3.2.10
   postcss: ^8.4.16
@@ -63,6 +64,7 @@ dependencies:
   framer-motion: 6.5.1_biqbaboplfbrettd7655fr4n2y
   graphql: 16.6.0
   graphql-request: 4.3.0_graphql@16.6.0
+  lodash.merge: 4.6.2
   next: 12.2.3_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -4830,7 +4832,6 @@ packages:
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
-    dev: true
 
   /lodash.mergewith/4.6.2:
     resolution: {integrity: sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==}
