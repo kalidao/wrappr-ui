@@ -23,9 +23,9 @@ export default function Header() {
         <Image src={'/logo.png'} height={60} width={80} alt={`Wrappr logo`} />
       </motion.div>
       <nav className="flex gap-3">
-        <Item src="/explore" icon={<MdExplore />} />
-        <Item src="/create" icon={<MdCreate />} />
-        <Item src="https://www.wrappr.wtf/get-started/what/" icon={<FaScroll />} />
+        <Item label="make" src="/create" icon={<MdCreate />} />
+        <Item label="find" src="/explore" icon={<MdExplore />} />
+        <Item label="docs" src="https://www.wrappr.wtf/get-started/what/" icon={<FaScroll />} />
         <ToggleMode />
         <ConnectButton label="login" />
       </nav>
@@ -34,11 +34,12 @@ export default function Header() {
 }
 
 type ItemProps = {
+  label: string
   src: string
   icon: React.ReactNode
 }
 
-const Item = ({ src, icon }: ItemProps) => {
+const Item = ({ src, icon, label }: ItemProps) => {
   const bg = useColorModeValue('brand.50', 'brand.900')
   return (
     <Link href={src} target="_blank" passHref>
@@ -49,7 +50,7 @@ const Item = ({ src, icon }: ItemProps) => {
         }}
       >
         {icon}
-        <p className="hidden md:block text-size">docs</p>
+        <p className="hidden md:block text-size">{label}</p>
       </Box>
     </Link>
   )
