@@ -27,7 +27,10 @@ export default function Minted({ store }: MintedProps) {
             href={`${chain?.blockExplorers?.default?.url}/tx/${store.txHash}`}
             isExternal
           >
-            View on Explorer
+            Explorer
+          </Button>
+          <Button as={ChakraLink} leftIcon={<FaScroll />} href={`${store.agreement}`} isExternal>
+            Agreement
           </Button>
           <Link
             href={`/wrapprs/${chain?.id}/${deployments[chain ? chain.id : 1][store.juris + store.entity]}/${
@@ -36,13 +39,10 @@ export default function Minted({ store }: MintedProps) {
             passHref
           >
             <Button as={ChakraLink} leftIcon={<TbCandy />} colorScheme={'brand'}>
-              View in Gallery
+              Gallery
             </Button>
           </Link>
         </HStack>
-        <Button as={ChakraLink} leftIcon={<FaScroll />} href={`${store.agreement}`} isExternal>
-          View Generated Agreement
-        </Button>
         <Link href={`/clinic`} passHref>
           <ChakraLink>Need help with your new entity?</ChakraLink>
         </Link>
