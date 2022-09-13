@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient())
   const accentColor = useColorModeValue('gray.50', '#013232')
   const accentColorForeground = useColorModeValue('gray.900', 'gray.50')
-  const shadow = useColorModeValue('0, 0, 0', '255, 255, 255')
+  const connectText = useColorModeValue('gray.600', 'gray.300')
 
   const wrapprTheme = merge(darkTheme(), {
     blurs: {
@@ -42,17 +42,16 @@ function MyApp({ Component, pageProps }: AppProps) {
       accentColor: accentColor,
       accentColorForeground: accentColorForeground,
       connectButtonBackground: accentColor,
-      connectButtonText: accentColorForeground,
-      modalBackground: 'transparent',
-      modalText: '#fff',
-      modalBorder: '#fff',
+      connectButtonText: connectText,
+      connectButtonInnerBackground: 'none',
+      modalBackground: 'none',
+      selectedOptionBorder: '',
     },
     fonts: {
       body: `"Alegreya Sans", sans-serif`,
     },
     shadows: {
-      connectButton: '',
-      profileDetailsAction: '',
+      connectButton: '1px 2px 6px rgba(1,50,50, 0.2)',
     },
   } as Theme)
 
