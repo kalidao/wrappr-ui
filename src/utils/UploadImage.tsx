@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Image from 'next/image'
-import { Flex } from '@chakra-ui/react'
+import { Flex, useColorModeValue } from '@chakra-ui/react'
 import { BsUpload } from 'react-icons/bs'
 import { useDropzone, FileWithPath } from 'react-dropzone'
 
@@ -10,6 +10,7 @@ type UploadProps = {
 }
 
 export default function UploadImage({ file, setFile }: UploadProps) {
+  const bg = useColorModeValue('gray.100', 'gray.700')
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
       'image/*': [],
@@ -51,7 +52,7 @@ export default function UploadImage({ file, setFile }: UploadProps) {
       alignItems="center"
       gap="10px"
       padding="20px"
-      background="gray.700"
+      background={bg}
       border="1px"
       borderColor="gray.500"
       borderRadius={'lg'}
