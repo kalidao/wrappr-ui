@@ -41,15 +41,18 @@ function MyApp({ Component, pageProps }: AppProps) {
     colors: {
       accentColor: accentColor,
       accentColorForeground: accentColorForeground,
-
+      connectButtonBackground: accentColor,
+      connectButtonText: accentColorForeground,
       modalBackground: 'transparent',
       modalText: '#fff',
+      modalBorder: '#fff',
     },
     fonts: {
       body: `"Alegreya Sans", sans-serif`,
     },
     shadows: {
-      connectButton: `0px 2px 3px rgba(${shadow}, 0.1)`,
+      connectButton: '',
+      profileDetailsAction: '',
     },
   } as Theme)
 
