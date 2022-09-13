@@ -40,13 +40,8 @@ export default function Minted({ store }: MintedProps) {
             </Button>
           </Link>
         </HStack>
-        <Button
-            as={ChakraLink}
-            leftIcon={<FaScroll />}
-            href={`${store.agreement}`}
-            isExternal
-          >
-            View Generated Agreement
+        <Button as={ChakraLink} leftIcon={<FaScroll />} href={`${store.agreement}`} isExternal>
+          View Generated Agreement
         </Button>
         <Link href={`/clinic`} passHref>
           <ChakraLink>Need help with your new entity?</ChakraLink>
