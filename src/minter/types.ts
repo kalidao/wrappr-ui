@@ -11,6 +11,7 @@ export type StoreT = {
   jurisdiction: string
   mission: string
   tokenId: number
+  agreement: string
   uri: string
   txHash: string
 }

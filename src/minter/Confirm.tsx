@@ -64,10 +64,6 @@ export default function Confirm({ store, setStore, setView }: Props) {
           icon: <MdSearch />,
         })
         tokenId = await getTokenId(contractAddress, chain.id)
-        setStore({
-          ...store,
-          tokenId: tokenId,
-        })
       } catch (e) {
         console.error(e)
         setMessage({
@@ -152,6 +148,8 @@ export default function Confirm({ store, setStore, setView }: Props) {
         await res.wait(1)
         setStore({
           ...store,
+          agreement: agreement,
+          tokenId: tokenId,
           txHash: res.hash,
         })
         setView(3)

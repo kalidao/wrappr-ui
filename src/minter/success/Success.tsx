@@ -2,7 +2,7 @@ import { StoreT } from '../types'
 import Link from 'next/link'
 import { useNetwork } from 'wagmi'
 import { Link as ChakraLink, Button, VStack, HStack, Spinner } from '@chakra-ui/react'
-import { FaWpexplorer } from 'react-icons/fa'
+import { FaWpexplorer, FaScroll } from 'react-icons/fa'
 import { TbCandy } from 'react-icons/tb'
 import Confetti from '~/utils/Confetti'
 import MintedImage from './MintedImage'
@@ -15,6 +15,7 @@ type MintedProps = {
 export default function Minted({ store }: MintedProps) {
   const { chain } = useNetwork()
 
+  console.log('agreement', store)
   return (
     <>
       <VStack spacing="5" align="center" justify="center">
@@ -39,6 +40,14 @@ export default function Minted({ store }: MintedProps) {
             </Button>
           </Link>
         </HStack>
+        <Button
+            as={ChakraLink}
+            leftIcon={<FaScroll />}
+            href={`${store.agreement}`}
+            isExternal
+          >
+            View Generated Agreement
+        </Button>
         <Link href={`/clinic`} passHref>
           <ChakraLink>Need help with your new entity?</ChakraLink>
         </Link>
