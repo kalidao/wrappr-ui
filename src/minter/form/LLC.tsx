@@ -23,7 +23,7 @@ type Props = {
 }
 
 export default function LLC({ store, setStore, setView }: Props) {
-  const { address, isConnected, isConnecting, isDisconnected } = useAccount()
+  const { isConnected } = useAccount()
   const { chain } = useNetwork()
   const { openConnectModal } = useConnectModal()
   const {
@@ -37,10 +37,11 @@ export default function LLC({ store, setStore, setView }: Props) {
   const [message, setMessage] = useState('')
 
   const onSubmit = async (data: LLC) => {
-    console.log('LLC data: ', data)
+    if (!isConnected) return setMessage('Please connect your wallet')
+    if (!chain) return setMessage('Please connect to a network')
     const { name } = data
 
-    if (store.juris === 'de') {
+    if (store.juris === 'de' && chain.id !== 5) {
       const res = await fetch('api/isNameAvailable', {
         method: 'POST',
         body: name,
