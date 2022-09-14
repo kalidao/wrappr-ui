@@ -9,7 +9,7 @@ export function getAgreement(entity: string): string {
     case 'wyUNA':
       return 'https://wy.una.wrappr.documen.eth.link/'
     case 'lexCharter':
-      return ''
+      return 'https://lexpunk.charter.ricardian.eth.limo/'
     case 'orCharter':
       return ''
   }

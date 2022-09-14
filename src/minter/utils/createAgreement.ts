@@ -1,5 +1,4 @@
-import { uploadBlob, uploadFile } from '~/utils'
-import { convertIpfsHash } from '~/utils/convertIpfsHash'
+import { uploadFile } from '~/utils'
 
 export async function createAgreement(
   template_name: string,
