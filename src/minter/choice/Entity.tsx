@@ -2,6 +2,7 @@ import { GiBriefcase, GiThreeLeaves, GiTiedScroll } from 'react-icons/gi'
 import { StoreT } from '../types'
 import Card from './Card'
 import Soon from './Soon'
+import { Grid, GridItem } from '@chakra-ui/react'
 
 type Props = {
   choice: StoreT
@@ -19,7 +20,7 @@ export default function Entity({ choice, setChoice, setView }: Props) {
   }
 
   return (
-    <div className="grid gap-1 grid-cols-2">
+    <Grid templateColumns={['repeat(1, 1fr)', 'repeat(2, 1fr)']} gap={1}>
       <Card
         name="LLC"
         cta="Mint"
@@ -46,6 +47,6 @@ export default function Entity({ choice, setChoice, setView }: Props) {
       />
       {/* create card that flips on hover  */}
       <Soon />
-    </div>
+    </Grid>
   )
 }
