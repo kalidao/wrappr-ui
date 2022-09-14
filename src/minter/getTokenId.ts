@@ -4,7 +4,7 @@ export const getTokenId = async (address: string, chainId: number) => {
   let len = 0
   if (chainId !== undefined) {
     try {
-      const result = await fetch('https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr', {
+      const result = await fetch(deployments[chainId]['subgraph'], {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -11,6 +11,7 @@ export const deployments: { [key: number]: Contracts } = {
     deUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
     lexCharter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
+    subgraph: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-mainnet',
   },
   // Goerli
   5: {
@@ -20,6 +21,7 @@ export const deployments: { [key: number]: Contracts } = {
     deUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
     lexCharter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
+    subgraph: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-goerli',
   },
   // Optimism
   10: {
@@ -29,6 +31,7 @@ export const deployments: { [key: number]: Contracts } = {
     deUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
     lexCharter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
+    subgraph: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-optimism',
   },
   // Binance
   56: {
@@ -38,6 +41,7 @@ export const deployments: { [key: number]: Contracts } = {
     deUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
     lexCharter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
+    subgraph: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-bsc',
   },
   // Gnosis
   100: {
@@ -47,6 +51,7 @@ export const deployments: { [key: number]: Contracts } = {
     deUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
     lexCharter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
+    subgraph: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-xdai',
   },
   // Polygon
   137: {
@@ -56,6 +61,7 @@ export const deployments: { [key: number]: Contracts } = {
     deUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
     lexCharter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
+    subgraph: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-matic',
   },
   // Fantom
   250: {
@@ -65,6 +71,7 @@ export const deployments: { [key: number]: Contracts } = {
     deUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
     lexCharter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
+    subgraph: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-fantom',
   },
   // Arbitrum
   42161: {
@@ -74,6 +81,7 @@ export const deployments: { [key: number]: Contracts } = {
     deUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
     lexCharter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
+    subgraph: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-arbitrum',
   },
   // Nova
   42170: {
@@ -92,5 +100,6 @@ export const deployments: { [key: number]: Contracts } = {
     deUNA: '0xE22ebfbD3e6609A9550a86545E37af7DE1EE688b',
     wyUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
     lexCharter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
+    subgraph: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-avalanche',
   },
 }

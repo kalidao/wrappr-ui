@@ -3,6 +3,7 @@ import Layout from '~/layout'
 import { SimpleGrid, Flex } from '@chakra-ui/react'
 import { WrapprCard } from '~/wrap'
 import { Wrappr } from '~/types/wrappr.types'
+import { deployments } from '~/constants'
 
 const Explore: NextPage = ({ wrapprs }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
@@ -23,7 +24,7 @@ const Explore: NextPage = ({ wrapprs }: InferGetServerSidePropsType<typeof getSe
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch('https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr', {
+  const res = await fetch(deployments[1]['subgraph'], {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
