@@ -1,6 +1,7 @@
 import { GiBriefcase, GiThreeLeaves, GiTiedScroll } from 'react-icons/gi'
 import { StoreT } from '../types'
 import Card from './Card'
+import Soon from './Soon'
 
 type Props = {
   choice: StoreT
@@ -43,6 +44,8 @@ export default function Entity({ choice, setChoice, setView }: Props) {
         description={'Govern yourself'}
         onClick={() => setEntity('Charter')}
       />
+      {/* create card that flips on hover  */}
+      <Soon />
     </div>
   )
 }
