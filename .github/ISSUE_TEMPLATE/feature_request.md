@@ -1,8 +1,8 @@
 ---
 name: Feature request
 about: Suggest a feature for this project
-title: "[✨]"
-labels: ''
+title: "✨"
+labels: enhancement
 assignees: ''
 
 ---

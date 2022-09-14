@@ -1,8 +1,8 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: "[\U0001F41B] "
-labels: ''
+title: "\U0001F41B"
+labels: bug
 assignees: ''
 
 ---
