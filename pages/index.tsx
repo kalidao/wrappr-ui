@@ -20,7 +20,7 @@ const Home: NextPage = () => {
         <Banner
           title="How does it work?"
           description="Learn more about the legal engineering behind Wrappr."
-          to="https://www.wrappr.wtf/how-to/quick-notes/"
+          to="https://docs.wrappr.wtf/how-to/quick-notes/"
         />
       </Flex>
     </Layout>

@@ -23,7 +23,7 @@ export default function Entity({ choice, setChoice, setView }: Props) {
       <Card
         name="LLC"
         cta="Mint"
-        learn="https://www.wrappr.wtf/how-to/LLC/"
+        learn="https://docs.wrappr.wtf/how-to/LLC/"
         icon={<GiBriefcase />}
         description={'Enjoy limited legal liability'}
         onClick={() => setEntity('LLC')}
@@ -31,7 +31,7 @@ export default function Entity({ choice, setChoice, setView }: Props) {
       <Card
         name="UNA"
         cta="Mint"
-        learn="https://www.wrappr.wtf/how-to/UNA/"
+        learn="https://docs.wrappr.wtf/how-to/UNA/"
         icon={<GiThreeLeaves />}
         description={'Qualify for tax benefits as a Non-Profit'}
         onClick={() => setEntity('UNA')}
@@ -39,7 +39,7 @@ export default function Entity({ choice, setChoice, setView }: Props) {
       <Card
         name="Charter"
         cta="Mint"
-        learn="https://www.wrappr.wtf/how-to/charter/"
+        learn="https://docs.wrappr.wtf/how-to/charter/"
         icon={<GiTiedScroll />}
         description={'Govern yourself'}
         onClick={() => setEntity('Charter')}

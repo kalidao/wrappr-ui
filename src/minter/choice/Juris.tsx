@@ -50,14 +50,14 @@ const entity = [
     set: 'de',
     type: 'Jurisdiction',
     icon: <span className="text-xl">🏢</span>,
-    learn: 'https://www.wrappr.wtf/get-started/where/#%F0%9F%8F%A2-delaware',
+    learn: 'https://docs.wrappr.wtf/get-started/where/#%F0%9F%8F%A2-delaware',
   },
   {
     text: 'Wyoming',
     description: 'Crypto-friendly jurisdiction',
     set: 'wy',
     icon: <span className="text-xl">🌇</span>,
-    learn: 'https://www.wrappr.wtf/get-started/where/#%F0%9F%A6%AC-wyoming',
+    learn: 'https://docs.wrappr.wtf/get-started/where/#%F0%9F%A6%AC-wyoming',
   },
 ]
 
@@ -67,13 +67,13 @@ const charter = [
     icon: <span className="text-xl">🦍</span>,
     description: 'Open source jurisdiction',
     set: 'lex',
-    learn: 'https://www.wrappr.wtf/how-to/charter/#%F0%9F%A6%8D-lexpunk-dao-charter',
+    learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%A6%8D-lexpunk-dao-charter',
   },
   {
     text: 'Orange',
     icon: <span className="text-xl">🍊</span>,
     description: 'Managed',
     set: 'or',
-    learn: 'https://www.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
+    learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
   },
 ]

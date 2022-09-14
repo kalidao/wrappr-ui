@@ -38,9 +38,9 @@ export default function Confirmation({ store }: { store: StoreC }) {
     data: uri,
     isFetched,
     isSuccess,
-  } = useQuery(['wrappr', store.uri], () =>
-    fetchWrapprData('https://content.wrappr.wtf/ipfs/QmcbcahuiwnioZZCUTXCjgAfiXPmEdnYLH2x45yfurahFa'),
-  )
+  } = useQuery(['wrappr', store.uri], () => fetchWrapprData(store.uri))
+
+  console.log('store', store, uri)
   if (isLoading)
     return (
       <div>
@@ -61,12 +61,7 @@ export default function Confirmation({ store }: { store: StoreC }) {
         ml={['1%', '5%', '15%', '25%']}
       >
         {isFetched && isSuccess && (
-          <Image
-            src={'https://content.wrappr.wtf/ipfs/QmXfxJJhkt1P7LmUVLPUnrQtVyrd29G85i23nKqg1QgpyU'}
-            height="500px"
-            width="500px"
-            alt="Uploaded Image for NFT"
-          />
+          <Image src={uri?.['image']} height="500px" width="500px" alt="Uploaded Image for NFT" />
         )}
         <HStack>
           <Button
