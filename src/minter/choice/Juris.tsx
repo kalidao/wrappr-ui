@@ -65,14 +65,14 @@ const charter = [
   {
     text: 'LexPunk',
     icon: <span className="text-xl">🦍</span>,
-    description: 'Open source jurisdiction',
+    description: 'stateless entity with qualified code deference',
     set: 'lex',
     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%A6%8D-lexpunk-dao-charter',
   },
   {
     text: 'Orange',
     icon: <span className="text-xl">🍊</span>,
-    description: 'Managed',
+    description: 'stateless entity with qualified code deference',
     set: 'or',
     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
   },

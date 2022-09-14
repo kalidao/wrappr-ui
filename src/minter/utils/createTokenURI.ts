@@ -137,10 +137,13 @@ const lexCharter = {
 }
 
 const orCharter = {
-  name: 'Orange',
+  name: 'Orange Charter',
+  description:
+    'Create a stateless entity with qualified code deference.\n\nReview the DAO Charter and Wrappr docs to understand your CHARTER NFT.',
+  external_url: 'https://www.wrappr.wtf/',
+  image: 'https://content.wrappr.wtf/ipfs/QmZvpnHg2PZe8SqGEPsnsDoHe57cfR9PMDGTfW5wrLrsxM',
   attributes: [
-    { trait_type: 'Jurisdiction', value: 'Wyoming' },
-    { trait_type: 'Entity', value: 'UNA' },
-    { trait_type: 'Agreement', value: 'https://wy.una.wrappr.documen.eth.link/' },
+    { trait_type: 'Entity', value: 'Charter' },
+    { trait_type: 'Agreement', value: 'https://orange.charter.ricardian.eth.limo/' },
   ],
 }
