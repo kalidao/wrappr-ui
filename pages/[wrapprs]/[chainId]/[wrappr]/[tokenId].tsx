@@ -17,16 +17,14 @@ import { useQuery } from '@tanstack/react-query'
 import { MintWrappr, Trait, TraitType } from '../../../../src/wrap'
 import { useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
-import { WRAPPR } from '../../../../src/constants'
+import { deployments, WRAPPR } from '../../../../src/constants'
+import { ethers } from 'ethers'
 
-const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Wrappr: NextPage = () => {
   const router = useRouter()
-  const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
-    fetchWrapprData(wrappr?.['baseURI']),
-  )
-  const { wrappr: wrapprAddress, tokenId } = router.query
+  const { wrappr, chainId, tokenId } = router.query
   const wrapprContract = {
-    addressOrName: router.query.wrappr as string,
+    addressOrName: wrappr ? wrappr.toString() : ethers.constants.AddressZero,
     contractInterface: WRAPPR,
   }
   const { data: reads, isLoading: isReading } = useContractReads({
@@ -38,8 +36,26 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
       },
     ],
   })
-
-  console.log('reads', reads)
+  const collectionId = wrappr?.toString().toLowerCase() + '0x' + Number(tokenId)?.toString(16)
+  const { isLoading, error, data } = useQuery(
+    ['wrappr', chainId, collectionId],
+    () => fetchWrappr(deployments[Number(chainId)]['subgraph'], collectionId),
+    {
+      enabled: wrappr !== undefined && tokenId !== undefined,
+    },
+  )
+  const URI = data?.uri ? data.uri : data?.wrappr?.baseURI
+  const {
+    isLoading: isLoadingURI,
+    error: uriError,
+    data: uri,
+  } = useQuery(
+    ['wrappr', data?.['wrappr']?.['baseURI']],
+    () => fetchWrapprURI(data['uri'] === null ? data['wrappr']['baseURI'] : data['uri']),
+    {
+      enabled: data !== undefined,
+    },
+  )
 
   return (
     <Layout heading="Wrappr" content="Wrap now" back={true}>
@@ -56,41 +72,71 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
           <Skeleton isLoaded={!isLoading}>
             {data ? (
               <Image
-                src={data['image']}
+                src={uri?.['image']}
                 height="300px"
                 width="300px"
-                alt={`Image for ${data['name']}`}
+                alt={`Image for ${uri?.['name']}`}
                 className="rounded-lg shadow-gray-900 shadow-md"
               />
             ) : (
               'No image found'
             )}
           </Skeleton>
-          <MintWrappr chainId={4} wrappr={wrappr['id']} tokenId={tokenId as unknown as number} />
+          <MintWrappr
+            chainId={4}
+            wrappr={wrappr ? wrappr.toString() : ethers.constants.AddressZero}
+            tokenId={Number(tokenId)}
+          />
           <Link href="/clinic" passHref>
             <ChakraLink>Need help with your entity?</ChakraLink>
           </Link>
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
-          <h1 className="text-gray-100 font-semibold text-xl">
-            {isLoading ? <Spinner /> : data ? data['name'] : 'No name found'}
-          </h1>
-          <p className="whitespace-pre-line break-normal text-gray-400">
-            {isLoading ? <Spinner /> : data ? data['description'] : 'No description found'}
-          </p>
-          <h2 className="text-gray-100 font-semibold text-xl">Traits</h2>
-          <Skeleton isLoaded={!isLoading && !isReading}>
+          <Skeleton isLoaded={!isLoading}>
+            <Text as="h1" colorScheme="gray" fontWeight="extrabold" fontSize="x-large">
+              {isLoading ? <Spinner /> : uri ? uri?.['name'] : 'No name found'}
+            </Text>
+          </Skeleton>
+          <Skeleton isLoaded={!isLoadingURI}>
+            <Text as="p" colorScheme="gray">
+              {isLoading ? <Spinner /> : uri ? uri?.['description'] : 'No description found'}
+            </Text>
+          </Skeleton>
+          <Text as="p" colorScheme="gray">
+            Traits
+          </Text>
+          <Skeleton isLoaded={!isLoadingURI}>
             <VStack
               gap={3}
               align={'stretch'}
               divider={<StackDivider borderColor={'brand.900'} />}
               className="rounded-lg shadow-brand-900 shadow-md py-3"
             >
-              {data &&
-                data['attributes'].map((trait: TraitType, index: number) => (
-                  <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
-                ))}
-              <Trait trait_type={'Owner'} value={reads ? (reads?.[0] as unknown as string) : ''} isBig={false} />
+              {uri
+                ? uri?.['attributes']?.map((trait: TraitType, index: number) => (
+                    <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
+                  ))
+                : null}
+            </VStack>
+          </Skeleton>
+          <Skeleton isLoaded={!isLoading}>
+            <VStack
+              gap={3}
+              align={'stretch'}
+              divider={<StackDivider borderColor={'brand.900'} />}
+              className="rounded-lg shadow-brand-900 shadow-md py-3"
+            >
+              <Trait
+                trait_type={'Permissioned'}
+                value={data?.['permissioned'] === null ? 'No' : data?.permissioned === true ? 'Yes' : 'No'}
+                isBig={false}
+              />
+              <Trait
+                trait_type={'Transferable'}
+                value={data?.['transferability'] === null ? 'No' : data?.transferability === true ? 'Yes' : 'No'}
+                isBig={false}
+              />
+              <Trait trait_type={'Owner'} value={data?.['owner']} isBig={false} />
             </VStack>
           </Skeleton>
         </Flex>
@@ -98,41 +144,42 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
     </Layout>
   )
 }
+const fetchWrapprURI = async (URI: string) => {
+  const res = await fetch(URI)
+  const json = await res.json()
+  return json
+}
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const wrappr = context?.params?.wrappr as string
-
-  const res = await fetch('https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr', {
+const fetchWrappr = async (URI: string, collectionId: string) => {
+  const res = await fetch(URI, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       query: `query {
-        wrapprs (where: {
-          id: "${wrappr.toLowerCase()}"
+        collections(where: {
+          id: "${collectionId}"
         }) {
-          id
-          name
-          symbol
-          baseURI
-          mintFee
-          admin
+          owner
+          uri
+          transferability
+          permissioned
+          wrappr {
+            id
+            name
+            baseURI
+          }
+          users {
+            amount
+          }
         }
       }`,
     }),
   })
 
   const data = await res.json()
-
-  return {
-    props: { wrappr: data['data']['wrapprs'][0] },
-  }
-}
-
-const fetchWrapprData = async (URI: string) => {
-  const res = await fetch(URI)
-  return res.json()
+  return data['data']['collections'][0]
 }
 
 export default Wrappr
