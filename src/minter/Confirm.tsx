@@ -49,6 +49,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
   })
 
   const tx = async () => {
+    console.log('current store', store)
     setLoading(true)
     setMessage({
       text: 'Preparing your transaction...',

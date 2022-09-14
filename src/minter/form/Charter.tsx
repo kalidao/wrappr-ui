@@ -45,6 +45,8 @@ export default function Charter({ store, setStore, setView }: Props) {
     setStore({
       ...store,
       name: name,
+      mission: mission,
+      jurisdiction: jurisdiction,
     })
 
     setView(2)

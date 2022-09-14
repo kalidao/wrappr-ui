@@ -44,6 +44,7 @@ export default function UNA({ store, setStore, setView }: Props) {
     setStore({
       ...store,
       name: name,
+      mission: mission,
     })
 
     setView(2)
