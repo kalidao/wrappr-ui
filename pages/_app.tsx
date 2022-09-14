@@ -11,9 +11,10 @@ import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query
 import '@fontsource/alegreya-sans/'
 import '../styles/globals.css'
 import merge from 'lodash.merge'
+import { avalanche, bsc, xdai, fantom } from '~/constants/chains'
 
 const { chains, provider } = configureChains(
-  [chain.goerli],
+  [chain.mainnet, chain.optimism, chain.polygon, chain.arbitrum, xdai, avalanche, bsc, fantom, chain.goerli, xdai],
   [infuraProvider({ apiKey: process.env.INFURA_ID }), publicProvider()],
 )
 

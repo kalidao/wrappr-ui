@@ -23,8 +23,10 @@ const Explore: NextPage = ({ wrapprs }: InferGetServerSidePropsType<typeof getSe
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch(deployments[1]['subgraph'], {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const chainId = context?.params?.chainId as unknown as number
+
+  const res = await fetch(deployments[chainId]['subgraph'], {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -42,6 +44,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
   })
 
   const data = await res.json()
+
+  if (!data) {
+    return {
+      notFound: true,
+    }
+  }
 
   return {
     props: { wrapprs: data?.['data']?.['wrapprs'] },

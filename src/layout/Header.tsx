@@ -8,9 +8,12 @@ import { MdExplore, MdCreate } from 'react-icons/md'
 import { FaScroll } from 'react-icons/fa'
 import Link from 'next/link'
 import ToggleMode from './ToggleMode'
+import { useNetwork } from 'wagmi'
 
 export default function Header() {
   const router = useRouter()
+  const { chain } = useNetwork()
+
   return (
     <Flex padding="0 10px" alignItems="center" justifyContent="space-between" minH="10vh">
       <motion.div
@@ -24,7 +27,7 @@ export default function Header() {
       </motion.div>
       <nav className="flex gap-3">
         <Item label="make" src="/create" icon={<MdCreate />} />
-        <Item label="find" src="/explore" icon={<MdExplore />} />
+        <Item label="find" src={`/wrapprs/${chain ? chain.id : 1}/explore`} icon={<MdExplore />} />
         <Item label="docs" src="https://www.wrappr.wtf/get-started/what/" icon={<FaScroll />} />
         <ToggleMode />
         <ConnectButton label="login" />
