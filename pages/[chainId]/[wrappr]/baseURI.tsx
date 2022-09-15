@@ -1,5 +1,5 @@
-import Layout from '../../../../src/layout'
-import UpdateURI from '../../../../src/updateURI'
+import Layout from '../../../src/layout'
+import UpdateURI from '../../../src/updateURI'
 
 export default function UpdateBaseURI() {
   return (

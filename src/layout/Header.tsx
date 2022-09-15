@@ -27,7 +27,7 @@ export default function Header() {
       </motion.div>
       <nav className="flex gap-3">
         <Item label="make" src="/create" icon={<MdCreate />} />
-        <Item label="find" src={`/wrapprs/${chain ? chain.id : 1}/explore`} icon={<MdExplore />} />
+        <Item label="find" src={`/${chain ? chain.id : 1}/explore`} icon={<MdExplore />} />
         <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<FaScroll />} />
         <ToggleMode />
         <ConnectButton label="login" />

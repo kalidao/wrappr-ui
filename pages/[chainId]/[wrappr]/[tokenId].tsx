@@ -1,7 +1,7 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import Layout from '../../../../src/layout'
+import Layout from '../../../src/layout'
 import {
   Flex,
   Button,
@@ -14,10 +14,10 @@ import {
   Skeleton,
 } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
-import { MintWrappr, Trait, TraitType } from '../../../../src/wrap'
+import { MintWrappr, Trait, TraitType } from '../../../src/wrap'
 import { useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
-import { deployments, WRAPPR } from '../../../../src/constants'
+import { deployments, WRAPPR } from '../../../src/constants'
 import { ethers } from 'ethers'
 
 const Wrappr: NextPage = () => {
@@ -49,13 +49,9 @@ const Wrappr: NextPage = () => {
     isLoading: isLoadingURI,
     error: uriError,
     data: uri,
-  } = useQuery(
-    ['wrappr', data?.['wrappr']?.['baseURI']],
-    () => fetchWrapprURI(data['uri'] === null ? data['wrappr']['baseURI'] : data['uri']),
-    {
-      enabled: data !== undefined,
-    },
-  )
+  } = useQuery(['wrappr', data?.['wrappr']?.['baseURI']], () => fetchWrapprURI(URI), {
+    enabled: data !== undefined,
+  })
 
   return (
     <Layout heading="Wrappr" content="Wrap now" back={true}>

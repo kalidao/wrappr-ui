@@ -72,7 +72,7 @@ export default function Confirmation({ store }: { store: StoreC }) {
           >
             View on Explorer
           </Button>
-          <Link href={`/wrapprs/${chain?.id}/${event?.[0]}`} passHref>
+          <Link href={`/${chain?.id}/${event?.[0]}`} passHref>
             <Button as={ChakraLink} leftIcon={<TbCandy />} colorScheme={'brand'} disabled={!event}>
               View in Gallery
             </Button>

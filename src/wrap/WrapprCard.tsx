@@ -3,21 +3,26 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
-import { Wrappr } from '../types/wrappr.types'
 
 const fetchWrapprData = async (URI: string) => {
   const res = await fetch(URI)
   return res.json()
 }
 
-export default function WrapprCard({ name, id, baseURI, mintFee }: Wrappr) {
-  const router = useRouter()
+type WrapprCardProps = {
+  name: string
+  id: string
+  baseURI: string
+  chainId: string
+}
+
+export default function WrapprCard({ name, id, baseURI, chainId }: WrapprCardProps) {
   const { isLoading, error, data } = useQuery(['wrappr', baseURI], () => fetchWrapprData(baseURI))
 
   return (
     <Skeleton isLoaded={!isLoading} className="rounded-lg">
       <div className="rounded-lg gap-10 flex-col">
-        <Link href={`/wrappr/5/${id}`} passHref>
+        <Link href={`/${chainId}/${id}`} passHref>
           <div
             className={
               'hover:scale-105 m-1 transition duration-500 ease-in-out shadow-gray-900 shadow-md rounded-md hover:shadow-none'

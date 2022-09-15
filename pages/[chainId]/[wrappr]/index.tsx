@@ -1,6 +1,6 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
-import Layout from '../../../../src/layout'
+import Layout from '../../../src/layout'
 import { Link as ChakraLink, Flex, VStack, StackDivider, Skeleton } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 import { Trait, TraitType } from '~/wrap'
@@ -53,6 +53,7 @@ const Wrappr: NextPage = ({ wrappr, collections }: InferGetServerSidePropsType<t
               className="rounded-lg shadow-gray-900 shadow-md"
             />
           </Skeleton>
+          {/* TODO: Expose update metadata */}
           {/* {isConnected && address?.toLowerCase() === wrappr['admin'].toLowerCase() && (
             <Link href={`${router.asPath}/baseURI`} passHref>
               <Button as={ChakraLink} leftIcon={<FaPenNib />}>
