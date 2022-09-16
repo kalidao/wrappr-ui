@@ -15,10 +15,11 @@ import {
   IconButton,
   HStack,
   VStack,
+  Text,
 } from '@chakra-ui/react'
 import { AiOutlineDelete } from 'react-icons/ai'
 
-import { useContractWrite, useNetwork } from 'wagmi'
+import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 import { ethers } from 'ethers'
 
 import { useForm, useFieldArray } from 'react-hook-form'
@@ -31,6 +32,7 @@ import UploadImage from '../utils/UploadImage'
 
 import { createWrappr } from './createWrappr'
 import { StoreC } from './types'
+import { checkName } from './checkName'
 
 type Create = {
   image: FileList
@@ -82,13 +84,9 @@ export default function CreateForm({ store, setStore, setView }: Props) {
   })
   const [image, setImage] = useState([])
   const [submitting, setSubmitting] = useState(false)
+  const { isConnected, address } = useAccount()
   const { chain } = useNetwork()
-  const {
-    data: result,
-    isError,
-    isLoading,
-    writeAsync,
-  } = useContractWrite({
+  const { data: result, writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
     addressOrName: chain ? deployments[chain.id]['factory'] : ethers.constants.AddressZero,
     contractInterface: WRAPPR_FACTORY,
@@ -103,17 +101,40 @@ export default function CreateForm({ store, setStore, setView }: Props) {
       }
     },
   })
+  const [error, setError] = useState('')
 
   const onSubmit = async (data: Create) => {
+    if (!isConnected) {
+      setError('Please connect your wallet.')
+      return
+    }
     setSubmitting(true)
     if (image.length === 0) return
     const { name, description, agreement, symbol, mintFee, admin, attributes } = data
 
+    try {
+      if (chain) {
+        const res = await checkName(name, chain?.id)
+        if (res.isError) {
+          setError(res.error)
+          return
+        } else {
+          if (!res.available) {
+            setError(res.error)
+          }
+        }
+      }
+    } catch (e) {
+      console.error(e)
+      setError('Failed to check name collision.')
+      return
+    }
     let baseURI
     try {
       baseURI = await createWrappr(name, description, image as unknown as FileList, agreement, attributes)
     } catch (e) {
       console.error('Failed to create Wrappr JSON: ', e)
+      setError('Failed to create Wrappr metadata.')
       return
     }
 
@@ -122,6 +143,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         ...store,
         uri: baseURI as string,
       })
+      console.log(name, symbol, baseURI, ethers.utils.parseEther(mintFee.toString()), admin)
       const res = writeAsync({
         recklesslySetUnpreparedArgs: [name, symbol, baseURI, ethers.utils.parseEther(mintFee.toString()), admin],
       })
@@ -220,6 +242,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
           Add
         </Button>
       </FormControl>
+      <Text>{error}</Text>
       <Button
         type="submit"
         width="100%"
