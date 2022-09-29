@@ -1,3 +1,3 @@
-import CollectionCard from "./CollectionCard";
+import CollectionCard from './CollectionCard'
 
 export { CollectionCard }
