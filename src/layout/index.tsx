@@ -27,7 +27,7 @@ export default function Layout({ heading, content, back, children }: LayoutProps
       </Head>
       <div className="min-h-screen">
         <Header />
-        {back && (
+        {/* {back && (
           <IconButton
             variant="ghost"
             maxWidth={1}
@@ -38,7 +38,7 @@ export default function Layout({ heading, content, back, children }: LayoutProps
             isRound
             marginLeft={[2, 4, 6, 8]}
           />
-        )}
+        )} */}
         {children}
       </div>
     </>
