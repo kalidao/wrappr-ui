@@ -1,5 +1,5 @@
 import { Chain, Wallet } from '@rainbow-me/rainbowkit'
-import { SafeConnector } from '@gnosis.pm/safe-apps-wagmi';
+import { SafeConnector } from '@gnosis.pm/safe-apps-wagmi'
 export interface MyWalletOptions {
   chains: Chain[]
 }
