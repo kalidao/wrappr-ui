@@ -5,6 +5,7 @@ specifiers:
   '@emotion/react': ^11.9.3
   '@emotion/styled': ^11.9.3
   '@fontsource/alegreya-sans': ^4.5.9
+  '@gnosis.pm/safe-apps-wagmi': ^1.0.3
   '@hookform/resolvers': ^2.9.6
   '@kalidao/reality': ^0.0.5
   '@pinata/sdk': ^1.1.26
@@ -20,6 +21,7 @@ specifiers:
   '@types/node': 18.0.6
   '@types/react': 18.0.15
   '@types/react-dom': 18.0.6
+  '@wagmi/core': ^0.5.7
   autoprefixer: ^10.4.8
   eslint: 8.20.0
   eslint-config-next: 12.2.3
@@ -42,6 +44,7 @@ specifiers:
   react-icons: ^4.4.0
   react-parallax-tilt: ^1.7.63
   react-tsparticles: ^2.2.3
+  safe-apps-wagmi: link:@types/@gnosis.pm/safe-apps-wagmi
   tailwindcss: ^3.1.8
   tsparticles: ^2.2.3
   typescript: 4.7.4
@@ -53,6 +56,7 @@ dependencies:
   '@emotion/react': 11.10.0_3hx2ussxxho4jajbwrd6gq34qe
   '@emotion/styled': 11.10.0_osjhb3oyc3dn55vkfbzx4nrkfi
   '@fontsource/alegreya-sans': 4.5.9
+  '@gnosis.pm/safe-apps-wagmi': 1.0.3_@wagmi+core@0.5.7
   '@hookform/resolvers': 2.9.7_react-hook-form@7.34.2
   '@kalidao/reality': 0.0.5_biqbaboplfbrettd7655fr4n2y
   '@pinata/sdk': 1.1.26
@@ -63,6 +67,7 @@ dependencies:
   '@tiptap/react': 2.0.0-beta.114_biqbaboplfbrettd7655fr4n2y
   '@tiptap/starter-kit': 2.0.0-beta.191
   '@typeform/embed-react': 1.19.0_react@18.2.0
+  '@wagmi/core': 0.5.7_ethers@5.7.1+react@18.2.0
   ethers: 5.7.1
   framer-motion: 6.5.1_biqbaboplfbrettd7655fr4n2y
   graphql: 16.6.0
@@ -76,6 +81,7 @@ dependencies:
   react-icons: 4.4.0_react@18.2.0
   react-parallax-tilt: 1.7.63_biqbaboplfbrettd7655fr4n2y
   react-tsparticles: 2.2.3_react@18.2.0
+  safe-apps-wagmi: link:@types/@gnosis.pm/safe-apps-wagmi
   tsparticles: 2.2.3
   wagmi: 0.6.7_nznuxirfauibn2fjde2ghjonky
   zod: 3.18.0
@@ -1595,6 +1601,50 @@ packages:
     resolution: {integrity: sha512-1knHjrf9w6OjggWSx93dddbg3wio3CVjTgWg+a0No364f0bfNsf7lrBpJKKRuZ1EOdJbg9JosdXSLd76u2SC8g==}
     dev: false
 
+  /@gnosis.pm/safe-apps-provider/0.13.2:
+    resolution: {integrity: sha512-n/sd6Nq7Kg1ZRSB4zMy7lFV+5R5ZXFKd2ZtvIq0cBvkTM9K2sDNhqTE1Em2uy0hM5wKdWlTfJtwh6YkWVhoXDg==}
+    dependencies:
+      '@gnosis.pm/safe-apps-sdk': 7.8.0
+      events: 3.3.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    dev: false
+
+  /@gnosis.pm/safe-apps-sdk/7.8.0:
+    resolution: {integrity: sha512-kO8fJi1ebiKN9qH1NdDToVBuDQQ0U9NkL467U+84LtNTx5PzUJIu6O7tb4nZD24e/OItinf5W8GDWhhfZeiqOA==}
+    dependencies:
+      '@gnosis.pm/safe-react-gateway-sdk': 3.4.1
+      ethers: 5.7.1
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    dev: false
+
+  /@gnosis.pm/safe-apps-wagmi/1.0.3_@wagmi+core@0.5.7:
+    resolution: {integrity: sha512-UKzO/+7hRitjAr5uHqPXNzY1s5JV0y5aheLEpGQQlDEg42EMflo2nm+K4NV+S0mrgnTPW+/kk00sv8FuQqaFjA==}
+    peerDependencies:
+      '@wagmi/core': ^0.3.8
+    dependencies:
+      '@gnosis.pm/safe-apps-provider': 0.13.2
+      '@gnosis.pm/safe-apps-sdk': 7.8.0
+      '@wagmi/core': 0.5.7_ethers@5.7.1+react@18.2.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    dev: false
+
+  /@gnosis.pm/safe-react-gateway-sdk/3.4.1:
+    resolution: {integrity: sha512-b8i0BLEP9CC7S2N7hYDX3OXRYIb9asOMVW0QWh4jzsgT5xitUOPy4jrZL9kAmx8QgcMPYbD+Jjsq/R9ltzSmew==}
+    dependencies:
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@hookform/resolvers/2.9.7_react-hook-form@7.34.2:
     resolution: {integrity: sha512-BloehX3MOLwuFEwT4yZnmolPjVmqyn8VsSuodLfazbCIqxBHsQ4qUZsi+bvNNCduRli1AGWFrkDLGD5QoNzsoA==}
     peerDependencies:
@@ -2457,6 +2507,26 @@ packages:
     dependencies:
       '@coinbase/wallet-sdk': 3.5.0
       '@walletconnect/ethereum-provider': 1.8.0
+      ethers: 5.7.1
+      eventemitter3: 4.0.7
+      zustand: 4.1.1_react@18.2.0
+    transitivePeerDependencies:
+      - immer
+      - react
+    dev: false
+
+  /@wagmi/core/0.5.7_ethers@5.7.1+react@18.2.0:
+    resolution: {integrity: sha512-q2RL3gHJ15lozjJUcUmdOlmz2b9DCiLfF1ksxNwi1Fy/CJ7FsHbnufJrrvn26nxkJdKWbqTvr7xv46yr6Sp0Ug==}
+    peerDependencies:
+      '@coinbase/wallet-sdk': '>=3.3.0'
+      '@walletconnect/ethereum-provider': '>=1.7.5'
+      ethers: '>=5.5.1'
+    peerDependenciesMeta:
+      '@coinbase/wallet-sdk':
+        optional: true
+      '@walletconnect/ethereum-provider':
+        optional: true
+    dependencies:
       ethers: 5.7.1
       eventemitter3: 4.0.7
       zustand: 4.1.1_react@18.2.0

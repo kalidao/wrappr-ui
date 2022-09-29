@@ -16,6 +16,7 @@
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@fontsource/alegreya-sans": "^4.5.9",
+    "@gnosis.pm/safe-apps-wagmi": "^1.0.3",
     "@hookform/resolvers": "^2.9.6",
     "@kalidao/reality": "^0.0.5",
     "@pinata/sdk": "^1.1.26",
@@ -26,6 +27,7 @@
     "@tiptap/react": "2.0.0-beta.114",
     "@tiptap/starter-kit": "2.0.0-beta.191",
     "@typeform/embed-react": "^1.19.0",
+    "@wagmi/core": "^0.5.7",
     "ethers": "^5.7.1",
     "framer-motion": "^6.5.1",
     "graphql": "^16.6.0",
@@ -39,6 +41,7 @@
     "react-icons": "^4.4.0",
     "react-parallax-tilt": "^1.7.63",
     "react-tsparticles": "^2.2.3",
+    "safe-apps-wagmi": "link:@types/@gnosis.pm/safe-apps-wagmi",
     "tsparticles": "^2.2.3",
     "wagmi": "^0.6.7",
     "zod": "^3.17.10"

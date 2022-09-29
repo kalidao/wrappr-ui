@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { AppProps } from 'next/app'
 import '@rainbow-me/rainbowkit/styles.css'
-import { getDefaultWallets, RainbowKitProvider, darkTheme, Theme } from '@rainbow-me/rainbowkit'
+import { connectorsForWallets, wallet, RainbowKitProvider, darkTheme, Theme } from '@rainbow-me/rainbowkit'
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
@@ -12,19 +12,32 @@ import '@fontsource/alegreya-sans/'
 import '../styles/globals.css'
 import merge from 'lodash.merge'
 import { avalanche, bsc, xdai, fantom } from '~/constants/chains'
+import { gnosis } from '~/wallets/gnosis'
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.optimism, chain.polygon, chain.arbitrum, xdai, avalanche, bsc, fantom, chain.goerli, xdai],
   [infuraProvider({ apiKey: process.env.INFURA_ID }), publicProvider()],
 )
 
-const { connectors } = getDefaultWallets({
-  appName: 'Wrappr',
-  chains,
-})
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended',
+    wallets: [
+      wallet.injected({ chains }),
+      wallet.metaMask({ chains }),
+      wallet.rainbow({ chains }),
+      wallet.coinbase({ appName: 'Wrappr', chains }),
+      wallet.walletConnect({ chains }),
+    ],
+  },
+  {
+    groupName: 'Extra',
+    wallets: [wallet.ledger({ chains }), gnosis({ chains })],
+  },
+])
 
 const wagmiClient = createClient({
-  autoConnect: true,
+  autoConnect: false,
   connectors,
   provider,
 })
