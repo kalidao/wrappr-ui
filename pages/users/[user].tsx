@@ -47,7 +47,7 @@ const User: NextPage = () => {
   // }
 
   return (
-    <Layout heading="Explore" content="Explore wrapprs. Wrap anything." back={true}>
+    <Layout heading="User" content="Explore wrapprs created by users. Wrap anything." back={true}>
       <Box display="flex" flexDirection={'column'} alignItems="center" justifyContent="center" gap={'md'}>
         <Stack direction={'row'}>
           {/* <IconButton
@@ -78,6 +78,7 @@ const User: NextPage = () => {
           <SimpleGrid columns={[1, 2, 3, 6]} spacing={10} px={[4, 6]} py={2}>
             {data.map((wrappr: any) => (
               <CollectionCard
+                key={wrappr?.id}
                 address={wrappr?.wrappr?.id}
                 id={wrappr.collectionId}
                 tokenURI={wrappr?.uri === '' ? wrappr?.wrappr?.baseURI : wrappr?.uri}
@@ -88,7 +89,7 @@ const User: NextPage = () => {
         ) : isLoading ? (
           <Text>Fetching...</Text>
         ) : (
-          <Text>We didn't find any Wrappr owned by you on {getChainName(chainId)}</Text>
+          <Text>We didn'&apos;t find any Wrappr owned by you on {getChainName(chainId)}</Text>
         )}
       </Box>
     </Layout>
