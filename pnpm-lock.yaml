@@ -6,6 +6,7 @@ specifiers:
   '@emotion/styled': ^11.9.3
   '@fontsource/alegreya-sans': ^4.5.9
   '@hookform/resolvers': ^2.9.6
+  '@kalidao/reality': ^0.0.5
   '@pinata/sdk': ^1.1.26
   '@rainbow-me/rainbowkit': ^0.5.1
   '@tanstack/react-query': ^4.0.10
@@ -53,6 +54,7 @@ dependencies:
   '@emotion/styled': 11.10.0_osjhb3oyc3dn55vkfbzx4nrkfi
   '@fontsource/alegreya-sans': 4.5.9
   '@hookform/resolvers': 2.9.7_react-hook-form@7.34.2
+  '@kalidao/reality': 0.0.5_biqbaboplfbrettd7655fr4n2y
   '@pinata/sdk': 1.1.26
   '@rainbow-me/rainbowkit': 0.5.1_q6bipzzqdtx5ndqm6ie3a2h5q4
   '@tanstack/react-query': 4.2.1_biqbaboplfbrettd7655fr4n2y
@@ -1642,6 +1644,23 @@ packages:
       '@pedrouid/environment': 1.0.1
     dev: false
 
+  /@kalidao/reality/0.0.5_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-C/wshcA/JgsCEqfSZgypl6EhpfcxiystGnQ6hmcMabn2hLoZ0370JwS1YcKFBLxLJ6TmN5X3ntAQsaVqeisViA==}
+    peerDependencies:
+      react: ^17
+      react-dom: ^17
+    dependencies:
+      '@vanilla-extract/css': 1.7.0
+      '@vanilla-extract/css-utils': 0.1.2
+      '@vanilla-extract/dynamic': 2.0.2
+      '@vanilla-extract/recipes': 0.2.5_@vanilla-extract+css@1.7.0
+      '@vanilla-extract/sprinkles': 1.4.1_@vanilla-extract+css@1.7.0
+      clsx: 1.2.1
+      focus-visible: 5.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /@metamask/safe-event-emitter/2.0.0:
     resolution: {integrity: sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==}
     dev: false
@@ -2378,6 +2397,10 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
+  /@vanilla-extract/css-utils/0.1.2:
+    resolution: {integrity: sha512-qoxIu5E/UhJtoKsPL1JaU9nhTN0Xl5zYV0pScOgsvc3JN46TvTTt0L3GV8x3PQpZP7x3elw8BsC9czYbhJy9Gg==}
+    dev: false
+
   /@vanilla-extract/css/1.7.0:
     resolution: {integrity: sha512-2Abpr5aJskwKS+waMWxWnTBqq/rj4J93KtGteW0VSORMUsijrupwjOXECd7Llh+nSFfx/Y6usuexF5/ffyDF8A==}
     dependencies:
@@ -2402,6 +2425,14 @@ packages:
 
   /@vanilla-extract/private/1.0.3:
     resolution: {integrity: sha512-17kVyLq3ePTKOkveHxXuIJZtGYs+cSoev7BlP+Lf4916qfDhk/HBjvlYDe8egrea7LNPHKwSZJK/bzZC+Q6AwQ==}
+    dev: false
+
+  /@vanilla-extract/recipes/0.2.5_@vanilla-extract+css@1.7.0:
+    resolution: {integrity: sha512-OWXUUiFJdswD3+Xg8f8avuw/vAHZRFS4oHqFeoV1TcO8cfbDQ0zmkreBHvyspoJU+qsyWK48yPHKSptqNRPy9Q==}
+    peerDependencies:
+      '@vanilla-extract/css': ^1.0.0
+    dependencies:
+      '@vanilla-extract/css': 1.7.0
     dev: false
 
   /@vanilla-extract/sprinkles/1.4.1_@vanilla-extract+css@1.7.0:
@@ -4147,6 +4178,10 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       tslib: 2.4.0
+    dev: false
+
+  /focus-visible/5.2.0:
+    resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
     dev: false
 
   /follow-redirects/1.15.1:

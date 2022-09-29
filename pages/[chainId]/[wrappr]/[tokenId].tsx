@@ -1,23 +1,21 @@
-import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import type { NextPage } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import Layout from '../../../src/layout'
+import Layout from '~/layout'
 import {
   Flex,
-  Button,
   Link as ChakraLink,
   Spinner,
   Text,
   VStack,
   StackDivider,
-  Heading,
   Skeleton,
 } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
-import { MintWrappr, Trait, TraitType } from '../../../src/wrap'
+import { MintWrappr, Trait, TraitType } from '~/wrap'
 import { useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
-import { deployments, WRAPPR } from '../../../src/constants'
+import { deployments, WRAPPR } from '~/constants'
 import { ethers } from 'ethers'
 
 const Wrappr: NextPage = () => {
@@ -110,8 +108,8 @@ const Wrappr: NextPage = () => {
             >
               {uri
                 ? uri?.['attributes']?.map((trait: TraitType, index: number) => (
-                    <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
-                  ))
+                  <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
+                ))
                 : null}
             </VStack>
           </Skeleton>

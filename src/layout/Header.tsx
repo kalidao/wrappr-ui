@@ -4,15 +4,17 @@ import Image from 'next/image'
 
 import { Flex, Button, Box, useColorModeValue } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { MdExplore, MdCreate } from 'react-icons/md'
+import { MdExplore, MdCreate, MdPerson } from 'react-icons/md'
 import { FaScroll } from 'react-icons/fa'
 import Link from 'next/link'
 import ToggleMode from './ToggleMode'
-import { useNetwork } from 'wagmi'
+import { useAccount, useNetwork } from 'wagmi'
+import { HiUserCircle } from 'react-icons/hi'
 
 export default function Header() {
   const router = useRouter()
   const { chain } = useNetwork()
+  const { isConnected, address } = useAccount()
 
   return (
     <Flex padding="0 10px" alignItems="center" justifyContent="space-between" minH="10vh">
@@ -26,6 +28,7 @@ export default function Header() {
         <Image src={'/logo.png'} height={60} width={80} alt={`Wrappr logo`} />
       </motion.div>
       <nav className="flex gap-3">
+        {isConnected && <Item label="user" src={`/users/${address}`} icon={<MdPerson />} />}
         <Item label="make" src="/create" icon={<MdCreate />} />
         <Item label="find" src={`/${chain ? chain.id : 1}/explore`} icon={<MdExplore />} />
         <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<FaScroll />} />

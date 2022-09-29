@@ -1,7 +1,6 @@
-import { Skeleton, Flex, Text, Button, Spinner } from '@chakra-ui/react'
+import { Skeleton } from '@chakra-ui/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
 
 const fetchWrapprData = async (URI: string) => {

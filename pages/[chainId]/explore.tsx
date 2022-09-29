@@ -1,7 +1,7 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '~/layout'
-import { SimpleGrid, Flex } from '@chakra-ui/react'
+import { SimpleGrid } from '@chakra-ui/react'
 import { WrapprCard } from '~/wrap'
 import { Wrappr } from '~/types/wrappr.types'
 import { deployments } from '~/constants'
