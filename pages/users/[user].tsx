@@ -89,7 +89,7 @@ const User: NextPage = () => {
         ) : isLoading ? (
           <Text>Fetching...</Text>
         ) : (
-          <Text>We didn'&apos;t find any Wrappr owned by you on {getChainName(chainId)}</Text>
+          <Text>We could not find any Wrappr owned by you on {getChainName(chainId)}</Text>
         )}
       </Box>
     </Layout>
