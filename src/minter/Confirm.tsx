@@ -63,7 +63,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
           text: 'Fetching tokenId...',
           icon: <MdSearch />,
         })
-        tokenId = await getTokenId(contractAddress, chain.id)
+        tokenId = await getTokenId(contractAddress, chain.id, address as string)
       } catch (e) {
         console.error(e)
         setMessage({
