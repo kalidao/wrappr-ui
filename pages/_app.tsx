@@ -12,7 +12,7 @@ import '@fontsource/alegreya-sans/'
 import '../styles/globals.css'
 import merge from 'lodash.merge'
 import { avalanche, bsc, xdai, fantom } from '~/constants/chains'
-import { gnosis } from '~/wallets/gnosis'
+import { GnosisConnector } from '~/wallets/'
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.optimism, chain.polygon, chain.arbitrum, xdai, avalanche, bsc, fantom, chain.goerli, xdai],
@@ -32,7 +32,7 @@ const connectors = connectorsForWallets([
   },
   {
     groupName: 'Extra',
-    wallets: [wallet.ledger({ chains }), gnosis({ chains })],
+    wallets: [wallet.ledger({ chains }), GnosisConnector({ chains })],
   },
 ])
 
