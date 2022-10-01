@@ -40,7 +40,6 @@
     "react-icons": "^4.4.0",
     "react-parallax-tilt": "^1.7.63",
     "react-tsparticles": "^2.2.3",
-    "safe-apps-wagmi": "link:@types/@gnosis.pm/safe-apps-wagmi",
     "tsparticles": "^2.2.3",
     "wagmi": "^0.6.0",
     "zod": "^3.17.10"
