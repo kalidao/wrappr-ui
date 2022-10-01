@@ -29,10 +29,7 @@ export const getTokenId = async (address: string, chainId: number, user: string)
       console.error('Error fetching collections', e)
     }
     let tokenId = Number(len) + 1
-    if (address.toLowerCase() === '0x8d18D533047129dF8172feC7931a3933C47645D2'.toLowerCase() && tokenId == 10) {
-      tokenId = 1
-    }
-
+    
     return tokenId
   } else {
     return ethers.BigNumber.from(ethers.utils.randomBytes(4)).toNumber()
