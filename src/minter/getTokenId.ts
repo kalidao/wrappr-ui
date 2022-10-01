@@ -29,7 +29,7 @@ export const getTokenId = async (address: string, chainId: number, user: string)
       console.error('Error fetching collections', e)
     }
     let tokenId = Number(len) + 1
-
+    
     return tokenId
   } else {
     return ethers.BigNumber.from(ethers.utils.randomBytes(4)).toNumber()

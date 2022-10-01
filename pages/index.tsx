@@ -3,8 +3,11 @@ import { Flex } from '@chakra-ui/react'
 import Layout from '~/layout'
 import Minter from '~/minter'
 import Banner from '@design/Banner'
+import { useAutoConnect } from '~/hooks'
 
 const Home: NextPage = () => {
+  useAutoConnect()
+
   return (
     <Layout heading="Home" content="Wrap anything" back={false}>
       <Flex
