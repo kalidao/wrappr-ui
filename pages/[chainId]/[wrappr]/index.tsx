@@ -32,7 +32,7 @@ const Wrappr: NextPage = ({ wrappr, collections }: InferGetServerSidePropsType<t
 
   // TODO: Add mint fee
   return (
-    <Layout heading="Wrappr" content="Wrap now" back={true}>
+    <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/explore`)}>
       <Flex
         direction={['column', 'row']}
         gap={5}

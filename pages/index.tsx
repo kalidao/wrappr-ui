@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   useAutoConnect()
 
   return (
-    <Layout heading="Home" content="Wrap anything" back={false}>
+    <Layout heading="Home" content="Wrap anything">
       <Flex
         direction="column"
         justify={'center'}

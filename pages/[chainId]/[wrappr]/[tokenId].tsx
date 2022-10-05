@@ -43,8 +43,9 @@ const Wrappr: NextPage = () => {
     enabled: data !== undefined,
   })
 
+  // TODO: Add Back
   return (
-    <Layout heading="Wrappr" content="Wrap now" back={true}>
+    <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/${wrappr}`)}>
       <Flex
         direction="row"
         gap={5}

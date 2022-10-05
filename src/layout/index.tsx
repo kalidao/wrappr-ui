@@ -8,13 +8,13 @@ import Header from './Header'
 type LayoutProps = {
   heading: string
   content: string
-  back: boolean
+  back?: () => any
   children: React.ReactNode
 }
 
 export default function Layout({ heading, content, back, children }: LayoutProps) {
-  const router = useRouter()
   const title = 'Wrappr - ' + heading
+
   return (
     <>
       <Head>
@@ -27,18 +27,18 @@ export default function Layout({ heading, content, back, children }: LayoutProps
       </Head>
       <div className="min-h-screen">
         <Header />
-        {/* {back && (
+        {back && (
           <IconButton
             variant="ghost"
             maxWidth={1}
             colorScheme={'brand'}
-            onClick={() => router.back()}
+            onClick={back}
             aria-label="Go back!"
             icon={<MdOutlineArrowBack />}
             isRound
             marginLeft={[2, 4, 6, 8]}
           />
-        )} */}
+        )}
         {children}
       </div>
     </>

@@ -11,7 +11,7 @@ const Explore: NextPage = ({ wrapprs }: InferGetServerSidePropsType<typeof getSe
   const { chainId } = router.query
 
   return (
-    <Layout heading="Explore" content="Explore wrapprs. Wrap anything." back={true}>
+    <Layout heading="Explore" content="Explore wrapprs. Wrap anything." back={() => router.push('/explore')}>
       <SimpleGrid columns={[1, 2, 3, 6]} spacing={10} px={[4, 6]} py={2}>
         {wrapprs.map((wrappr: Wrappr) => (
           <WrapprCard

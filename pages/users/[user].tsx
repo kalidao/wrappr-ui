@@ -47,7 +47,7 @@ const User: NextPage = () => {
   // }
 
   return (
-    <Layout heading="User" content="Explore wrapprs created by users. Wrap anything." back={true}>
+    <Layout heading="User" content="Explore wrapprs created by users. Wrap anything." back={() => router.push('/')}>
       <Box display="flex" flexDirection={'column'} alignItems="center" justifyContent="center" gap={'md'}>
         <Stack direction={'row'}>
           {/* <IconButton
