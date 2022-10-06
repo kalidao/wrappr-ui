@@ -126,7 +126,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
       }
 
       // sending tx
-      let res 
+      let res
       try {
         setMessage({
           text: 'Sending your transaction...',
@@ -135,7 +135,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
 
         if (store.entity === 'LLC') {
           res = await writeAsync({
-            recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address], 
+            recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
             recklesslySetUnpreparedOverrides: {
               value: ethers.utils.parseEther('0.015'),
             },
