@@ -72,7 +72,6 @@ export default function Confirm({ store, setStore, setView }: Props) {
         })
         setLoading(false)
       }
-
       // creating agreement
       let agreement = getAgreement(store.juris + store.entity)
       try {
@@ -115,6 +114,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
         const res = await createTokenURI(store.name, tokenId, store.juris + store.entity, agreement)
         if (res) {
           tokenURI = res
+          console.log(res)
         }
       } catch (e) {
         console.error(e)
@@ -137,6 +137,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
         //   bytes calldata data,
         //   string calldata tokenURI,
         //   address owner
+        console.log(tokenURI)
         const res = await writeAsync({
           recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
         })
