@@ -47,7 +47,6 @@ export default function LLC({ store, setStore, setView }: Props) {
         body: name,
       }).then((res) => res.json())
 
-      console.log('available', res)
       if (!res.isAvailable === false) {
         setMessage('Name is not available. Please choose another one.')
         return

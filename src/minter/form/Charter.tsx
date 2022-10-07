@@ -39,7 +39,6 @@ export default function Charter({ store, setStore, setView }: Props) {
   })
 
   const onSubmit = (data: Charter) => {
-    console.log('Charter data: ', data)
     const { name, jurisdiction, mission } = data
 
     setStore({

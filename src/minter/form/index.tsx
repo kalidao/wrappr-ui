@@ -15,7 +15,6 @@ interface Form {
 
 export default function Form({ store, setStore, setView }: Props) {
   const choice: string = store?.juris + store?.entity
-  console.log('store', store, choice)
 
   const form: { [key: string]: Form } = {
     deLLC: {

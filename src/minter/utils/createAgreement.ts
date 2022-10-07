@@ -67,7 +67,7 @@ export async function createAgreement(
       body: JSON.stringify(obj),
     })
     const blob = await res.blob()
-    console.log('res fetched', res)
+
     if (res.ok) {
       const formData = new FormData()
       formData.append('file', blob, 'agreement.pdf')

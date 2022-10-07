@@ -16,7 +16,7 @@ export async function checkName(name: string, chainId: number) {
                 }`,
         }),
       }).then((res) => res.json())
-      console.log('name check', result)
+
       const available = result['data']['wrapprs'].length === 0 ? true : false
       return {
         isError: false,

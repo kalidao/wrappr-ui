@@ -37,7 +37,6 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
       //
     })
   }).catch((e) => {
-    console.log(e)
     status = 500
     resultBody = {
       status: 'fail',
@@ -52,7 +51,6 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
         .pinFileToIPFS(readableStreamForFile, options)
         .then((result: any) => {
           //handle results here
-          console.log(result)
           status = 200
           resultBody = result
           return res.status(status).json(resultBody)

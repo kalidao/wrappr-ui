@@ -40,7 +40,6 @@ export default function Confirmation({ store }: { store: StoreC }) {
     isSuccess,
   } = useQuery(['wrappr', store.uri], () => fetchWrapprData(store.uri))
 
-  console.log('store', store, uri)
   if (isLoading)
     return (
       <div>
