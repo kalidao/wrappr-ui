@@ -15,7 +15,6 @@ type MintedProps = {
 export default function Minted({ store }: MintedProps) {
   const { chain } = useNetwork()
 
-  console.log('agreement', store)
   return (
     <>
       <VStack spacing="5" align="center" justify="center">

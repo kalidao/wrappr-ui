@@ -6,17 +6,18 @@ import { useQuery } from '@tanstack/react-query'
 import { Trait, TraitType } from '~/wrap'
 import { useAccount, useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
-import { WRAPPR } from '~/constants'
+import { deployments, WRAPPR } from '~/constants'
 import MintWrapprNFT from '~/wrap/MintWrapprNFT'
 import { ethers } from 'ethers'
 
-const Wrappr: NextPage = ({ wrappr, collections }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { chainId, wrappr: contractAddress } = router.query
   const { isConnected, address } = useAccount()
   const wrapprContract = {
     addressOrName: contractAddress as string,
     contractInterface: WRAPPR,
+    chainId: Number(chainId),
   }
   const { data: reads, isLoading: isReading } = useContractReads({
     contracts: [
@@ -28,6 +29,10 @@ const Wrappr: NextPage = ({ wrappr, collections }: InferGetServerSidePropsType<t
   })
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
     fetchWrapprData(wrappr?.['baseURI']),
+  )
+  const { isLoading: isLoadingCollections, data: collections } = useQuery(
+    ['collections', contractAddress, chainId],
+    () => fetchCollections(contractAddress as string, Number(chainId)),
   )
 
   // TODO: Add mint fee
@@ -64,13 +69,13 @@ const Wrappr: NextPage = ({ wrappr, collections }: InferGetServerSidePropsType<t
           <MintWrapprNFT
             chainId={Number(chainId)}
             wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
-            tokenId={collections.length + 1}
+            tokenId={collections?.data?.collections.length + 1}
             mintFee={wrappr['mintFee']}
           />
         </Flex>
         <Flex direction="column" gap={5} minW={'75%'}>
           <Skeleton isLoaded={!isReading}>
-            <h1 className="text-gray-100 font-semibold text-xl">{reads ? reads?.[0].toString() : 'No name found'}</h1>
+            <h1 className="text-gray-100 font-semibold text-xl">{reads ? reads?.[0] : 'No name found'}</h1>
           </Skeleton>
           <Skeleton isLoaded={!isReading}>
             <p className="whitespace-pre-line break-normal text-gray-400">
@@ -101,8 +106,9 @@ const Wrappr: NextPage = ({ wrappr, collections }: InferGetServerSidePropsType<t
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const wrappr = context?.params?.wrappr as string
+  const chainId = Number(context?.params?.chainId as string)
 
-  const res = await fetch('https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr', {
+  const res = await fetch(deployments[chainId]['subgraph'], {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -119,18 +125,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           mintFee
           admin
         }
-
-        collections(where: {
-          wrappr: "${wrappr.toLowerCase()}"
-        }) {
-          id
-          wrappr {
-            id
-            name
-          }
-          collectionId
-          owner
-        }
       }`,
     }),
   })
@@ -138,13 +132,40 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const data = await res.json()
 
   return {
-    props: { wrappr: data['data']['wrapprs'][0], collections: data['data']['collections'] },
+    props: { wrappr: data['data']['wrapprs'][0] },
   }
 }
 
 const fetchWrapprData = async (URI: string) => {
   const res = await fetch(URI)
   return res.json()
+}
+
+const fetchCollections = async (address: string, chainId: number) => {
+  const res = await fetch(deployments[chainId]['subgraph'], {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: `query {
+        collections(where: {
+            wrappr: "${address.toLowerCase()}"
+          }) {
+            id
+            wrappr {
+              id
+              name
+            }
+            collectionId
+            owner
+          }
+      }`,
+    }),
+  })
+
+  const data = await res.json()
+  return data
 }
 
 export default Wrappr

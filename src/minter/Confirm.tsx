@@ -87,7 +87,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
           store.jurisdiction,
           chain.id.toString(),
         )
-        console.log('res', res)
+
         if (typeof res === 'string') {
           agreement = res
           setMessage({
@@ -131,13 +131,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
           text: 'Sending your transaction...',
           icon: <MdSend />,
         })
-        //   address to,
-        //   uint256 id,
-        //   uint256 amount,
-        //   bytes calldata data,
-        //   string calldata tokenURI,
-        //   address owner
-        console.log(tokenURI)
+
         const res = await writeAsync({
           recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
         })
@@ -170,7 +164,6 @@ export default function Confirm({ store, setStore, setView }: Props) {
     }
   }
 
-  console.log('var', loading)
   return (
     <>
       {loading === false ? (

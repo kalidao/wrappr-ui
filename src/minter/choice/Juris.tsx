@@ -13,7 +13,6 @@ export default function Juris({ choice, setChoice, setScreen }: Props) {
     setScreen(1)
   }
 
-  console.log('choice', choice)
   return (
     <Grid templateColumns={['repeat(1, 1fr)', 'repeat(2, 1fr)']} gap={1}>
       {choice.entity.toLowerCase() !== 'charter'

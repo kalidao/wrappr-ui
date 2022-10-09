@@ -38,7 +38,6 @@ export default function UNA({ store, setStore, setView }: Props) {
   })
 
   const onSubmit = async (data: UNA) => {
-    console.log('UNA data: ', data)
     const { name, mission } = data
 
     setStore({

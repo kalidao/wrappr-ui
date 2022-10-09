@@ -6,7 +6,7 @@ export async function updateURI(name: string, description: any, image: FileList,
   try {
     const formData = new FormData()
     formData.append('file', image[0])
-    console.log('image', formData, image)
+
     imageHash = await uploadFile(formData)
   } catch (e) {
     console.error('Error uploading image: ', e)
@@ -15,7 +15,7 @@ export async function updateURI(name: string, description: any, image: FileList,
   try {
     const formData = new FormData()
     formData.append('file', agreement[0])
-    console.log('image', formData, agreement)
+
     agreementHash = await uploadFile(formData)
   } catch (e) {
     console.error('Error uploading agreement: ', e)
