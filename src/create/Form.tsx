@@ -143,7 +143,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         ...store,
         uri: baseURI as string,
       })
-      console.log(name, symbol, baseURI, ethers.utils.parseEther(mintFee.toString()), admin)
+
       const res = writeAsync({
         recklesslySetUnpreparedArgs: [name, symbol, baseURI, ethers.utils.parseEther(mintFee.toString()), admin],
       })

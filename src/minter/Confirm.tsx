@@ -72,7 +72,6 @@ export default function Confirm({ store, setStore, setView }: Props) {
         })
         setLoading(false)
       }
-
       // creating agreement
       let agreement = getAgreement(store.juris + store.entity)
       try {
@@ -88,7 +87,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
           store.jurisdiction,
           chain.id.toString(),
         )
-        console.log('res', res)
+
         if (typeof res === 'string') {
           agreement = res
           setMessage({
@@ -115,6 +114,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
         const res = await createTokenURI(store.name, tokenId, store.juris + store.entity, agreement)
         if (res) {
           tokenURI = res
+          console.log(res)
         }
       } catch (e) {
         console.error(e)
@@ -145,6 +145,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
             recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
           })
         }
+
         setMessage({
           text: 'Awaiting confirmation...',
           icon: <MdAccessTimeFilled />,
@@ -174,7 +175,6 @@ export default function Confirm({ store, setStore, setView }: Props) {
     }
   }
 
-  console.log('var', loading)
   return (
     <>
       {loading === false ? (
