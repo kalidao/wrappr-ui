@@ -114,6 +114,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
         const res = await createTokenURI(store.name, tokenId, store.juris + store.entity, agreement)
         if (res) {
           tokenURI = res
+          console.log(res)
         }
       } catch (e) {
         console.error(e)
