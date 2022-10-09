@@ -8,7 +8,14 @@
 pnpm install
 ```
 
+### Set Env
+
+Check the `env.example` for reference.
+
+Wrappr uses Pinata for IPFS and OpenCorporates as referencing against the State.
+
 ### Development
+
 First, run the development server:
 
 ```bash
