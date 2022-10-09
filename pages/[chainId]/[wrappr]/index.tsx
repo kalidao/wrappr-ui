@@ -17,6 +17,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   const wrapprContract = {
     addressOrName: contractAddress as string,
     contractInterface: WRAPPR,
+    chainId: Number(chainId),
   }
   const { data: reads, isLoading: isReading } = useContractReads({
     contracts: [
@@ -29,7 +30,10 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
     fetchWrapprData(wrappr?.['baseURI']),
   )
-  const { isLoading: isLoadingCollections, data: collections } = useQuery(["collections", contractAddress, chainId], () => fetchCollections(contractAddress as string, Number(chainId)));
+  const { isLoading: isLoadingCollections, data: collections } = useQuery(
+    ['collections', contractAddress, chainId],
+    () => fetchCollections(contractAddress as string, Number(chainId)),
+  )
 
   // TODO: Add mint fee
   return (
@@ -104,7 +108,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const wrappr = context?.params?.wrappr as string
   const chainId = Number(context?.params?.chainId as string)
 
-  const res = await fetch(deployments[chainId]["subgraph"], {
+  const res = await fetch(deployments[chainId]['subgraph'], {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -138,7 +142,7 @@ const fetchWrapprData = async (URI: string) => {
 }
 
 const fetchCollections = async (address: string, chainId: number) => {
-  const res = await fetch(deployments[chainId]["subgraph"], {
+  const res = await fetch(deployments[chainId]['subgraph'], {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -160,8 +164,8 @@ const fetchCollections = async (address: string, chainId: number) => {
     }),
   })
 
-  const data = await res.json();
-  return data;
+  const data = await res.json()
+  return data
 }
 
 export default Wrappr
