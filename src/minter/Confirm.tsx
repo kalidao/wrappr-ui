@@ -65,9 +65,8 @@ export default function Confirm({ store, setStore, setView }: Props) {
           text: 'Fetching tokenId...',
           icon: <MdSearch />,
         })
-        console.log(contractAddress, chain.id)
+
         tokenId = await calculateTokenId(contractAddress as string, Number(chain.id))
-        console.log('tokenId', tokenId)
       } catch (e) {
         console.error(e)
         setMessage({
@@ -118,7 +117,6 @@ export default function Confirm({ store, setStore, setView }: Props) {
         const res = await createTokenURI(store.name, tokenId, store.juris + store.entity, agreement)
         if (res) {
           tokenURI = res
-          console.log(res)
         }
       } catch (e) {
         console.error(e)

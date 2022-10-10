@@ -5,12 +5,10 @@ import { ethers } from 'ethers'
 export const calculateTokenId = async (address: string, chainId: number) => {
   try {
     const collections = await getCollections(address, chainId)
-    console.log('collections', collections)
     const ids = collections
       .map((collection: { [x: string]: any }) => Number(collection['collectionId']))
       .sort((a: number, b: number) => a - b)
 
-    console.log('ids', ids)
     let id = 0
     for (let i = 0; i < ids.length + 1; i++) {
       if (ids[i] !== i) {
