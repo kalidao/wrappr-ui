@@ -13,7 +13,6 @@ import { ethers } from 'ethers'
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { chainId, wrappr: contractAddress } = router.query
-  const { isConnected, address } = useAccount()
   const wrapprContract = {
     addressOrName: contractAddress as string,
     contractInterface: WRAPPR,
@@ -29,10 +28,6 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   })
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
     fetchWrapprData(wrappr?.['baseURI']),
-  )
-  const { isLoading: isLoadingCollections, data: collections } = useQuery(
-    ['collections', contractAddress, chainId],
-    () => fetchCollections(contractAddress as string, Number(chainId)),
   )
 
   // TODO: Add mint fee
@@ -69,7 +64,6 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
           <MintWrapprNFT
             chainId={Number(chainId)}
             wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
-            tokenId={collections?.data?.collections.length + 1}
             mintFee={wrappr['mintFee']}
           />
         </Flex>
