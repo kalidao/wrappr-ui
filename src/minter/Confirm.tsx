@@ -128,15 +128,26 @@ export default function Confirm({ store, setStore, setView }: Props) {
       }
 
       // sending tx
+      let res
       try {
         setMessage({
           text: 'Sending your transaction...',
           icon: <MdSend />,
         })
 
-        const res = await writeAsync({
-          recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
-        })
+        if (store.entity === 'LLC') {
+          res = await writeAsync({
+            recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
+            recklesslySetUnpreparedOverrides: {
+              value: ethers.utils.parseEther('0.015'),
+            },
+          })
+        } else {
+          res = await writeAsync({
+            recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
+          })
+        }
+
         setMessage({
           text: 'Awaiting confirmation...',
           icon: <MdAccessTimeFilled />,
