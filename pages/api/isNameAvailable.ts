@@ -21,8 +21,14 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
     const data = await response.json()
 
     if (response.ok) {
+      const companies = data.results.companies.map((company: any) => company.company.name)
+      console.log(
+        'companies',
+        companies,
+        companies.find((company: string) => company === name.toUpperCase()) === undefined ? true : false,
+      )
       return res.status(200).json({
-        isAvailable: data.results.total_count > 0,
+        isAvailable: companies.find((company: string) => company === name.toUpperCase()) === undefined ? true : false,
       })
     } else {
       return res.status(response.status).json({
