@@ -19,6 +19,8 @@ import { getTokenId } from './getTokenId'
 import { createAgreement } from './utils/createAgreement'
 import createTokenURI from './utils/createTokenURI'
 import { getAgreement } from './utils/getAgreement'
+import { useQuery } from '@tanstack/react-query'
+import { calculateTokenId } from '~/utils/calculateTokenId'
 
 type Props = {
   store: StoreT
@@ -63,7 +65,8 @@ export default function Confirm({ store, setStore, setView }: Props) {
           text: 'Fetching tokenId...',
           icon: <MdSearch />,
         })
-        tokenId = await getTokenId(contractAddress, chain.id, address as string)
+
+        tokenId = await calculateTokenId(contractAddress as string, Number(chain.id))
       } catch (e) {
         console.error(e)
         setMessage({
@@ -114,7 +117,6 @@ export default function Confirm({ store, setStore, setView }: Props) {
         const res = await createTokenURI(store.name, tokenId, store.juris + store.entity, agreement)
         if (res) {
           tokenURI = res
-          console.log(res)
         }
       } catch (e) {
         console.error(e)

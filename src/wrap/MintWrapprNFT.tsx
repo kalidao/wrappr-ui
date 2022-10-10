@@ -1,26 +1,20 @@
 import { Flex, Text, Button, Spinner, Input, useToast, Tooltip } from '@chakra-ui/react'
-import { useAccount, usePrepareContractWrite, useContractWrite } from 'wagmi'
+import { useAccount, usePrepareContractWrite, useContractWrite, chain, useQuery } from 'wagmi'
 import { WRAPPR } from '../constants'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { GrPowerReset } from 'react-icons/gr'
+import { calculateTokenId } from '~/utils/calculateTokenId'
 
-export default function MintWrapprNFT({
-  chainId,
-  tokenId,
-  wrappr,
-  mintFee,
-}: {
-  chainId: number
-  tokenId: number
-  wrappr: string
-  mintFee: any
-}) {
+export default function MintWrapprNFT({ chainId, wrappr, mintFee }: { chainId: number; wrappr: string; mintFee: any }) {
   const toast = useToast()
   const [error, setError] = useState('')
   const { address, isConnected } = useAccount()
   const [account, setAccount] = useState(isConnected ? address : '')
-  const { config } = usePrepareContractWrite({
+  const { data: tokenId } = useQuery(['tokenId', wrappr, chainId], () => calculateTokenId(wrappr, chainId), {
+    staleTime: 1 * 60 * 1000, // a minute
+  })
+  const { config, error: isPrepareError } = usePrepareContractWrite({
     addressOrName: wrappr,
     contractInterface: WRAPPR,
     functionName: 'mint',
@@ -33,7 +27,6 @@ export default function MintWrapprNFT({
       setError(error?.code)
     },
   })
-
   const { write } = useContractWrite({
     ...config,
     onError(error: any) {
