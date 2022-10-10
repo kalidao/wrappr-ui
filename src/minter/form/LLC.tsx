@@ -6,7 +6,7 @@ import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type LLC = {
   name: string
@@ -35,6 +35,14 @@ export default function LLC({ store, setStore, setView }: Props) {
     resolver: zodResolver(schema),
   })
   const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    if (message == 'Please connect your wallet') {
+      if (isConnected) {
+        setMessage('')
+      }
+    }
+  }, [isConnected])
 
   const onSubmit = async (data: LLC) => {
     if (!isConnected) return setMessage('Please connect your wallet')
