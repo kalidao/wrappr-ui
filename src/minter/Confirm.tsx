@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import PDFViewer from '@design/PDFViewer'
 import { VStack, Button, Checkbox, Text, IconButton } from '@chakra-ui/react'
-import { useAccount, useNetwork, useContractWrite, chainId } from 'wagmi'
+import { useAccount, useNetwork, useContractWrite } from 'wagmi'
 import { StoreT } from './types'
 import { ethers } from 'ethers'
 import { deployments, WRAPPR } from '../constants'
@@ -65,7 +65,8 @@ export default function Confirm({ store, setStore, setView }: Props) {
           text: 'Fetching tokenId...',
           icon: <MdSearch />,
         })
-        tokenId = await calculateTokenId(contractAddress as string, Number(chainId))
+        console.log(contractAddress, chain.id)
+        tokenId = await calculateTokenId(contractAddress as string, Number(chain.id))
         console.log('tokenId', tokenId)
       } catch (e) {
         console.error(e)
