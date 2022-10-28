@@ -32,9 +32,7 @@ export default function Minted({ store }: MintedProps) {
             Agreement
           </Button>
           <Link
-            href={`/wrapprs/${chain?.id}/${deployments[chain ? chain.id : 1][store.juris + store.entity]}/${
-              store.tokenId
-            }`}
+            href={`/${chain?.id}/${deployments[chain ? chain.id : 1][store.juris + store.entity]}/${store.tokenId}`}
             passHref
           >
             <Button as={ChakraLink} leftIcon={<TbCandy />} colorScheme={'brand'}>
