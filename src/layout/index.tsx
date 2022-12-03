@@ -1,9 +1,10 @@
 import React from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { IconButton } from '@chakra-ui/react'
+import { IconButton, Box } from '@chakra-ui/react'
 import { MdOutlineArrowBack } from 'react-icons/md'
 import Header from './Header'
+import Footer from './Footer'
 
 type LayoutProps = {
   heading: string
@@ -39,7 +40,8 @@ export default function Layout({ heading, content, back, children }: LayoutProps
             marginLeft={[2, 4, 6, 8]}
           />
         )}
-        {children}
+        <Box minH="90vh">{children}</Box>
+        <Footer />
       </div>
     </>
   )
