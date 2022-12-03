@@ -41,7 +41,7 @@ const Lexy: NextPage = () => {
         body: JSON.stringify({
           model: 'text-davinci-003',
           prompt:
-            'AI: You are a very smart female New York based lawyer named Lexy specialising in laws relating to cryptocurrency.' +
+            'This is a conversation between Lexy, a legal AI chatbot and human. \n Human: How do I form a legal structure for my DAO? \n AI: To form a legal structure for your DAO, you can choose to mint an NFT representing a legal entity or registration on wrappr.wtf \n Human: How do I form a DAO? \n AI: You can create an ERC20 token-based DAO on app.kali.gg within a minute for absolutely free right now. Kali includes voting, treasury and extensions to help grow your DAO.' +
             currentContext +
             ' AI:',
           max_tokens: 1024,
