@@ -2,10 +2,11 @@ import type { NextPage } from 'next'
 import { useState } from 'react'
 import Layout from '~/layout'
 import { useRouter } from 'next/router'
-import { Heading, VStack, Input, Text, Button, Box, HStack, Avatar } from '@chakra-ui/react'
+import { Heading, VStack, Input, Text, Button, Box, HStack, Avatar, Divider } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '~/utils/fetcher'
 import { useAccount } from 'wagmi'
+import { Disclaimer } from '~/lexy'
 
 const Lexy: NextPage = () => {
   const router = useRouter()
@@ -17,6 +18,7 @@ const Lexy: NextPage = () => {
   const { data: profile } = useQuery(['userProfile', address], () => fetcher(`/api/users/${address}`), {
     enabled: isConnected,
   })
+  const [checked, setChecked] = useState(false)
 
   const ask = async () => {
     setLoading(true)
@@ -71,49 +73,62 @@ const Lexy: NextPage = () => {
         <VStack width={'container.lg'} align="center" justify={'center'}>
           <Heading>Chat with Lexy</Heading>
           <Text>Lexy is a legal assistance AI chatbot.</Text>
-          {context.map((c, i) => (
-            <HStack
-              width={'full'}
-              key={i}
-              flexDirection={i % 2 !== 0 ? 'row-reverse' : 'row'}
-              justify="space-between"
-              gap="3"
-            >
-              <Avatar src={i % 2 !== 0 ? '/lexy.jpeg' : profile?.picture}></Avatar>
-              <Box
-                display="flex"
-                alignItems={'center'}
-                justifyContent="flex-start"
-                width={'full'}
-                padding="2"
-                border="1px"
-                borderColor={i % 2 !== 0 ? 'brand.900' : 'blue.900'}
-                borderRadius={'2xl'}
-                backgroundColor={i % 2 !== 0 ? 'brand.800' : 'blue.800'}
+          <Divider />
+          {!checked ? (
+            <Disclaimer checked={checked} setChecked={setChecked} />
+          ) : (
+            <>
+              {context.map((c, i) => (
+                <HStack
+                  width={'full'}
+                  key={i}
+                  flexDirection={i % 2 !== 0 ? 'row-reverse' : 'row'}
+                  justify="space-between"
+                  gap="3"
+                >
+                  <Avatar src={i % 2 !== 0 ? '/lexy.jpeg' : profile?.picture}></Avatar>
+                  <Box
+                    display="flex"
+                    alignItems={'center'}
+                    justifyContent="flex-start"
+                    width={'full'}
+                    padding="2"
+                    border="1px"
+                    borderColor={i % 2 !== 0 ? 'brand.900' : 'blue.900'}
+                    borderRadius={'2xl'}
+                    backgroundColor={i % 2 !== 0 ? 'brand.800' : 'blue.800'}
+                  >
+                    {c}
+                  </Box>
+                </HStack>
+              ))}
+              <HStack width="full">
+                <Avatar src={profile?.picture}></Avatar>
+                <Input
+                  placeholder="Type here"
+                  value={input}
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === 'Enter') {
+                      ask()
+                    }
+                  }}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.currentTarget.value)}
+                  width="full"
+                />
+              </HStack>
+              <Text>{error}</Text>
+              {!isConnected && <Text>Please connect your wallet to start chatting with Lexy.</Text>}
+              <Button
+                width="full"
+                onClick={ask}
+                isLoading={loading}
+                disabled={loading || !isConnected || !checked}
+                colorScheme="brand"
               >
-                {c}
-              </Box>
-            </HStack>
-          ))}
-          <HStack width="full">
-            <Avatar src={profile?.picture}></Avatar>
-            <Input
-              placeholder="Type here"
-              value={input}
-              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                if (e.key === 'Enter') {
-                  ask()
-                }
-              }}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.currentTarget.value)}
-              width="full"
-            />
-          </HStack>
-          <Text>{error}</Text>
-          {!isConnected && <Text>Please connect your wallet to start chatting with Lexy.</Text>}
-          <Button width="full" onClick={ask} isLoading={loading} disabled={loading || !isConnected} colorScheme="brand">
-            Submit
-          </Button>
+                Submit
+              </Button>
+            </>
+          )}
         </VStack>
       </Box>
     </Layout>
