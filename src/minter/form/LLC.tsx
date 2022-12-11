@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Button, FormLabel, Input } from '@chakra-ui/react'
+import { Button, Input } from '@kalidao/reality'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
@@ -82,35 +82,17 @@ export default function LLC({ store, setStore, setView }: Props) {
           id="name"
           placeholder=" "
           required
-          className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none peer"
-          variant="flushed"
-          colorScheme="brand"
+          label="Name"
+          error={errors.name && errors.name.message}
         />
-        <FormLabel
-          htmlFor="name"
-          fontSize="sm"
-          colorScheme="gray"
-          className="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-zinc-600 peer-focus:dark:text-zinc-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-          Name
-        </FormLabel>
-        {errors.name && <span>{errors.name.message}</span>}
       </div>
       {message}
       {!isConnected && openConnectModal ? (
-        <Button
-          onClick={openConnectModal}
-          type="submit"
-          width="100%"
-          colorScheme="brand"
-          variant="solid"
-          borderRadius={'lg'}
-          rightIcon={<BsFillArrowRightCircleFill />}
-        >
+        <Button onClick={openConnectModal} type="submit" width="full" prefix={<BsFillArrowRightCircleFill />}>
           Connect
         </Button>
       ) : (
-        <Button rightIcon={<BsFillArrowRightCircleFill />} type="submit" width="100%" isLoading={isSubmitting}>
+        <Button prefix={<BsFillArrowRightCircleFill />} type="submit" width="full" loading={isSubmitting}>
           Next
         </Button>
       )}

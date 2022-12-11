@@ -1,6 +1,6 @@
 import Card from './Card'
 import { StoreT } from '../types'
-import { Grid } from '@chakra-ui/react'
+import { Stack } from '@kalidao/reality'
 type Props = {
   choice: StoreT
   setChoice: React.Dispatch<React.SetStateAction<StoreT>>
@@ -14,7 +14,7 @@ export default function Juris({ choice, setChoice, setScreen }: Props) {
   }
 
   return (
-    <Grid templateColumns={['repeat(1, 1fr)', 'repeat(2, 1fr)']} gap={1}>
+    <Stack>
       {choice.entity.toLowerCase() !== 'charter'
         ? entity.map(({ text, icon, learn, description, set }) => (
             <Card
@@ -38,7 +38,7 @@ export default function Juris({ choice, setChoice, setScreen }: Props) {
               onClick={() => setJuris(set)}
             />
           ))}
-    </Grid>
+    </Stack>
   )
 }
 

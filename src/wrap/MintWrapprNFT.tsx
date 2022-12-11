@@ -1,4 +1,4 @@
-import { Flex, Text, Button, Spinner, Input, useToast, Tooltip } from '@chakra-ui/react'
+import { Text, Stack, Button, Spinner, Input } from '@kalidao/reality'
 import { useAccount, usePrepareContractWrite, useContractWrite, chain, useQuery } from 'wagmi'
 import { WRAPPR } from '../constants'
 import { useEffect, useState } from 'react'
@@ -7,7 +7,6 @@ import { GrPowerReset } from 'react-icons/gr'
 import { calculateTokenId } from '~/utils/calculateTokenId'
 
 export default function MintWrapprNFT({ chainId, wrappr, mintFee }: { chainId: number; wrappr: string; mintFee: any }) {
-  const toast = useToast()
   const [error, setError] = useState('')
   const { address, isConnected } = useAccount()
   const [account, setAccount] = useState(isConnected ? address : '')
@@ -29,45 +28,26 @@ export default function MintWrapprNFT({ chainId, wrappr, mintFee }: { chainId: n
   })
   const { write } = useContractWrite({
     ...config,
-    onError(error: any) {
-      toast({
-        title: 'Oops! There was an error minting your NFT.',
-        description: error?.message,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    },
-    onSuccess() {
-      toast({
-        title: 'Minting!.',
-        description: 'Your NFT has been successfully minted.',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })
-    },
   })
 
   return (
-    <Flex direction="column" gap={1}>
-      <Flex>
+    <Stack>
+      <Stack>
         <Input
+          label="Address for Minting"
+          hideLabel
           value={account}
           placeholder="Address"
-          borderTopRightRadius={0}
-          borderBottomRightRadius={0}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAccount(e.target.value)}
         />
-        <Button borderTopLeftRadius={0} borderBottomLeftRadius={0} onClick={() => setAccount('')}>
+        <Button onClick={() => setAccount('')}>
           <GrPowerReset />
         </Button>
-      </Flex>
-      <Tooltip hasArrow label={error} shouldWrapChildren mt="3" placement="bottom">
-        <Button onClick={() => write?.()} variant="solid" colorScheme="brand" disabled={!write} width="100%">
-          Mint
-        </Button>
-      </Tooltip>
-    </Flex>
+      </Stack>
+
+      <Button onClick={() => write?.()} disabled={!write} width="full">
+        Mint
+      </Button>
+    </Stack>
   )
 }

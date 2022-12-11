@@ -1,4 +1,4 @@
-import { Flex, Text, Link } from '@chakra-ui/react'
+import { Stack, Text } from '@kalidao/reality'
 import { isValidURL } from '../utils'
 import { HiExternalLink } from 'react-icons/hi'
 import { ethers } from 'ethers'
@@ -13,9 +13,9 @@ export default function Trait({ trait_type, value, isBig }: TraitType) {
   let renderValue = <>{value}</>
   if (isValidURL(value as string) === true) {
     renderValue = (
-      <Link href={value as string} isExternal>
+      <a href={value as string} target="_blank" rel="noopenner noreferrer">
         <HiExternalLink />
-      </Link>
+      </a>
     )
   }
 
@@ -28,9 +28,9 @@ export default function Trait({ trait_type, value, isBig }: TraitType) {
   }
 
   return (
-    <Flex alignItems="center" justifyContent="space-between" paddingX={3} paddingY={1} borderRadius="lg">
-      <Text color="gray.300">{trait_type}</Text>
+    <Stack align="center" justify="space-between">
+      <Text>{trait_type}</Text>
       <Text>{renderValue}</Text>
-    </Flex>
+    </Stack>
   )
 }

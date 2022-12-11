@@ -1,29 +1,15 @@
 import Image from 'next/image'
-import { Text, Box, useColorModeValue } from '@chakra-ui/react'
+import { Text, Box } from '@kalidao/reality'
 type Props = { title: string; description: string; to: string }
 
 export default function Banner({ title, description, to }: Props) {
-  const colorA = useColorModeValue('brand.100', 'brand.900')
-  const colorB = useColorModeValue('brand.200', 'brand.800')
   return (
     <div className="bg-gradient-to-r from-brand-600 via-brand-700 to-brand-800 p-1 rounded-lg">
       <a href={to} target="_blank" rel="nooppenner">
-        <Box
-          bgGradient="linear(to-r, colorA, colorB)"
-          display="flex"
-          justifyContent={'space-evenly'}
-          alignItems="center"
-          _hover={{
-            bgGradient: 'linear(to-r, colorB, colorA)',
-          }}
-        >
+        <Box>
           <div className="flex-col">
-            <Text as="h2" fontSize="4xl" fontWeight="extrabold">
-              {title}
-            </Text>
-            <Text as="p" fontSize="md" colorScheme="gray">
-              {description}
-            </Text>
+            <Text as="h2">{title}</Text>
+            <Text as="p">{description}</Text>
           </div>
           <div>
             <Image

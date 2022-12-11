@@ -1,7 +1,7 @@
 import { StoreT } from '../types'
 import Link from 'next/link'
 import { useNetwork } from 'wagmi'
-import { Link as ChakraLink, Button, VStack, HStack, Spinner } from '@chakra-ui/react'
+import { Button, Stack, Spinner } from '@kalidao/reality'
 import { FaWpexplorer, FaScroll } from 'react-icons/fa'
 import { TbCandy } from 'react-icons/tb'
 import Confetti from '~/utils/Confetti'
@@ -17,33 +17,34 @@ export default function Minted({ store }: MintedProps) {
 
   return (
     <>
-      <VStack spacing="5" align="center" justify="center">
+      <Stack>
         <MintedImage entity={store.juris + store.entity} tokenId={store.tokenId} />
-        <HStack>
+        <Stack direction={'horizontal'} align="center" justify={'center'}>
           <Button
-            as={ChakraLink}
-            leftIcon={<FaWpexplorer />}
+            as="a"
+            prefix={<FaWpexplorer />}
             href={`${chain?.blockExplorers?.default?.url}/tx/${store.txHash}`}
-            isExternal
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Explorer
           </Button>
-          <Button as={ChakraLink} leftIcon={<FaScroll />} href={`${store.agreement}`} isExternal>
+          <Button as={'a'} prefix={<FaScroll />} href={`${store.agreement}`} target="_blank" rel="noopener noreferrer">
             Agreement
           </Button>
           <Link
             href={`/${chain?.id}/${deployments[chain ? chain.id : 1][store.juris + store.entity]}/${store.tokenId}`}
             passHref
           >
-            <Button as={ChakraLink} leftIcon={<TbCandy />} colorScheme={'brand'}>
+            <Button as={'a'} prefix={<TbCandy />}>
               Gallery
             </Button>
           </Link>
-        </HStack>
+        </Stack>
         <Link href={`/clinic`} passHref>
-          <ChakraLink>Need help with your new entity?</ChakraLink>
+          <a>Need help with your new entity?</a>
         </Link>
-      </VStack>
+      </Stack>
       <Confetti />
     </>
   )

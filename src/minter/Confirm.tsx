@@ -1,19 +1,11 @@
 import { useState } from 'react'
 import PDFViewer from '@design/PDFViewer'
-import { VStack, Button, Checkbox, Text, IconButton } from '@chakra-ui/react'
+import { Stack, Checkbox, Text, Button, IconArrowLeft } from '@kalidao/reality'
 import { useAccount, useNetwork, useContractWrite } from 'wagmi'
 import { StoreT } from './types'
 import { ethers } from 'ethers'
 import { deployments, WRAPPR } from '../constants'
-import {
-  MdOutlineArrowBack,
-  MdConstruction,
-  MdError,
-  MdSend,
-  MdSearch,
-  MdAccessTimeFilled,
-  MdCheckCircle,
-} from 'react-icons/md'
+import { MdConstruction, MdError, MdSend, MdSearch, MdAccessTimeFilled, MdCheckCircle } from 'react-icons/md'
 import getName from './utils/getName'
 import { getTokenId } from './getTokenId'
 import { createAgreement } from './utils/createAgreement'
@@ -185,30 +177,17 @@ export default function Confirm({ store, setStore, setView }: Props) {
             <h1 className="text-xl font-semibold">
               Confirm {getName(store.juris, store.entity)} for {store.name}{' '}
             </h1>
-            <IconButton
-              variant="ghost"
-              maxWidth={1}
-              colorScheme={'brand'}
-              onClick={() => setView(1)}
-              aria-label="Go back!"
-              icon={<MdOutlineArrowBack />}
-              isRound
-            />
+            <Button onClick={() => setView(1)} aria-label="Go back!" variant="transparent" shape="circle">
+              <IconArrowLeft />
+            </Button>
           </div>
           <PDFViewer src={`/legal/${store.juris + store.entity}.pdf`} />
-          <Checkbox colorScheme="brand" onChange={() => setChecked(!checked)}>
-            I have read and accept the terms of this agreement.
-          </Checkbox>
+          <Checkbox
+            label={<Text>I have read and accept the terms of this agreement.</Text>}
+            onCheckedChange={() => setChecked(!checked)}
+          ></Checkbox>
           {isConnected ? (
-            <Button
-              type="submit"
-              width="100%"
-              colorScheme="brand"
-              variant="solid"
-              borderRadius={'lg'}
-              disabled={!checked}
-              onClick={tx}
-            >
+            <Button type="submit" width="full" tone="accent" disabled={!checked} onClick={tx}>
               {!checked ? 'Please agree to the terms.' : 'Confirm Mint'}
             </Button>
           ) : (
@@ -216,10 +195,10 @@ export default function Confirm({ store, setStore, setView }: Props) {
           )}
         </div>
       ) : (
-        <VStack align="center" justify="center" minHeight="500px">
+        <Stack align="center" justify="center">
           <span>{message.icon}</span>
           <p className="text-center font-semibold text-xl">{message.text}</p>
-        </VStack>
+        </Stack>
       )}
     </>
   )

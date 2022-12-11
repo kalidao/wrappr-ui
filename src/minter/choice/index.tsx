@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { IconButton } from '@chakra-ui/react'
-import { MdOutlineArrowBack } from 'react-icons/md'
+import { Button, IconArrowLeft } from '@kalidao/reality'
 
 import Entity from './Entity'
 import Juris from './Juris'
@@ -32,15 +31,9 @@ export default function Choice({ setScreen, setChoice, choice }: Props) {
     <div className="flex-col space-y-4">
       <div className="flex justify-end items-center">
         {view === 1 && (
-          <IconButton
-            variant="ghost"
-            maxWidth={1}
-            colorScheme={'brand'}
-            onClick={back}
-            aria-label="Go back!"
-            icon={<MdOutlineArrowBack />}
-            isRound
-          />
+          <Button variant="transparent" onClick={back} aria-label="Go back!">
+            <IconArrowLeft />
+          </Button>
         )}
       </div>
       <div>{views[view]}</div>

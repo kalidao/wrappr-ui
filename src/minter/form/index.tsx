@@ -46,15 +46,9 @@ export default function Form({ store, setStore, setView }: Props) {
     <div className="flex-col space-y-2">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">{form[choice]['heading']}</h1>
-        <IconButton
-          variant="ghost"
-          maxWidth={1}
-          colorScheme={'brand'}
-          onClick={() => setView(0)}
-          aria-label="Go back!"
-          icon={<MdOutlineArrowBack />}
-          isRound
-        />
+        <Button variant="transparent" onClick={() => setView(0)} aria-label="Go back!">
+          <IconArrowLeft />
+        </Button>
       </div>
       <div>{form[choice]['component']}</div>
     </div>
@@ -64,4 +58,4 @@ export default function Form({ store, setStore, setView }: Props) {
 import LLC from './LLC'
 import Charter from './Charter'
 import UNA from './UNA'
-import { IconButton } from '@chakra-ui/react'
+import { Button, IconArrowLeft } from '@kalidao/reality'

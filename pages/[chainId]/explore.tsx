@@ -1,7 +1,7 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '~/layout'
-import { SimpleGrid } from '@chakra-ui/react'
+import { Stack } from '@kalidao/reality'
 import { WrapprCard } from '~/wrap'
 import { Wrappr } from '~/types/wrappr.types'
 import { deployments } from '~/constants'
@@ -12,7 +12,7 @@ const Explore: NextPage = ({ wrapprs }: InferGetServerSidePropsType<typeof getSe
 
   return (
     <Layout heading="Explore" content="Explore wrapprs. Wrap anything." back={() => router.push('/explore')}>
-      <SimpleGrid columns={[1, 2, 3, 6]} spacing={10} px={[4, 6]} py={2}>
+      <Stack direction={'horizontal'} wrap>
         {wrapprs.map((wrappr: Wrappr) => (
           <WrapprCard
             key={wrappr['id']}
@@ -22,7 +22,7 @@ const Explore: NextPage = ({ wrapprs }: InferGetServerSidePropsType<typeof getSe
             chainId={chainId ? chainId.toString() : '1'}
           />
         ))}
-      </SimpleGrid>
+      </Stack>
     </Layout>
   )
 }

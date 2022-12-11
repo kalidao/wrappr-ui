@@ -1,22 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import {
-  Flex,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Input,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Button,
-  Textarea,
-  IconButton,
-  HStack,
-  VStack,
-  Text,
-} from '@chakra-ui/react'
+import { Box, Stack, Input, Field, Button, Textarea, Text, MediaPicker } from '@kalidao/reality'
 import { AiOutlineDelete } from 'react-icons/ai'
 
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
@@ -28,11 +11,11 @@ import * as z from 'zod'
 
 import { deployments } from '../constants'
 import { WRAPPR_FACTORY } from '../constants'
-import UploadImage from '../utils/UploadImage'
 
 import { createWrappr } from './createWrappr'
 import { StoreC } from './types'
 import { checkName } from './checkName'
+import FileUploader from '@design/FileUploader'
 
 type Create = {
   image: FileList
@@ -82,7 +65,8 @@ export default function CreateForm({ store, setStore, setView }: Props) {
     name: 'attributes',
     control,
   })
-  const [image, setImage] = useState([])
+  const [agreement, setAgreement] = useState<File>()
+  const [image, setImage] = useState<File>()
   const [submitting, setSubmitting] = useState(false)
   const { isConnected, address } = useAccount()
   const { chain } = useNetwork()
@@ -109,7 +93,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
       return
     }
     setSubmitting(true)
-    if (image.length === 0) return
+    if (!image) return
     const { name, description, agreement, symbol, mintFee, admin, attributes } = data
 
     try {
@@ -154,106 +138,93 @@ export default function CreateForm({ store, setStore, setView }: Props) {
   }
 
   return (
-    <Flex
-      as="form"
-      flexDirection="column"
-      gap="10px"
-      justifyContent="center"
-      alignItems="center"
-      padding="20px"
-      mr={['1%', '5%', '15%', '25%']}
-      ml={['1%', '5%', '15%', '25%']}
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <FormControl>
-        <FormLabel htmlFor="image">Image</FormLabel>
-        <UploadImage file={image} setFile={setImage} />
-        {/* <Input id="image" type="file" {...register('image')} variant="flushed" /> */}
-      </FormControl>
-      <FormControl isInvalid={Boolean(errors.name)}>
-        <FormLabel htmlFor="name">Name</FormLabel>
-        <Input id="name" {...register('name')} placeholder="Agreement Name" variant="flushed" />
-        <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
-      </FormControl>
-      <FormControl isInvalid={Boolean(errors.symbol)}>
-        <FormLabel htmlFor="symbol">Symbol</FormLabel>
-        <Input id="symbol" {...register('symbol')} placeholder="SYMBOL" variant="flushed" />
-        <FormErrorMessage>{errors.symbol && errors.symbol.message}</FormErrorMessage>
-      </FormControl>
-      <FormControl isInvalid={Boolean(errors.description)}>
-        <FormLabel htmlFor="description">Description</FormLabel>
-        <Textarea id="description" placeholder="" variant="outline" borderRadius="none" {...register('description')} />
-      </FormControl>
-      <FormControl isInvalid={Boolean(errors.admin)}>
-        <FormLabel htmlFor="admin">Admin</FormLabel>
-        <Input id="admin" {...register('admin')} placeholder={ethers.constants.AddressZero} variant="flushed" />
-        <FormErrorMessage>{errors.admin && errors.admin.message}</FormErrorMessage>
-      </FormControl>
-      <FormControl isInvalid={Boolean(errors.mintFee)}>
-        <FormLabel htmlFor="mintFee">Minting Fee</FormLabel>
-        <NumberInput id="mintFee" defaultValue={5} min={0} variant="flushed">
-          <NumberInputField {...register('mintFee')} />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-        <FormErrorMessage>{errors.mintFee && errors.mintFee.message}</FormErrorMessage>
-      </FormControl>
-      <FormControl isInvalid={Boolean(errors.agreement)}>
-        <FormLabel htmlFor="agreement">Agreement</FormLabel>
-        <Input id="agreement" type="file" {...register('agreement')} variant="flushed" />
-      </FormControl>
-      <FormControl as={VStack} align="stretch" isInvalid={Boolean(errors.attributes)}>
-        <FormLabel>Traits</FormLabel>
-        {fields.map((field, index) => {
-          return (
-            <HStack key={field.id}>
-              <Input
-                placeholder="Type"
-                {...register(`attributes.${index}.trait_type` as const, {
-                  required: true,
-                })}
-                className={errors?.attributes?.[index]?.trait_type ? 'error' : ''}
-              />
-              <Input
-                placeholder="Value"
-                {...register(`attributes.${index}.value` as const, {
-                  required: true,
-                })}
-                className={errors?.attributes?.[index]?.value ? 'error' : ''}
-              />
-              <IconButton aria-label="Delete Item" onClick={() => remove(index)} colorScheme="orange" isRound>
-                <AiOutlineDelete />
-              </IconButton>
-            </HStack>
-          )
-        })}
-        <Button
-          variant="ghost"
-          borderRadius={'lg'}
-          onClick={() =>
-            append({
-              trait_type: '',
-              value: '',
-            })
-          }
-        >
-          Add
-        </Button>
-      </FormControl>
+    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+      {/* <Input id="image" type="file" {...register('image')} variant="flushed" /> */}
+
+      <MediaPicker label="Image" onChange={(file: File) => setImage(file)} />
+
+      <Input
+        label="Name"
+        id="name"
+        {...register('name')}
+        placeholder="Agreement Name"
+        error={errors.name && errors.name.message}
+      />
+
+      <Input
+        label="Symbol"
+        id="symbol"
+        {...register('symbol')}
+        placeholder="SYMBOL"
+        error={errors.symbol && errors.symbol.message}
+      />
+
+      <Textarea label="Description" id="description" placeholder="" {...register('description')} />
+
+      <Input
+        label="Admin"
+        id="admin"
+        {...register('admin')}
+        placeholder={ethers.constants.AddressZero}
+        error={errors.admin && errors.admin.message}
+      />
+
+      <Input
+        type="number"
+        id="mintFee"
+        defaultValue={5}
+        min={0}
+        label="Minting Fee"
+        error={errors.mintFee && errors.mintFee.message}
+      />
+
+      <FileUploader label="Agreement" setFile={setAgreement} />
+
+      <Field label="Traits">
+        <Stack>
+          {fields.map((field, index) => {
+            return (
+              <Stack direction="horizontal" align="center" key={field.id}>
+                <Input
+                  label="Type"
+                  hideLabel
+                  placeholder="Type"
+                  {...register(`attributes.${index}.trait_type` as const, {
+                    required: true,
+                  })}
+                />
+                <Input
+                  label="Value"
+                  hideLabel
+                  placeholder="Value"
+                  {...register(`attributes.${index}.value` as const, {
+                    required: true,
+                  })}
+                />
+                <Button size="small" shape="circle" aria-label="Delete Item" onClick={() => remove(index)} tone="red">
+                  <AiOutlineDelete />
+                </Button>
+              </Stack>
+            )
+          })}
+
+          <Button
+            variant="secondary"
+            onClick={() =>
+              append({
+                trait_type: '',
+                value: '',
+              })
+            }
+          >
+            Add
+          </Button>
+        </Stack>
+      </Field>
       <Text>{error}</Text>
-      <Button
-        type="submit"
-        width="100%"
-        colorScheme="brand"
-        variant="solid"
-        borderRadius={'lg'}
-        disabled={submitting}
-        isLoading={submitting}
-      >
+      <Button type="submit" width="full" tone="accent" variant="primary" disabled={submitting} loading={submitting}>
         Create
       </Button>
-    </Flex>
+    </Box>
   )
 }

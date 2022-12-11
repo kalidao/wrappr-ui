@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { Flex } from '@chakra-ui/react'
+import { Stack } from '@kalidao/reality'
 import Layout from '~/layout'
 import Minter from '~/minter'
 import Banner from '@design/Banner'
@@ -10,22 +10,14 @@ const Home: NextPage = () => {
 
   return (
     <Layout heading="Home" content="Wrap anything">
-      <Flex
-        direction="column"
-        justify={'center'}
-        ml={['5%', '15%', '25%']}
-        mr={[0, '5%', '15%', '25%']}
-        mt={['10%', '1.3%', '2.5%', '5%']}
-        mb={['10%', '1.3%', '2.5%', '5%']}
-        gap={5}
-      >
+      <Stack>
         <Minter />
         <Banner
           title="How does it work?"
           description="Learn more about the legal engineering behind Wrappr."
           to="https://docs.wrappr.wtf/how-to/quick-notes/"
         />
-      </Flex>
+      </Stack>
     </Layout>
   )
 }

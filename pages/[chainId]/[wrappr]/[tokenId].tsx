@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import Layout from '~/layout'
-import { Flex, Link as ChakraLink, Spinner, Text, VStack, StackDivider, Skeleton } from '@chakra-ui/react'
+import { Stack, Spinner, Text, Divider, Skeleton } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { MintWrappr, Trait, TraitType } from '~/wrap'
 import { useContractReads } from 'wagmi'
@@ -46,17 +46,9 @@ const Wrappr: NextPage = () => {
   // TODO: Add Back
   return (
     <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/${wrappr}`)}>
-      <Flex
-        direction="row"
-        gap={5}
-        marginTop={2}
-        marginRight={[2, 4, 6, 8]}
-        marginLeft={[2, 4, 6, 8]}
-        marginBottom={[2, 4, 6, 8]}
-        justify="space-evenly"
-      >
-        <Flex direction="column" gap={5}>
-          <Skeleton isLoaded={!isLoading}>
+      <Stack>
+        <Stack>
+          <Skeleton loading={!isLoading}>
             {data ? (
               <Image
                 src={uri?.['image']}
@@ -75,44 +67,30 @@ const Wrappr: NextPage = () => {
             tokenId={Number(tokenId)}
           />
           <Link href="/clinic" passHref>
-            <ChakraLink>Need help with your entity?</ChakraLink>
+            <a>Need help with your entity?</a>
           </Link>
-        </Flex>
-        <Flex direction="column" gap={5} minW={'75%'}>
-          <Skeleton isLoaded={!isLoading}>
-            <Text as="h1" colorScheme="gray" fontWeight="extrabold" fontSize="x-large">
+        </Stack>
+        <Stack>
+          <Skeleton loading={!isLoading}>
+            <Text as="h1" weight={'bold'} size="extraLarge">
               {isLoading ? <Spinner /> : uri ? uri?.['name'] : 'No name found'}
             </Text>
           </Skeleton>
-          <Skeleton isLoaded={!isLoadingURI}>
-            <Text as="p" colorScheme="gray">
-              {isLoading ? <Spinner /> : uri ? uri?.['description'] : 'No description found'}
-            </Text>
+          <Skeleton loading={!isLoadingURI}>
+            <Text as="p">{isLoading ? <Spinner /> : uri ? uri?.['description'] : 'No description found'}</Text>
           </Skeleton>
-          <Text as="p" colorScheme="gray">
-            Traits
-          </Text>
-          <Skeleton isLoaded={!isLoadingURI}>
-            <VStack
-              gap={3}
-              align={'stretch'}
-              divider={<StackDivider borderColor={'brand.900'} />}
-              className="rounded-lg shadow-brand-900 shadow-md py-3"
-            >
+          <Text as="p">Traits</Text>
+          <Skeleton loading={!isLoadingURI}>
+            <Stack>
               {uri
                 ? uri?.['attributes']?.map((trait: TraitType, index: number) => (
                     <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
                   ))
                 : null}
-            </VStack>
+            </Stack>
           </Skeleton>
-          <Skeleton isLoaded={!isLoading}>
-            <VStack
-              gap={3}
-              align={'stretch'}
-              divider={<StackDivider borderColor={'brand.900'} />}
-              className="rounded-lg shadow-brand-900 shadow-md py-3"
-            >
+          <Skeleton loading={!isLoading}>
+            <Stack>
               <Trait
                 trait_type={'Permissioned'}
                 value={data?.['permissioned'] === null ? 'No' : data?.permissioned === true ? 'Yes' : 'No'}
@@ -124,10 +102,10 @@ const Wrappr: NextPage = () => {
                 isBig={false}
               />
               <Trait trait_type={'Owner'} value={data?.['owner']} isBig={false} />
-            </VStack>
+            </Stack>
           </Skeleton>
-        </Flex>
-      </Flex>
+        </Stack>
+      </Stack>
     </Layout>
   )
 }

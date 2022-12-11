@@ -1,15 +1,29 @@
-import { ColorModeScript } from '@chakra-ui/react'
+import React from 'react'
 import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
-import { theme } from '@design/theme'
 
 export default class Document extends NextDocument {
   render() {
     return (
       <Html lang="en">
-        <Head />
+        <Head>
+          <link
+            rel="preload"
+            href="/fonts/Inter.ttf"
+            as="font"
+            type="font/ttf"
+            crossOrigin="anonymous"
+            key="InterVar"
+          />
+          <link
+            rel="preload"
+            href="/fonts/Px-Grotesk-Screen.woff2"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+            key="PxGroteskScreen"
+          />
+        </Head>
         <body>
-          {/* 👇 Here's the script */}
-          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <Main />
           <NextScript />
         </body>

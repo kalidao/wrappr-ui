@@ -1,4 +1,4 @@
-import { VStack, Text, HStack, Checkbox } from '@chakra-ui/react'
+import { Text, Stack, Checkbox } from '@kalidao/reality'
 
 const Disclaimer = ({
   checked,
@@ -17,19 +17,20 @@ const Disclaimer = ({
     'The chatbot is not responsible for any consequences that may arise from using the information provided.',
   ]
   return (
-    <VStack align="flex-start" gap="0">
+    <Stack align="flex-start">
       <Text>The following disclaimer applies to any interaction with this legal assistance AI chatbot:</Text>
       {terms.map((term, i) => (
-        <HStack key={i} width="full" justify={'space-between'} backgroundColor="gray.600" padding="1">
+        <Stack key={i} direction="horizontal" justify={'space-between'}>
           <Text>{i + 1}.</Text>
-          <Text key={i} width="full">
-            {term}
-          </Text>
-        </HStack>
+          <Text key={i}>{term}</Text>
+        </Stack>
       ))}
 
-      <Checkbox onChange={() => setChecked(!checked)}>I have read and understood the disclaimer.</Checkbox>
-    </VStack>
+      <Checkbox
+        label={<Text>I have read and understood the disclaimer.</Text>}
+        onCheckedChange={() => setChecked(!checked)}
+      />
+    </Stack>
   )
 }
 

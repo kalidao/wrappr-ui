@@ -1,4 +1,4 @@
-import { Skeleton } from '@chakra-ui/react'
+import { Skeleton } from '@kalidao/reality'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
@@ -14,7 +14,7 @@ const CollectionCard = ({ tokenURI, chainId, address, id }: Props) => {
   const { isLoading, data } = useQuery(['wrappr', tokenURI], () => fetchCollectionData(tokenURI))
 
   return (
-    <Skeleton isLoaded={!isLoading} className="rounded-lg">
+    <Skeleton loading={!isLoading} radius="3xLarge">
       <div className="rounded-lg gap-10 flex-col">
         <Link href={`/${chainId}/${address}/${id}`} passHref>
           <div

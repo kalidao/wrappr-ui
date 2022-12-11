@@ -1,15 +1,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Link as ChakraLink, HStack, Button, Flex, Spinner, VStack, Text } from '@chakra-ui/react'
+import { Stack, Button, Spinner } from '@kalidao/reality'
 import Confetti from '../utils/Confetti'
 import { useTransaction, useNetwork, useContractEvent } from 'wagmi'
 import { FaWpexplorer } from 'react-icons/fa'
 import { TbCandy } from 'react-icons/tb'
-import { ethers } from 'ethers'
-import { WRAPPR, WRAPPR_FACTORY } from '../constants'
+import { WRAPPR_FACTORY } from '../constants'
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Trait } from '../wrap'
 import { StoreC } from './types'
 
 const fetchWrapprData = async (URI: string) => {
@@ -49,35 +47,27 @@ export default function Confirmation({ store }: { store: StoreC }) {
 
   return (
     <>
-      <Flex
-        as="form"
-        flexDirection="column"
-        gap="10px"
-        justifyContent="center"
-        alignItems="center"
-        padding="20px"
-        mr={['1%', '5%', '15%', '25%']}
-        ml={['1%', '5%', '15%', '25%']}
-      >
+      <Stack>
         {isFetched && isSuccess && (
           <Image src={uri?.['image']} height="500px" width="500px" alt="Uploaded Image for NFT" />
         )}
-        <HStack>
+        <Stack>
           <Button
-            as={ChakraLink}
-            leftIcon={<FaWpexplorer />}
+            as={'a'}
+            prefix={<FaWpexplorer />}
             href={`${chain?.blockExplorers?.default?.url}/tx/${store.hash}`}
-            isExternal
+            target="_blank"
+            rel="noopener noreferrer"
           >
             View on Explorer
           </Button>
           <Link href={`/${chain?.id}/${event?.[0]}`} passHref>
-            <Button as={ChakraLink} leftIcon={<TbCandy />} colorScheme={'brand'} disabled={!event}>
+            <Button as={'a'} prefix={<TbCandy />} tone={'accent'} disabled={!event}>
               View in Gallery
             </Button>
           </Link>
-        </HStack>
-      </Flex>
+        </Stack>
+      </Stack>
       <Confetti />
     </>
   )

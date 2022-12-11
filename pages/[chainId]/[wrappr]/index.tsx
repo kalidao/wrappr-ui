@@ -1,10 +1,10 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
-import Layout from '../../../src/layout'
-import { Link as ChakraLink, Flex, VStack, StackDivider, Skeleton } from '@chakra-ui/react'
+import Layout from '~/layout'
+import { Stack, Skeleton } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { Trait, TraitType } from '~/wrap'
-import { useAccount, useContractReads } from 'wagmi'
+import { useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
 import { deployments, WRAPPR } from '~/constants'
 import MintWrapprNFT from '~/wrap/MintWrapprNFT'
@@ -33,18 +33,9 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   // TODO: Add mint fee
   return (
     <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/explore`)}>
-      <Flex
-        direction={['column', 'row']}
-        gap={5}
-        marginTop={2}
-        marginRight={[2, 4, 6, 8]}
-        marginLeft={[2, 4, 6, 8]}
-        marginBottom={[2, 4, 6, 8]}
-        justify="space-evenly"
-        align={['center', 'start']}
-      >
-        <Flex direction="column" gap={5}>
-          <Skeleton isLoaded={!isLoading && data !== undefined}>
+      <Stack>
+        <Stack>
+          <Skeleton loading={!isLoading && data !== undefined}>
             <Image
               src={data?.['image']}
               height="300px"
@@ -53,47 +44,34 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
               className="rounded-lg shadow-gray-900 shadow-md"
             />
           </Skeleton>
-          {/* TODO: Expose update metadata */}
-          {/* {isConnected && address?.toLowerCase() === wrappr['admin'].toLowerCase() && (
-            <Link href={`${router.asPath}/baseURI`} passHref>
-              <Button as={ChakraLink} leftIcon={<FaPenNib />}>
-                Update Metadata
-              </Button>
-            </Link>
-          )} */}
           <MintWrapprNFT
             chainId={Number(chainId)}
             wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
             mintFee={wrappr['mintFee']}
           />
-        </Flex>
-        <Flex direction="column" gap={5} minW={'75%'}>
-          <Skeleton isLoaded={!isReading}>
+        </Stack>
+        <Stack>
+          <Skeleton loading={!isReading}>
             <h1 className="text-gray-100 font-semibold text-xl">{reads ? reads?.[0] : 'No name found'}</h1>
           </Skeleton>
-          <Skeleton isLoaded={!isReading}>
+          <Skeleton loading={!isReading}>
             <p className="whitespace-pre-line break-normal text-gray-400">
               {data ? data['description'] : 'No description found'}
             </p>
           </Skeleton>
           <h2 className="text-gray-100 font-semibold text-xl">Traits</h2>
-          <Skeleton isLoaded={!isLoading}>
-            <VStack
-              gap={3}
-              align={'stretch'}
-              divider={<StackDivider borderColor={'brand.900'} />}
-              className="rounded-lg shadow-brand-900 shadow-md py-3"
-            >
+          <Skeleton loading={!isLoading}>
+            <Stack>
               {data &&
                 data?.['attributes']?.map((trait: TraitType, index: number) => (
                   <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
                 ))}
               <Trait trait_type={'Admin'} value={wrappr['admin']} isBig={false} />
               <Trait trait_type={'Mint Fee'} value={wrappr['mintFee']} isBig={true} />
-            </VStack>
+            </Stack>
           </Skeleton>
-        </Flex>
-      </Flex>
+        </Stack>
+      </Stack>
     </Layout>
   )
 }

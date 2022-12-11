@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Tilt from 'react-parallax-tilt'
-import { Box } from '@chakra-ui/react'
+import { Box } from '@kalidao/reality'
 import Choice from './choice'
 import Form from './form'
 import Confirm from './Confirm'

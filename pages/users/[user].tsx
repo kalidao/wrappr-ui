@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '~/layout'
-import { Stack, Heading, IconButton, Box, Text } from '@chakra-ui/react'
-import { BsArrowLeft, BsArrowRight } from 'react-icons/bs'
+import { Stack, Heading, Button, Box, Text } from '@kalidao/reality'
 import { deployments } from '~/constants'
 import { useQuery } from '@tanstack/react-query'
 import { CollectionCard } from '~/collection'
 import { useNetwork } from 'wagmi'
-import { SimpleGrid } from '@chakra-ui/react'
 
 const User: NextPage = () => {
   const router = useRouter()
@@ -31,51 +29,14 @@ const User: NextPage = () => {
     if (chain) setChainId(chain.id)
   }, [chain])
 
-  // const goBack = () => {
-  //     const index = chains?.findIndex(({ id }) => id === chainId)
-  //     console.log(chains.length, index, chains[chains.length])
-
-  //     if (index === 0) setChainId(chains[chains.length - 1]["id"])
-  //     else setChainId(index - 1)
-  // }
-
-  // const goNext = () => {
-  //     const index = chains?.findIndex(({ id }) => id === chainId)
-  //     console.log(chains.length, index)
-  //     if (chains.length === index + 1) setChainId(chains[0]["id"])
-  //     else setChainId(chains[index + 1]["id"])
-  // }
-
   return (
     <Layout heading="User" content="Explore wrapprs created by users. Wrap anything." back={() => router.push('/')}>
-      <Box display="flex" flexDirection={'column'} alignItems="center" justifyContent="center" gap={'md'}>
-        <Stack direction={'row'}>
-          {/* <IconButton
-                        variant="ghost"
-                        maxWidth={1}
-                        colorScheme={'brand'}
-                        disabled={!chains}
-                        onClick={goBack}
-                        aria-label="Go back!"
-                        icon={<BsArrowLeft />}
-                        isRound
-                        marginLeft={[2, 4, 6, 8]}
-                    /> */}
+      <Box display="flex" flexDirection={'column'} alignItems="center" justifyContent="center" gap="2">
+        <Stack direction={'horizontal'}>
           <Heading>{getChainName(chainId)}</Heading>
-          {/* <IconButton
-                        variant="ghost"
-                        maxWidth={1}
-                        colorScheme={'brand'}
-                        disabled={!chains}
-                        onClick={goNext}
-                        aria-label="Go back!"
-                        icon={<BsArrowRight />}
-                        isRound
-                        marginLeft={[2, 4, 6, 8]}
-                    /> */}
         </Stack>
         {data ? (
-          <SimpleGrid columns={[1, 2, 3, 6]} spacing={10} px={[4, 6]} py={2}>
+          <Stack wrap>
             {data.map((wrappr: any) => (
               <CollectionCard
                 key={wrappr?.id}
@@ -85,7 +46,7 @@ const User: NextPage = () => {
                 chainId={chainId.toString()}
               />
             ))}
-          </SimpleGrid>
+          </Stack>
         ) : isLoading ? (
           <Text>Fetching...</Text>
         ) : (

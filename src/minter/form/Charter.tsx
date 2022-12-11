@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Button, FormLabel, Input, Textarea } from '@chakra-ui/react'
+import { Button, Input, Textarea } from '@kalidao/reality'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
@@ -54,24 +54,7 @@ export default function Charter({ store, setStore, setView }: Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
       <div className="relative z-0 mb-6 w-full group">
-        <Input
-          type="text"
-          {...register('name')}
-          id="name"
-          placeholder=" "
-          required
-          className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none peer"
-          variant="flushed"
-          colorScheme="brand"
-        />
-        <FormLabel
-          htmlFor="name"
-          fontSize="sm"
-          colorScheme="gray"
-          className="peer-focus:font-medium absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-zinc-600 peer-focus:dark:text-zinc-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-          Name
-        </FormLabel>
+        <Input type="text" {...register('name')} id="name" placeholder=" " required label="Name" />
       </div>
       <div className="relative z-0 mb-6 w-full group">
         <Input
@@ -80,46 +63,24 @@ export default function Charter({ store, setStore, setView }: Props) {
           id="jurisdiction"
           placeholder=" "
           required
-          className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none peer"
-          variant="flushed"
-          colorScheme="brand"
+          label="Jurisdiction"
         />
-        <FormLabel
-          htmlFor="jurisdiction"
-          fontSize="sm"
-          colorScheme="gray"
-          className="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-zinc-600 peer-focus:dark:text-zinc-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-          Jurisdiction
-        </FormLabel>
       </div>
       <div>
-        <FormLabel htmlFor="mission" colorScheme={'gray'} fontSize="sm">
-          Your mission
-        </FormLabel>
         <Textarea
           id="mission"
+          label="Your Mission"
           {...register('mission')}
           rows={4}
-          colorScheme="brand"
-          variant="unstyled"
           placeholder="Which shall primarily be..."
         />
       </div>
       {!isConnected && openConnectModal ? (
-        <Button
-          onClick={openConnectModal}
-          type="submit"
-          width="100%"
-          colorScheme="brand"
-          variant="solid"
-          borderRadius={'lg'}
-          rightIcon={<BsFillArrowRightCircleFill />}
-        >
+        <Button onClick={openConnectModal} type="submit" width="full" prefix={<BsFillArrowRightCircleFill />}>
           Connect
         </Button>
       ) : (
-        <Button rightIcon={<BsFillArrowRightCircleFill />} type="submit" width="100%" isLoading={isSubmitting}>
+        <Button prefix={<BsFillArrowRightCircleFill />} type="submit" width="full" loading={isSubmitting}>
           Next
         </Button>
       )}

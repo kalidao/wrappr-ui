@@ -3,7 +3,7 @@ import { useContractRead, useNetwork } from 'wagmi'
 import { WRAPPR, deployments } from '~/constants'
 import { useQuery } from '@tanstack/react-query'
 import { ethers } from 'ethers'
-import { Skeleton } from '@chakra-ui/react'
+import { Skeleton } from '@kalidao/reality'
 
 const fetchWrapprData = async (URI: string | undefined) => {
   if (URI) {
@@ -30,7 +30,7 @@ export default function MintedImage({ entity, tokenId }: { entity: string; token
   if (isLoadingURI && isLoading) return <>Fetching</>
 
   return (
-    <Skeleton isLoaded={!isLoadingURI && !isLoading}>
+    <Skeleton loading={!isLoadingURI && !isLoading}>
       <div className="flex items-center justify-center rounded-md">
         <Image
           height="350px"
