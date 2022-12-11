@@ -20,7 +20,7 @@ const Disclaimer = ({
     <VStack align="flex-start" gap="0">
       <Text>The following disclaimer applies to any interaction with this legal assistance AI chatbot:</Text>
       {terms.map((term, i) => (
-        <HStack width="full" justify={'space-between'} backgroundColor="gray.600" padding="1">
+        <HStack key={i} width="full" justify={'space-between'} backgroundColor="gray.600" padding="1">
           <Text>{i + 1}.</Text>
           <Text key={i} width="full">
             {term}

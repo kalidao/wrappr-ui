@@ -42,7 +42,7 @@ export default function LLC({ store, setStore, setView }: Props) {
         setMessage('')
       }
     }
-  }, [isConnected])
+  }, [isConnected, message])
 
   const onSubmit = async (data: LLC) => {
     if (!isConnected) return setMessage('Please connect your wallet')
