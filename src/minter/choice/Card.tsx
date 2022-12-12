@@ -14,19 +14,21 @@ type CardProps = {
 const Card = ({ name, icon, description, learn, cta, onClick }: CardProps) => {
   return (
     <Tilt
-    className="rounded-xl"
-    perspective={1300}
-    transitionSpeed={300}
-    tiltMaxAngleX={1}
-    tiltMaxAngleY={1}
-    glareEnable={true}
-    glareMaxOpacity={0.01}
-    glarePosition={'all'}
-  >
-    <Box className={styles.card} as="button" onClick={onClick}>
-      <Text size={'extraLarge'}>{name}</Text>
-      <Text as={'p'} align="left">{description}</Text>
-    </Box>
+      className="rounded-xl"
+      perspective={1300}
+      transitionSpeed={300}
+      tiltMaxAngleX={1}
+      tiltMaxAngleY={1}
+      glareEnable={true}
+      glareMaxOpacity={0.01}
+      glarePosition={'all'}
+    >
+      <Box className={styles.card} as="button" onClick={onClick}>
+        <Text size={'extraLarge'}>{name}</Text>
+        <Text as={'p'} align="left">
+          {description}
+        </Text>
+      </Box>
     </Tilt>
   )
 }

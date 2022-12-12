@@ -28,8 +28,5 @@ export default function Skeleton() {
     <Success key={'success'} store={store} />,
   ]
 
-  return (
-      <Box className={styles.container}>{views[view]}</Box>
-  
-  )
+  return <Box className={styles.container}>{views[view]}</Box>
 }
