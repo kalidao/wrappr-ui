@@ -1,7 +1,7 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
 import Layout from '~/layout'
-import { Stack, Skeleton } from '@kalidao/reality'
+import { Box, Stack, Text, Spinner, Skeleton, Avatar, Heading } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { Trait, TraitType } from '~/wrap'
 import { useContractReads } from 'wagmi'
@@ -33,44 +33,35 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   // TODO: Add mint fee
   return (
     <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/explore`)}>
-      <Stack>
+      <Stack direction={'horizontal'} align="flex-start" justify={'space-between'}>
         <Stack>
-          <Skeleton loading={!isLoading && data !== undefined}>
-            <Image
-              src={data?.['image']}
-              height="300px"
-              width="300px"
-              alt={`Image for ${data?.['name']}`}
-              className="rounded-lg shadow-gray-900 shadow-md"
-            />
-          </Skeleton>
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <Avatar src={data?.['image']} size="96" label={`Image for ${data?.['name']}`} shape="square" />
+          )}
           <MintWrapprNFT
             chainId={Number(chainId)}
             wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
             mintFee={wrappr['mintFee']}
           />
         </Stack>
-        <Stack>
-          <Skeleton loading={!isReading}>
-            <h1 className="text-gray-100 font-semibold text-xl">{reads ? reads?.[0] : 'No name found'}</h1>
-          </Skeleton>
-          <Skeleton loading={!isReading}>
-            <p className="whitespace-pre-line break-normal text-gray-400">
-              {data ? data['description'] : 'No description found'}
-            </p>
-          </Skeleton>
-          <h2 className="text-gray-100 font-semibold text-xl">Traits</h2>
-          <Skeleton loading={!isLoading}>
+        <Box width="full">
+          <Stack>
+            <Heading>{reads ? reads?.[0] : 'No name found'}</Heading>
+            {/* className="whitespace-pre-line break-normal text-gray-400" */}
+            <Text wordBreak="break-word">{data ? data['description'] : 'No description found'}</Text>
+            <Heading>Traits</Heading>
             <Stack>
               {data &&
                 data?.['attributes']?.map((trait: TraitType, index: number) => (
                   <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
                 ))}
-              <Trait trait_type={'Admin'} value={wrappr['admin']} isBig={false} />
-              <Trait trait_type={'Mint Fee'} value={wrappr['mintFee']} isBig={true} />
+              {wrappr ? <Trait trait_type={'Admin'} value={wrappr?.['admin']} isBig={false} /> : <Spinner />}
+              {wrappr ? <Trait trait_type={'Mint Fee'} value={wrappr?.['mintFee']} isBig={true} /> : <Spinner />}
             </Stack>
-          </Skeleton>
-        </Stack>
+          </Stack>
+        </Box>
       </Stack>
     </Layout>
   )

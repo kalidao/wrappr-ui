@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import Layout from '~/layout'
-import { Stack, Spinner, Text, Divider, Skeleton } from '@kalidao/reality'
+import { Box, Stack, Spinner, Text, Divider, Skeleton, Avatar, Heading } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { MintWrappr, Trait, TraitType } from '~/wrap'
 import { useContractReads } from 'wagmi'
@@ -46,21 +46,14 @@ const Wrappr: NextPage = () => {
   // TODO: Add Back
   return (
     <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/${wrappr}`)}>
-      <Stack>
+      <Stack direction={'horizontal'}>
         <Stack>
-          <Skeleton loading={!isLoading}>
-            {data ? (
-              <Image
-                src={uri?.['image']}
-                height="300px"
-                width="300px"
-                alt={`Image for ${uri?.['name']}`}
-                className="rounded-lg shadow-gray-900 shadow-md"
-              />
-            ) : (
-              'No image found'
-            )}
-          </Skeleton>
+          {data ? (
+            <Avatar src={uri?.['image']} size="96" shape="square" label={`Image for ${uri?.['name']}`} />
+          ) : (
+            'No image found'
+          )}
+
           <MintWrappr
             chainId={4}
             wrappr={wrappr ? wrappr.toString() : ethers.constants.AddressZero}
@@ -70,17 +63,11 @@ const Wrappr: NextPage = () => {
             <a>Need help with your entity?</a>
           </Link>
         </Stack>
-        <Stack>
-          <Skeleton loading={!isLoading}>
-            <Text as="h1" weight={'bold'} size="extraLarge">
-              {isLoading ? <Spinner /> : uri ? uri?.['name'] : 'No name found'}
-            </Text>
-          </Skeleton>
-          <Skeleton loading={!isLoadingURI}>
+        <Box width="full">
+          <Stack>
+            <Heading>{isLoading ? <Spinner /> : uri ? uri?.['name'] : 'No name found'}</Heading>
             <Text as="p">{isLoading ? <Spinner /> : uri ? uri?.['description'] : 'No description found'}</Text>
-          </Skeleton>
-          <Text as="p">Traits</Text>
-          <Skeleton loading={!isLoadingURI}>
+            <Heading>Traits</Heading>
             <Stack>
               {uri
                 ? uri?.['attributes']?.map((trait: TraitType, index: number) => (
@@ -88,8 +75,6 @@ const Wrappr: NextPage = () => {
                   ))
                 : null}
             </Stack>
-          </Skeleton>
-          <Skeleton loading={!isLoading}>
             <Stack>
               <Trait
                 trait_type={'Permissioned'}
@@ -103,8 +88,8 @@ const Wrappr: NextPage = () => {
               />
               <Trait trait_type={'Owner'} value={data?.['owner']} isBig={false} />
             </Stack>
-          </Skeleton>
-        </Stack>
+          </Stack>
+        </Box>
       </Stack>
     </Layout>
   )

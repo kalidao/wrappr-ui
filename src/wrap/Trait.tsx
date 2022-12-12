@@ -1,7 +1,8 @@
-import { Stack, Text } from '@kalidao/reality'
+import { Box, Text } from '@kalidao/reality'
 import { isValidURL } from '../utils'
 import { HiExternalLink } from 'react-icons/hi'
 import { ethers } from 'ethers'
+import * as styles from './styles.css'
 
 export type TraitType = {
   trait_type: string
@@ -28,9 +29,9 @@ export default function Trait({ trait_type, value, isBig }: TraitType) {
   }
 
   return (
-    <Stack align="center" justify="space-between">
+    <Box className={styles.trait}>
       <Text>{trait_type}</Text>
       <Text>{renderValue}</Text>
-    </Stack>
+    </Box>
   )
 }

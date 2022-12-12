@@ -21,19 +21,20 @@ export default function MintWrappr({ chainId, tokenId, wrappr }: { chainId: numb
 
   return (
     <Stack>
-      <Stack>
+      <Stack direction={'horizontal'} align="center">
         <Input
           label="Address for Minting"
+          width="full"
           hideLabel
           value={account}
           placeholder="Address"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAccount(e.target.value)}
         />
-        <Button onClick={() => setAccount('')}>
+        <Button size="medium" variant="secondary" onClick={() => setAccount('')}>
           <GrPowerReset />
         </Button>
       </Stack>
-      <Button onClick={() => write?.()} disabled={!write}>
+      <Button width="full" onClick={() => write?.()} disabled={!write}>
         Mint
       </Button>
     </Stack>

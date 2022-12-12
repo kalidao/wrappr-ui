@@ -6,7 +6,7 @@ export const getRainbowTheme = (mode: string) => {
   const accentColor = mode === 'dark' ? 'black' : 'white'
   const accentColorForeground = mode === 'dark' ? 'white' : 'black'
   const connectText = mode === 'dark' ? 'white' : 'black'
-  const shadowColor = mode === 'dark' ? 'hsl(250, 46.8%, 38.9%)' : 'hsl(250, 74.8%, 38.9%)'
+  const shadowColor = mode === 'dark' ? 'hsl(180, 98%, 20%)' : 'hsl(180, 98%, 42%)'
 
   return merge(darkTheme(), {
     blurs: {

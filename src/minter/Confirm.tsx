@@ -1,17 +1,15 @@
 import { useState } from 'react'
 import PDFViewer from '@design/PDFViewer'
-import { Stack, Checkbox, Text, Button, IconArrowLeft } from '@kalidao/reality'
+import { Stack, Box, Checkbox, Text, Button, IconArrowLeft } from '@kalidao/reality'
 import { useAccount, useNetwork, useContractWrite } from 'wagmi'
 import { StoreT } from './types'
 import { ethers } from 'ethers'
 import { deployments, WRAPPR } from '../constants'
 import { MdConstruction, MdError, MdSend, MdSearch, MdAccessTimeFilled, MdCheckCircle } from 'react-icons/md'
 import getName from './utils/getName'
-import { getTokenId } from './getTokenId'
 import { createAgreement } from './utils/createAgreement'
 import createTokenURI from './utils/createTokenURI'
 import { getAgreement } from './utils/getAgreement'
-import { useQuery } from '@tanstack/react-query'
 import { calculateTokenId } from '~/utils/calculateTokenId'
 
 type Props = {
@@ -170,17 +168,17 @@ export default function Confirm({ store, setStore, setView }: Props) {
   }
 
   return (
-    <>
+    <Box>
       {loading === false ? (
-        <div className="flex-col space-y-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-xl font-semibold">
+        <Stack>
+          <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+            <Text size="headingTwo" color="foreground">
               Confirm {getName(store.juris, store.entity)} for {store.name}{' '}
-            </h1>
+            </Text>
             <Button onClick={() => setView(1)} aria-label="Go back!" variant="transparent" shape="circle">
               <IconArrowLeft />
             </Button>
-          </div>
+          </Stack>
           <PDFViewer src={`/legal/${store.juris + store.entity}.pdf`} />
           <Checkbox
             label={<Text>I have read and accept the terms of this agreement.</Text>}
@@ -193,13 +191,13 @@ export default function Confirm({ store, setStore, setView }: Props) {
           ) : (
             <Text>Please connect to a wallet.</Text>
           )}
-        </div>
+        </Stack>
       ) : (
         <Stack align="center" justify="center">
           <span>{message.icon}</span>
           <p className="text-center font-semibold text-xl">{message.text}</p>
         </Stack>
       )}
-    </>
+    </Box>
   )
 }

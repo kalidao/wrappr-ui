@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Button, Input } from '@kalidao/reality'
+import { Stack, Box, Button, Text, Input } from '@kalidao/reality'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
@@ -74,10 +74,11 @@ export default function LLC({ store, setStore, setView }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-1">
-      <div className="relative z-0 mb-6 w-full group">
+    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+      <Stack>
         <Input
           type="text"
+          description={"What's the name of your LLC?"}
           {...register('name')}
           id="name"
           placeholder=" "
@@ -85,17 +86,18 @@ export default function LLC({ store, setStore, setView }: Props) {
           label="Name"
           error={errors.name && errors.name.message}
         />
-      </div>
-      {message}
-      {!isConnected && openConnectModal ? (
-        <Button onClick={openConnectModal} type="submit" width="full" prefix={<BsFillArrowRightCircleFill />}>
-          Connect
-        </Button>
-      ) : (
-        <Button prefix={<BsFillArrowRightCircleFill />} type="submit" width="full" loading={isSubmitting}>
-          Next
-        </Button>
-      )}
-    </form>
+
+        <Text>{message}</Text>
+        {!isConnected && openConnectModal ? (
+          <Button onClick={openConnectModal} type="submit" width="full" prefix={<BsFillArrowRightCircleFill />}>
+            Connect
+          </Button>
+        ) : (
+          <Button prefix={<BsFillArrowRightCircleFill />} type="submit" width="full" loading={isSubmitting}>
+            Next
+          </Button>
+        )}
+      </Stack>
+    </Box>
   )
 }

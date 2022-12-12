@@ -11,7 +11,7 @@ const Explore: NextPage = () => {
 
   return (
     <Layout heading="Explore" content="Explore the universe of Wrapprs" back={() => router.push('/')}>
-      <Stack direction={'horizontal'} wrap>
+      <Stack direction={'horizontal'} align="center" justify={'center'} wrap>
         {chains.map((chain) => (
           <Card key={chain.id} width="128" padding="6" as="a" borderRadius="2xLarge" hover>
             <Stack direction={'horizontal'} align="center" justify={'space-between'}>

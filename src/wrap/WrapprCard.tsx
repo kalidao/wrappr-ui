@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { Box, Avatar, Text } from '@kalidao/reality'
+import * as styles from './styles.css'
 
 const fetchWrapprData = async (URI: string) => {
   const res = await fetch(URI)
@@ -21,13 +22,21 @@ export default function WrapprCard({ name, id, baseURI, chainId }: WrapprCardPro
 
   return (
     <Link href={`/${chainId}/${id}`} passHref>
-      <Box as="a" display="flex" flexDirection={'column'} justifyContent="center" alignItems="center" gap="2">
+      <Box
+        className={styles.wrapprCard}
+        as="a"
+        display="flex"
+        flexDirection={'column'}
+        justifyContent="center"
+        alignItems="center"
+        gap="2"
+      >
         {isLoading ? (
           <Spinner />
         ) : (
           <Avatar src={data?.['image']} shape="square" size="52" label={`Image for ${data?.['name']}`} />
         )}
-        <Text>{name}</Text>
+        <Text variant="label">{name}</Text>
       </Box>
     </Link>
   )

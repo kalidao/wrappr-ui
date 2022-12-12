@@ -32,7 +32,7 @@ export default function MintWrapprNFT({ chainId, wrappr, mintFee }: { chainId: n
 
   return (
     <Stack>
-      <Stack>
+      <Stack direction={'horizontal'}>
         <Input
           label="Address for Minting"
           hideLabel
@@ -40,11 +40,10 @@ export default function MintWrapprNFT({ chainId, wrappr, mintFee }: { chainId: n
           placeholder="Address"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAccount(e.target.value)}
         />
-        <Button onClick={() => setAccount('')}>
+        <Button size="medium" variant="secondary" onClick={() => setAccount('')}>
           <GrPowerReset />
         </Button>
       </Stack>
-
       <Button onClick={() => write?.()} disabled={!write} width="full">
         Mint
       </Button>

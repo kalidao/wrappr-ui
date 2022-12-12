@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, IconArrowLeft } from '@kalidao/reality'
+import { Box, Button, IconArrowLeft } from '@kalidao/reality'
 
 import Entity from './Entity'
 import Juris from './Juris'
@@ -28,15 +28,15 @@ export default function Choice({ setScreen, setChoice, choice }: Props) {
   ]
 
   return (
-    <div className="flex-col space-y-4">
-      <div className="flex justify-end items-center">
+    <Box>
+      <Box>
         {view === 1 && (
           <Button variant="transparent" onClick={back} aria-label="Go back!">
             <IconArrowLeft />
           </Button>
         )}
-      </div>
-      <div>{views[view]}</div>
-    </div>
+      </Box>
+      <Box>{views[view]}</Box>
+    </Box>
   )
 }

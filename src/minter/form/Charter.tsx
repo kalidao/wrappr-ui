@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Button, Input, Textarea } from '@kalidao/reality'
+import { Box, Button, Input, Stack, Textarea } from '@kalidao/reality'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
@@ -52,11 +52,10 @@ export default function Charter({ store, setStore, setView }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
-      <div className="relative z-0 mb-6 w-full group">
+    <Box as="form" onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
+      <Stack>
         <Input type="text" {...register('name')} id="name" placeholder=" " required label="Name" />
-      </div>
-      <div className="relative z-0 mb-6 w-full group">
+
         <Input
           type="text"
           {...register('jurisdiction')}
@@ -64,26 +63,28 @@ export default function Charter({ store, setStore, setView }: Props) {
           placeholder=" "
           required
           label="Jurisdiction"
+          description="What jurisdiction will this Charter be under?"
         />
-      </div>
-      <div>
+
         <Textarea
           id="mission"
           label="Your Mission"
           {...register('mission')}
           rows={4}
           placeholder="Which shall primarily be..."
+          description="What is the mission of this organisation?"
         />
-      </div>
-      {!isConnected && openConnectModal ? (
-        <Button onClick={openConnectModal} type="submit" width="full" prefix={<BsFillArrowRightCircleFill />}>
-          Connect
-        </Button>
-      ) : (
-        <Button prefix={<BsFillArrowRightCircleFill />} type="submit" width="full" loading={isSubmitting}>
-          Next
-        </Button>
-      )}
-    </form>
+
+        {!isConnected && openConnectModal ? (
+          <Button onClick={openConnectModal} type="submit" width="full" prefix={<BsFillArrowRightCircleFill />}>
+            Connect
+          </Button>
+        ) : (
+          <Button prefix={<BsFillArrowRightCircleFill />} type="submit" width="full" loading={isSubmitting}>
+            Next
+          </Button>
+        )}
+      </Stack>
+    </Box>
   )
 }

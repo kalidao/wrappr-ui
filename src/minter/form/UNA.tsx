@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Button, Input, Textarea } from '@kalidao/reality'
+import { Stack, Box, Button, Input, Textarea } from '@kalidao/reality'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
@@ -48,28 +48,37 @@ export default function UNA({ store, setStore, setView }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
-      <div className="relative z-0 mb-6 w-full group">
-        <Input type="text" {...register('name')} id="name" placeholder=" " required label="Name" />
-      </div>
-      <div>
+    <Box as="form" onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
+      <Stack>
+        <Input
+          type="text"
+          description={"What's the name of your UNA?"}
+          {...register('name')}
+          id="name"
+          placeholder=" "
+          required
+          label="Name"
+        />
+
         <Textarea
           id="mission"
+          description="What is your mission?"
           {...register('mission')}
           rows={4}
           label="Your Mission"
           placeholder="Which shall primarily be..."
         />
-      </div>
-      {!isConnected && openConnectModal ? (
-        <Button onClick={openConnectModal} type="submit" width="full" prefix={<BsFillArrowRightCircleFill />}>
-          Connect
-        </Button>
-      ) : (
-        <Button prefix={<BsFillArrowRightCircleFill />} type="submit" width="full" loading={isSubmitting}>
-          Next
-        </Button>
-      )}
-    </form>
+
+        {!isConnected && openConnectModal ? (
+          <Button onClick={openConnectModal} type="submit" width="full" prefix={<BsFillArrowRightCircleFill />}>
+            Connect
+          </Button>
+        ) : (
+          <Button prefix={<BsFillArrowRightCircleFill />} type="submit" width="full" loading={isSubmitting}>
+            Next
+          </Button>
+        )}
+      </Stack>
+    </Box>
   )
 }

@@ -45,6 +45,9 @@ type ItemProps = {
 }
 
 const Item = ({ src, icon, label, isExternal }: ItemProps) => {
+  const router = useRouter()
+  const isActive = router.asPath === src
+
   if (isExternal) {
     return (
       <Button
@@ -52,7 +55,7 @@ const Item = ({ src, icon, label, isExternal }: ItemProps) => {
         prefix={icon}
         href={src}
         size="small"
-        variant="transparent"
+        variant={isActive ? 'secondary' : 'transparent'}
         target="_blank"
         rel="noopenner noreferrer"
       >
@@ -61,7 +64,7 @@ const Item = ({ src, icon, label, isExternal }: ItemProps) => {
     )
   }
   return (
-    <Button as="a" prefix={icon} href={src} size="small" variant="transparent">
+    <Button as="a" prefix={icon} href={src} size="small" variant={isActive ? 'secondary' : 'transparent'}>
       {label}
     </Button>
   )

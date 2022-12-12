@@ -1,4 +1,6 @@
-import { Stack, Button, Text } from '@kalidao/reality'
+import { Box, Text } from '@kalidao/reality'
+import * as styles from '../styles.css'
+import Tilt from 'react-parallax-tilt'
 
 type CardProps = {
   name: string
@@ -11,21 +13,21 @@ type CardProps = {
 
 const Card = ({ name, icon, description, learn, cta, onClick }: CardProps) => {
   return (
-    <Stack>
-      <Stack>
-        {icon && <span className="[&>*]:w-7 [&>*]:h-7 [&>*]:text-gray-500 [&>*]:dark:text-gray-400">{icon}</span>}
-        <Text as="h2">{name}</Text>
-      </Stack>
-      <Text as={'p'}>{description}</Text>
-      <Stack>
-        {learn && (
-          <Button as="a" href={learn} rel="no-oppener" target="_blank">
-            Learn More
-          </Button>
-        )}
-        <Button onClick={onClick}>{cta}</Button>
-      </Stack>
-    </Stack>
+    <Tilt
+    className="rounded-xl"
+    perspective={1300}
+    transitionSpeed={300}
+    tiltMaxAngleX={1}
+    tiltMaxAngleY={1}
+    glareEnable={true}
+    glareMaxOpacity={0.01}
+    glarePosition={'all'}
+  >
+    <Box className={styles.card} as="button" onClick={onClick}>
+      <Text size={'extraLarge'}>{name}</Text>
+      <Text as={'p'} align="left">{description}</Text>
+    </Box>
+    </Tilt>
   )
 }
 

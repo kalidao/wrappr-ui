@@ -29,7 +29,7 @@ export default function Layout({ heading, content, back, children }: LayoutProps
       </Head>
       <Header />
       {back && (
-        <Button variant="transparent">
+        <Button variant="transparent" onClick={back}>
           <IconArrowLeft />
         </Button>
       )}
