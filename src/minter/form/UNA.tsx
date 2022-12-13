@@ -1,8 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Stack, Box, Button, Input, Textarea } from '@kalidao/reality'
-import { BsFillArrowRightCircleFill } from 'react-icons/bs'
+import { Stack, Box, Button, Input, Textarea, IconChevronRight } from '@kalidao/reality'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
@@ -70,12 +69,25 @@ export default function UNA({ store, setStore, setView }: Props) {
         />
 
         {!isConnected && openConnectModal ? (
-          <Button onClick={openConnectModal} type="submit" width="full" prefix={<BsFillArrowRightCircleFill />}>
-            Connect
+          <Button
+            tone="foreground"
+            suffix={<IconChevronRight />}
+            width="full"
+            justifyContent="space-between"
+            onClick={openConnectModal}
+          >
+            Login
           </Button>
         ) : (
-          <Button prefix={<BsFillArrowRightCircleFill />} type="submit" width="full" loading={isSubmitting}>
-            Next
+          <Button
+            tone="foreground"
+            suffix={<IconChevronRight />}
+            width="full"
+            justifyContent="space-between"
+            type="submit"
+            loading={isSubmitting}
+          >
+            Review Document
           </Button>
         )}
       </Stack>

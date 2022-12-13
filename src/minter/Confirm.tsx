@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import PDFViewer from '@design/PDFViewer'
-import { Stack, Box, Checkbox, Text, Button, IconArrowLeft } from '@kalidao/reality'
+import { Stack, Box, Checkbox, Text, Button, IconArrowLeft, Spinner } from '@kalidao/reality'
 import { useAccount, useNetwork, useContractWrite } from 'wagmi'
 import { StoreT } from './types'
 import { ethers } from 'ethers'
@@ -168,36 +168,53 @@ export default function Confirm({ store, setStore, setView }: Props) {
   }
 
   return (
-    <Box>
-      {loading === false ? (
-        <Stack>
-          <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-            <Text size="headingTwo" color="foreground">
-              Confirm {getName(store.juris, store.entity)} for {store.name}{' '}
-            </Text>
-            <Button onClick={() => setView(1)} aria-label="Go back!" variant="transparent" shape="circle">
-              <IconArrowLeft />
-            </Button>
+    <Box display="flex" alignItems="center" justifyContent={'center'} padding="6">
+      <Box width="1/2">
+        {loading === false ? (
+          <Stack>
+            <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+              <Text size="headingTwo" color="foreground">
+                Confirm {getName(store.juris, store.entity)} for {store.name}{' '}
+              </Text>
+              <Button onClick={() => setView(1)} aria-label="Go back!" variant="transparent" shape="circle">
+                <IconArrowLeft />
+              </Button>
+            </Stack>
+            <PDFViewer src={`/legal/${store.juris + store.entity}.pdf`} />
+            <Box
+              display="flex"
+              alignItems={'center'}
+              justifyContent="space-between"
+              borderTopWidth={'0.375'}
+              borderColor="foregroundSecondary"
+              paddingTop="1"
+            >
+              <Checkbox
+                variant="transparent"
+                label={<Text>I have read and accept the terms of this agreement.</Text>}
+                onCheckedChange={() => setChecked(!checked)}
+              ></Checkbox>
+              {isConnected ? (
+                <Button tone="foreground" type="submit" disabled={!checked} onClick={tx}>
+                  Confirm Mint
+                </Button>
+              ) : (
+                <Text>Please connect to a wallet.</Text>
+              )}
+            </Box>
           </Stack>
-          <PDFViewer src={`/legal/${store.juris + store.entity}.pdf`} />
-          <Checkbox
-            label={<Text>I have read and accept the terms of this agreement.</Text>}
-            onCheckedChange={() => setChecked(!checked)}
-          ></Checkbox>
-          {isConnected ? (
-            <Button type="submit" width="full" tone="accent" disabled={!checked} onClick={tx}>
-              {!checked ? 'Please agree to the terms.' : 'Confirm Mint'}
-            </Button>
-          ) : (
-            <Text>Please connect to a wallet.</Text>
-          )}
-        </Stack>
-      ) : (
-        <Stack align="center" justify="center">
-          <span>{message.icon}</span>
-          <p className="text-center font-semibold text-xl">{message.text}</p>
-        </Stack>
-      )}
+        ) : (
+          <Stack align="center" justify="center" space="20">
+            <Text size="headingOne" color="foreground" align="center">
+              We are working our magic, please be patient
+            </Text>
+            <Text size="headingThree" color="text">
+              {message.text}
+            </Text>
+            <Spinner color="foreground" />
+          </Stack>
+        )}
+      </Box>
     </Box>
   )
 }

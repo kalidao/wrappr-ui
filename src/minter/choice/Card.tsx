@@ -1,4 +1,4 @@
-import { Box, Text } from '@kalidao/reality'
+import { Box, IconArrowRight, Text } from '@kalidao/reality'
 import * as styles from '../styles.css'
 import Tilt from 'react-parallax-tilt'
 
@@ -9,9 +9,9 @@ type CardProps = {
   cta: string
   learn?: string
   onClick: React.MouseEventHandler
-}
+} & HTMLButtonElement
 
-const Card = ({ name, icon, description, learn, cta, onClick }: CardProps) => {
+const Card = ({ name, icon, description, learn, cta, onClick, disabled, type }: CardProps) => {
   return (
     <Tilt
       className="rounded-xl"
@@ -23,11 +23,18 @@ const Card = ({ name, icon, description, learn, cta, onClick }: CardProps) => {
       glareMaxOpacity={0.01}
       glarePosition={'all'}
     >
-      <Box className={styles.card} as="button" onClick={onClick}>
-        <Text size={'extraLarge'}>{name}</Text>
-        <Text as={'p'} align="left">
-          {description}
+      <Box
+        className={styles.card}
+        backgroundColor="foreground"
+        as="button"
+        disabled={disabled}
+        type={type}
+        onClick={onClick}
+      >
+        <Text size={'extraLarge'} weight="bold" color="background">
+          {name}
         </Text>
+        <IconArrowRight color={'background'} />
       </Box>
     </Tilt>
   )

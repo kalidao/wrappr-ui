@@ -71,6 +71,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const wrappr = context?.params?.wrappr as string
   const chainId = Number(context?.params?.chainId as string)
 
+  if (!chainId)
+    return {
+      notFound: true,
+    }
+
   const res = await fetch(deployments[chainId]['subgraph'], {
     method: 'POST',
     headers: {

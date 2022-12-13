@@ -1,8 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Box, Button, Input, Stack, Textarea } from '@kalidao/reality'
-import { BsFillArrowRightCircleFill } from 'react-icons/bs'
+import { Box, Button, Input, Stack, Textarea, IconChevronRight } from '@kalidao/reality'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
@@ -55,7 +54,6 @@ export default function Charter({ store, setStore, setView }: Props) {
     <Box as="form" onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
       <Stack>
         <Input type="text" {...register('name')} id="name" placeholder=" " required label="Name" />
-
         <Input
           type="text"
           {...register('jurisdiction')}
@@ -65,7 +63,6 @@ export default function Charter({ store, setStore, setView }: Props) {
           label="Jurisdiction"
           description="What jurisdiction will this Charter be under?"
         />
-
         <Textarea
           id="mission"
           label="Your Mission"
@@ -74,14 +71,26 @@ export default function Charter({ store, setStore, setView }: Props) {
           placeholder="Which shall primarily be..."
           description="What is the mission of this organisation?"
         />
-
         {!isConnected && openConnectModal ? (
-          <Button onClick={openConnectModal} type="submit" width="full" prefix={<BsFillArrowRightCircleFill />}>
-            Connect
+          <Button
+            tone="foreground"
+            suffix={<IconChevronRight />}
+            width="full"
+            justifyContent="space-between"
+            onClick={openConnectModal}
+          >
+            Login
           </Button>
         ) : (
-          <Button prefix={<BsFillArrowRightCircleFill />} type="submit" width="full" loading={isSubmitting}>
-            Next
+          <Button
+            tone="foreground"
+            suffix={<IconChevronRight />}
+            width="full"
+            justifyContent="space-between"
+            type="submit"
+            loading={isSubmitting}
+          >
+            Review Document
           </Button>
         )}
       </Stack>

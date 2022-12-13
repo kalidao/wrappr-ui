@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
-import { Button, Box, IconUserSolid, IconGrid, IconPencil, IconBookOpenSolid } from '@kalidao/reality'
+import { Button, Box, IconUserSolid, IconGrid, IconPencil, IconBookOpenSolid, Stack } from '@kalidao/reality'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import ToggleMode from './ToggleMode'
 import { useAccount, useNetwork } from 'wagmi'
@@ -30,9 +30,11 @@ export default function Header() {
         <Item label="make" src="/create" icon={<IconPencil />} />
         <Item label="find" src={`/${chain ? chain.id : 1}/explore`} icon={<IconGrid />} />
         <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<IconBookOpenSolid />} isExternal />
+      </Box>
+      <Stack direction={'horizontal'}>
         <ToggleMode />
         <ConnectButton label="login" />
-      </Box>
+      </Stack>
     </Box>
   )
 }
@@ -52,9 +54,9 @@ const Item = ({ src, icon, label, isExternal }: ItemProps) => {
     return (
       <Button
         as="a"
-        prefix={icon}
+        // prefix={icon}
         href={src}
-        size="small"
+        size="medium"
         variant={isActive ? 'secondary' : 'transparent'}
         target="_blank"
         rel="noopenner noreferrer"
@@ -64,7 +66,7 @@ const Item = ({ src, icon, label, isExternal }: ItemProps) => {
     )
   }
   return (
-    <Button as="a" prefix={icon} href={src} size="small" variant={isActive ? 'secondary' : 'transparent'}>
+    <Button as="a" href={src} size="medium" variant={isActive ? 'secondary' : 'transparent'}>
       {label}
     </Button>
   )

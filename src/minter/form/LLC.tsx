@@ -1,12 +1,14 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Stack, Box, Button, Text, Input } from '@kalidao/reality'
+import { Stack, Box, Button, Text, Input, IconChevronRight, IconArrowRight } from '@kalidao/reality'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useEffect, useState } from 'react'
+import * as styles from '../styles.css'
+import Card from '../choice/Card'
 
 type LLC = {
   name: string
@@ -74,30 +76,41 @@ export default function LLC({ store, setStore, setView }: Props) {
   }
 
   return (
-    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-      <Stack>
-        <Input
-          type="text"
-          description={"What's the name of your LLC?"}
-          {...register('name')}
-          id="name"
-          placeholder=" "
-          required
-          label="Name"
-          error={errors.name && errors.name.message}
-        />
-
-        <Text>{message}</Text>
-        {!isConnected && openConnectModal ? (
-          <Button onClick={openConnectModal} type="submit" width="full" prefix={<BsFillArrowRightCircleFill />}>
-            Connect
-          </Button>
-        ) : (
-          <Button prefix={<BsFillArrowRightCircleFill />} type="submit" width="full" loading={isSubmitting}>
-            Next
-          </Button>
-        )}
-      </Stack>
+    <Box as="form" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <Input
+        type="text"
+        width="full"
+        description={"What's the name of your LLC?"}
+        {...register('name')}
+        id="name"
+        placeholder=" "
+        required
+        label="Name"
+        error={errors.name && errors.name.message}
+      />
+      <Text>{message}</Text>
+      {!isConnected && openConnectModal ? (
+        <Button
+          tone="foreground"
+          suffix={<IconChevronRight />}
+          width="full"
+          justifyContent="space-between"
+          onClick={openConnectModal}
+        >
+          Login
+        </Button>
+      ) : (
+        <Button
+          tone="foreground"
+          suffix={<IconChevronRight />}
+          width="full"
+          justifyContent="space-between"
+          type="submit"
+          loading={isSubmitting}
+        >
+          Review Document
+        </Button>
+      )}
     </Box>
   )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { StoreT } from '../types'
-import { MdOutlineArrowBack } from 'react-icons/md'
+import { Box, Stack, Text, IconBookOpen, IconArrowRight, IconArrowLeft } from '@kalidao/reality'
+import * as styles from '../styles.css'
 
 type Props = {
   store: StoreT
@@ -42,20 +43,38 @@ export default function Form({ store, setStore, setView }: Props) {
       component: <Charter store={store} setStore={setStore} setView={setView} />,
     },
   }
+
   return (
-    <div className="flex-col space-y-2">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">{form[choice]['heading']}</h1>
-        <Button variant="transparent" onClick={() => setView(0)} aria-label="Go back!">
-          <IconArrowLeft />
-        </Button>
-      </div>
-      <div>{form[choice]['component']}</div>
-    </div>
+    <Box display={'flex'}>
+      <Box className={styles.splashContainer}>
+        <Stack>
+          <Text size="headingOne" color="foreground" align="left">
+            Wrappr NFTs: the future of legal ownership. Transform your organization with our exclusive platform.
+          </Text>
+          <Box as="a" className={styles.pill} href="https://docs.wrappr.wtf/how-to/quick-notes/" target="_blank">
+            <Stack direction={'horizontal'} align="center">
+              <IconBookOpen />
+              <Text>How it works</Text>
+            </Stack>
+            <IconArrowRight />
+          </Box>
+        </Stack>
+      </Box>
+      <Box className={styles.action}>
+        <Stack>
+          <Box className={styles.back} as="button" onClick={() => setView(0)} aria-label="Go back!">
+            <IconArrowLeft />
+          </Box>
+          <Text size="headingOne" align="left" weight="semiBold" color="foreground">
+            {form[choice]['heading']}
+          </Text>
+        </Stack>
+        <Box className={styles.actionCards}>{form[choice]['component']}</Box>
+      </Box>
+    </Box>
   )
 }
 
 import LLC from './LLC'
 import Charter from './Charter'
 import UNA from './UNA'
-import { Button, IconArrowLeft } from '@kalidao/reality'
