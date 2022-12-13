@@ -35,22 +35,26 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
   }
 
   console.log('choice', choice)
-  const info: {[key: string]: {
-    description: string,
-    link: string
-  }}  = {
-    'LLC': {
-      description: 'A Delaware LLC is a limited liability company that is formed under the laws of the state of Delaware.',
-      link: 'https://www.delawareinc.com/llc/'
-    }, 
-    'UNA': {
-      description: 'A Delaware UNA is a unitary non-asset corporation that is formed under the laws of the state of Delaware.',
-      link: 'https://www.delawareinc.com/una/'
-    }, 
-    'Charter': {
-      description: 'A LexPunk Charter is a charter that is formed under the laws of the state of Delaware.',
-      link: 'https://www.delawareinc.com/lexpunk/'
+  const info: {
+    [key: string]: {
+      description: string
+      link: string
     }
+  } = {
+    LLC: {
+      description:
+        'A Delaware LLC is a limited liability company that is formed under the laws of the state of Delaware.',
+      link: 'https://www.delawareinc.com/llc/',
+    },
+    UNA: {
+      description:
+        'A Delaware UNA is a unitary non-asset corporation that is formed under the laws of the state of Delaware.',
+      link: 'https://www.delawareinc.com/una/',
+    },
+    Charter: {
+      description: 'A LexPunk Charter is a charter that is formed under the laws of the state of Delaware.',
+      link: 'https://www.delawareinc.com/lexpunk/',
+    },
   }
 
   return (
@@ -62,10 +66,15 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
       }}
     >
       <Box className={styles.splashContainer}>
-      <Box display="flex" flexDirection={"column"} width={{
-          xs: "full",
-          md: "2/3",
-        }} gap="5">
+        <Box
+          display="flex"
+          flexDirection={'column'}
+          width={{
+            xs: 'full',
+            md: '2/3',
+          }}
+          gap="5"
+        >
           <Text size="headingOne" color="foreground" align="left">
             {info[choice.entity].description}
           </Text>

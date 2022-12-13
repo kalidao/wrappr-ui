@@ -40,10 +40,15 @@ export default function Entity({ choice, setChoice, setView }: Props) {
       }}
     >
       <Box className={styles.splashContainer}>
-      <Box display="flex" flexDirection={"column"} width={{
-          xs: "full",
-          md: "2/3",
-        }} gap="5">
+        <Box
+          display="flex"
+          flexDirection={'column'}
+          width={{
+            xs: 'full',
+            md: '2/3',
+          }}
+          gap="5"
+        >
           <Text size="headingOne" color="foreground" align="left">
             Wrappr NFTs: the future of legal ownership. Transform your organization with our exclusive platform.
           </Text>

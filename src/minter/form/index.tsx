@@ -22,25 +22,29 @@ export default function Form({ store, setStore, setView }: Props) {
   const form: { [key: string]: Form } = {
     deLLC: {
       heading: 'Delaware LLC',
-      description: 'A Delaware LLC is a limited liability company that is formed under the laws of the state of Delaware.',
+      description:
+        'A Delaware LLC is a limited liability company that is formed under the laws of the state of Delaware.',
       link: 'https://www.delawareinc.com/llc/',
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
     wyLLC: {
       heading: 'Wyoming LLC',
-      description: 'A Wyoming LLC is a limited liability company that is formed under the laws of the state of Wyoming.',
+      description:
+        'A Wyoming LLC is a limited liability company that is formed under the laws of the state of Wyoming.',
       link: 'https://www.wyomingllc.com/',
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
     deUNA: {
       heading: 'Delaware UNA',
-      description: 'A Delaware UNA is a unitary non-asset corporation that is formed under the laws of the state of Delaware.',
+      description:
+        'A Delaware UNA is a unitary non-asset corporation that is formed under the laws of the state of Delaware.',
       link: 'https://www.delawareinc.com/una/',
       component: <UNA store={store} setStore={setStore} setView={setView} />,
     },
     wyUNA: {
       heading: 'Wyoming UNA',
-      description: 'A Wyoming UNA is a unitary non-asset corporation that is formed under the laws of the state of Wyoming.',
+      description:
+        'A Wyoming UNA is a unitary non-asset corporation that is formed under the laws of the state of Wyoming.',
       link: 'https://www.wyomingllc.com/',
       component: <UNA store={store} setStore={setStore} setView={setView} />,
     },
@@ -67,10 +71,15 @@ export default function Form({ store, setStore, setView }: Props) {
       }}
     >
       <Box className={styles.splashContainer}>
-        <Box display="flex" flexDirection={"column"} width={{
-          xs: "full",
-          md: "2/3",
-        }} gap="5">
+        <Box
+          display="flex"
+          flexDirection={'column'}
+          width={{
+            xs: 'full',
+            md: '2/3',
+          }}
+          gap="5"
+        >
           <Text size="headingOne" color="foreground" align="left">
             {form[choice]['description']}
           </Text>
