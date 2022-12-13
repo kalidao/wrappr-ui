@@ -43,17 +43,17 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
   } = {
     LLC: {
       description:
-        'A Delaware LLC is a limited liability company that is formed under the laws of the state of Delaware.',
-      link: 'https://www.delawareinc.com/llc/',
+        'A Delaware LLC is a limited liability company suited to scale a business for investment.',
+      link: 'https://docs.wrappr.wtf/how-to/LLC/#delaware-wyoming-series-llcs-differences',
     },
     UNA: {
       description:
-        'A Delaware UNA is a unitary non-asset corporation that is formed under the laws of the state of Delaware.',
-      link: 'https://www.delawareinc.com/una/',
+        'A Delaware UNA is a non-profit limited liability association suited for grants and community ownership.',
+      link: 'https://docs.wrappr.wtf/how-to/UNA/#daos-una-s',
     },
     Charter: {
-      description: 'A LexPunk Charter is a charter that is formed under the laws of the state of Delaware.',
-      link: 'https://www.delawareinc.com/lexpunk/',
+      description: 'The DAO Charter is an internal manifesto to set basic legal expectations.',
+      link: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%93%9C-dao-charter',
     },
   }
 
@@ -131,7 +131,7 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
 const entity = [
   {
     text: 'Delaware',
-    description: 'Preferred state for doing business',
+    description: 'Standard business-friendly jurisdiction.',
     set: 'de',
     type: 'Jurisdiction',
     icon: <span className="text-xl">🏢</span>,
@@ -139,7 +139,7 @@ const entity = [
   },
   {
     text: 'Wyoming',
-    description: 'Crypto-friendly jurisdiction',
+    description: 'Emerging crypto-friendly jurisdiction.',
     set: 'wy',
     icon: <span className="text-xl">🌇</span>,
     learn: 'https://docs.wrappr.wtf/get-started/where/#%F0%9F%A6%AC-wyoming',
@@ -150,14 +150,14 @@ const charter = [
   {
     text: 'LexPunk',
     icon: <span className="text-xl">🦍</span>,
-    description: 'stateless entity with qualified code deference',
+    description: 'set basic terms for your organization as standardized by LexPunk Army',
     set: 'lex',
     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%A6%8D-lexpunk-dao-charter',
   },
   {
     text: 'Orange',
     icon: <span className="text-xl">🍊</span>,
-    description: 'stateless entity with qualified code deference',
+    description: 'set basic terms for your organization as standardized by Orange DAO',
     set: 'or',
     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
   },
