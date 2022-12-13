@@ -4,6 +4,7 @@ import { style } from '@vanilla-extract/css'
 
 export const container = style({
   minHeight: '90vh',
+  borderTop: `1px solid ${vars.colors.foregroundSecondary}`,
   borderBottom: `1px solid ${vars.colors.foregroundSecondary}`,
 })
 

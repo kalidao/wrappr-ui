@@ -9,13 +9,9 @@ export default function Header() {
         Made by <a href="https://twitter.com/kali__gg">Kali</a>
       </Text>
       <Stack justify="center" direction={'horizontal'}>
-        <Text color="textSecondary">
-          <Link href="/tos">Terms</Link>
-        </Text>
+        <a href="https://app.kali.gg/tos" target="_blank" rel="noopenner noreferrer">Terms</a>
         <Divider orientation="vertical" />
-        <Text color="textSecondary">
-          <Link href="/privacy">Privacy Policy</Link>
-        </Text>
+        <a href="https://app.kali.gg/privacy" target="_blank" rel="noopenner noreferrer">Privacy Policy</a>
       </Stack>
     </Box>
   )

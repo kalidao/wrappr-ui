@@ -11,6 +11,8 @@ type Props = {
 
 interface Form {
   heading: string
+  description: string
+  link: string
   component: React.ReactNode
 }
 
@@ -20,26 +22,38 @@ export default function Form({ store, setStore, setView }: Props) {
   const form: { [key: string]: Form } = {
     deLLC: {
       heading: 'Delaware LLC',
+      description: 'A Delaware LLC is a limited liability company that is formed under the laws of the state of Delaware.',
+      link: 'https://www.delawareinc.com/llc/',
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
     wyLLC: {
       heading: 'Wyoming LLC',
+      description: 'A Wyoming LLC is a limited liability company that is formed under the laws of the state of Wyoming.',
+      link: 'https://www.wyomingllc.com/',
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
     deUNA: {
       heading: 'Delaware UNA',
+      description: 'A Delaware UNA is a unitary non-asset corporation that is formed under the laws of the state of Delaware.',
+      link: 'https://www.delawareinc.com/una/',
       component: <UNA store={store} setStore={setStore} setView={setView} />,
     },
     wyUNA: {
       heading: 'Wyoming UNA',
+      description: 'A Wyoming UNA is a unitary non-asset corporation that is formed under the laws of the state of Wyoming.',
+      link: 'https://www.wyomingllc.com/',
       component: <UNA store={store} setStore={setStore} setView={setView} />,
     },
     lexCharter: {
       heading: 'LexPunk Charter',
+      description: 'A LexPunk Charter is a charter that is formed under the laws of the state of Delaware.',
+      link: 'https://www.delawareinc.com/lexpunk/',
       component: <Charter store={store} setStore={setStore} setView={setView} />,
     },
     orCharter: {
       heading: 'Orange Charter',
+      description: 'A Orange Charter is a charter that is formed under the laws of the state of Wyoming.',
+      link: 'https://www.wyomingllc.com/',
       component: <Charter store={store} setStore={setStore} setView={setView} />,
     },
   }
@@ -53,18 +67,21 @@ export default function Form({ store, setStore, setView }: Props) {
       }}
     >
       <Box className={styles.splashContainer}>
-        <Stack>
+        <Box display="flex" flexDirection={"column"} width={{
+          xs: "full",
+          md: "2/3",
+        }} gap="5">
           <Text size="headingOne" color="foreground" align="left">
-            Wrappr NFTs: the future of legal ownership. Transform your organization with our exclusive platform.
+            {form[choice]['description']}
           </Text>
-          <Box as="a" className={styles.pill} href="https://docs.wrappr.wtf/how-to/quick-notes/" target="_blank">
+          <Box as="a" className={styles.pill} href={form[choice]['link']} target="_blank">
             <Stack direction={'horizontal'} align="center">
               <IconBookOpen />
-              <Text>How it works</Text>
+              <Text>Learn More</Text>
             </Stack>
             <IconArrowRight />
           </Box>
-        </Stack>
+        </Box>
       </Box>
       <Box className={styles.action}>
         <Stack>
