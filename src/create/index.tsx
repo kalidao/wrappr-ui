@@ -16,7 +16,7 @@ export default function CreateControl() {
     <Confirmation key={1} store={store} />,
   ]
   return (
-    <Box display="flex" alignItems="center" justifyContent={'center'}>
+    <Box display="flex" alignItems="center" justifyContent={'center'} >
       {views[view]}
     </Box>
   )

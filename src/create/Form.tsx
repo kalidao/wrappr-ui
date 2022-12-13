@@ -16,6 +16,7 @@ import { createWrappr } from './createWrappr'
 import { StoreC } from './types'
 import { checkName } from './checkName'
 import FileUploader from '@design/FileUploader'
+import Loader from './Loader'
 
 type Create = {
   image: FileList
@@ -75,27 +76,32 @@ export default function CreateForm({ store, setStore, setView }: Props) {
     addressOrName: chain ? deployments[chain.id]['factory'] : ethers.constants.AddressZero,
     contractInterface: WRAPPR_FACTORY,
     functionName: 'deployWrappr',
-    onSuccess(data) {
-      if (data !== undefined) {
-        setStore({
-          ...store,
-          hash: data.hash,
-        })
-        setView(1)
-      }
-    },
   })
   const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
 
   const onSubmit = async (data: Create) => {
+    setSubmitting(true)
+    setMessage('Checking summoning variables...')
     if (!isConnected) {
       setError('Please connect your wallet.')
+      setSubmitting(false)
       return
     }
-    setSubmitting(true)
-    if (!image) return
-    const { name, description, agreement, symbol, mintFee, admin, attributes } = data
+    if (!image) {
+      setError('Please upload an image.')
+      setSubmitting(false)
+      return
+    }
+    if (!agreement) {
+      setError('Please upload an agreement.')
+      setSubmitting(false)
+      return
+    }
 
+    const { name, description, symbol, mintFee, admin, attributes } = data
+
+    setMessage('Checking name collision...')
     try {
       if (chain) {
         const res = await checkName(name, chain?.id)
@@ -104,47 +110,78 @@ export default function CreateForm({ store, setStore, setView }: Props) {
           return
         } else {
           if (!res.available) {
+            setMessage('')
             setError(res.error)
           }
         }
       }
     } catch (e) {
       console.error(e)
+      setMessage('')
       setError('Failed to check name collision.')
       return
     }
+
+    console.log('Creating Wrappr JSON...', name, symbol, description, image, agreement, attributes, ethers.utils.parseEther(mintFee.toString()).toString(), admin)
+    setMessage('Creating the Wrappr...')
     let baseURI
     try {
-      baseURI = await createWrappr(name, description, image as unknown as FileList, agreement, attributes)
+      baseURI = await createWrappr(name, description, image, agreement, attributes)
     } catch (e) {
       console.error('Failed to create Wrappr JSON: ', e)
       setError('Failed to create Wrappr metadata.')
       return
     }
-
+    
+    setMessage('Summoning the Wrappr...')
     try {
       setStore({
         ...store,
         uri: baseURI as string,
       })
 
-      const res = writeAsync({
+      const res = await writeAsync({
         recklesslySetUnpreparedArgs: [name, symbol, baseURI, ethers.utils.parseEther(mintFee.toString()), admin],
+      })
+      setMessage('Waiting for confirmation...')
+      await res.wait(1).then(async (res) => {
+        console.log('logs', res.logs)
+        await res.logs.forEach(async (log: any) => {
+          setMessage('Wrappr Summoned! 🍬')
+          if (log.topics[0] === '0x11a62d632ed0efbf5131a4b627885485564b1bb225f0689f8c58457122e4deb7') {
+            const address = '0x' + log.topics[1].slice(-40)
+            setStore({
+              ...store,
+              hash: res.transactionHash,
+              address: address,
+              chainId: chain?.id
+            })
+            setView(1)
+          }
+        })
       })
     } catch (e) {
       console.error('Failed to deploy Wrappr: ', e)
     }
+   
     setSubmitting(false)
   }
 
   return (
-    <Box display="flex" flexDirection={'column'} gap="10" width="1/2">
+    <Box display="flex" flexDirection={'column'} gap="10" width={{
+      xs: '3/4',
+      md: '3/4',
+      lg: '1/2',
+    }}>
       <Box borderBottomWidth={'0.375'} paddingBottom="6">
         <Text size="headingOne" color="foreground">
-          Create
+        {submitting ? 'Summoning' : '🍬 Create Wrappr'}
+        </Text>
+        <Text>
+          {submitting ? 'We are working our magic, please be patient' : 'Wrappr is a protocol for creating legal agreements as NFTs. Create a Wrappr by filling out the form below.'}
         </Text>
       </Box>
-      <Box as="form" display="flex" flexDirection={'column'} gap="3" onSubmit={handleSubmit(onSubmit)}>
+      {submitting ? <Loader message={message} /> : <Box as="form" display="flex" flexDirection={'column'} gap="3" onSubmit={handleSubmit(onSubmit)}>
         <MediaPicker label="Image" onChange={(file: File) => setImage(file)} />
         <Input
           label="Name"
@@ -169,10 +206,10 @@ export default function CreateForm({ store, setStore, setView }: Props) {
           error={errors.admin && errors.admin.message}
         />
         <Input
-          type="number"
+          inputMode="numeric"
           id="mintFee"
-          defaultValue={5}
-          min={0}
+          defaultValue={"0.1"}
+          min={"0"}
           label="Minting Fee"
           error={errors.mintFee && errors.mintFee.message}
           {...register('mintFee')}
@@ -216,12 +253,8 @@ export default function CreateForm({ store, setStore, setView }: Props) {
               suffix={<IconPlus />}
               variant="secondary"
               tone="green"
-              onClick={() =>
-                append({
-                  trait_type: '',
-                  value: '',
-                })
-              }
+              type="button"
+              onClick={() => append({ trait_type: '', value: '' })}
             >
               Add
             </Button>
@@ -238,7 +271,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         >
           Create
         </Button>
-      </Box>
+      </Box>}
     </Box>
   )
 }

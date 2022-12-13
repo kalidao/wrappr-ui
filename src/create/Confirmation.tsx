@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Stack, Button, Spinner } from '@kalidao/reality'
+import { Stack, Button, Spinner, Avatar } from '@kalidao/reality'
 import Confetti from '../utils/Confetti'
 import { useTransaction, useNetwork, useContractEvent } from 'wagmi'
 import { FaWpexplorer } from 'react-icons/fa'
@@ -17,18 +17,6 @@ const fetchWrapprData = async (URI: string) => {
 
 export default function Confirmation({ store }: { store: StoreC }) {
   const { chain } = useNetwork()
-  const { data, isError, isLoading } = useTransaction({
-    hash: store.hash as `0x${string}`,
-  })
-  const [event, setEvent] = useState()
-  useContractEvent({
-    addressOrName: '0xA945f46Ca376B18fB34d809ef4F21f9b58AE4C50',
-    contractInterface: WRAPPR_FACTORY,
-    eventName: 'WrapprDeployed',
-    listener: (e) => {
-      setEvent(e)
-    },
-  })
   const {
     isLoading: isFetching,
     isError: isFetchingError,
@@ -38,31 +26,26 @@ export default function Confirmation({ store }: { store: StoreC }) {
     isSuccess,
   } = useQuery(['wrappr', store.uri], () => fetchWrapprData(store.uri))
 
-  if (isLoading)
-    return (
-      <div>
-        <Spinner />
-      </div>
-    )
-
+  console.log('store', store)
   return (
     <>
       <Stack>
         {isFetched && isSuccess && (
-          <Image src={uri?.['image']} height="500px" width="500px" alt="Uploaded Image for NFT" />
+          <Avatar src={uri?.['image']} size="96" label="Uploaded Image for NFT" shape="square" />
         )}
-        <Stack>
+        <Stack direction={"horizontal"}>
           <Button
             as={'a'}
             prefix={<FaWpexplorer />}
-            href={`${chain?.blockExplorers?.default?.url}/tx/${store.hash}`}
+            href={chain?.blockExplorers?.default.url + '/tx/' + store.hash}
             target="_blank"
             rel="noopener noreferrer"
+            tone="foreground"
           >
             View on Explorer
           </Button>
-          <Link href={`/${chain?.id}/${event?.[0]}`} passHref>
-            <Button as={'a'} prefix={<TbCandy />} tone={'accent'} disabled={!event}>
+          <Link href={`/${store.chainId}/${store.address}`} passHref>
+            <Button as={'a'} prefix={<TbCandy />}  tone="foreground">
               View in Gallery
             </Button>
           </Link>
