@@ -11,7 +11,7 @@ export const container = style({
 })
 
 export const header = style({
-  minHeight: '10vh',
+  maxHeight: '15vh',
   paddingRight: vars.space['5'],
   paddingLeft: vars.space['5'],
   display: 'flex',
@@ -24,7 +24,8 @@ export const header = style({
 })
 
 export const footer = style({
-  minHeight: '10vh',
+  maxHeight: '10vh',
+  padding: vars.space['6'],
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
