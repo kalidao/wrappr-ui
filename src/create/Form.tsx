@@ -138,91 +138,107 @@ export default function CreateForm({ store, setStore, setView }: Props) {
   }
 
   return (
-    <Box display="flex" flexDirection={"column"} gap="10" width="1/2">
-      <Box borderBottomWidth={"0.375"} paddingBottom="6">
-        <Text size="headingOne" color="foreground">Create</Text>
+    <Box display="flex" flexDirection={'column'} gap="10" width="1/2">
+      <Box borderBottomWidth={'0.375'} paddingBottom="6">
+        <Text size="headingOne" color="foreground">
+          Create
+        </Text>
       </Box>
-    <Box as="form" display="flex" flexDirection={"column"} gap="3" onSubmit={handleSubmit(onSubmit)}>
-      <MediaPicker label="Image" onChange={(file: File) => setImage(file)} />
-      <Input
-        label="Name"
-        id="name"
-        {...register('name')}
-        placeholder="Agreement Name"
-        error={errors.name && errors.name.message}
-      />
-      <Input
-        label="Symbol"
-        id="symbol"
-        {...register('symbol')}
-        placeholder="SYMBOL"
-        error={errors.symbol && errors.symbol.message}
-      />
-      <Textarea label="Description" id="description" placeholder="" {...register('description')} />
-      <Input
-        label="Admin"
-        id="admin"
-        {...register('admin')}
-        placeholder={ethers.constants.AddressZero}
-        error={errors.admin && errors.admin.message}
-      />
-      <Input
-        type="number"
-        id="mintFee"
-        defaultValue={5}
-        min={0}
-        label="Minting Fee"
-        error={errors.mintFee && errors.mintFee.message}
-        {...register('mintFee')}
-      />
-      <FileUploader label="Agreement" setFile={setAgreement} />
-      <Field label="Traits">
-        <Stack>
-          {fields.map((field, index) => {
-            return (
-              <Stack direction="horizontal" align="center" key={field.id}>
-                <Input
-                  label="Type"
-                  hideLabel
-                  placeholder="Type"
-                  {...register(`attributes.${index}.trait_type` as const, {
-                    required: true,
-                  })}
-                />
-                <Input
-                  label="Value"
-                  hideLabel
-                  placeholder="Value"
-                  {...register(`attributes.${index}.value` as const, {
-                    required: true,
-                  })}
-                />
-                <Button variant="secondary" size="small" shape="circle" aria-label="Delete Item" onClick={() => remove(index)} tone="red">
-                  <AiOutlineDelete />
-                </Button>
-              </Stack>
-            )
-          })}
-          <Button
-            suffix={<IconPlus />}
-            variant="secondary"
-            tone="green"
-            onClick={() =>
-              append({
-                trait_type: '',
-                value: '',
-              })
-            }
-          >
-            Add
-          </Button>
-        </Stack>
-      </Field>
-      <Text>{error}</Text>
-      <Button tone="foreground" type="submit" width="full" variant="primary" disabled={submitting} loading={submitting}>
-        Create
-      </Button>
-    </Box>
+      <Box as="form" display="flex" flexDirection={'column'} gap="3" onSubmit={handleSubmit(onSubmit)}>
+        <MediaPicker label="Image" onChange={(file: File) => setImage(file)} />
+        <Input
+          label="Name"
+          id="name"
+          {...register('name')}
+          placeholder="Agreement Name"
+          error={errors.name && errors.name.message}
+        />
+        <Input
+          label="Symbol"
+          id="symbol"
+          {...register('symbol')}
+          placeholder="SYMBOL"
+          error={errors.symbol && errors.symbol.message}
+        />
+        <Textarea label="Description" id="description" placeholder="" {...register('description')} />
+        <Input
+          label="Admin"
+          id="admin"
+          {...register('admin')}
+          placeholder={ethers.constants.AddressZero}
+          error={errors.admin && errors.admin.message}
+        />
+        <Input
+          type="number"
+          id="mintFee"
+          defaultValue={5}
+          min={0}
+          label="Minting Fee"
+          error={errors.mintFee && errors.mintFee.message}
+          {...register('mintFee')}
+        />
+        <FileUploader label="Agreement" setFile={setAgreement} />
+        <Field label="Traits">
+          <Stack>
+            {fields.map((field, index) => {
+              return (
+                <Stack direction="horizontal" align="center" key={field.id}>
+                  <Input
+                    label="Type"
+                    hideLabel
+                    placeholder="Type"
+                    {...register(`attributes.${index}.trait_type` as const, {
+                      required: true,
+                    })}
+                  />
+                  <Input
+                    label="Value"
+                    hideLabel
+                    placeholder="Value"
+                    {...register(`attributes.${index}.value` as const, {
+                      required: true,
+                    })}
+                  />
+                  <Button
+                    variant="secondary"
+                    size="small"
+                    shape="circle"
+                    aria-label="Delete Item"
+                    onClick={() => remove(index)}
+                    tone="red"
+                  >
+                    <AiOutlineDelete />
+                  </Button>
+                </Stack>
+              )
+            })}
+            <Button
+              suffix={<IconPlus />}
+              variant="secondary"
+              tone="green"
+              onClick={() =>
+                append({
+                  trait_type: '',
+                  value: '',
+                })
+              }
+            >
+              Add
+            </Button>
+          </Stack>
+        </Field>
+        <Text>{error}</Text>
+        <Button
+          tone="foreground"
+          type="submit"
+          width="full"
+          variant="primary"
+          disabled={submitting}
+          loading={submitting}
+        >
+          Create
+        </Button>
+      </Box>
     </Box>
   )
 }

@@ -29,11 +29,11 @@ export default function Layout({ heading, content, back, children }: LayoutProps
       </Head>
       <Header />
       <Box margin="3">
-      {back && (
-        <Button shape="circle" size="small" variant="transparent" onClick={back}>
-          <IconArrowLeft />
-        </Button>
-      )}
+        {back && (
+          <Button shape="circle" size="small" variant="transparent" onClick={back}>
+            <IconArrowLeft />
+          </Button>
+        )}
       </Box>
       <Box className={styles.container}>{children}</Box>
       <Footer />

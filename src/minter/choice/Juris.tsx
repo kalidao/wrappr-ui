@@ -35,10 +35,13 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
   }
 
   return (
-    <Box display={'flex'} flexDirection={{
-      xs: 'column',
-      md: 'row'
-    }}> 
+    <Box
+      display={'flex'}
+      flexDirection={{
+        xs: 'column',
+        md: 'row',
+      }}
+    >
       <Box className={styles.splashContainer}>
         <Stack>
           <Text size="headingOne" color="foreground" align="left">

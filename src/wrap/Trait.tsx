@@ -22,7 +22,11 @@ export default function Trait({ trait_type, value, isBig }: TraitType) {
   }
 
   if (ethers.utils.isAddress(value as string) === true) {
-    renderValue = <Button variant="transparent" size="small" as="a" href={`/users/${value}`}><IconUserSolid /></Button>
+    renderValue = (
+      <Button variant="transparent" size="small" as="a" href={`/users/${value}`}>
+        <IconUserSolid />
+      </Button>
+    )
   }
 
   if (isBig) {

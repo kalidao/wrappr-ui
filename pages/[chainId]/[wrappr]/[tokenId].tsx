@@ -46,55 +46,57 @@ const Wrappr: NextPage = () => {
   // TODO: Add Back
   return (
     <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/${wrappr}`)}>
-       <Box padding="6">
-      <Stack direction={{
-        xs: 'vertical',
-        md: 'horizontal'
-      }}>
-        <Stack>
-          {data ? (
-            <Avatar src={uri?.['image']} size="96" shape="square" label={`Image for ${uri?.['name']}`} />
-          ) : (
-            'No image found'
-          )}
-
-          <MintWrappr
-            chainId={4}
-            wrappr={wrappr ? wrappr.toString() : ethers.constants.AddressZero}
-            tokenId={Number(tokenId)}
-          />
-          <Link href="/clinic" passHref>
-            <a>Need help with your entity?</a>
-          </Link>
-        </Stack>
-        <Box width="full">
+      <Box padding="6">
+        <Stack
+          direction={{
+            xs: 'vertical',
+            md: 'horizontal',
+          }}
+        >
           <Stack>
-            <Heading>{isLoading ? <Spinner /> : uri ? uri?.['name'] : 'No name found'}</Heading>
-            <Text as="p">{isLoading ? <Spinner /> : uri ? uri?.['description'] : 'No description found'}</Text>
-            <Heading>Traits</Heading>
-            <Stack>
-              {uri
-                ? uri?.['attributes']?.map((trait: TraitType, index: number) => (
-                    <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
-                  ))
-                : null}
-            </Stack>
-            <Stack>
-              <Trait
-                trait_type={'Permissioned'}
-                value={data?.['permissioned'] === null ? 'No' : data?.permissioned === true ? 'Yes' : 'No'}
-                isBig={false}
-              />
-              <Trait
-                trait_type={'Transferable'}
-                value={data?.['transferability'] === null ? 'No' : data?.transferability === true ? 'Yes' : 'No'}
-                isBig={false}
-              />
-              <Trait trait_type={'Owner'} value={data?.['owner']} isBig={false} />
-            </Stack>
+            {data ? (
+              <Avatar src={uri?.['image']} size="96" shape="square" label={`Image for ${uri?.['name']}`} />
+            ) : (
+              'No image found'
+            )}
+
+            <MintWrappr
+              chainId={4}
+              wrappr={wrappr ? wrappr.toString() : ethers.constants.AddressZero}
+              tokenId={Number(tokenId)}
+            />
+            <Link href="/clinic" passHref>
+              <a>Need help with your entity?</a>
+            </Link>
           </Stack>
-        </Box>
-      </Stack>
+          <Box width="full">
+            <Stack>
+              <Heading>{isLoading ? <Spinner /> : uri ? uri?.['name'] : 'No name found'}</Heading>
+              <Text as="p">{isLoading ? <Spinner /> : uri ? uri?.['description'] : 'No description found'}</Text>
+              <Heading>Traits</Heading>
+              <Stack>
+                {uri
+                  ? uri?.['attributes']?.map((trait: TraitType, index: number) => (
+                      <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
+                    ))
+                  : null}
+              </Stack>
+              <Stack>
+                <Trait
+                  trait_type={'Permissioned'}
+                  value={data?.['permissioned'] === null ? 'No' : data?.permissioned === true ? 'Yes' : 'No'}
+                  isBig={false}
+                />
+                <Trait
+                  trait_type={'Transferable'}
+                  value={data?.['transferability'] === null ? 'No' : data?.transferability === true ? 'Yes' : 'No'}
+                  isBig={false}
+                />
+                <Trait trait_type={'Owner'} value={data?.['owner']} isBig={false} />
+              </Stack>
+            </Stack>
+          </Box>
+        </Stack>
       </Box>
     </Layout>
   )

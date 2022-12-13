@@ -34,21 +34,21 @@ const Explore: NextPage = () => {
   return (
     <Layout heading="Explore" content="Explore wrapprs. Wrap anything." back={() => router.push('/explore')}>
       <Box padding="6">
-      <Stack direction={'horizontal'} align="center" justify={'flex-start'} space="8" wrap>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          wrapprs?.map((wrappr: Wrappr) => (
-            <WrapprCard
-              key={wrappr['id']}
-              name={wrappr.name}
-              id={wrappr.id}
-              baseURI={wrappr.baseURI}
-              chainId={chainId ? chainId.toString() : '1'}
-            />
-          ))
-        )}
-      </Stack>
+        <Stack direction={'horizontal'} align="center" justify={'flex-start'} space="8" wrap>
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            wrapprs?.map((wrappr: Wrappr) => (
+              <WrapprCard
+                key={wrappr['id']}
+                name={wrappr.name}
+                id={wrappr.id}
+                baseURI={wrappr.baseURI}
+                chainId={chainId ? chainId.toString() : '1'}
+              />
+            ))
+          )}
+        </Stack>
       </Box>
     </Layout>
   )

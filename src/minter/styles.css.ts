@@ -51,20 +51,22 @@ export const pill = style({
 
 export const splashContainer = style([
   style({
-  minHeight: '90vh',
-  minWidth: '70vw',
-  padding: vars.space[6],
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}), style([
-  responsiveStyle({
-    xs: {
-      width: vars.space.full,
-      height: vars.space.full,
-    }
-  })
-])])
+    minHeight: '90vh',
+    minWidth: '70vw',
+    padding: vars.space[6],
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }),
+  style([
+    responsiveStyle({
+      xs: {
+        width: vars.space.full,
+        height: vars.space.full,
+      },
+    }),
+  ]),
+])
 
 export const action = style([
   style({
@@ -76,16 +78,16 @@ export const action = style([
     flexDirection: 'column',
     gap: vars.space[10],
     alignItems: 'flex-start',
-    justifyContent: 'center',  
-  }), 
+    justifyContent: 'center',
+  }),
   style([
     responsiveStyle({
       xs: {
         width: vars.space.full,
         height: vars.space.full,
-      }
-    })
-  ])
+      },
+    }),
+  ]),
 ])
 
 export const actionCards = style({

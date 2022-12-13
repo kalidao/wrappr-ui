@@ -15,5 +15,9 @@ export default function CreateControl() {
     <CreateForm key={1} store={store} setView={setView} setStore={setStore} />,
     <Confirmation key={1} store={store} />,
   ]
-  return <Box display="flex" alignItems="center" justifyContent={"center"}>{views[view]}</Box>
+  return (
+    <Box display="flex" alignItems="center" justifyContent={'center'}>
+      {views[view]}
+    </Box>
+  )
 }

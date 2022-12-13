@@ -34,36 +34,36 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   return (
     <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/explore`)}>
       <Box padding="6">
-      <Stack direction={'horizontal'} align="flex-start" justify={'space-between'}>
-        <Stack>
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <Avatar src={data?.['image']} size="96" label={`Image for ${data?.['name']}`} shape="square" />
-          )}
-          <MintWrapprNFT
-            chainId={Number(chainId)}
-            wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
-            mintFee={wrappr['mintFee']}
-          />
-        </Stack>
-        <Box width="full">
+        <Stack direction={'horizontal'} align="flex-start" justify={'space-between'}>
           <Stack>
-            <Heading>{reads ? reads?.[0] : 'No name found'}</Heading>
-            {/* className="whitespace-pre-line break-normal text-gray-400" */}
-            <Text wordBreak="break-word">{data ? data['description'] : 'No description found'}</Text>
-            <Heading>Traits</Heading>
-            <Stack>
-              {data &&
-                data?.['attributes']?.map((trait: TraitType, index: number) => (
-                  <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
-                ))}
-              {wrappr ? <Trait trait_type={'Admin'} value={wrappr?.['admin']} isBig={false} /> : <Spinner />}
-              {wrappr ? <Trait trait_type={'Mint Fee'} value={wrappr?.['mintFee']} isBig={true} /> : <Spinner />}
-            </Stack>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <Avatar src={data?.['image']} size="96" label={`Image for ${data?.['name']}`} shape="square" />
+            )}
+            <MintWrapprNFT
+              chainId={Number(chainId)}
+              wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
+              mintFee={wrappr['mintFee']}
+            />
           </Stack>
-        </Box>
-      </Stack>
+          <Box width="full">
+            <Stack>
+              <Heading>{reads ? reads?.[0] : 'No name found'}</Heading>
+              {/* className="whitespace-pre-line break-normal text-gray-400" */}
+              <Text wordBreak="break-word">{data ? data['description'] : 'No description found'}</Text>
+              <Heading>Traits</Heading>
+              <Stack>
+                {data &&
+                  data?.['attributes']?.map((trait: TraitType, index: number) => (
+                    <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
+                  ))}
+                {wrappr ? <Trait trait_type={'Admin'} value={wrappr?.['admin']} isBig={false} /> : <Spinner />}
+                {wrappr ? <Trait trait_type={'Mint Fee'} value={wrappr?.['mintFee']} isBig={true} /> : <Spinner />}
+              </Stack>
+            </Stack>
+          </Box>
+        </Stack>
       </Box>
     </Layout>
   )
