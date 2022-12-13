@@ -40,7 +40,10 @@ export const pill = style({
   width: vars.space[72],
   border: `1px solid ${vars.colors.foregroundSecondary}`,
   color: vars.colors.foreground,
-  padding: vars.space[2],
+  paddingRight: vars.space[3],
+  paddingLeft: vars.space[3],
+  paddingTop: vars.space[2],
+  paddingBottom: vars.space[2],
   fontSize: vars.fontSizes.extraSmall,
   fontWeight: vars.fontWeights.medium,
 

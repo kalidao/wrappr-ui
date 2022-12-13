@@ -86,6 +86,7 @@ export default function LLC({ store, setStore, setView }: Props) {
         placeholder=" "
         required
         label="Name"
+        suffix={"LLC"}
         error={errors.name && errors.name.message}
       />
       <Text>{message}</Text>

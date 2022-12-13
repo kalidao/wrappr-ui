@@ -50,7 +50,7 @@ export default function Entity({ choice, setChoice, setView }: Props) {
           gap="5"
         >
           <Text size="headingOne" color="foreground" align="left">
-            Wrappr NFTs: collectible legal structures for your digital life.
+            wrappr - legal collectibles for the decentralized web
           </Text>
           <Box as="a" className={styles.pill} href="https://docs.wrappr.wtf/how-to/quick-notes/" target="_blank">
             <Stack direction={'horizontal'} align="center">
@@ -67,7 +67,7 @@ export default function Entity({ choice, setChoice, setView }: Props) {
             <IconArrowLeft />
           </Box>
           <Text size="headingOne" align="left" weight="semiBold" color="foreground">
-            Mint Wrappr
+            Mint
           </Text>
         </Stack>
         <Box className={styles.actionCards}>
@@ -87,7 +87,7 @@ export default function Entity({ choice, setChoice, setView }: Props) {
             justifyContent="space-between"
             onClick={() => setEntity('UNA')}
           >
-            UNA
+            Non-Profit
           </Button>
           <Button
             tone="foreground"

@@ -42,13 +42,13 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
     }
   } = {
     LLC: {
-      description: 'A Delaware LLC is a limited liability company suited to scale a business for investment.',
-      link: 'https://docs.wrappr.wtf/how-to/LLC/#delaware-wyoming-series-llcs-differences',
+      description: 'Your filing and state taxes are automated. Where do you want your LLC to be situated?',
+      link: 'https://docs.wrappr.wtf/how-to/LLC/',
     },
     UNA: {
       description:
-        'A Delaware UNA is a non-profit limited liability association suited for grants and community ownership.',
-      link: 'https://docs.wrappr.wtf/how-to/UNA/#daos-una-s',
+        'This creates an Unincorporated Non-Profit (UNA), which has limited liability and can offer tax-benefits.',
+      link: 'https://daos.paradigm.xyz/',
     },
     Charter: {
       description: 'The DAO Charter is an internal manifesto to set basic legal expectations.',

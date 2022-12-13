@@ -5,8 +5,6 @@ import Confetti from '../utils/Confetti'
 import { useTransaction, useNetwork, useContractEvent } from 'wagmi'
 import { FaWpexplorer } from 'react-icons/fa'
 import { TbCandy } from 'react-icons/tb'
-import { WRAPPR_FACTORY } from '../constants'
-import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { StoreC } from './types'
 
@@ -26,7 +24,6 @@ export default function Confirmation({ store }: { store: StoreC }) {
     isSuccess,
   } = useQuery(['wrappr', store.uri], () => fetchWrapprData(store.uri))
 
-  console.log('store', store)
   return (
     <>
       <Stack direction={'vertical'} align="center" justify={'center'}>

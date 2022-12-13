@@ -23,28 +23,28 @@ export default function Form({ store, setStore, setView }: Props) {
     deLLC: {
       heading: 'Delaware LLC',
       description:
-        'A Delaware LLC is a limited liability company that is formed under the laws of the state of Delaware.',
+        'Delaware is the gold standard for corporate governance.',
       link: 'https://www.delawareinc.com/llc/',
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
     wyLLC: {
       heading: 'Wyoming LLC',
       description:
-        'A Wyoming LLC is a limited liability company that is formed under the laws of the state of Wyoming.',
+        'Wyoming holds progressive views towards digital assets and communties.',
       link: 'https://www.wyomingllc.com/',
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
     deUNA: {
       heading: 'Delaware UNA',
       description:
-        'A Delaware UNA is a unitary non-asset corporation that is formed under the laws of the state of Delaware.',
-      link: 'https://www.delawareinc.com/una/',
+        'Delaware is the gold standard for corporate governance.',
+      link: 'https://daos.paradigm.xyz/',
       component: <UNA store={store} setStore={setStore} setView={setView} />,
     },
     wyUNA: {
       heading: 'Wyoming UNA',
       description:
-        'A Wyoming UNA is a unitary non-asset corporation that is formed under the laws of the state of Wyoming.',
+        'Wyoming holds progressive views towards digital assets and communties.',
       link: 'https://www.wyomingllc.com/',
       component: <UNA store={store} setStore={setStore} setView={setView} />,
     },
