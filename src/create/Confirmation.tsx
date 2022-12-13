@@ -29,11 +29,11 @@ export default function Confirmation({ store }: { store: StoreC }) {
   console.log('store', store)
   return (
     <>
-      <Stack>
+      <Stack direction={"vertical"} align="center" justify={"center"}>
         {isFetched && isSuccess && (
           <Avatar src={uri?.['image']} size="96" label="Uploaded Image for NFT" shape="square" />
         )}
-        <Stack direction={'horizontal'}>
+        <Stack direction={'horizontal'} align="center" justify={"center"}>
           <Button
             as={'a'}
             prefix={<FaWpexplorer />}
