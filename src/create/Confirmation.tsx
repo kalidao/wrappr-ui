@@ -33,7 +33,7 @@ export default function Confirmation({ store }: { store: StoreC }) {
         {isFetched && isSuccess && (
           <Avatar src={uri?.['image']} size="96" label="Uploaded Image for NFT" shape="square" />
         )}
-        <Stack direction={"horizontal"}>
+        <Stack direction={'horizontal'}>
           <Button
             as={'a'}
             prefix={<FaWpexplorer />}
@@ -45,7 +45,7 @@ export default function Confirmation({ store }: { store: StoreC }) {
             View on Explorer
           </Button>
           <Link href={`/${store.chainId}/${store.address}`} passHref>
-            <Button as={'a'} prefix={<TbCandy />}  tone="foreground">
+            <Button as={'a'} prefix={<TbCandy />} tone="foreground">
               View in Gallery
             </Button>
           </Link>

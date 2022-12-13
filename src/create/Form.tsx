@@ -122,7 +122,17 @@ export default function CreateForm({ store, setStore, setView }: Props) {
       return
     }
 
-    console.log('Creating Wrappr JSON...', name, symbol, description, image, agreement, attributes, ethers.utils.parseEther(mintFee.toString()).toString(), admin)
+    console.log(
+      'Creating Wrappr JSON...',
+      name,
+      symbol,
+      description,
+      image,
+      agreement,
+      attributes,
+      ethers.utils.parseEther(mintFee.toString()).toString(),
+      admin,
+    )
     setMessage('Creating the Wrappr...')
     let baseURI
     try {
@@ -132,7 +142,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
       setError('Failed to create Wrappr metadata.')
       return
     }
-    
+
     setMessage('Summoning the Wrappr...')
     try {
       setStore({
@@ -154,7 +164,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
               ...store,
               hash: res.transactionHash,
               address: address,
-              chainId: chain?.id
+              chainId: chain?.id,
             })
             setView(1)
           }
@@ -163,115 +173,126 @@ export default function CreateForm({ store, setStore, setView }: Props) {
     } catch (e) {
       console.error('Failed to deploy Wrappr: ', e)
     }
-   
+
     setSubmitting(false)
   }
 
   return (
-    <Box display="flex" flexDirection={'column'} gap="10" width={{
-      xs: '3/4',
-      md: '3/4',
-      lg: '1/2',
-    }}>
+    <Box
+      display="flex"
+      flexDirection={'column'}
+      gap="10"
+      width={{
+        xs: '3/4',
+        md: '3/4',
+        lg: '1/2',
+      }}
+    >
       <Box borderBottomWidth={'0.375'} paddingBottom="6">
         <Text size="headingOne" color="foreground">
-        {submitting ? 'Summoning' : '🍬 Create Wrappr'}
+          {submitting ? 'Summoning' : '🍬 Create Wrappr'}
         </Text>
         <Text>
-          {submitting ? 'We are working our magic, please be patient' : 'Wrappr is a protocol for creating legal agreements as NFTs. Create a Wrappr by filling out the form below.'}
+          {submitting
+            ? 'We are working our magic, please be patient'
+            : 'Wrappr is a protocol for creating legal agreements as NFTs. Create a Wrappr by filling out the form below.'}
         </Text>
       </Box>
-      {submitting ? <Loader message={message} /> : <Box as="form" display="flex" flexDirection={'column'} gap="3" onSubmit={handleSubmit(onSubmit)}>
-        <MediaPicker label="Image" onChange={(file: File) => setImage(file)} />
-        <Input
-          label="Name"
-          id="name"
-          {...register('name')}
-          placeholder="Agreement Name"
-          error={errors.name && errors.name.message}
-        />
-        <Input
-          label="Symbol"
-          id="symbol"
-          {...register('symbol')}
-          placeholder="SYMBOL"
-          error={errors.symbol && errors.symbol.message}
-        />
-        <Textarea label="Description" id="description" placeholder="" {...register('description')} />
-        <Input
-          label="Admin"
-          id="admin"
-          {...register('admin')}
-          placeholder={ethers.constants.AddressZero}
-          error={errors.admin && errors.admin.message}
-        />
-        <Input
-          inputMode="numeric"
-          id="mintFee"
-          defaultValue={"0.1"}
-          min={"0"}
-          label="Minting Fee"
-          error={errors.mintFee && errors.mintFee.message}
-          {...register('mintFee')}
-        />
-        <FileUploader label="Agreement" setFile={setAgreement} />
-        <Field label="Traits">
-          <Stack>
-            {fields.map((field, index) => {
-              return (
-                <Stack direction="horizontal" align="center" key={field.id}>
-                  <Input
-                    label="Type"
-                    hideLabel
-                    placeholder="Type"
-                    {...register(`attributes.${index}.trait_type` as const, {
-                      required: true,
-                    })}
-                  />
-                  <Input
-                    label="Value"
-                    hideLabel
-                    placeholder="Value"
-                    {...register(`attributes.${index}.value` as const, {
-                      required: true,
-                    })}
-                  />
-                  <Button
-                    variant="secondary"
-                    size="small"
-                    shape="circle"
-                    aria-label="Delete Item"
-                    onClick={() => remove(index)}
-                    tone="red"
-                  >
-                    <AiOutlineDelete />
-                  </Button>
-                </Stack>
-              )
-            })}
-            <Button
-              suffix={<IconPlus />}
-              variant="secondary"
-              tone="green"
-              type="button"
-              onClick={() => append({ trait_type: '', value: '' })}
-            >
-              Add
-            </Button>
-          </Stack>
-        </Field>
-        <Text>{error}</Text>
-        <Button
-          tone="foreground"
-          type="submit"
-          width="full"
-          variant="primary"
-          disabled={submitting}
-          loading={submitting}
-        >
-          Create
-        </Button>
-      </Box>}
+      {submitting ? (
+        <Loader message={message} />
+      ) : (
+        <Box as="form" display="flex" flexDirection={'column'} gap="3" onSubmit={handleSubmit(onSubmit)}>
+          <MediaPicker label="Image" onChange={(file: File) => setImage(file)} />
+          <Input
+            label="Name"
+            id="name"
+            {...register('name')}
+            placeholder="Agreement Name"
+            error={errors.name && errors.name.message}
+          />
+          <Input
+            label="Symbol"
+            id="symbol"
+            {...register('symbol')}
+            placeholder="SYMBOL"
+            error={errors.symbol && errors.symbol.message}
+          />
+          <Textarea label="Description" id="description" placeholder="" {...register('description')} />
+          <Input
+            label="Admin"
+            id="admin"
+            {...register('admin')}
+            placeholder={ethers.constants.AddressZero}
+            error={errors.admin && errors.admin.message}
+          />
+          <Input
+            inputMode="numeric"
+            id="mintFee"
+            defaultValue={'0.1'}
+            min={'0'}
+            label="Minting Fee"
+            error={errors.mintFee && errors.mintFee.message}
+            {...register('mintFee')}
+          />
+          <FileUploader label="Agreement" setFile={setAgreement} />
+          <Field label="Traits">
+            <Stack>
+              {fields.map((field, index) => {
+                return (
+                  <Stack direction="horizontal" align="center" key={field.id}>
+                    <Input
+                      label="Type"
+                      hideLabel
+                      placeholder="Type"
+                      {...register(`attributes.${index}.trait_type` as const, {
+                        required: true,
+                      })}
+                    />
+                    <Input
+                      label="Value"
+                      hideLabel
+                      placeholder="Value"
+                      {...register(`attributes.${index}.value` as const, {
+                        required: true,
+                      })}
+                    />
+                    <Button
+                      variant="secondary"
+                      size="small"
+                      shape="circle"
+                      aria-label="Delete Item"
+                      onClick={() => remove(index)}
+                      tone="red"
+                    >
+                      <AiOutlineDelete />
+                    </Button>
+                  </Stack>
+                )
+              })}
+              <Button
+                suffix={<IconPlus />}
+                variant="secondary"
+                tone="green"
+                type="button"
+                onClick={() => append({ trait_type: '', value: '' })}
+              >
+                Add
+              </Button>
+            </Stack>
+          </Field>
+          <Text>{error}</Text>
+          <Button
+            tone="foreground"
+            type="submit"
+            width="full"
+            variant="primary"
+            disabled={submitting}
+            loading={submitting}
+          >
+            Create
+          </Button>
+        </Box>
+      )}
     </Box>
   )
 }

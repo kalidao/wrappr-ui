@@ -1,13 +1,7 @@
 import { uploadJSON } from '../utils'
 import { uploadFile } from '../utils/uploadFile'
 
-export async function createWrappr(
-  name: string,
-  description: any,
-  image: File,
-  agreement: File,
-  attributes: any,
-) {
+export async function createWrappr(name: string, description: any, image: File, agreement: File, attributes: any) {
   let imageHash, agreementHash
 
   try {

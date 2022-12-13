@@ -42,8 +42,7 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
     }
   } = {
     LLC: {
-      description:
-        'A Delaware LLC is a limited liability company suited to scale a business for investment.',
+      description: 'A Delaware LLC is a limited liability company suited to scale a business for investment.',
       link: 'https://docs.wrappr.wtf/how-to/LLC/#delaware-wyoming-series-llcs-differences',
     },
     UNA: {
