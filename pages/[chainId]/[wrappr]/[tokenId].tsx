@@ -46,7 +46,11 @@ const Wrappr: NextPage = () => {
   // TODO: Add Back
   return (
     <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/${wrappr}`)}>
-      <Stack direction={'horizontal'}>
+       <Box padding="6">
+      <Stack direction={{
+        xs: 'vertical',
+        md: 'horizontal'
+      }}>
         <Stack>
           {data ? (
             <Avatar src={uri?.['image']} size="96" shape="square" label={`Image for ${uri?.['name']}`} />
@@ -91,6 +95,7 @@ const Wrappr: NextPage = () => {
           </Stack>
         </Box>
       </Stack>
+      </Box>
     </Layout>
   )
 }

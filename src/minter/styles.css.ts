@@ -1,4 +1,5 @@
-import { vars } from '@kalidao/reality'
+import { vars, responsiveStyle } from '@kalidao/reality'
+import { tokens } from '@kalidao/reality/dist/types/tokens'
 import { style } from '@vanilla-extract/css'
 
 export const container = style({
@@ -48,26 +49,44 @@ export const pill = style({
   },
 })
 
-export const splashContainer = style({
+export const splashContainer = style([
+  style({
   minHeight: '90vh',
   minWidth: '70vw',
   padding: vars.space[6],
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-})
+}), style([
+  responsiveStyle({
+    xs: {
+      width: vars.space.full,
+      height: vars.space.full,
+    }
+  })
+])])
 
-export const action = style({
-  minHeight: '90vh',
-  minWidth: '30vw',
-  borderLeft: `1px solid ${vars.colors.foregroundSecondary}`,
-  padding: vars.space[6],
-  display: 'flex',
-  flexDirection: 'column',
-  gap: vars.space[10],
-  alignItems: 'flex-start',
-  justifyContent: 'center',
-})
+export const action = style([
+  style({
+    minHeight: '90vh',
+    minWidth: '30vw',
+    borderLeft: `1px solid ${vars.colors.foregroundSecondary}`,
+    padding: vars.space[6],
+    display: 'flex',
+    flexDirection: 'column',
+    gap: vars.space[10],
+    alignItems: 'flex-start',
+    justifyContent: 'center',  
+  }), 
+  style([
+    responsiveStyle({
+      xs: {
+        width: vars.space.full,
+        height: vars.space.full,
+      }
+    })
+  ])
+])
 
 export const actionCards = style({
   height: '50vh',

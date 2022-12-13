@@ -28,11 +28,13 @@ export default function Layout({ heading, content, back, children }: LayoutProps
         <link rel="manifest" href="/site.webmanifest"></link>
       </Head>
       <Header />
+      <Box margin="3">
       {back && (
-        <Button variant="transparent" onClick={back}>
+        <Button shape="circle" size="small" variant="transparent" onClick={back}>
           <IconArrowLeft />
         </Button>
       )}
+      </Box>
       <Box className={styles.container}>{children}</Box>
       <Footer />
     </Box>

@@ -33,6 +33,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   // TODO: Add mint fee
   return (
     <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/explore`)}>
+      <Box padding="6">
       <Stack direction={'horizontal'} align="flex-start" justify={'space-between'}>
         <Stack>
           {isLoading ? (
@@ -63,6 +64,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
           </Stack>
         </Box>
       </Stack>
+      </Box>
     </Layout>
   )
 }

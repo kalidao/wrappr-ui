@@ -1,7 +1,7 @@
-import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '~/layout'
-import { Spinner, Stack } from '@kalidao/reality'
+import { Box, Spinner, Stack } from '@kalidao/reality'
 import { WrapprCard } from '~/wrap'
 import { Wrappr } from '~/types/wrappr.types'
 import { deployments } from '~/constants'
@@ -33,7 +33,8 @@ const Explore: NextPage = () => {
 
   return (
     <Layout heading="Explore" content="Explore wrapprs. Wrap anything." back={() => router.push('/explore')}>
-      <Stack direction={'horizontal'} align="center" justify={'center'} space="10" wrap>
+      <Box padding="6">
+      <Stack direction={'horizontal'} align="center" justify={'flex-start'} space="8" wrap>
         {isLoading ? (
           <Spinner />
         ) : (
@@ -48,6 +49,7 @@ const Explore: NextPage = () => {
           ))
         )}
       </Stack>
+      </Box>
     </Layout>
   )
 }

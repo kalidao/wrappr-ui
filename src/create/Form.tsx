@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Box, Stack, Input, Field, Button, Textarea, Text, MediaPicker } from '@kalidao/reality'
+import { Box, Stack, Input, Field, Button, Textarea, Text, MediaPicker, IconPlus } from '@kalidao/reality'
 import { AiOutlineDelete } from 'react-icons/ai'
 
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
@@ -138,11 +138,12 @@ export default function CreateForm({ store, setStore, setView }: Props) {
   }
 
   return (
-    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-      {/* <Input id="image" type="file" {...register('image')} variant="flushed" /> */}
-
+    <Box display="flex" flexDirection={"column"} gap="10" width="1/2">
+      <Box borderBottomWidth={"0.375"} paddingBottom="6">
+        <Text size="headingOne" color="foreground">Create</Text>
+      </Box>
+    <Box as="form" display="flex" flexDirection={"column"} gap="3" onSubmit={handleSubmit(onSubmit)}>
       <MediaPicker label="Image" onChange={(file: File) => setImage(file)} />
-
       <Input
         label="Name"
         id="name"
@@ -150,7 +151,6 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         placeholder="Agreement Name"
         error={errors.name && errors.name.message}
       />
-
       <Input
         label="Symbol"
         id="symbol"
@@ -158,9 +158,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         placeholder="SYMBOL"
         error={errors.symbol && errors.symbol.message}
       />
-
       <Textarea label="Description" id="description" placeholder="" {...register('description')} />
-
       <Input
         label="Admin"
         id="admin"
@@ -168,7 +166,6 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         placeholder={ethers.constants.AddressZero}
         error={errors.admin && errors.admin.message}
       />
-
       <Input
         type="number"
         id="mintFee"
@@ -176,10 +173,9 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         min={0}
         label="Minting Fee"
         error={errors.mintFee && errors.mintFee.message}
+        {...register('mintFee')}
       />
-
       <FileUploader label="Agreement" setFile={setAgreement} />
-
       <Field label="Traits">
         <Stack>
           {fields.map((field, index) => {
@@ -201,15 +197,16 @@ export default function CreateForm({ store, setStore, setView }: Props) {
                     required: true,
                   })}
                 />
-                <Button size="small" shape="circle" aria-label="Delete Item" onClick={() => remove(index)} tone="red">
+                <Button variant="secondary" size="small" shape="circle" aria-label="Delete Item" onClick={() => remove(index)} tone="red">
                   <AiOutlineDelete />
                 </Button>
               </Stack>
             )
           })}
-
           <Button
+            suffix={<IconPlus />}
             variant="secondary"
+            tone="green"
             onClick={() =>
               append({
                 trait_type: '',
@@ -222,9 +219,10 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         </Stack>
       </Field>
       <Text>{error}</Text>
-      <Button type="submit" width="full" tone="accent" variant="primary" disabled={submitting} loading={submitting}>
+      <Button tone="foreground" type="submit" width="full" variant="primary" disabled={submitting} loading={submitting}>
         Create
       </Button>
+    </Box>
     </Box>
   )
 }

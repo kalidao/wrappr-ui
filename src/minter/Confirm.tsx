@@ -168,8 +168,15 @@ export default function Confirm({ store, setStore, setView }: Props) {
   }
 
   return (
-    <Box display="flex" alignItems="center" justifyContent={'center'} padding="6">
-      <Box width="1/2">
+    <Box display="flex" alignItems="center" justifyContent={'center'} padding={{
+      xs: '3',
+      md: '6',
+    }}>
+      <Box width={{
+        xs: 'full',
+        md: '3/4',
+        lg: '1/2',
+      }}>
         {loading === false ? (
           <Stack>
             <Stack direction={'horizontal'} align="center" justify={'space-between'}>

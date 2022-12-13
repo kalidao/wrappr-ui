@@ -32,7 +32,7 @@ const FileUploader = ({ setFile, label, description }: Props) => {
             </Box>
           ) : (
             <Box className={styles.container}>
-              <IconUpload />
+              <IconUpload color="foreground" />
               <Text>{context.droppable ? 'Drop file' : 'Attach file'}</Text>
             </Box>
           )

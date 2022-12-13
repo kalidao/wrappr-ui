@@ -1,4 +1,5 @@
-import { Box, Text } from '@kalidao/reality'
+import Link from 'next/link'
+import { Box, Text, Button, IconUserSolid } from '@kalidao/reality'
 import { isValidURL } from '../utils'
 import { HiExternalLink } from 'react-icons/hi'
 import { ethers } from 'ethers'
@@ -18,6 +19,10 @@ export default function Trait({ trait_type, value, isBig }: TraitType) {
         <HiExternalLink />
       </a>
     )
+  }
+
+  if (ethers.utils.isAddress(value as string) === true) {
+    renderValue = <Button variant="transparent" size="small" as="a" href={`/users/${value}`}><IconUserSolid /></Button>
   }
 
   if (isBig) {
