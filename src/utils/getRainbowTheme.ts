@@ -25,7 +25,7 @@ export const getRainbowTheme = (mode: string) => {
       body: `"InterVar", sans-serif`,
     },
     shadows: {
-      connectButton: `1px 1px 8px 1px ${shadowColor}`,
+      connectButton: `${shadowColor} 0px 1px 1px, ${shadowColor} 0px 0px 1px 1px`,
     },
     radii: {
       actionButton: vars.radii['2xLarge'],
