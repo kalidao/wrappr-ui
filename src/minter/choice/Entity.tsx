@@ -50,7 +50,7 @@ export default function Entity({ choice, setChoice, setView }: Props) {
           gap="5"
         >
           <Text size="headingOne" color="foreground" align="left">
-            Wrappr NFTs: the future of legal ownership. Transform your organization with our exclusive platform.
+            Wrappr NFTs: collectible legal structures. Transform your organization with our open platform.
           </Text>
           <Box as="a" className={styles.pill} href="https://docs.wrappr.wtf/how-to/quick-notes/" target="_blank">
             <Stack direction={'horizontal'} align="center">
