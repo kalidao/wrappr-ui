@@ -52,17 +52,12 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient())
-  const mode = useThemeStore((state) => state.mode)
-  const [theme, setTheme] = useState<Theme>()
-
-  useEffect(() => {
-    setTheme(getRainbowTheme(mode))
-  }, [mode])
+  const rainbowTheme = getRainbowTheme('dark')
 
   return (
-    <ThemeProvider defaultAccent="teal" defaultMode={mode}>
+    <ThemeProvider defaultAccent="teal" defaultMode={"dark"} forcedMode="dark">
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains} coolMode={true} modalSize="compact" theme={theme}>
+        <RainbowKitProvider chains={chains} coolMode={true} modalSize="compact" theme={rainbowTheme}>
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <Component {...pageProps} />

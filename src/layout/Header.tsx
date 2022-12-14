@@ -32,7 +32,7 @@ export default function Header() {
         <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<IconBookOpenSolid />} isExternal />
       </Box>
       <Stack direction={'horizontal'}>
-        <ToggleMode />
+        {/* <ToggleMode /> */}
         <ConnectButton label="login" />
       </Stack>
     </Box>
