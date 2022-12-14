@@ -4,7 +4,7 @@ import { vars } from '@kalidao/reality'
 globalStyle('html, body', {
   margin: 0,
   padding: 0,
-  background: vars.colors.background,
+  background: vars.colors.black,
   fontFamily: vars.fonts.sans,
 })
 
