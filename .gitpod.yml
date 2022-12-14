@@ -12,6 +12,4 @@ ports:
 
 vscode:
   extensions:
-    - bradlc.vscode-tailwindcss@0.8.6
     - GitHub.copilot@1.44.6735
-
