@@ -55,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const rainbowTheme = getRainbowTheme('dark')
 
   return (
-    <ThemeProvider defaultAccent="teal" defaultMode={"dark"} forcedMode="dark">
+    <ThemeProvider defaultAccent="teal" defaultMode={'dark'} forcedMode="dark">
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains} coolMode={true} modalSize="compact" theme={rainbowTheme}>
           <QueryClientProvider client={queryClient}>
