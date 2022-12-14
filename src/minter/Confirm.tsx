@@ -1,25 +1,16 @@
 import { useState } from 'react'
+import Image from 'next/image'
 import PDFViewer from '@design/PDFViewer'
-import { VStack, Button, Checkbox, Text, IconButton } from '@chakra-ui/react'
+import { Stack, Box, Checkbox, Text, Button, IconArrowLeft, Spinner } from '@kalidao/reality'
 import { useAccount, useNetwork, useContractWrite } from 'wagmi'
 import { StoreT } from './types'
 import { ethers } from 'ethers'
 import { deployments, WRAPPR } from '../constants'
-import {
-  MdOutlineArrowBack,
-  MdConstruction,
-  MdError,
-  MdSend,
-  MdSearch,
-  MdAccessTimeFilled,
-  MdCheckCircle,
-} from 'react-icons/md'
+import { MdConstruction, MdError, MdSend, MdSearch, MdAccessTimeFilled, MdCheckCircle } from 'react-icons/md'
 import getName from './utils/getName'
-import { getTokenId } from './getTokenId'
 import { createAgreement } from './utils/createAgreement'
 import createTokenURI from './utils/createTokenURI'
 import { getAgreement } from './utils/getAgreement'
-import { useQuery } from '@tanstack/react-query'
 import { calculateTokenId } from '~/utils/calculateTokenId'
 
 type Props = {
@@ -42,7 +33,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
   })
   const { isConnected, address } = useAccount()
   const { chain } = useNetwork()
-  const contractAddress = deployments[1][store.juris + store.entity]
+  const contractAddress = deployments[1][(store.juris + store.entity) as keyof typeof deployments[1]] as string
   const { writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
     addressOrName: contractAddress,
@@ -178,49 +169,67 @@ export default function Confirm({ store, setStore, setView }: Props) {
   }
 
   return (
-    <>
-      {loading === false ? (
-        <div className="flex-col space-y-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-xl font-semibold">
-              Confirm {getName(store.juris, store.entity)} for {store.name}{' '}
-            </h1>
-            <IconButton
-              variant="ghost"
-              maxWidth={1}
-              colorScheme={'brand'}
-              onClick={() => setView(1)}
-              aria-label="Go back!"
-              icon={<MdOutlineArrowBack />}
-              isRound
-            />
-          </div>
-          <PDFViewer src={`/legal/${store.juris + store.entity}.pdf`} />
-          <Checkbox colorScheme="brand" onChange={() => setChecked(!checked)}>
-            I have read and accept the terms of this agreement.
-          </Checkbox>
-          {isConnected ? (
-            <Button
-              type="submit"
-              width="100%"
-              colorScheme="brand"
-              variant="solid"
-              borderRadius={'lg'}
-              disabled={!checked}
-              onClick={tx}
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent={'center'}
+      padding={{
+        xs: '3',
+        md: '6',
+      }}
+    >
+      <Box
+        width={{
+          xs: 'full',
+          md: '3/4',
+          lg: '1/2',
+        }}
+      >
+        {loading === false ? (
+          <Stack>
+            <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+              <Text size="headingTwo" color="foreground">
+                Confirm {getName(store.juris, store.entity)} for {store.name}{' '}
+              </Text>
+              <Button onClick={() => setView(1)} aria-label="Go back!" variant="transparent" shape="circle">
+                <IconArrowLeft />
+              </Button>
+            </Stack>
+            <PDFViewer src={`/legal/${store.juris + store.entity}.pdf`} />
+            <Box
+              display="flex"
+              alignItems={'center'}
+              justifyContent="space-between"
+              borderTopWidth={'0.375'}
+              borderColor="foregroundSecondary"
+              paddingTop="1"
             >
-              {!checked ? 'Please agree to the terms.' : 'Confirm Mint'}
-            </Button>
-          ) : (
-            <Text>Please connect to a wallet.</Text>
-          )}
-        </div>
-      ) : (
-        <VStack align="center" justify="center" minHeight="500px">
-          <span>{message.icon}</span>
-          <p className="text-center font-semibold text-xl">{message.text}</p>
-        </VStack>
-      )}
-    </>
+              <Checkbox
+                variant="transparent"
+                label={<Text>I have read and accept the terms of this agreement.</Text>}
+                onCheckedChange={() => setChecked(!checked)}
+              ></Checkbox>
+              {isConnected ? (
+                <Button tone="foreground" type="submit" disabled={!checked} onClick={tx}>
+                  Confirm Mint
+                </Button>
+              ) : (
+                <Text>Please connect to a wallet.</Text>
+              )}
+            </Box>
+          </Stack>
+        ) : (
+          <Stack align="center" justify="center" space="20">
+            <Text size="headingOne" color="foreground" align="center">
+              We are working our magic, please be patient
+            </Text>
+            <Text size="headingThree" color="text">
+              {message.text}
+            </Text>
+            <Image src={'/loading.png'} height="150px" width="150px" unoptimized />
+          </Stack>
+        )}
+      </Box>
+    </Box>
   )
 }

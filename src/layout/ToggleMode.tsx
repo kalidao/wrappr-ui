@@ -1,19 +1,24 @@
-import { IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react'
-import { BsSunFill, BsMoonStarsFill } from 'react-icons/bs'
+import { useCallback } from 'react'
+import { Button, IconSun, IconMoon, useTheme } from '@kalidao/reality'
+import { useThemeStore } from '~/hooks/useThemeStore'
+import { setThemeMode } from '~/utils/cookies'
+import { useIsMounted } from '~/hooks/useIsMounted'
 
 export default function ToggleMode() {
-  const { colorMode, toggleColorMode } = useColorMode()
-  const bg = useColorModeValue('brand.50', 'brand.900')
+  const isMounted = useIsMounted()
+  const { mode, setMode } = useTheme()
+  const toggleModeState = useThemeStore((state) => state.toggleMode)
+
+  const toggleMode = useCallback(() => {
+    const nextMode = mode === 'dark' ? 'light' : 'dark'
+    setMode(nextMode)
+    setThemeMode(nextMode)
+    toggleModeState()
+  }, [mode, setMode, toggleModeState])
 
   return (
-    <IconButton
-      aria-label="Toggle dark mode"
-      icon={colorMode === 'light' ? <BsMoonStarsFill /> : <BsSunFill />}
-      onClick={toggleColorMode}
-      variant="transparent"
-      _hover={{
-        background: bg,
-      }}
-    />
+    <Button shape="circle" variant="transparent" aria-label="Toggle dark mode" onClick={toggleMode} size="small">
+      {mode === 'light' ? <IconMoon /> : <IconSun />}
+    </Button>
   )
 }

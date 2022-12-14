@@ -3,7 +3,7 @@ import { useContractRead, useNetwork } from 'wagmi'
 import { WRAPPR, deployments } from '~/constants'
 import { useQuery } from '@tanstack/react-query'
 import { ethers } from 'ethers'
-import { Skeleton } from '@chakra-ui/react'
+import { Avatar } from '@kalidao/reality'
 
 const fetchWrapprData = async (URI: string | undefined) => {
   if (URI) {
@@ -20,7 +20,9 @@ export default function MintedImage({ entity, tokenId }: { entity: string; token
     isSuccess,
     error,
   } = useContractRead({
-    addressOrName: chain ? deployments[chain.id][entity] : ethers.constants.AddressZero,
+    addressOrName: chain
+      ? (deployments[Number(chain.id)][entity as keyof typeof deployments[1]] as string)
+      : ethers.constants.AddressZero,
     contractInterface: WRAPPR,
     functionName: 'uri',
     args: [tokenId],
@@ -29,17 +31,5 @@ export default function MintedImage({ entity, tokenId }: { entity: string; token
 
   if (isLoadingURI && isLoading) return <>Fetching</>
 
-  return (
-    <Skeleton isLoaded={!isLoadingURI && !isLoading}>
-      <div className="flex items-center justify-center rounded-md">
-        <Image
-          height="350px"
-          width="350px"
-          src={data?.image}
-          alt="Minted NFT image"
-          className={'shadow-gray-900/40 shadow-sm rounded-lg overflow-hidden '}
-        />
-      </div>
-    </Skeleton>
-  )
+  return <Avatar src={data?.image} label="Minted NFT image" shape="square" size="96" />
 }

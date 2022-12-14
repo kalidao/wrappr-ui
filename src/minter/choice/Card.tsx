@@ -1,4 +1,6 @@
-import { VStack, Button, HStack, Text, useColorModeValue } from '@chakra-ui/react'
+import { Box, IconArrowRight, Text } from '@kalidao/reality'
+import * as styles from '../styles.css'
+import Tilt from 'react-parallax-tilt'
 
 type CardProps = {
   name: string
@@ -7,44 +9,34 @@ type CardProps = {
   cta: string
   learn?: string
   onClick: React.MouseEventHandler
-}
+} & HTMLButtonElement
 
-const Card = ({ name, icon, description, learn, cta, onClick }: CardProps) => {
-  const bgColor = useColorModeValue('gray.100', 'gray.700')
+const Card = ({ name, icon, description, learn, cta, onClick, disabled, type }: CardProps) => {
   return (
-    <VStack
-      p={3}
-      w={'full'}
-      display="flex"
-      flexDir={'column'}
-      gap={'2'}
-      border="gray.800"
-      borderWidth="1px"
-      borderRadius="lg"
-      _hover={{
-        background: bgColor,
-      }}
+    <Tilt
+      className="rounded-xl"
+      perspective={1300}
+      transitionSpeed={300}
+      tiltMaxAngleX={1}
+      tiltMaxAngleY={1}
+      glareEnable={true}
+      glareMaxOpacity={0.01}
+      glarePosition={'all'}
     >
-      <HStack>
-        {icon && <span className="[&>*]:w-7 [&>*]:h-7 [&>*]:text-gray-500 [&>*]:dark:text-gray-400">{icon}</span>}
-        <Text as="h2" fontSize="2xl" fontWeight="semibold" colorScheme="gray" mr={3}>
+      <Box
+        className={styles.card}
+        backgroundColor="foreground"
+        as="button"
+        disabled={disabled}
+        type={type}
+        onClick={onClick}
+      >
+        <Text size={'extraLarge'} weight="bold" color="background">
           {name}
         </Text>
-      </HStack>
-      <Text as={'p'} fontSize="md" colorScheme="gray" mt={2}>
-        {description}
-      </Text>
-      <HStack>
-        {learn && (
-          <Button as="a" href={learn} rel="no-oppener" target="_blank" variant="ghost" borderRadius="2xl">
-            Learn More
-          </Button>
-        )}
-        <Button onClick={onClick} colorScheme="brand" variant="outline" borderRadius="2xl">
-          {cta}
-        </Button>
-      </HStack>
-    </VStack>
+        <IconArrowRight color={'background'} />
+      </Box>
+    </Tilt>
   )
 }
 

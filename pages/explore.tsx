@@ -2,39 +2,32 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import Layout from '../src/layout'
 import { useRouter } from 'next/router'
-import { chain, useNetwork } from 'wagmi'
-import { Box, Heading, SimpleGrid, useColorModeValue } from '@chakra-ui/react'
+import { useNetwork } from 'wagmi'
+import { Stack, Button, Card, Box, Heading, IconArrowRight } from '@kalidao/reality'
 
 const Explore: NextPage = () => {
   const router = useRouter()
   const { chains } = useNetwork()
-  // FIXME: wagmi chains object only populates when user is connected
-  const supportedChains = []
-  const color = useColorModeValue('brand.100', 'brand.900')
-  const border = useColorModeValue('brand.200', 'brand.800')
 
   return (
     <Layout heading="Explore" content="Explore the universe of Wrapprs" back={() => router.push('/')}>
-      <SimpleGrid columns={[1, 2, 3]} spacing={10} px={[4, 6]} py={2}>
+      <Stack direction={'horizontal'} align="center" justify={'center'} wrap>
         {chains.map((chain) => (
-          <Link href={`/${chain.id}/explore`} passHref key={chain.id}>
-            <Box
-              padding="2"
-              as="a"
-              border="1px"
-              borderColor={color}
-              borderRadius={'lg'}
-              _hover={{
-                borderColor: border,
-                background: color,
-              }}
-            >
-              <Heading>{chain.name}</Heading>
-              <Box>{chain.nativeCurrency?.symbol}</Box>
-            </Box>
-          </Link>
+          <Card key={chain.id} width="128" padding="6" as="a" borderRadius="2xLarge" hover>
+            <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+              <Stack>
+                <Heading>{chain.name}</Heading>
+                <Box color="foreground">{chain.nativeCurrency?.symbol}</Box>
+              </Stack>
+              <Link href={`/${chain.id}/explore`} passHref>
+                <Button as="a" variant="secondary">
+                  <IconArrowRight />
+                </Button>
+              </Link>
+            </Stack>
+          </Card>
         ))}
-      </SimpleGrid>
+      </Stack>
     </Layout>
   )
 }

@@ -1,8 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Button, FormLabel, Input, Textarea } from '@chakra-ui/react'
-import { BsFillArrowRightCircleFill } from 'react-icons/bs'
+import { Box, Button, Input, Stack, Textarea, IconChevronRight } from '@kalidao/reality'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
@@ -52,77 +51,49 @@ export default function Charter({ store, setStore, setView }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
-      <div className="relative z-0 mb-6 w-full group">
-        <Input
-          type="text"
-          {...register('name')}
-          id="name"
-          placeholder=" "
-          required
-          className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none peer"
-          variant="flushed"
-          colorScheme="brand"
-        />
-        <FormLabel
-          htmlFor="name"
-          fontSize="sm"
-          colorScheme="gray"
-          className="peer-focus:font-medium absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-zinc-600 peer-focus:dark:text-zinc-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-          Name
-        </FormLabel>
-      </div>
-      <div className="relative z-0 mb-6 w-full group">
+    <Box as="form" onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
+      <Stack>
+        <Input type="text" {...register('name')} id="name" placeholder=" " required label="Name" />
         <Input
           type="text"
           {...register('jurisdiction')}
           id="jurisdiction"
           placeholder=" "
           required
-          className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none peer"
-          variant="flushed"
-          colorScheme="brand"
+          label="Jurisdiction"
+          description="What jurisdiction will this Charter be under?"
         />
-        <FormLabel
-          htmlFor="jurisdiction"
-          fontSize="sm"
-          colorScheme="gray"
-          className="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-zinc-600 peer-focus:dark:text-zinc-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-          Jurisdiction
-        </FormLabel>
-      </div>
-      <div>
-        <FormLabel htmlFor="mission" colorScheme={'gray'} fontSize="sm">
-          Your mission
-        </FormLabel>
         <Textarea
           id="mission"
+          label="Your Mission"
           {...register('mission')}
           rows={4}
-          colorScheme="brand"
-          variant="unstyled"
           placeholder="Which shall primarily be..."
+          description="What is the mission of this organisation?"
         />
-      </div>
-      {!isConnected && openConnectModal ? (
-        <Button
-          onClick={openConnectModal}
-          type="submit"
-          width="100%"
-          colorScheme="brand"
-          variant="solid"
-          borderRadius={'lg'}
-          rightIcon={<BsFillArrowRightCircleFill />}
-        >
-          Connect
-        </Button>
-      ) : (
-        <Button rightIcon={<BsFillArrowRightCircleFill />} type="submit" width="100%" isLoading={isSubmitting}>
-          Next
-        </Button>
-      )}
-    </form>
+        {!isConnected && openConnectModal ? (
+          <Button
+            tone="foreground"
+            suffix={<IconChevronRight />}
+            width="full"
+            justifyContent="space-between"
+            onClick={openConnectModal}
+          >
+            Login
+          </Button>
+        ) : (
+          <Button
+            tone="foreground"
+            suffix={<IconChevronRight />}
+            width="full"
+            justifyContent="space-between"
+            type="submit"
+            loading={isSubmitting}
+          >
+            Review Document
+          </Button>
+        )}
+      </Stack>
+    </Box>
   )
 }

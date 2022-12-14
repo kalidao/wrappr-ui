@@ -1,8 +1,20 @@
 import { GiBriefcase, GiThreeLeaves, GiTiedScroll } from 'react-icons/gi'
 import { StoreT } from '../types'
 import Card from './Card'
-import Soon from './Soon'
-import { Grid, GridItem } from '@chakra-ui/react'
+import {
+  Box,
+  Text,
+  Divider,
+  Button,
+  Stack,
+  Heading,
+  IconLightningBolt,
+  IconChevronRight,
+  IconBookOpen,
+  IconArrowRight,
+  IconArrowLeft,
+} from '@kalidao/reality'
+import * as styles from '../styles.css'
 
 type Props = {
   choice: StoreT
@@ -20,33 +32,74 @@ export default function Entity({ choice, setChoice, setView }: Props) {
   }
 
   return (
-    <Grid templateColumns={['repeat(1, 1fr)', 'repeat(2, 1fr)']} gap={1}>
-      <Card
-        name="LLC"
-        cta="Mint"
-        learn="https://docs.wrappr.wtf/how-to/LLC/"
-        icon={<GiBriefcase />}
-        description={'Enjoy limited legal liability'}
-        onClick={() => setEntity('LLC')}
-      />
-      <Card
-        name="UNA"
-        cta="Mint"
-        learn="https://docs.wrappr.wtf/how-to/UNA/"
-        icon={<GiThreeLeaves />}
-        description={'Qualify for tax benefits as a Non-Profit'}
-        onClick={() => setEntity('UNA')}
-      />
-      <Card
-        name="Charter"
-        cta="Mint"
-        learn="https://docs.wrappr.wtf/how-to/charter/"
-        icon={<GiTiedScroll />}
-        description={'Govern yourself'}
-        onClick={() => setEntity('Charter')}
-      />
-      {/* create card that flips on hover  */}
-      <Soon />
-    </Grid>
+    <Box
+      display={'flex'}
+      flexDirection={{
+        xs: 'column',
+        md: 'row',
+      }}
+    >
+      <Box className={styles.splashContainer}>
+        <Box
+          display="flex"
+          flexDirection={'column'}
+          width={{
+            xs: 'full',
+            md: '2/3',
+          }}
+          gap="5"
+        >
+          <Text size="headingOne" color="foreground" align="left">
+            wrappr - legal collectibles for the decentralized web
+          </Text>
+          <Box as="a" className={styles.pill} href="https://docs.wrappr.wtf/how-to/quick-notes/" target="_blank">
+            <Stack direction={'horizontal'} align="center">
+              <IconBookOpen />
+              <Text>How it works</Text>
+            </Stack>
+            <IconArrowRight />
+          </Box>
+        </Box>
+      </Box>
+      <Box className={styles.action}>
+        <Stack>
+          <Box className={styles.back} as="button" disabled={true}>
+            <IconArrowLeft />
+          </Box>
+          <Text size="headingOne" align="left" weight="semiBold" color="foreground">
+            Mint
+          </Text>
+        </Stack>
+        <Box className={styles.actionCards}>
+          <Button
+            tone="foreground"
+            suffix={<IconChevronRight />}
+            width="3/4"
+            justifyContent="space-between"
+            onClick={() => setEntity('LLC')}
+          >
+            LLC
+          </Button>
+          <Button
+            tone="foreground"
+            suffix={<IconChevronRight />}
+            width="3/4"
+            justifyContent="space-between"
+            onClick={() => setEntity('UNA')}
+          >
+            Non-Profit
+          </Button>
+          <Button
+            tone="foreground"
+            suffix={<IconChevronRight />}
+            width="3/4"
+            justifyContent="space-between"
+            onClick={() => setEntity('Charter')}
+          >
+            Charter
+          </Button>
+        </Box>
+      </Box>
+    </Box>
   )
 }

@@ -2,8 +2,15 @@ import { deployments } from '~/constants'
 
 export async function checkName(name: string, chainId: number) {
   if (chainId !== undefined) {
+    if (deployments[chainId]['subgraph'] === undefined) {
+      return {
+        isError: false,
+        available: false,
+        error: 'No subgraph found for this chain. Please try again on a different network.',
+      }
+    }
     try {
-      const result = await fetch(deployments[chainId]['subgraph'], {
+      const result = await fetch(deployments[chainId]['subgraph'] as string, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

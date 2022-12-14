@@ -1,21 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import '@rainbow-me/rainbowkit/styles.css'
-import { connectorsForWallets, wallet, RainbowKitProvider, darkTheme, Theme } from '@rainbow-me/rainbowkit'
+import { connectorsForWallets, wallet, RainbowKitProvider, DisclaimerComponent, Theme } from '@rainbow-me/rainbowkit'
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
-import { ChakraProvider, useColorModeValue } from '@chakra-ui/react'
-import { theme } from '@design/theme'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import '@fontsource/alegreya-sans/'
 import '../styles/globals.css'
-import merge from 'lodash.merge'
 import { avalanche, bsc, xdai, fantom } from '~/constants/chains'
 import { GnosisConnector } from '~/wallets/'
+import { getRainbowTheme } from '~/utils/getRainbowTheme'
+import { useThemeStore } from '~/hooks/useThemeStore'
+import { ThemeProvider } from '@kalidao/reality'
+import '@kalidao/reality/styles'
+import '@design/app.css'
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.optimism, chain.polygon, chain.arbitrum, xdai, avalanche, bsc, fantom, chain.goerli, xdai],
+  [chain.mainnet, chain.optimism, chain.polygon, chain.arbitrum, xdai, avalanche, bsc, chain.goerli, xdai],
   [infuraProvider({ apiKey: process.env.INFURA_ID }), publicProvider()],
 )
 
@@ -42,37 +43,26 @@ const wagmiClient = createClient({
   provider,
 })
 
+const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
+  <Text>
+    By connecting your wallet, you agree to the <Link href="/tos">Terms of Service</Link> and acknowledge you have read
+    and understand the Disclaimers therein.
+  </Text>
+)
+
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient())
-  const accentColor = useColorModeValue('gray.50', '#013232')
-  const accentColorForeground = useColorModeValue('gray.900', 'gray.50')
-  const connectText = useColorModeValue('gray.600', 'gray.300')
+  const mode = useThemeStore((state) => state.mode)
+  const [theme, setTheme] = useState<Theme>()
 
-  const wrapprTheme = merge(darkTheme(), {
-    blurs: {
-      modalOverlay: 'blur(30px)',
-    },
-    colors: {
-      accentColor: accentColor,
-      accentColorForeground: accentColorForeground,
-      connectButtonBackground: accentColor,
-      connectButtonText: connectText,
-      connectButtonInnerBackground: 'none',
-      modalBackground: 'none',
-      selectedOptionBorder: '',
-    },
-    fonts: {
-      body: `"Alegreya Sans", sans-serif`,
-    },
-    shadows: {
-      connectButton: '1px 2px 6px rgba(1,50,50, 0.2)',
-    },
-  } as Theme)
+  useEffect(() => {
+    setTheme(getRainbowTheme(mode))
+  }, [mode])
 
   return (
-    <ChakraProvider theme={theme}>
+    <ThemeProvider defaultAccent="teal" defaultMode={mode}>
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains} coolMode={true} modalSize="compact" theme={wrapprTheme}>
+        <RainbowKitProvider chains={chains} coolMode={true} modalSize="compact" theme={theme}>
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <Component {...pageProps} />
@@ -80,7 +70,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </QueryClientProvider>
         </RainbowKitProvider>
       </WagmiConfig>
-    </ChakraProvider>
+    </ThemeProvider>
   )
 }
 

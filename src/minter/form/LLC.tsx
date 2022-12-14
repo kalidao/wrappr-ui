@@ -1,12 +1,14 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Button, FormLabel, Input } from '@chakra-ui/react'
+import { Stack, Box, Button, Text, Input, IconChevronRight, IconArrowRight } from '@kalidao/reality'
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useEffect, useState } from 'react'
+import * as styles from '../styles.css'
+import Card from '../choice/Card'
 
 type LLC = {
   name: string
@@ -74,46 +76,42 @@ export default function LLC({ store, setStore, setView }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-1">
-      <div className="relative z-0 mb-6 w-full group">
-        <Input
-          type="text"
-          {...register('name')}
-          id="name"
-          placeholder=" "
-          required
-          className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none peer"
-          variant="flushed"
-          colorScheme="brand"
-        />
-        <FormLabel
-          htmlFor="name"
-          fontSize="sm"
-          colorScheme="gray"
-          className="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-zinc-600 peer-focus:dark:text-zinc-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-          Name
-        </FormLabel>
-        {errors.name && <span>{errors.name.message}</span>}
-      </div>
-      {message}
+    <Box as="form" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <Input
+        type="text"
+        width="full"
+        description={"What's the name of your LLC?"}
+        {...register('name')}
+        id="name"
+        placeholder=" "
+        required
+        label="Name"
+        suffix={'LLC'}
+        error={errors.name && errors.name.message}
+      />
+      <Text>{message}</Text>
       {!isConnected && openConnectModal ? (
         <Button
+          tone="foreground"
+          suffix={<IconChevronRight />}
+          width="full"
+          justifyContent="space-between"
           onClick={openConnectModal}
-          type="submit"
-          width="100%"
-          colorScheme="brand"
-          variant="solid"
-          borderRadius={'lg'}
-          rightIcon={<BsFillArrowRightCircleFill />}
         >
-          Connect
+          Login
         </Button>
       ) : (
-        <Button rightIcon={<BsFillArrowRightCircleFill />} type="submit" width="100%" isLoading={isSubmitting}>
-          Next
+        <Button
+          tone="foreground"
+          suffix={<IconChevronRight />}
+          width="full"
+          justifyContent="space-between"
+          type="submit"
+          loading={isSubmitting}
+        >
+          Review Document
         </Button>
       )}
-    </form>
+    </Box>
   )
 }

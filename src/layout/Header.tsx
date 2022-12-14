@@ -2,14 +2,12 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
-import { Flex, Button, Box, useColorModeValue } from '@chakra-ui/react'
+import { Button, Box, IconUserSolid, IconGrid, IconPencil, IconBookOpenSolid, Stack } from '@kalidao/reality'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { MdExplore, MdCreate, MdPerson } from 'react-icons/md'
-import { FaScroll } from 'react-icons/fa'
-import Link from 'next/link'
 import ToggleMode from './ToggleMode'
 import { useAccount, useNetwork } from 'wagmi'
-import { HiUserCircle } from 'react-icons/hi'
+import * as styles from './styles.css'
+import { ReactNodeNoStrings } from '@kalidao/reality/dist/types/types'
 
 export default function Header() {
   const router = useRouter()
@@ -17,7 +15,7 @@ export default function Header() {
   const { isConnected, address } = useAccount()
 
   return (
-    <Flex padding="0 10px" alignItems="center" justifyContent="space-between" minH="10vh">
+    <Box className={styles.header}>
       <motion.div
         whileHover={{
           rotate: Math.floor(Math.random() * (360 - 20)) + 20,
@@ -27,37 +25,49 @@ export default function Header() {
       >
         <Image src={'/logo.png'} height={60} width={80} alt={`Wrappr logo`} />
       </motion.div>
-      <nav className="flex gap-3">
-        {isConnected && <Item label="user" src={`/users/${address}`} icon={<MdPerson />} />}
-        <Item label="make" src="/create" icon={<MdCreate />} />
-        <Item label="find" src={`/${chain ? chain.id : 1}/explore`} icon={<MdExplore />} />
-        <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<FaScroll />} />
+      <Box as="nav" display="flex" gap="2">
+        {isConnected && <Item label="user" src={`/users/${address}`} icon={<IconUserSolid />} />}
+        <Item label="make" src="/create" icon={<IconPencil />} />
+        <Item label="find" src={`/${chain ? chain.id : 1}/explore`} icon={<IconGrid />} />
+        <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<IconBookOpenSolid />} isExternal />
+      </Box>
+      <Stack direction={'horizontal'}>
         <ToggleMode />
         <ConnectButton label="login" />
-      </nav>
-    </Flex>
+      </Stack>
+    </Box>
   )
 }
 
 type ItemProps = {
   label: string
   src: string
-  icon: React.ReactNode
+  icon: ReactNodeNoStrings
+  isExternal?: boolean
 }
 
-const Item = ({ src, icon, label }: ItemProps) => {
-  const bg = useColorModeValue('brand.50', 'brand.900')
-  return (
-    <Link href={src} target="_blank" passHref>
-      <Box
-        className="flex justify-center items-center gap-1 px-2 rounded-lg"
-        _hover={{
-          background: bg,
-        }}
+const Item = ({ src, icon, label, isExternal }: ItemProps) => {
+  const router = useRouter()
+  const isActive = router.asPath === src
+
+  if (isExternal) {
+    return (
+      <Button
+        as="a"
+        // prefix={icon}
+        href={src}
+        size="medium"
+        variant={isActive ? 'secondary' : 'transparent'}
+        target="_blank"
+        rel="noopenner noreferrer"
       >
-        {icon}
-        <p className="hidden md:block text-size">{label}</p>
-      </Box>
-    </Link>
+        {label}
+      </Button>
+    )
+  }
+  return (
+    <Button as="a" href={src} size="medium" variant={isActive ? 'secondary' : 'transparent'}>
+      {label}
+    </Button>
   )
 }

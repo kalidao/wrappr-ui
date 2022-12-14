@@ -2,11 +2,13 @@ import type { NextPage } from 'next'
 import { useState } from 'react'
 import Layout from '~/layout'
 import { useRouter } from 'next/router'
-import { Heading, VStack, Input, Text, Button, Box, HStack, Avatar, Divider } from '@chakra-ui/react'
+import { Heading, Input, Text, Button, Box, Avatar, Divider, Stack } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '~/utils/fetcher'
 import { useAccount } from 'wagmi'
 import { Disclaimer } from '~/lexy'
+import { motion } from 'framer-motion'
+import * as styles from '@design/lexy.css'
 
 const Lexy: NextPage = () => {
   const router = useRouter()
@@ -69,42 +71,26 @@ const Lexy: NextPage = () => {
   }
   return (
     <Layout heading="Lexy" content="Interact with LexDAO's legal engineering assistant" back={() => router.push('/')}>
-      <Box display={'flex'} alignItems="center" justifyContent={'center'}>
-        <VStack width={'container.lg'} align="center" justify={'center'}>
+      <Box className={styles.container}>
+        <Stack align="center" justify={'center'}>
           <Heading>Chat with Lexy</Heading>
           <Text>Lexy is a legal assistance AI chatbot.</Text>
           <Divider />
           {!checked ? (
             <Disclaimer checked={checked} setChecked={setChecked} />
           ) : (
-            <>
+            <Box className={styles.chat}>
               {context.map((c, i) => (
-                <HStack
-                  width={'full'}
-                  key={i}
-                  flexDirection={i % 2 !== 0 ? 'row-reverse' : 'row'}
-                  justify="space-between"
-                  gap="3"
-                >
-                  <Avatar src={i % 2 !== 0 ? '/lexy.jpeg' : profile?.picture}></Avatar>
-                  <Box
-                    display="flex"
-                    alignItems={'center'}
-                    justifyContent="flex-start"
-                    width={'full'}
-                    padding="2"
-                    border="1px"
-                    borderColor={i % 2 !== 0 ? 'brand.900' : 'blue.900'}
-                    borderRadius={'2xl'}
-                    backgroundColor={i % 2 !== 0 ? 'brand.800' : 'blue.800'}
-                  >
-                    {c}
-                  </Box>
-                </HStack>
+                <Box key={i} className={styles.message}>
+                  <Avatar label="Profile Picture" src={i % 2 !== 0 ? '/lexy.jpeg' : profile?.picture}></Avatar>
+                  <Box className={styles.text}>{c}</Box>
+                </Box>
               ))}
-              <HStack width="full">
-                <Avatar src={profile?.picture}></Avatar>
+              <Box className={styles.message}>
+                <Avatar label="Profile Picture User" src={profile?.picture}></Avatar>
                 <Input
+                  label="Type your question here"
+                  hideLabel
                   placeholder="Type here"
                   value={input}
                   onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -113,23 +99,22 @@ const Lexy: NextPage = () => {
                     }
                   }}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.currentTarget.value)}
-                  width="full"
                 />
-              </HStack>
+              </Box>
               <Text>{error}</Text>
               {!isConnected && <Text>Please connect your wallet to start chatting with Lexy.</Text>}
               <Button
                 width="full"
                 onClick={ask}
-                isLoading={loading}
+                loading={loading}
                 disabled={loading || !isConnected || !checked}
-                colorScheme="brand"
+                tone="foreground"
               >
                 Submit
               </Button>
-            </>
+            </Box>
           )}
-        </VStack>
+        </Stack>
       </Box>
     </Layout>
   )

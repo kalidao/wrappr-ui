@@ -1,7 +1,7 @@
 import { StoreT } from '../types'
 import Link from 'next/link'
 import { useNetwork } from 'wagmi'
-import { Link as ChakraLink, Button, VStack, HStack, Spinner } from '@chakra-ui/react'
+import { Button, Box, Stack, Text, Spinner } from '@kalidao/reality'
 import { FaWpexplorer, FaScroll } from 'react-icons/fa'
 import { TbCandy } from 'react-icons/tb'
 import Confetti from '~/utils/Confetti'
@@ -16,35 +16,50 @@ export default function Minted({ store }: MintedProps) {
   const { chain } = useNetwork()
 
   return (
-    <>
-      <VStack spacing="5" align="center" justify="center">
+    <Box display="flex" alignItems="center" justifyContent={'center'} padding="6">
+      <Box width="1/2" display="flex" flexDirection={'column'} alignItems="center" justifyContent={'center'} gap="10">
         <MintedImage entity={store.juris + store.entity} tokenId={store.tokenId} />
-        <HStack>
+        <Stack direction={'horizontal'} align="center" justify={'center'}>
           <Button
-            as={ChakraLink}
-            leftIcon={<FaWpexplorer />}
+            as="a"
+            prefix={<FaWpexplorer />}
             href={`${chain?.blockExplorers?.default?.url}/tx/${store.txHash}`}
-            isExternal
+            target="_blank"
+            rel="noopener noreferrer"
+            tone="foreground"
+            size="medium"
           >
             Explorer
           </Button>
-          <Button as={ChakraLink} leftIcon={<FaScroll />} href={`${store.agreement}`} isExternal>
+          <Button
+            tone="foreground"
+            as={'a'}
+            prefix={<FaScroll />}
+            href={`${store.agreement}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            size="medium"
+          >
             Agreement
           </Button>
           <Link
-            href={`/${chain?.id}/${deployments[chain ? chain.id : 1][store.juris + store.entity]}/${store.tokenId}`}
+            href={`/${chain?.id}/${
+              deployments[chain ? chain.id : 1][(store.juris + store.entity) as keyof typeof deployments[1]]
+            }/${store.tokenId}`}
             passHref
           >
-            <Button as={ChakraLink} leftIcon={<TbCandy />} colorScheme={'brand'}>
+            <Button tone="foreground" as={'a'} prefix={<TbCandy />} size="medium">
               Gallery
             </Button>
           </Link>
-        </HStack>
+        </Stack>
         <Link href={`/clinic`} passHref>
-          <ChakraLink>Need help with your new entity?</ChakraLink>
+          <a>
+            <Text>Need help with your new entity?</Text>
+          </a>
         </Link>
-      </VStack>
+      </Box>
       <Confetti />
-    </>
+    </Box>
   )
 }

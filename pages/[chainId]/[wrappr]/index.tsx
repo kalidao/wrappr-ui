@@ -1,10 +1,10 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
-import Layout from '../../../src/layout'
-import { Link as ChakraLink, Flex, VStack, StackDivider, Skeleton } from '@chakra-ui/react'
+import Layout from '~/layout'
+import { Box, Stack, Text, Spinner, Skeleton, Avatar, Heading } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { Trait, TraitType } from '~/wrap'
-import { useAccount, useContractReads } from 'wagmi'
+import { useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
 import { deployments, WRAPPR } from '~/constants'
 import MintWrapprNFT from '~/wrap/MintWrapprNFT'
@@ -33,67 +33,38 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   // TODO: Add mint fee
   return (
     <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/explore`)}>
-      <Flex
-        direction={['column', 'row']}
-        gap={5}
-        marginTop={2}
-        marginRight={[2, 4, 6, 8]}
-        marginLeft={[2, 4, 6, 8]}
-        marginBottom={[2, 4, 6, 8]}
-        justify="space-evenly"
-        align={['center', 'start']}
-      >
-        <Flex direction="column" gap={5}>
-          <Skeleton isLoaded={!isLoading && data !== undefined}>
-            <Image
-              src={data?.['image']}
-              height="300px"
-              width="300px"
-              alt={`Image for ${data?.['name']}`}
-              className="rounded-lg shadow-gray-900 shadow-md"
+      <Box padding="6">
+        <Stack direction={'horizontal'} align="flex-start" justify={'space-between'}>
+          <Stack>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <Avatar src={data?.['image']} size="96" label={`Image for ${data?.['name']}`} shape="square" />
+            )}
+            <MintWrapprNFT
+              chainId={Number(chainId)}
+              wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
+              mintFee={wrappr['mintFee']}
             />
-          </Skeleton>
-          {/* TODO: Expose update metadata */}
-          {/* {isConnected && address?.toLowerCase() === wrappr['admin'].toLowerCase() && (
-            <Link href={`${router.asPath}/baseURI`} passHref>
-              <Button as={ChakraLink} leftIcon={<FaPenNib />}>
-                Update Metadata
-              </Button>
-            </Link>
-          )} */}
-          <MintWrapprNFT
-            chainId={Number(chainId)}
-            wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
-            mintFee={wrappr['mintFee']}
-          />
-        </Flex>
-        <Flex direction="column" gap={5} minW={'75%'}>
-          <Skeleton isLoaded={!isReading}>
-            <h1 className="text-gray-100 font-semibold text-xl">{reads ? reads?.[0] : 'No name found'}</h1>
-          </Skeleton>
-          <Skeleton isLoaded={!isReading}>
-            <p className="whitespace-pre-line break-normal text-gray-400">
-              {data ? data['description'] : 'No description found'}
-            </p>
-          </Skeleton>
-          <h2 className="text-gray-100 font-semibold text-xl">Traits</h2>
-          <Skeleton isLoaded={!isLoading}>
-            <VStack
-              gap={3}
-              align={'stretch'}
-              divider={<StackDivider borderColor={'brand.900'} />}
-              className="rounded-lg shadow-brand-900 shadow-md py-3"
-            >
-              {data &&
-                data?.['attributes']?.map((trait: TraitType, index: number) => (
-                  <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
-                ))}
-              <Trait trait_type={'Admin'} value={wrappr['admin']} isBig={false} />
-              <Trait trait_type={'Mint Fee'} value={wrappr['mintFee']} isBig={true} />
-            </VStack>
-          </Skeleton>
-        </Flex>
-      </Flex>
+          </Stack>
+          <Box width="full">
+            <Stack>
+              <Heading>{reads ? reads?.[0] : 'No name found'}</Heading>
+              {/* className="whitespace-pre-line break-normal text-gray-400" */}
+              <Text wordBreak="break-word">{data ? data['description'] : 'No description found'}</Text>
+              <Heading>Traits</Heading>
+              <Stack>
+                {data &&
+                  data?.['attributes']?.map((trait: TraitType, index: number) => (
+                    <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
+                  ))}
+                {wrappr ? <Trait trait_type={'Admin'} value={wrappr?.['admin']} isBig={false} /> : <Spinner />}
+                {wrappr ? <Trait trait_type={'Mint Fee'} value={wrappr?.['mintFee']} isBig={true} /> : <Spinner />}
+              </Stack>
+            </Stack>
+          </Box>
+        </Stack>
+      </Box>
     </Layout>
   )
 }
@@ -102,7 +73,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const wrappr = context?.params?.wrappr as string
   const chainId = Number(context?.params?.chainId as string)
 
-  const res = await fetch(deployments[chainId]['subgraph'], {
+  if (!chainId)
+    return {
+      notFound: true,
+    }
+
+  const res = await fetch(deployments[chainId]['subgraph'] as string, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -133,33 +109,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const fetchWrapprData = async (URI: string) => {
   const res = await fetch(URI)
   return res.json()
-}
-
-const fetchCollections = async (address: string, chainId: number) => {
-  const res = await fetch(deployments[chainId]['subgraph'], {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: `query {
-        collections(where: {
-            wrappr: "${address.toLowerCase()}"
-          }) {
-            id
-            wrappr {
-              id
-              name
-            }
-            collectionId
-            owner
-          }
-      }`,
-    }),
-  })
-
-  const data = await res.json()
-  return data
 }
 
 export default Wrappr
