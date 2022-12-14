@@ -78,7 +78,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       notFound: true,
     }
 
-  const res = await fetch(deployments[chainId]['subgraph'], {
+  const res = await fetch(deployments[chainId]['subgraph'] as string, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -109,33 +109,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const fetchWrapprData = async (URI: string) => {
   const res = await fetch(URI)
   return res.json()
-}
-
-const fetchCollections = async (address: string, chainId: number) => {
-  const res = await fetch(deployments[chainId]['subgraph'], {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: `query {
-        collections(where: {
-            wrappr: "${address.toLowerCase()}"
-          }) {
-            id
-            wrappr {
-              id
-              name
-            }
-            collectionId
-            owner
-          }
-      }`,
-    }),
-  })
-
-  const data = await res.json()
-  return data
 }
 
 export default Wrappr

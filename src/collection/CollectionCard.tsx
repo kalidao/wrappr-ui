@@ -1,7 +1,8 @@
-import { Skeleton } from '@kalidao/reality'
+import { Skeleton, Box, Spinner, Avatar, Text } from '@kalidao/reality'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
+import * as styles from '~/wrap/styles.css'
 
 type Props = {
   tokenURI: string
@@ -14,31 +15,24 @@ const CollectionCard = ({ tokenURI, chainId, address, id }: Props) => {
   const { isLoading, data } = useQuery(['wrappr', tokenURI], () => fetchCollectionData(tokenURI))
 
   return (
-    <Skeleton loading={!isLoading} radius="3xLarge">
-      <div className="rounded-lg gap-10 flex-col">
-        <Link href={`/${chainId}/${address}/${id}`} passHref>
-          <div
-            className={
-              'hover:scale-105 m-1 transition duration-500 ease-in-out shadow-gray-900 shadow-md rounded-md hover:shadow-none'
-            }
-          >
-            {data ? (
-              <Image
-                src={data['image']}
-                height="200px"
-                width="200px"
-                layout="responsive"
-                alt={`Image for ${data['name']}`}
-                className={'rounded-lg overflow-hidden'}
-              />
-            ) : (
-              'No image found'
-            )}
-          </div>
-        </Link>
-        <p className={'text-gray-500 px-2 py-1'}>{data?.name}</p>
-      </div>
-    </Skeleton>
+    <Link href={`/${chainId}/${id}`} passHref>
+      <Box
+        className={styles.wrapprCard}
+        as="a"
+        display="flex"
+        flexDirection={'column'}
+        justifyContent="center"
+        alignItems="center"
+        gap="2"
+      >
+        {isLoading ? (
+          <Avatar shape="square" size="52" label={`Image`} placeholder />
+        ) : (
+          <Avatar src={data?.['image']} shape="square" size="52" label={`Image for ${data?.['name']}`} />
+        )}
+        <Text variant="label">{data ? data?.['name'] : 'Fetching...'}</Text>
+      </Box>
+    </Link>
   )
 }
 

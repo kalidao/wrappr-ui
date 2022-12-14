@@ -16,7 +16,7 @@ import '@kalidao/reality/styles'
 import '@design/app.css'
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.optimism, chain.polygon, chain.arbitrum, xdai, avalanche, bsc, fantom, chain.goerli, xdai],
+  [chain.mainnet, chain.optimism, chain.polygon, chain.arbitrum, xdai, avalanche, bsc, chain.goerli, xdai],
   [infuraProvider({ apiKey: process.env.INFURA_ID }), publicProvider()],
 )
 
