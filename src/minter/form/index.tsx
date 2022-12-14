@@ -22,29 +22,25 @@ export default function Form({ store, setStore, setView }: Props) {
   const form: { [key: string]: Form } = {
     deLLC: {
       heading: 'Delaware LLC',
-      description:
-        'Delaware is the gold standard for corporate governance.',
+      description: 'Delaware is the gold standard for corporate governance.',
       link: 'https://www.delawareinc.com/llc/',
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
     wyLLC: {
       heading: 'Wyoming LLC',
-      description:
-        'Wyoming holds progressive views towards digital assets and communties.',
+      description: 'Wyoming holds progressive views towards digital assets and communties.',
       link: 'https://www.wyomingllc.com/',
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
     deUNA: {
       heading: 'Delaware UNA',
-      description:
-        'Delaware is the gold standard for corporate governance.',
+      description: 'Delaware is the gold standard for corporate governance.',
       link: 'https://daos.paradigm.xyz/',
       component: <UNA store={store} setStore={setStore} setView={setView} />,
     },
     wyUNA: {
       heading: 'Wyoming UNA',
-      description:
-        'Wyoming holds progressive views towards digital assets and communties.',
+      description: 'Wyoming holds progressive views towards digital assets and communties.',
       link: 'https://www.wyomingllc.com/',
       component: <UNA store={store} setStore={setStore} setView={setView} />,
     },
