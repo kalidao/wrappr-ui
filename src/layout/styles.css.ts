@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { style, keyframes } from '@vanilla-extract/css'
 import { vars } from '@kalidao/reality'
 
 export const layout = style({
@@ -29,4 +29,34 @@ export const footer = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
+})
+
+export const bounce = keyframes({
+  '0%': {
+    transform: 'translateY(0)',
+  },
+  '50%': {
+    transform: 'translateY(-10px)',
+  },
+  '100%': {
+    transform: 'translateY(0)',
+  },
+})
+
+export const chat = style({
+  position: 'fixed',
+  bottom: vars.space['6'],
+  right: vars.space['6'],
+  padding: vars.space['3'],
+  borderRadius: vars.space['full'],
+  zIndex: 10,
+  backgroundColor: vars.colors.accent,
+
+  ':hover': {
+    animation: `${bounce} 1s infinite`,
+  },
+  ':focus': {
+    animation: `${bounce} 1s infinite`,
+    border: `1px solid ${vars.colors.foregroundSecondary}`,
+  },
 })

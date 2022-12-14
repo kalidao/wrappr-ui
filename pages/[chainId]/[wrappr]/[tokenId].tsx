@@ -29,7 +29,7 @@ const Wrappr: NextPage = () => {
   const collectionId = wrappr?.toString().toLowerCase() + '0x' + Number(tokenId)?.toString(16)
   const { isLoading, error, data } = useQuery(
     ['wrappr', chainId, collectionId],
-    () => fetchWrappr(deployments[Number(chainId)]['subgraph'], collectionId),
+    () => fetchWrappr(deployments[Number(chainId)]['subgraph'] as string, collectionId),
     {
       enabled: wrappr !== undefined && tokenId !== undefined,
     },
@@ -42,6 +42,17 @@ const Wrappr: NextPage = () => {
   } = useQuery(['wrappr', data?.['wrappr']?.['baseURI']], () => fetchWrapprURI(URI), {
     enabled: data !== undefined,
   })
+
+  // TODO: Add chain not supported if subgraph is undefined for chainId
+  if (chainId && deployments[Number(chainId)]['subgraph'] === undefined) {
+    return (
+      <Layout heading="Wrappr" content="Wrap now" back={() => router.push('/')}>
+        <Box display={'flex'} alignItems="center" justifyContent={'center'}>
+          <Text>This chain is not yet supported. Please switch to a supported chain.</Text>
+        </Box>
+      </Layout>
+    )
+  }
 
   // TODO: Add Back
   return (

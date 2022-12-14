@@ -1,10 +1,11 @@
 import React from 'react'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
-import { Button, Box, IconArrowLeft } from '@kalidao/reality'
+import Link from 'next/link'
+import { Button, Box, IconArrowLeft, IconHand } from '@kalidao/reality'
 import Header from './Header'
 import Footer from './Footer'
 import * as styles from './styles.css'
+import { useRouter } from 'next/router'
 
 type LayoutProps = {
   heading: string
@@ -15,6 +16,8 @@ type LayoutProps = {
 
 export default function Layout({ heading, content, back, children }: LayoutProps) {
   const title = 'Wrappr - ' + heading
+  const router = useRouter()
+  const chatActive = router.pathname === '/lexy' ? true : false
 
   return (
     <Box className={styles.layout}>
@@ -36,6 +39,13 @@ export default function Layout({ heading, content, back, children }: LayoutProps
         )}
       </Box>
       <Box className={styles.container}>{children}</Box>
+      {chatActive ? null : (
+        <Link href="/lexy" passHref>
+          <Box as="a" className={styles.chat}>
+            <IconHand />
+          </Box>
+        </Link>
+      )}
       <Footer />
     </Box>
   )

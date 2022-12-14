@@ -43,7 +43,9 @@ export default function Minted({ store }: MintedProps) {
             Agreement
           </Button>
           <Link
-            href={`/${chain?.id}/${deployments[chain ? chain.id : 1][store.juris + store.entity]}/${store.tokenId}`}
+            href={`/${chain?.id}/${
+              deployments[chain ? chain.id : 1][(store.juris + store.entity) as keyof typeof deployments[1]]
+            }/${store.tokenId}`}
             passHref
           >
             <Button tone="foreground" as={'a'} prefix={<TbCandy />} size="medium">

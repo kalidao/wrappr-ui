@@ -7,6 +7,8 @@ import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '~/utils/fetcher'
 import { useAccount } from 'wagmi'
 import { Disclaimer } from '~/lexy'
+import { motion } from 'framer-motion'
+import * as styles from '@design/lexy.css'
 
 const Lexy: NextPage = () => {
   const router = useRouter()
@@ -69,7 +71,7 @@ const Lexy: NextPage = () => {
   }
   return (
     <Layout heading="Lexy" content="Interact with LexDAO's legal engineering assistant" back={() => router.push('/')}>
-      <Box display={'flex'} alignItems="center" justifyContent={'center'}>
+      <Box className={styles.container}>
         <Stack align="center" justify={'center'}>
           <Heading>Chat with Lexy</Heading>
           <Text>Lexy is a legal assistance AI chatbot.</Text>
@@ -77,16 +79,14 @@ const Lexy: NextPage = () => {
           {!checked ? (
             <Disclaimer checked={checked} setChecked={setChecked} />
           ) : (
-            <>
+            <Box className={styles.chat}>
               {context.map((c, i) => (
-                <Stack key={i} direction="vertical" justify="space-between">
+                <Box key={i} className={styles.message}>
                   <Avatar label="Profile Picture" src={i % 2 !== 0 ? '/lexy.jpeg' : profile?.picture}></Avatar>
-                  <Box display="flex" alignItems={'center'} justifyContent="flex-start" width={'full'} padding="2">
-                    {c}
-                  </Box>
-                </Stack>
+                  <Box className={styles.text}>{c}</Box>
+                </Box>
               ))}
-              <Stack>
+              <Box className={styles.message}>
                 <Avatar label="Profile Picture User" src={profile?.picture}></Avatar>
                 <Input
                   label="Type your question here"
@@ -99,9 +99,8 @@ const Lexy: NextPage = () => {
                     }
                   }}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.currentTarget.value)}
-                  width="full"
                 />
-              </Stack>
+              </Box>
               <Text>{error}</Text>
               {!isConnected && <Text>Please connect your wallet to start chatting with Lexy.</Text>}
               <Button
@@ -109,11 +108,11 @@ const Lexy: NextPage = () => {
                 onClick={ask}
                 loading={loading}
                 disabled={loading || !isConnected || !checked}
-                tone="accent"
+                tone="foreground"
               >
                 Submit
               </Button>
-            </>
+            </Box>
           )}
         </Stack>
       </Box>

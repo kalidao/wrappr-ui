@@ -2,7 +2,8 @@ import { deployments } from '~/constants'
 
 export const getCollections = async (address: string, chainId: number) => {
   try {
-    const res = await fetch(deployments[chainId]['subgraph'], {
+    if (!chainId && deployments[chainId]['subgraph'] === undefined) return
+    const res = await fetch(deployments[chainId]['subgraph'] as string, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

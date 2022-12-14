@@ -1,11 +1,11 @@
 import { ethers } from 'ethers'
 import { deployments } from '~/constants'
 
-export const getTokenId = async (address: string, chainId: number, user: string) => {
+export const getTokenId = async (address: string, chainId: number) => {
   let len = 0
-  if (chainId !== undefined) {
+  if (chainId !== undefined && deployments[chainId]['subgraph'] !== undefined) {
     try {
-      const result = await fetch(deployments[chainId]['subgraph'], {
+      const result = await fetch(deployments[chainId]['subgraph'] as string, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
