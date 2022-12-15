@@ -50,7 +50,7 @@ export default function Entity({ choice, setChoice, setView }: Props) {
           gap="5"
         >
           <Text size="headingOne" color="foreground" align="left">
-            wrappr - legal collectibles for the decentralized web
+            Wrappr - create vetted legal wrappers for your wallet or DAO
           </Text>
           <Box as="a" className={styles.pill} href="https://docs.wrappr.wtf/how-to/quick-notes/" target="_blank">
             <Stack direction={'horizontal'} align="center">
