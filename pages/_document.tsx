@@ -22,6 +22,14 @@ export default class Document extends NextDocument {
             crossOrigin="anonymous"
             key="PxGroteskScreen"
           />
+          <style>
+            {`
+              html {
+                background-color: black;
+                color: white;
+              }`
+            }
+          </style>
         </Head>
         <body>
           <Main />
