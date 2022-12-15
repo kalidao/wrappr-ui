@@ -1,6 +1,6 @@
 {
   "name": "wrappr-ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "packageManager": "^pnpm@6.32.4",
   "scripts": {
@@ -28,7 +28,7 @@
     "graphql": "^16.6.0",
     "graphql-request": "^4.3.0",
     "lodash.merge": "^4.6.2",
-    "next": "12.2.3",
+    "next": "^13.0.6",
     "nookies": "^2.5.2",
     "openai": "^3.1.0",
     "react": "18.2.0",
@@ -51,7 +51,7 @@
     "@types/react-dom": "18.0.6",
     "autoprefixer": "^10.4.8",
     "eslint": "8.20.0",
-    "eslint-config-next": "12.2.3",
+    "eslint-config-next": "^13.0.6",
     "form-data": "^4.0.0",
     "formidable": "^2.0.1",
     "husky": "^8.0.0",
