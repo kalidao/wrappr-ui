@@ -27,8 +27,7 @@ export default class Document extends NextDocument {
               html {
                 background-color: black;
                 color: white;
-              }`
-            }
+              }`}
           </style>
         </Head>
         <body>

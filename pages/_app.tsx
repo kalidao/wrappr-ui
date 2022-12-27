@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import '@rainbow-me/rainbowkit/styles.css'
-import { connectorsForWallets, wallet, RainbowKitProvider, DisclaimerComponent, Theme } from '@rainbow-me/rainbowkit'
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
+import { connectorsForWallets, RainbowKitProvider, DisclaimerComponent, Theme } from '@rainbow-me/rainbowkit'
+import {
+  injectedWallet,
+  rainbowWallet,
+  metaMaskWallet,
+  coinbaseWallet,
+  walletConnectWallet,
+  ledgerWallet
+} from '@rainbow-me/rainbowkit/wallets';
+import { configureChains, createClient, WagmiConfig } from 'wagmi'
+import { mainnet, optimism, polygon, arbitrum, goerli } from 'wagmi/chains'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -16,24 +25,24 @@ import '@kalidao/reality/styles'
 import '@design/app.css'
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.optimism, chain.polygon, chain.arbitrum, xdai, avalanche, bsc, chain.goerli, xdai],
-  [infuraProvider({ apiKey: process.env.INFURA_ID }), publicProvider()],
+  [mainnet, optimism, polygon, arbitrum, xdai, avalanche, bsc, goerli, xdai],
+  [infuraProvider({ apiKey: process.env.INFURA_ID ?? ''}), publicProvider()],
 )
 
 const connectors = connectorsForWallets([
   {
     groupName: 'Recommended',
     wallets: [
-      wallet.injected({ chains }),
-      wallet.metaMask({ chains }),
-      wallet.rainbow({ chains }),
-      wallet.coinbase({ appName: 'Wrappr', chains }),
-      wallet.walletConnect({ chains }),
+      injectedWallet({ chains }),
+      metaMaskWallet({ chains }),
+      rainbowWallet({ chains }),
+      coinbaseWallet({ appName: 'Wrappr', chains }),
+      walletConnectWallet({ chains }),
     ],
   },
   {
     groupName: 'Extra',
-    wallets: [wallet.ledger({ chains }), GnosisConnector({ chains })],
+    wallets: [ledgerWallet({ chains }), GnosisConnector({ chains })],
   },
 ])
 

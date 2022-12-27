@@ -20,10 +20,10 @@ export default function MintedImage({ entity, tokenId }: { entity: string; token
     isSuccess,
     error,
   } = useContractRead({
-    addressOrName: chain
+    address: chain
       ? (deployments[Number(chain.id)][entity as keyof typeof deployments[1]] as string)
       : ethers.constants.AddressZero,
-    contractInterface: WRAPPR,
+    abi: WRAPPR,
     functionName: 'uri',
     args: [tokenId],
   })

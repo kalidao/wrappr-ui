@@ -36,8 +36,8 @@ export default function Confirm({ store, setStore, setView }: Props) {
   const contractAddress = deployments[1][(store.juris + store.entity) as keyof typeof deployments[1]] as string
   const { writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: contractAddress,
-    contractInterface: WRAPPR,
+    address: contractAddress,
+    abi: WRAPPR,
     functionName: 'mint',
   })
 
@@ -127,14 +127,14 @@ export default function Confirm({ store, setStore, setView }: Props) {
         })
 
         if (store.entity === 'LLC') {
-          res = await writeAsync({
+          res = await writeAsync?.({
             recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
             recklesslySetUnpreparedOverrides: {
               value: ethers.utils.parseEther('0.015'),
             },
           })
         } else {
-          res = await writeAsync({
+          res = await writeAsync?.({
             recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
           })
         }
@@ -144,14 +144,14 @@ export default function Confirm({ store, setStore, setView }: Props) {
           icon: <MdAccessTimeFilled />,
         })
         // success
-        await res.wait(1)
+        if (res) { await res.wait(1)
         setStore({
           ...store,
           agreement: agreement,
           tokenId: tokenId,
           txHash: res.hash,
         })
-        setView(3)
+        setView(3) }
       } catch (e) {
         console.error(e)
         setMessage({
@@ -226,7 +226,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
             <Text size="headingThree" color="text">
               {message.text}
             </Text>
-            <Image src={'/loading.png'} height="150px" width="150px" unoptimized />
+            <Image alt='Loading' src={'/loading.png'} height={150} width={150} unoptimized />
           </Stack>
         )}
       </Box>

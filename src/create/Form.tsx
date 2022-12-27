@@ -73,8 +73,8 @@ export default function CreateForm({ store, setStore, setView }: Props) {
   const { chain } = useNetwork()
   const { data: result, writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: chain ? deployments[chain.id]['factory'] : ethers.constants.AddressZero,
-    contractInterface: WRAPPR_FACTORY,
+    address: chain ? deployments[chain.id]['factory'] : ethers.constants.AddressZero,
+    abi: WRAPPR_FACTORY,
     functionName: 'deployWrappr',
   })
   const [error, setError] = useState('')
@@ -150,11 +150,11 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         uri: baseURI as string,
       })
 
-      const res = await writeAsync({
+      const res = await writeAsync?.({
         recklesslySetUnpreparedArgs: [name, symbol, baseURI, ethers.utils.parseEther(mintFee.toString()), admin],
       })
       setMessage('Waiting for confirmation...')
-      await res.wait(1).then(async (res) => {
+      if (res) await res.wait(1).then(async (res) => {
         console.log('logs', res.logs)
         await res.logs.forEach(async (log: any) => {
           setMessage('Wrappr Summoned! 🍬')
@@ -169,7 +169,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
             setView(1)
           }
         })
-      })
+      }) 
     } catch (e) {
       console.error('Failed to deploy Wrappr: ', e)
     }

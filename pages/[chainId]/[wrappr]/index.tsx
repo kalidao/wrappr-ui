@@ -49,7 +49,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
           </Stack>
           <Box width="full">
             <Stack>
-              <Heading>{reads ? reads?.[0] : 'No name found'}</Heading>
+              <Heading>{reads ? reads?.[0] as unknown as string : 'No name found'}</Heading>
               {/* className="whitespace-pre-line break-normal text-gray-400" */}
               <Text wordBreak="break-word">{data ? data['description'] : 'No description found'}</Text>
               <Heading>Traits</Heading>
