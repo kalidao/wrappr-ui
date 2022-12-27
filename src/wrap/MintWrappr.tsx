@@ -1,4 +1,4 @@
-import { Stack, Text, Button, Spinner, Input } from '@kalidao/reality'
+import { Stack, Button, Input } from '@kalidao/reality'
 import { useAccount, usePrepareContractWrite, useContractWrite } from 'wagmi'
 import { WRAPPR } from '../constants'
 import { useState } from 'react'

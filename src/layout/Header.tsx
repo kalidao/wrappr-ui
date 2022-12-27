@@ -4,7 +4,6 @@ import Image from 'next/image'
 
 import { Button, Box, IconUserSolid, IconGrid, IconPencil, IconBookOpenSolid, Stack } from '@kalidao/reality'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import ToggleMode from './ToggleMode'
 import { useAccount, useNetwork } from 'wagmi'
 import * as styles from './styles.css'
 import { ReactNodeNoStrings } from '@kalidao/reality/dist/types/types'

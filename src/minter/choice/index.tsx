@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Box, Button, IconArrowLeft } from '@kalidao/reality'
+import { Box } from '@kalidao/reality'
 
 import Entity from './Entity'
 import Juris from './Juris'

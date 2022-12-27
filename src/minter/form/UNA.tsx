@@ -51,7 +51,7 @@ export default function UNA({ store, setStore, setView }: Props) {
       <Stack>
         <Input
           type="text"
-          description={"What's the name of your UNA?"}
+          description={"What's the name of your non-profit?"}
           {...register('name')}
           id="name"
           placeholder=" "
@@ -65,7 +65,7 @@ export default function UNA({ store, setStore, setView }: Props) {
           {...register('mission')}
           rows={4}
           label="Your Mission"
-          placeholder="Which shall primarily be..."
+          placeholder="Promote open-source law"
         />
 
         {!isConnected && openConnectModal ? (

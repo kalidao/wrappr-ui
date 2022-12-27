@@ -1,7 +1,7 @@
 import { StoreT } from '../types'
 import Link from 'next/link'
 import { useNetwork } from 'wagmi'
-import { Button, Box, Stack, Text, Spinner } from '@kalidao/reality'
+import { Button, Box, Stack, Text } from '@kalidao/reality'
 import { FaWpexplorer, FaScroll } from 'react-icons/fa'
 import { TbCandy } from 'react-icons/tb'
 import Confetti from '~/utils/Confetti'

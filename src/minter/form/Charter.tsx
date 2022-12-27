@@ -68,8 +68,8 @@ export default function Charter({ store, setStore, setView }: Props) {
           label="Your Mission"
           {...register('mission')}
           rows={4}
-          placeholder="Which shall primarily be..."
-          description="What is the mission of this organisation?"
+          placeholder="Promote open-source law"
+          description="What is the mission of this organization?"
         />
         {!isConnected && openConnectModal ? (
           <Button

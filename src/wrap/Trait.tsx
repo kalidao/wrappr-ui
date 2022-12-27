@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { Box, Text, Button, IconUserSolid } from '@kalidao/reality'
 import { isValidURL } from '../utils'
 import { HiExternalLink } from 'react-icons/hi'

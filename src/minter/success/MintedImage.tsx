@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { useContractRead, useNetwork } from 'wagmi'
 import { WRAPPR, deployments } from '~/constants'
 import { useQuery } from '@tanstack/react-query'

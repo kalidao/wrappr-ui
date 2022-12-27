@@ -1,14 +1,12 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Stack, Box, Button, Text, Input, IconChevronRight, IconArrowRight } from '@kalidao/reality'
-import { BsFillArrowRightCircleFill } from 'react-icons/bs'
+import { Box, Button, Text, Input, IconChevronRight } from '@kalidao/reality'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useEffect, useState } from 'react'
 import * as styles from '../styles.css'
-import Card from '../choice/Card'
 
 type LLC = {
   name: string

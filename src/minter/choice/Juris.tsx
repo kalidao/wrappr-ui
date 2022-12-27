@@ -1,4 +1,3 @@
-import Card from './Card'
 import { StoreT } from '../types'
 import {
   Stack,
@@ -42,16 +41,17 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
     }
   } = {
     LLC: {
-      description: 'Your filing and state taxes are automated. Where do you want your LLC to be situated?',
+      description:
+        'Your LLC will be created after minting. State formation and taxes included. Which jurisdiction do you want?',
       link: 'https://docs.wrappr.wtf/how-to/LLC/',
     },
     UNA: {
-      description:
-        'This creates an Unincorporated Non-Profit (UNA), which has limited liability and can offer tax-benefits.',
+      description: 'Your Non-Profit (UNA) will be created after minting. Which jurisdiction do you want?',
       link: 'https://daos.paradigm.xyz/',
     },
     Charter: {
-      description: 'The DAO Charter is an internal manifesto to set basic legal expectations.',
+      description:
+        'Your DAO Charter will be drafted after minting. This is a simple membership agreement signable with DAO vote or key-signature.',
       link: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%93%9C-dao-charter',
     },
   }
@@ -149,14 +149,14 @@ const charter = [
   {
     text: 'LexPunk',
     icon: <span className="text-xl">🦍</span>,
-    description: 'set basic terms for your organization as standardized by LexPunk Army',
+    description: 'Set basic terms for your organization as standardized by LexPunk Army',
     set: 'lex',
     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%A6%8D-lexpunk-dao-charter',
   },
   {
     text: 'Orange',
     icon: <span className="text-xl">🍊</span>,
-    description: 'set basic terms for your organization as standardized by Orange DAO',
+    description: 'Set basic terms for your organization as standardized by Orange DAO',
     set: 'or',
     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
   },
