@@ -154,22 +154,23 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         recklesslySetUnpreparedArgs: [name, symbol, baseURI, ethers.utils.parseEther(mintFee.toString()), admin],
       })
       setMessage('Waiting for confirmation...')
-      if (res) await res.wait(1).then(async (res) => {
-        console.log('logs', res.logs)
-        await res.logs.forEach(async (log: any) => {
-          setMessage('Wrappr Summoned! 🍬')
-          if (log.topics[0] === '0x11a62d632ed0efbf5131a4b627885485564b1bb225f0689f8c58457122e4deb7') {
-            const address = '0x' + log.topics[1].slice(-40)
-            setStore({
-              ...store,
-              hash: res.transactionHash,
-              address: address,
-              chainId: chain?.id,
-            })
-            setView(1)
-          }
+      if (res)
+        await res.wait(1).then(async (res) => {
+          console.log('logs', res.logs)
+          await res.logs.forEach(async (log: any) => {
+            setMessage('Wrappr Summoned! 🍬')
+            if (log.topics[0] === '0x11a62d632ed0efbf5131a4b627885485564b1bb225f0689f8c58457122e4deb7') {
+              const address = '0x' + log.topics[1].slice(-40)
+              setStore({
+                ...store,
+                hash: res.transactionHash,
+                address: address,
+                chainId: chain?.id,
+              })
+              setView(1)
+            }
+          })
         })
-      }) 
     } catch (e) {
       console.error('Failed to deploy Wrappr: ', e)
     }

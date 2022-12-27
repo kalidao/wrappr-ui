@@ -8,8 +8,8 @@ import {
   metaMaskWallet,
   coinbaseWallet,
   walletConnectWallet,
-  ledgerWallet
-} from '@rainbow-me/rainbowkit/wallets';
+  ledgerWallet,
+} from '@rainbow-me/rainbowkit/wallets'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import { mainnet, optimism, polygon, arbitrum, goerli } from 'wagmi/chains'
 import { infuraProvider } from 'wagmi/providers/infura'
@@ -26,7 +26,7 @@ import '@design/app.css'
 
 const { chains, provider } = configureChains(
   [mainnet, optimism, polygon, arbitrum, xdai, avalanche, bsc, goerli, xdai],
-  [infuraProvider({ apiKey: process.env.INFURA_ID ?? ''}), publicProvider()],
+  [infuraProvider({ apiKey: process.env.INFURA_ID ?? '' }), publicProvider()],
 )
 
 const connectors = connectorsForWallets([

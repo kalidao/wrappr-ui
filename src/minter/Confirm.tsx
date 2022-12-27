@@ -144,14 +144,16 @@ export default function Confirm({ store, setStore, setView }: Props) {
           icon: <MdAccessTimeFilled />,
         })
         // success
-        if (res) { await res.wait(1)
-        setStore({
-          ...store,
-          agreement: agreement,
-          tokenId: tokenId,
-          txHash: res.hash,
-        })
-        setView(3) }
+        if (res) {
+          await res.wait(1)
+          setStore({
+            ...store,
+            agreement: agreement,
+            tokenId: tokenId,
+            txHash: res.hash,
+          })
+          setView(3)
+        }
       } catch (e) {
         console.error(e)
         setMessage({
@@ -226,7 +228,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
             <Text size="headingThree" color="text">
               {message.text}
             </Text>
-            <Image alt='Loading' src={'/loading.png'} height={150} width={150} unoptimized />
+            <Image alt="Loading" src={'/loading.png'} height={150} width={150} unoptimized />
           </Stack>
         )}
       </Box>
