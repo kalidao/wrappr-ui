@@ -60,7 +60,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [mode])
 
   return (
-    <ThemeProvider defaultAccent="teal" defaultMode={mode} forcedMode="dark">
+    <ThemeProvider defaultAccent="teal" defaultMode={mode}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains} coolMode={true} modalSize="compact" theme={theme}>
           <QueryClientProvider client={queryClient}>
