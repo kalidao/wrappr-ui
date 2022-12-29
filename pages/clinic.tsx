@@ -11,7 +11,7 @@ const Clinic: NextPage = () => {
   return (
     <Layout
       heading="LexDAO Clinic"
-      content="Get help managing your Wrappr from legal engineers at LexDAO Clinic"
+      content="Get help managing your Wrappr from legal engineers"
       back={() => router.push('/')}
     >
       <Widget

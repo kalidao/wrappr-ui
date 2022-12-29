@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { Box, Text, Stack, Divider } from '@kalidao/reality'
 import * as styles from './styles.css'
 

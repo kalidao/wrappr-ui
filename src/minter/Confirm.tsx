@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import PDFViewer from '@design/PDFViewer'
-import { Stack, Box, Checkbox, Text, Button, IconArrowLeft, Spinner } from '@kalidao/reality'
+import { Stack, Box, Checkbox, Text, Button, IconArrowLeft } from '@kalidao/reality'
 import { useAccount, useNetwork, useContractWrite } from 'wagmi'
 import { StoreT } from './types'
 import { ethers } from 'ethers'

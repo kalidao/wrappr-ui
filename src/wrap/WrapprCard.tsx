@@ -1,5 +1,4 @@
 import { Skeleton, Spinner } from '@kalidao/reality'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { Box, Avatar, Text } from '@kalidao/reality'

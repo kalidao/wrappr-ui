@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   useAutoConnect()
 
   return (
-    <Layout heading="Home" content="Wrap anything">
+    <Layout heading="Home" content="Wrappable entities">
       <Minter />
     </Layout>
   )
