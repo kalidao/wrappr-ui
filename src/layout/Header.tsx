@@ -25,7 +25,7 @@ export default function Header() {
       >
         <Image src={'/logo.png'} height={60} width={80} alt={`Wrappr logo`} />
       </motion.div>
-      <Box as="nav" display="flex" gap="2">
+      <Box as="nav" display="flex" gap="2" alignItems={'center'}>
         {isConnected && <Item label="user" src={`/users/${address}`} icon={<IconUserSolid />} />}
         <Item label="make" src="/create" icon={<IconPencil />} />
         <Item label="find" src={`/${chain ? chain.id : 1}/explore`} icon={<IconGrid />} />
