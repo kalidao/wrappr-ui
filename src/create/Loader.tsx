@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Stack, Text, Spinner } from '@kalidao/reality'
+import { Stack, Text } from '@kalidao/reality'
 
 export default function Loader({ message }: { message: string }) {
   return (

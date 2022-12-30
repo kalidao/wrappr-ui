@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import Image from 'next/image'
-import { Stack, Button, Spinner, Avatar } from '@kalidao/reality'
+import { Stack, Button, Avatar } from '@kalidao/reality'
 import Confetti from '../utils/Confetti'
-import { useTransaction, useNetwork, useContractEvent } from 'wagmi'
+import { useNetwork } from 'wagmi'
 import { FaWpexplorer } from 'react-icons/fa'
 import { TbCandy } from 'react-icons/tb'
 import { useQuery } from '@tanstack/react-query'
@@ -15,14 +14,7 @@ const fetchWrapprData = async (URI: string) => {
 
 export default function Confirmation({ store }: { store: StoreC }) {
   const { chain } = useNetwork()
-  const {
-    isLoading: isFetching,
-    isError: isFetchingError,
-    error,
-    data: uri,
-    isFetched,
-    isSuccess,
-  } = useQuery(['wrappr', store.uri], () => fetchWrapprData(store.uri))
+  const { data: uri, isFetched, isSuccess } = useQuery(['wrappr', store.uri], () => fetchWrapprData(store.uri))
 
   return (
     <>

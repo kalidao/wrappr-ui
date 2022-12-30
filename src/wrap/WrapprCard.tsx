@@ -1,5 +1,4 @@
-import { Skeleton, Spinner } from '@kalidao/reality'
-import Image from 'next/image'
+import { Spinner } from '@kalidao/reality'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { Box, Avatar, Text } from '@kalidao/reality'
@@ -18,7 +17,7 @@ type WrapprCardProps = {
 }
 
 export default function WrapprCard({ name, id, baseURI, chainId }: WrapprCardProps) {
-  const { isLoading, error, data } = useQuery(['wrappr', baseURI], () => fetchWrapprData(baseURI))
+  const { isLoading, data } = useQuery(['wrappr', baseURI], () => fetchWrapprData(baseURI))
 
   return (
     <Link href={`/${chainId}/${id}`} passHref>

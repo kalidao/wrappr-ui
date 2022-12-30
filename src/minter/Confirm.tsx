@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import PDFViewer from '@design/PDFViewer'
-import { Stack, Box, Checkbox, Text, Button, IconArrowLeft, Spinner } from '@kalidao/reality'
+import { Stack, Box, Checkbox, Text, Button, IconArrowLeft } from '@kalidao/reality'
 import { useAccount, useNetwork, useContractWrite } from 'wagmi'
 import { StoreT } from './types'
 import { ethers } from 'ethers'
@@ -36,7 +36,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
   const contractAddress = deployments[1][(store.juris + store.entity) as keyof typeof deployments[1]] as string
   const { writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    address: contractAddress,
+    address: contractAddress as `0xstring`,
     abi: WRAPPR,
     functionName: 'mint',
   })

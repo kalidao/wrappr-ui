@@ -5,7 +5,6 @@ import { setThemeMode } from '~/utils/cookies'
 import { useIsMounted } from '~/hooks/useIsMounted'
 
 export default function ToggleMode() {
-  const isMounted = useIsMounted()
   const { mode, setMode } = useTheme()
   const toggleModeState = useThemeStore((state) => state.toggleMode)
 

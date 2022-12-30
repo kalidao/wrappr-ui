@@ -11,7 +11,7 @@ type CardProps = {
   onClick: React.MouseEventHandler
 } & HTMLButtonElement
 
-const Card = ({ name, icon, description, learn, cta, onClick, disabled, type }: CardProps) => {
+const Card = ({ name, onClick, disabled, type }: CardProps) => {
   return (
     <Tilt
       className="rounded-xl"

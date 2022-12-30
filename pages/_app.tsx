@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import '@rainbow-me/rainbowkit/styles.css'
-import { connectorsForWallets, RainbowKitProvider, DisclaimerComponent, Theme } from '@rainbow-me/rainbowkit'
+import { connectorsForWallets, RainbowKitProvider, DisclaimerComponent } from '@rainbow-me/rainbowkit'
 import {
   injectedWallet,
   rainbowWallet,
@@ -16,10 +16,9 @@ import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import '../styles/globals.css'
-import { avalanche, bsc, xdai, fantom } from '~/constants/chains'
+import { avalanche, bsc, xdai } from '~/constants/chains'
 import { GnosisConnector } from '~/wallets/'
 import { getRainbowTheme } from '~/utils/getRainbowTheme'
-import { useThemeStore } from '~/hooks/useThemeStore'
 import { ThemeProvider } from '@kalidao/reality'
 import '@kalidao/reality/styles'
 import '@design/app.css'

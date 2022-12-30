@@ -1,14 +1,9 @@
-import { GiBriefcase, GiThreeLeaves, GiTiedScroll } from 'react-icons/gi'
 import { StoreT } from '../types'
-import Card from './Card'
 import {
   Box,
   Text,
-  Divider,
   Button,
   Stack,
-  Heading,
-  IconLightningBolt,
   IconChevronRight,
   IconBookOpen,
   IconArrowRight,

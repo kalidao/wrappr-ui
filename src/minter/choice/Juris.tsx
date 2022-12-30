@@ -1,4 +1,3 @@
-import Card from './Card'
 import { StoreT } from '../types'
 import {
   Stack,
@@ -42,16 +41,18 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
     }
   } = {
     LLC: {
-      description: 'Your filing and state taxes are automated. Where do you want your LLC to be situated?',
+      description:
+        'Your LLC is formed after minting by signing the Master LLC agreement. Keep this limited liability card in your wallet, or send it to your DAO or multisig for confirmation.',
       link: 'https://docs.wrappr.wtf/how-to/LLC/',
     },
     UNA: {
       description:
-        'This creates an Unincorporated Non-Profit (UNA), which has limited liability and can offer tax-benefits.',
+        'Your non-profit (UNA) is formed after minting by creating an association agreement. Send it to your DAO or multisig for confirmation.',
       link: 'https://daos.paradigm.xyz/',
     },
     Charter: {
-      description: 'The DAO Charter is an internal manifesto to set basic legal expectations.',
+      description:
+        'Your DAO Charter is ready after minting by creating a membership agreement. Send it to your DAO or multisig for confirmation.',
       link: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%93%9C-dao-charter',
     },
   }
@@ -149,14 +150,14 @@ const charter = [
   {
     text: 'LexPunk',
     icon: <span className="text-xl">🦍</span>,
-    description: 'set basic terms for your organization as standardized by LexPunk Army',
+    description: 'Set basic terms for your organization as standardized by LexPunk Army.',
     set: 'lex',
     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%A6%8D-lexpunk-dao-charter',
   },
   {
     text: 'Orange',
     icon: <span className="text-xl">🍊</span>,
-    description: 'set basic terms for your organization as standardized by Orange DAO',
+    description: 'Set basic terms for your organization as standardized by Orange DAO.',
     set: 'or',
     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
   },

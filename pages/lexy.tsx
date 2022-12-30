@@ -7,7 +7,6 @@ import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '~/utils/fetcher'
 import { useAccount } from 'wagmi'
 import { Disclaimer } from '~/lexy'
-import { motion } from 'framer-motion'
 import * as styles from '@design/lexy.css'
 
 const Lexy: NextPage = () => {
@@ -74,7 +73,7 @@ const Lexy: NextPage = () => {
       <Box className={styles.container}>
         <Stack align="center" justify={'center'}>
           <Heading>Chat with Lexy</Heading>
-          <Text>Lexy is a legal assistance AI chatbot.</Text>
+          <Text>Lexy is a legal assistant built on GPT.</Text>
           <Divider />
           {!checked ? (
             <Disclaimer checked={checked} setChecked={setChecked} />
@@ -110,7 +109,7 @@ const Lexy: NextPage = () => {
                 disabled={loading || !isConnected || !checked}
                 tone="foreground"
               >
-                Submit
+                Message
               </Button>
             </Box>
           )}

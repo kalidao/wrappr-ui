@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState } from 'react'
 import { Box, Stack, Input, Field, Button, Textarea, Text, MediaPicker, IconPlus } from '@kalidao/reality'
 import { AiOutlineDelete } from 'react-icons/ai'
 
@@ -55,7 +55,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
     register,
     handleSubmit,
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<Create>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -69,11 +69,12 @@ export default function CreateForm({ store, setStore, setView }: Props) {
   const [agreement, setAgreement] = useState<File>()
   const [image, setImage] = useState<File>()
   const [submitting, setSubmitting] = useState(false)
-  const { isConnected, address } = useAccount()
+  const { isConnected } = useAccount()
   const { chain } = useNetwork()
+
   const { data: result, writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    address: chain ? deployments[chain.id]['factory'] : ethers.constants.AddressZero,
+    address: chain ? (deployments[chain.id]['factory'] as `0xstring`) : ethers.constants.AddressZero,
     abi: WRAPPR_FACTORY,
     functionName: 'deployWrappr',
   })
@@ -196,7 +197,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         <Text>
           {submitting
             ? 'We are working our magic, please be patient'
-            : 'Wrappr is a protocol for creating legal agreements as NFTs. Create a Wrappr by filling out the form below.'}
+            : 'Wrappr is a protocol for creating legal NFTs. Create a Wrappr by filling out the form below.'}
         </Text>
       </Box>
       {submitting ? (

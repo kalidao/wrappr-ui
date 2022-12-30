@@ -1,7 +1,6 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import Image from 'next/image'
 import Layout from '~/layout'
-import { Box, Stack, Text, Spinner, Skeleton, Avatar, Heading } from '@kalidao/reality'
+import { Box, Stack, Text, Spinner, Avatar, Heading } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { Trait, TraitType } from '~/wrap'
 import { useContractReads } from 'wagmi'
@@ -18,7 +17,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
     contractInterface: WRAPPR,
     chainId: Number(chainId),
   }
-  const { data: reads, isLoading: isReading } = useContractReads({
+  const { data: reads } = useContractReads({
     contracts: [
       {
         ...wrapprContract,
@@ -26,9 +25,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
       },
     ],
   })
-  const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
-    fetchWrapprData(wrappr?.['baseURI']),
-  )
+  const { isLoading, data } = useQuery(['wrappr', wrappr?.['baseURI']], () => fetchWrapprData(wrappr?.['baseURI']))
 
   // TODO: Add mint fee
   return (
