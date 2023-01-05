@@ -25,7 +25,7 @@ specifiers:
   ethers: ^5.7.2
   form-data: ^4.0.0
   formidable: ^2.1.1
-  framer-motion: ^8.1.7
+  framer-motion: ^8.1.8
   graphql: ^16.6.0
   graphql-request: ^5.1.0
   husky: ^8.0.3
@@ -62,7 +62,7 @@ dependencies:
   '@wagmi/core': 0.8.10_doyaxlk2we36etcdeuupgozsne
   axios: 1.2.2
   ethers: 5.7.2
-  framer-motion: 8.1.7_biqbaboplfbrettd7655fr4n2y
+  framer-motion: 8.1.8_biqbaboplfbrettd7655fr4n2y
   graphql: 16.6.0
   graphql-request: 5.1.0_graphql@16.6.0
   lodash.merge: 4.6.2
@@ -3924,8 +3924,8 @@ packages:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
     dev: true
 
-  /framer-motion/8.1.7_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-9ODjhOG1/XEDckJlva+5Ya2dvpBsz1ieX9DhAVGp1/IyrLuO3LSUIhj0vMX3Hr3Ujju0ebsMqFoedy84cz+9LQ==}
+  /framer-motion/8.1.8_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-0Am0ObiOS+CuZhf4p8/Srt5yu+w4fUFGMw7LPzX1HPq5vn85bu4/13jvmZZAjrkf/6rCXZvsT5aZriFuDiLU+w==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
