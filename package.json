@@ -37,7 +37,7 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.41.5",
     "react-icons": "^4.7.1",
-    "react-parallax-tilt": "^1.7.81",
+    "react-parallax-tilt": "^1.7.82",
     "react-tsparticles": "^2.7.1",
     "tsparticles": "^2.7.1",
     "wagmi": "^0.10.4",
