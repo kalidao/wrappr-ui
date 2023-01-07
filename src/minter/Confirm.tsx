@@ -33,7 +33,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
   })
   const { isConnected, address } = useAccount()
   const { chain } = useNetwork()
-  const contractAddress = deployments[1][(store.juris + store.entity) as keyof typeof deployments[1]] as string
+  const contractAddress = deployments[1][(store.juris + store.entity) as keyof (typeof deployments)[1]] as string
   const { writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
     address: contractAddress as `0xstring`,

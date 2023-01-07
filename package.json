@@ -22,10 +22,10 @@
     "@tanstack/react-query-devtools": "^4.20.9",
     "@typeform/embed-react": "^2.10.0",
     "@vanilla-extract/css": "^1.9.2",
-    "@wagmi/core": "^0.8.10",
+    "@wagmi/core": "^0.8.11",
     "axios": "^1.2.2",
     "ethers": "^5.7.2",
-    "framer-motion": "^8.1.8",
+    "framer-motion": "^8.2.4",
     "graphql": "^16.6.0",
     "graphql-request": "^5.1.0",
     "lodash.merge": "^4.6.2",
@@ -37,10 +37,10 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.41.5",
     "react-icons": "^4.7.1",
-    "react-parallax-tilt": "^1.7.82",
+    "react-parallax-tilt": "^1.7.84",
     "react-tsparticles": "^2.7.1",
     "tsparticles": "^2.7.1",
-    "wagmi": "^0.10.4",
+    "wagmi": "^0.10.5",
     "zod": "^3.20.2",
     "zustand": "^4.2.0"
   },
@@ -59,7 +59,7 @@
     "formidable": "^2.1.1",
     "husky": "^8.0.3",
     "node-fetch": "^3.3.0",
-    "prettier": "^2.8.1",
+    "prettier": "^2.8.2",
     "typescript": "4.9.4"
   }
 }
