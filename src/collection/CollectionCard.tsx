@@ -14,8 +14,9 @@ type Props = {
 const CollectionCard = ({ tokenURI, chainId, address, id }: Props) => {
   const { isLoading, data } = useQuery(['wrappr', tokenURI], () => fetchCollectionData(tokenURI))
 
+  console.log('address', address)
   return (
-    <Link href={`/${chainId}/${id}`} passHref>
+    <Link href={`/${chainId}/${address}/${id}`} passHref>
       <Box
         className={styles.wrapprCard}
         as="a"
