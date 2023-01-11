@@ -1,5 +1,4 @@
-import { Skeleton, Box, Spinner, Avatar, Text } from '@kalidao/reality'
-import Image from 'next/image'
+import { Box, Avatar, Text } from '@kalidao/reality'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import * as styles from '~/wrap/styles.css'
@@ -11,7 +10,7 @@ type Props = {
   id: string
 }
 
-const CollectionCard = ({ tokenURI, chainId, address, id }: Props) => {
+const CollectionCard = ({ tokenURI, address, chainId, id }: Props) => {
   const { isLoading, data } = useQuery(['wrappr', tokenURI], () => fetchCollectionData(tokenURI))
 
   console.log('address', address)

@@ -7,7 +7,6 @@ import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '~/utils/fetcher'
 import { useAccount } from 'wagmi'
 import { Disclaimer } from '~/lexy'
-import { motion } from 'framer-motion'
 import * as styles from '@design/lexy.css'
 
 const Lexy: NextPage = () => {
