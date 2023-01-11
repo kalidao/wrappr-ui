@@ -54,18 +54,23 @@ const wagmiClient = createClient({
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   <Text>
     By connecting your wallet, you agree to the <Link href="/tos">Terms of Service</Link> and acknowledge you have read
-    and understand the Disclaimers therein.
+    and understand the included Disclaimers.
   </Text>
 )
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient())
-  const rainbowTheme = getRainbowTheme('dark')
+  const mode = useThemeStore((state) => state.mode)
+  const [theme, setTheme] = useState<Theme>()
+
+  useEffect(() => {
+    setTheme(getRainbowTheme(mode))
+  }, [mode])
 
   return (
-    <ThemeProvider defaultAccent="teal" defaultMode={'dark'} forcedMode="dark">
+    <ThemeProvider defaultAccent="teal" defaultMode={mode}>
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains} coolMode={true} modalSize="compact" theme={rainbowTheme}>
+        <RainbowKitProvider chains={chains} coolMode={true} modalSize="compact" theme={theme}>
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <Component {...pageProps} />

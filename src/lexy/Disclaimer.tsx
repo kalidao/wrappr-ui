@@ -10,7 +10,7 @@ const Disclaimer = ({
   const terms = [
     'Lexy is not a substitute for legal advice from a qualified lawyer.',
     'Lexy does not guarantee the accuracy of any information provided.',
-    'Any decisions made on information provided are your sole responsibility.',
+    'Any decisions made based on information provided by Lexy are the sole responsibility of the user.',
   ]
   return (
     <Stack align="flex-start">

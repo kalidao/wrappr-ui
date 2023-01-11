@@ -42,12 +42,11 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
   } = {
     LLC: {
       description:
-        'Your LLC is formed after minting by signing the Master LLC agreement. Keep this limited liability card in your wallet, or send it to your DAO or multisig for confirmation.',
+        'Your LLC will be created after minting. State formation and taxes included. Which jurisdiction do you want?',
       link: 'https://docs.wrappr.wtf/how-to/LLC/',
     },
     UNA: {
-      description:
-        'Your non-profit (UNA) is formed after minting by creating an association agreement. Send it to your DAO or multisig for confirmation.',
+      description: 'Your Non-Profit (UNA) will be created after minting. Which jurisdiction do you want?',
       link: 'https://daos.paradigm.xyz/',
     },
     Charter: {

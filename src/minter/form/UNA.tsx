@@ -50,7 +50,7 @@ export default function UNA({ store, setStore, setView }: Props) {
       <Stack>
         <Input
           type="text"
-          description={"What's the name of your UNA?"}
+          description={"What's the name of your non-profit?"}
           {...register('name')}
           id="name"
           placeholder=" "

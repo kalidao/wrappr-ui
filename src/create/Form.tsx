@@ -197,7 +197,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         <Text>
           {submitting
             ? 'We are working our magic, please be patient'
-            : 'Wrappr is a protocol for creating legal NFTs. Create a Wrappr by filling out the form below.'}
+            : 'Wrappr is a protocol for incorporating as NFTs. Create a Wrappr by filling out the form below.'}
         </Text>
       </Box>
       {submitting ? (

@@ -22,7 +22,7 @@ const User: NextPage = () => {
     },
   )
 
-  const explorerLink = getExplorerLink(1, user as string, 'address')
+  console.log('user data', data)
 
   return (
     <Layout heading="User" content="Explore wrapprs created by users. Wrap anything." back={() => router.push('/')}>

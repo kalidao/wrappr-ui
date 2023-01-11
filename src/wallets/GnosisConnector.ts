@@ -22,4 +22,5 @@ const GnosisConnector = ({ chains }: MyWalletOptions): Wallet => ({
     }
   },
 })
+
 export default GnosisConnector

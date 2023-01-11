@@ -2,7 +2,6 @@ import { useCallback } from 'react'
 import { Button, IconSun, IconMoon, useTheme } from '@kalidao/reality'
 import { useThemeStore } from '~/hooks/useThemeStore'
 import { setThemeMode } from '~/utils/cookies'
-import { useIsMounted } from '~/hooks/useIsMounted'
 
 export default function ToggleMode() {
   const { mode, setMode } = useTheme()

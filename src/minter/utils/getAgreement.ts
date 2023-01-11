@@ -11,7 +11,7 @@ export function getAgreement(entity: string): string {
     case 'lexCharter':
       return 'https://lexpunk.charter.ricardian.eth.limo/'
     case 'orCharter':
-      return ''
+      return 'https://orange.charter.ricardian.eth.limo/'
   }
   return ''
 }

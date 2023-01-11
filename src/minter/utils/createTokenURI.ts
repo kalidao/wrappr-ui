@@ -125,9 +125,8 @@ const wyUNA = {
 
 // TODO
 const lexCharter = {
-  name: 'LeXpunK DAO Charter',
-  description:
-    'Create a stateless entity with qualified code deference.\n\nReview the DAO Charter and Wrappr docs to understand your CHARTER NFT.',
+  name: 'LeXpunK Charter',
+  description: 'Create a Charter that handles common legal issues and defers to code.',
   external_url: 'https://www.wrappr.wtf/',
   image: 'https://content.wrappr.wtf/ipfs/QmVPv3D1ZFPar6NEXoNTxyiknHG7pKfx21iyCb6siBcoqK',
   attributes: [
@@ -138,8 +137,7 @@ const lexCharter = {
 
 const orCharter = {
   name: 'Orange Charter',
-  description:
-    'Create a stateless entity with qualified code deference.\n\nReview the DAO Charter and Wrappr docs to understand your CHARTER NFT.',
+  description: 'Create a DAO Charter based on the Orange DAO system.',
   external_url: 'https://www.wrappr.wtf/',
   image: 'https://content.wrappr.wtf/ipfs/QmZvpnHg2PZe8SqGEPsnsDoHe57cfR9PMDGTfW5wrLrsxM',
   attributes: [

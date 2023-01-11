@@ -7,6 +7,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount, useNetwork } from 'wagmi'
 import * as styles from './styles.css'
 import { ReactNodeNoStrings } from '@kalidao/reality/dist/types/types'
+import ToggleMode from './ToggleMode'
 
 export default function Header() {
   const router = useRouter()
@@ -24,11 +25,12 @@ export default function Header() {
       >
         <Image src={'/logo.png'} height={60} width={80} alt={`Wrappr logo`} />
       </motion.div>
-      <Box as="nav" display="flex" gap="2">
+      <Box as="nav" display="flex" gap="2" alignItems={'center'}>
         {isConnected && <Item label="user" src={`/users/${address}`} icon={<IconUserSolid />} />}
         <Item label="make" src="/create" icon={<IconPencil />} />
         <Item label="find" src={`/${chain ? chain.id : 1}/explore`} icon={<IconGrid />} />
         <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<IconBookOpenSolid />} isExternal />
+        <ToggleMode />
       </Box>
       <Stack direction={'horizontal'}>
         {/* <ToggleMode /> */}
