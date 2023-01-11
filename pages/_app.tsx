@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import '@rainbow-me/rainbowkit/styles.css'
-import { connectorsForWallets, RainbowKitProvider, DisclaimerComponent } from '@rainbow-me/rainbowkit'
+import { connectorsForWallets, RainbowKitProvider, DisclaimerComponent, Theme } from '@rainbow-me/rainbowkit'
 import {
   injectedWallet,
   rainbowWallet,
@@ -20,6 +20,7 @@ import { avalanche, bsc, xdai } from '~/constants/chains'
 import { GnosisConnector } from '~/wallets/'
 import { getRainbowTheme } from '~/utils/getRainbowTheme'
 import { ThemeProvider } from '@kalidao/reality'
+import { useThemeStore } from '~/hooks/useThemeStore'
 import '@kalidao/reality/styles'
 import '@design/app.css'
 

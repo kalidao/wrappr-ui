@@ -10,7 +10,7 @@ type Props = {
   id: string
 }
 
-const CollectionCard = ({ tokenURI, chainId, id }: Props) => {
+const CollectionCard = ({ tokenURI, address, chainId, id }: Props) => {
   const { isLoading, data } = useQuery(['wrappr', tokenURI], () => fetchCollectionData(tokenURI))
 
   console.log('address', address)
