@@ -2,7 +2,8 @@ lockfileVersion: 5.4
 
 specifiers:
   '@fontsource/alegreya-sans': ^4.5.11
-  '@gnosis.pm/safe-apps-wagmi': ^1.2.0
+  '@gnosis.pm/safe-apps-provider': ^0.14.0
+  '@gnosis.pm/safe-apps-sdk': ^7.7.0
   '@hookform/resolvers': ^2.9.10
   '@kalidao/reality': 0.0.13
   '@pinata/sdk': ^2.1.0
@@ -50,7 +51,8 @@ specifiers:
 
 dependencies:
   '@fontsource/alegreya-sans': 4.5.11
-  '@gnosis.pm/safe-apps-wagmi': 1.2.0_@wagmi+core@0.8.11
+  '@gnosis.pm/safe-apps-provider': 0.14.0
+  '@gnosis.pm/safe-apps-sdk': 7.8.0
   '@hookform/resolvers': 2.9.10_react-hook-form@7.41.5
   '@kalidao/reality': 0.0.13_biqbaboplfbrettd7655fr4n2y
   '@pinata/sdk': 2.1.0
@@ -753,8 +755,8 @@ packages:
     resolution: {integrity: sha512-7J1Csa429q0FHIhFFQb5uVuYmjBEY4D/X2lupTtTEb0lwQmsa4wAWWvKgLHVGWEGmNBGFxRvzaGI4+aW7HZI0g==}
     dev: false
 
-  /@gnosis.pm/safe-apps-provider/0.15.1:
-    resolution: {integrity: sha512-jVU0jpXf30HFdLHSHkmscIm04BYSwfoddjcHI4uPolP+u4F+tHRgfah1xo4XNRSCDqs4GTq38d7YAipGTj0CLA==}
+  /@gnosis.pm/safe-apps-provider/0.14.0:
+    resolution: {integrity: sha512-qOkPUfIu9dLoy4Muo40xzswqix7ZoJDmtEl35D+oYYa6JDw8cr4tVkPPjl6eDPNtMLiqGjs1POzHdZrfC8aHVw==}
     dependencies:
       '@gnosis.pm/safe-apps-sdk': 7.8.0
       events: 3.3.0
@@ -769,20 +771,6 @@ packages:
     dependencies:
       '@gnosis.pm/safe-react-gateway-sdk': 3.5.2
       ethers: 5.7.2
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - utf-8-validate
-    dev: false
-
-  /@gnosis.pm/safe-apps-wagmi/1.2.0_@wagmi+core@0.8.11:
-    resolution: {integrity: sha512-ecDiNMkQ01m2yM/eKKtt08bTvYjWfacG+vwAeb4Lpiitm8RBI8wkW1jUoOgvd9tNhHZtdykgGETUZGmMo1XDuw==}
-    peerDependencies:
-      '@wagmi/core': '>= 0.3.8 < 0.8.0'
-    dependencies:
-      '@gnosis.pm/safe-apps-provider': 0.15.1
-      '@gnosis.pm/safe-apps-sdk': 7.8.0
-      '@wagmi/core': 0.8.11_doyaxlk2we36etcdeuupgozsne
     transitivePeerDependencies:
       - bufferutil
       - encoding

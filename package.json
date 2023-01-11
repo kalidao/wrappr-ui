@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "@fontsource/alegreya-sans": "^4.5.11",
-    "@gnosis.pm/safe-apps-wagmi": "^1.2.0",
+    "@gnosis.pm/safe-apps-provider": "^0.14.0",
+    "@gnosis.pm/safe-apps-sdk": "^7.7.0",
     "@hookform/resolvers": "^2.9.10",
     "@kalidao/reality": "0.0.13",
     "@pinata/sdk": "^2.1.0",
