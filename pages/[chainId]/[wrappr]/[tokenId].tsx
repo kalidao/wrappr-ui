@@ -1,8 +1,7 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import Layout from '~/layout'
-import { Box, Stack, Spinner, Text, Divider, Skeleton, Avatar, Heading } from '@kalidao/reality'
+import { Box, Stack, Spinner, Text, Avatar, Heading } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { MintWrappr, Trait, TraitType } from '~/wrap'
 import { useContractReads } from 'wagmi'
@@ -17,7 +16,7 @@ const Wrappr: NextPage = () => {
     addressOrName: wrappr ? wrappr.toString() : ethers.constants.AddressZero,
     contractInterface: WRAPPR,
   }
-  const { data: reads, isLoading: isReading } = useContractReads({
+  const {} = useContractReads({
     contracts: [
       {
         ...wrapprContract,
@@ -27,7 +26,7 @@ const Wrappr: NextPage = () => {
     ],
   })
   const collectionId = wrappr?.toString().toLowerCase() + '0x' + Number(tokenId)?.toString(16)
-  const { isLoading, error, data } = useQuery(
+  const { isLoading, data } = useQuery(
     ['wrappr', chainId, collectionId],
     () => fetchWrappr(deployments[Number(chainId)]['subgraph'] as string, collectionId),
     {
@@ -35,11 +34,7 @@ const Wrappr: NextPage = () => {
     },
   )
   const URI = data?.uri ? data.uri : data?.wrappr?.baseURI
-  const {
-    isLoading: isLoadingURI,
-    error: uriError,
-    data: uri,
-  } = useQuery(['wrappr', data?.['wrappr']?.['baseURI']], () => fetchWrapprURI(URI), {
+  const { data: uri } = useQuery(['wrappr', data?.['wrappr']?.['baseURI']], () => fetchWrapprURI(URI), {
     enabled: data !== undefined,
   })
 

@@ -9,8 +9,8 @@ export default function MintWrappr({ chainId, tokenId, wrappr }: { chainId: numb
   const { address, isConnected } = useAccount()
   const [account, setAccount] = useState(isConnected ? address : '')
   const { config } = usePrepareContractWrite({
-    addressOrName: wrappr,
-    contractInterface: WRAPPR,
+    address: wrappr as `0xstring`,
+    abi: WRAPPR,
     functionName: 'manageMint',
     chainId: chainId,
     args: [account, tokenId, 1, ethers.constants.HashZero, '', account],

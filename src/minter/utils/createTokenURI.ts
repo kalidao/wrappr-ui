@@ -79,7 +79,7 @@ const deLLC = {
   attributes: [
     { trait_type: 'Jurisdiction', value: 'Delaware' },
     { trait_type: 'Entity', value: 'LLC' },
-    { trait_type: 'Agreement', value: 'https://del.llc.wrappr.documen.eth.link/' },
+    { trait_type: 'Agreement', value: 'https://de.llc.ricardian.eth.limo/' },
     { trait_type: 'Registered Agent', value: 'A Registered Agent, Inc., 8 The Green, Suite A, Dover, DE 19901, USA' },
     { display_type: 'number', trait_type: 'Registration Number', value: 6531147 },
   ],
@@ -93,7 +93,7 @@ const wyLLC = {
   attributes: [
     { trait_type: 'Jurisdiction', value: 'Wyoming' },
     { trait_type: 'Entity', value: 'LLC' },
-    { trait_type: 'Agreement', value: 'https://wy.llc.wrappr.documen.eth.link/' },
+    { trait_type: 'Agreement', value: 'https://wy.llc.ricardian.eth.limo/' },
     { trait_type: 'Registered Agent', value: 'Registered Agents Inc., 30 N Gould St Ste R, Sheridan, WY 82801, USA' },
     { display_type: 'number', trait_type: 'Registration Number', value: 2022001140872 },
   ],
@@ -107,7 +107,7 @@ const deUNA = {
   attributes: [
     { trait_type: 'Jurisdiction', value: 'Delaware' },
     { trait_type: 'Entity', value: 'UNA' },
-    { trait_type: 'Agreement', value: 'https://del.una.wrappr.documen.eth.link/' },
+    { trait_type: 'Agreement', value: 'https://de.una.ricardian.eth.limo/' },
   ],
 }
 
@@ -119,7 +119,7 @@ const wyUNA = {
   attributes: [
     { trait_type: 'Jurisdiction', value: 'Wyoming' },
     { trait_type: 'Entity', value: 'UNA' },
-    { trait_type: 'Agreement', value: 'https://wy.una.wrappr.documen.eth.link/' },
+    { trait_type: 'Agreement', value: 'https://wy.una.ricardian.eth.limo/' },
   ],
 }
 

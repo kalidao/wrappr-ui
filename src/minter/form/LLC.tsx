@@ -29,7 +29,6 @@ export default function LLC({ store, setStore, setView }: Props) {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors, isSubmitting },
   } = useForm<LLC>({
     resolver: zodResolver(schema),

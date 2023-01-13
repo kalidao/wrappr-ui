@@ -14,14 +14,7 @@ const fetchWrapprData = async (URI: string) => {
 
 export default function Confirmation({ store }: { store: StoreC }) {
   const { chain } = useNetwork()
-  const {
-    isLoading: isFetching,
-    isError: isFetchingError,
-    error,
-    data: uri,
-    isFetched,
-    isSuccess,
-  } = useQuery(['wrappr', store.uri], () => fetchWrapprData(store.uri))
+  const { data: uri, isFetched, isSuccess } = useQuery(['wrappr', store.uri], () => fetchWrapprData(store.uri))
 
   return (
     <>

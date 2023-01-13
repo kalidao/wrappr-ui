@@ -13,20 +13,15 @@ const fetchWrapprData = async (URI: string | undefined) => {
 
 export default function MintedImage({ entity, tokenId }: { entity: string; tokenId: number }) {
   const { chain } = useNetwork()
-  const {
-    data: uri,
-    isLoading: isLoadingURI,
-    isSuccess,
-    error,
-  } = useContractRead({
-    addressOrName: chain
-      ? (deployments[Number(chain.id)][entity as keyof typeof deployments[1]] as string)
+  const { data: uri, isLoading: isLoadingURI } = useContractRead({
+    address: chain
+      ? (deployments[Number(chain.id)][entity as keyof (typeof deployments)[1]] as string as `0xstring`)
       : ethers.constants.AddressZero,
-    contractInterface: WRAPPR,
+    abi: WRAPPR,
     functionName: 'uri',
     args: [tokenId],
   })
-  const { isLoading, error: reactError, data } = useQuery(['wrappr', uri], () => fetchWrapprData(String(uri)))
+  const { isLoading, data } = useQuery(['wrappr', uri], () => fetchWrapprData(String(uri)))
 
   if (isLoadingURI && isLoading) return <>Fetching</>
 
