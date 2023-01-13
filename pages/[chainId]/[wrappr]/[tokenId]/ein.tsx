@@ -5,12 +5,13 @@ import { Box, Stack, Input, Button, Text, Tag } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import { createPdf } from '~/utils/createPdf'
 
-import { useContractRead } from 'wagmi'
+import { useContractReads } from 'wagmi'
 import { WRAPPR } from '../../../../src/constants'
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
+import { ethers } from 'ethers'
 
 type Create = {
   name: string
@@ -38,13 +39,27 @@ const EIN: NextPage = () => {
 
   const [buttonText, setButtonText] = useState('Generate SS-4')
 
-  const { data: tokenUri } = useContractRead({
-    address: wrappr ? wrappr?.toString() : '',
-    abi: WRAPPR,
+  const wrapprContract = {
+    addressOrName: wrappr as string,
+    contractInterface: WRAPPR,
     chainId: Number(chainId),
-    functionName: 'uri',
-    args: [tokenId],
+  }
+  const { data: tokenUri } = useContractReads({
+    contracts: [
+      {
+        ...wrapprContract,
+        functionName: 'uri',
+        args: [tokenId]
+      },
+    ],
   })
+  // const { data: tokenUri } = useContractRead({
+  //   address: wrappr ? wrappr as string as `0xstring` : ethers.constants.AddressZero,
+  //   abi: WRAPPR,
+  //   chainId: Number(chainId),
+  //   functionName: 'uri',
+  //   args: [tokenId],
+  // })
 
   const onSubmit = async (data: Create) => {
     setButtonText('Generating...')
