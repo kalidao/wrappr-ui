@@ -17,6 +17,7 @@ type Create = {
   name: string
   ssn: string
   date: string
+  activity: string
 }
 
 type Org = {
@@ -31,6 +32,7 @@ const schema = z.object({
   name: z.string().min(1, { message: 'This field is required' }),
   ssn: z.string().min(1, { message: 'This field required' }),
   date: z.string().min(1, { message: 'This field required' }),
+  activity: z.string().min(1, { message: 'This field required' }),
 })
 
 const EIN: NextPage = () => {
@@ -66,7 +68,7 @@ const EIN: NextPage = () => {
 
   const onSubmit = async (data: Create) => {
     setButtonText('Generating...')
-    const { name, ssn, date } = data
+    const { name, ssn, date, activity } = data
 
     const pdf = {
       entityType: org ? org.attributes[1].value : '',
@@ -75,6 +77,7 @@ const EIN: NextPage = () => {
       userSsn: ssn,
       formationDate: date,
       taxEntity: taxEntity,
+      activity: activity,
     }
 
     createPdf(pdf).then(() => {
@@ -182,7 +185,7 @@ const EIN: NextPage = () => {
                 label="Activity"
                 labelSecondary={<Tag>Line 17 of Form SS-4</Tag>}
                 id="ssn"
-                {...register('date')}
+                {...register('activity')}
                 placeholder="Describe services or products provided"
                 error={errors.date && errors.date.message}
               />

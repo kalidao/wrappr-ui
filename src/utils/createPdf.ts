@@ -7,9 +7,18 @@ type Props = {
   userSsn: string
   formationDate: string
   taxEntity: string
+  activity: string
 }
 
-export async function createPdf({ entityType, entityName, userName, userSsn, formationDate, taxEntity }: Props) {
+export async function createPdf({
+  entityType,
+  entityName,
+  userName,
+  userSsn,
+  formationDate,
+  taxEntity,
+  activity,
+}: Props) {
   const url = 'https://content.wrappr.wtf/ipfs/QmUBLCBJqtzyvBSpK4USqLapSNhuK2R9EXEB3aGivSFBSd'
 
   const memberCount = '1'
@@ -280,7 +289,7 @@ export async function createPdf({ entityType, entityName, userName, userSsn, for
       })
 
       // Line 17
-      firstPage.drawText('Software / e-commerce / Internet business', {
+      firstPage.drawText(activity, {
         x: 85,
         y: 171,
         size: 12,
