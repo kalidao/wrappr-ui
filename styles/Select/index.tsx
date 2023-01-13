@@ -1,6 +1,5 @@
 import * as styles from './select.css'
 import { Field, Box } from '@kalidao/reality'
-import { description } from '@design/Dialog/styles.css'
 
 type Props = {
   name?: string
