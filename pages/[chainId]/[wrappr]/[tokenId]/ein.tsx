@@ -20,36 +20,28 @@ type Create = {
   activity: string
 }
 
-type Org = {
-  name: string
-  attributes: any[]
-  description: string
-  image: string
-  external_url: string
-}
-
 const schema = z.object({
   name: z.string().min(1, { message: 'This field is required' }),
   ssn: z.string().min(1, { message: 'This field required' }),
   date: z.string().min(1, { message: 'This field required' }),
-  activity: z.string().min(1, { message: 'This field required' }),
+  activity: z.any(),
 })
 
 const EIN: NextPage = () => {
   const router = useRouter()
   const { wrappr, chainId, tokenId } = router.query
-  console.log(wrappr, chainId, tokenId)
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<Create>({
     resolver: zodResolver(schema),
   })
 
   const [buttonText, setButtonText] = useState('Generate SS-4')
   const [taxEntity, setTaxEntity] = useState('')
-  const [org, setOrg] = useState<Org>()
+  const [orgType, setOrgType] = useState('')
+  const [orgName, setOrgName] = useState('')
 
   const wrapprContract = {
     addressOrName: wrappr as string,
@@ -71,8 +63,8 @@ const EIN: NextPage = () => {
     const { name, ssn, date, activity } = data
 
     const pdf = {
-      entityType: org ? org.attributes[1].value : '',
-      entityName: org ? org.name : '',
+      entityType: orgType,
+      entityName: orgName,
       userName: name,
       userSsn: ssn,
       formationDate: date,
@@ -93,7 +85,8 @@ const EIN: NextPage = () => {
   useEffect(() => {
     const getData = async () => {
       const org = await fetchTokenMetadata(tokenUri ? tokenUri.toString() : '')
-      setOrg(org)
+      setOrgType(org.attributes[1].value)
+      setOrgName(org.name)
     }
 
     getData()
@@ -149,7 +142,7 @@ const EIN: NextPage = () => {
               placeholder="Name"
               error={errors.name && errors.name.message}
             />
-            {org && org.attributes[1].value == 'LLC' && (
+            {orgType == 'LLC' && (
               <Select
                 label="Taxed as"
                 description="Pick an entity type."
@@ -175,19 +168,19 @@ const EIN: NextPage = () => {
             <Input
               label="Formation Date"
               labelSecondary={<Tag>Line 11 of Form SS-4</Tag>}
-              id="ssn"
+              id="date"
               {...register('date')}
               placeholder="Specify the date of formation"
               error={errors.date && errors.date.message}
             />
-            {org && org.attributes[1].value == 'UNA' && (
+            {orgType == 'UNA' && (
               <Input
                 label="Activity"
                 labelSecondary={<Tag>Line 17 of Form SS-4</Tag>}
-                id="ssn"
+                id="activity"
                 {...register('activity')}
                 placeholder="Describe services or products provided"
-                error={errors.date && errors.date.message}
+                error={errors.activity && errors.activity.message}
               />
             )}
           </Stack>
