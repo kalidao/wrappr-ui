@@ -98,7 +98,7 @@ const EIN: NextPage = () => {
               <Text>2. Click &apos;Generate SS-4&apos; and carefully review completed Form SS-4.</Text>
               <Text>3. Sign and date at the bottom of Form SS-4.</Text>
               <Text>
-                4. For US entities, fax Form SS-4 to IRS at (855)641-6935. For Int'l entities, fax Form SS-4 to
+                4. For US entities, fax Form SS-4 to IRS at (855)641-6935. For Int&apos;l entities, fax Form SS-4 to
                 (304)707-9471.{' '}
               </Text>
               <Text>5. We expect a response with an EIN from the IRS in seven (7) business days.</Text>
