@@ -99,6 +99,15 @@ export async function createPdf({
         font: timesRomanFont,
         color: rgb(0.95, 0.1, 0.1),
       })
+      // Line 8c
+      firstPage.drawText(selection, {
+        x: 493,
+        y: 531,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
+
     } else if (entityType == 'UNA') {
       // Line 8a
       firstPage.drawText(selection, {
@@ -110,16 +119,7 @@ export async function createPdf({
       })
     }
 
-    if (taxEntity == 'sole') {
-      // Line 8b
-      firstPage.drawText(memberCount, {
-        x: 500,
-        y: 543,
-        size: 12,
-        font: timesRomanFont,
-        color: rgb(0.95, 0.1, 0.1),
-      })
-    } else if (taxEntity == 'partnership') {
+    if (taxEntity == 'partnership') {
       // Line 8b
       firstPage.drawText('2', {
         x: 500,
@@ -128,16 +128,16 @@ export async function createPdf({
         font: timesRomanFont,
         color: rgb(0.95, 0.1, 0.1),
       })
+    } else {
+      // Line 8b
+      firstPage.drawText(memberCount, {
+        x: 500,
+        y: 543,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
     }
-
-    // Line 8c
-    firstPage.drawText(selection, {
-      x: 493,
-      y: 531,
-      size: 12,
-      font: timesRomanFont,
-      color: rgb(0.95, 0.1, 0.1),
-    })
 
     if (entityType == 'LLC') {
       if (taxEntity == 'sole') {
