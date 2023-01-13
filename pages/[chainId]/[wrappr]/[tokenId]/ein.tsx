@@ -1,23 +1,10 @@
 import React, { useState } from 'react'
 import type { NextPage } from 'next'
 import Layout from '../../../../src/layout'
-import {
-  Box,
-  Stack,
-  Input,
-  Field,
-  Button,
-  Textarea,
-  Text,
-  MediaPicker,
-  IconPlus,
-  Tag,
-  Checkbox,
-} from '@kalidao/reality'
+import { Box, Stack, Input, Button, Text, Tag } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import { createPdf } from '~/utils/createPdf'
 
-import { ethers } from 'ethers'
 import { useContractRead } from 'wagmi'
 import { WRAPPR } from '../../../../src/constants'
 
@@ -29,14 +16,12 @@ type Create = {
   name: string
   ssn: string
   date: string
-  signature: string
 }
 
 const schema = z.object({
   name: z.string().min(1, { message: 'This field is required' }),
   ssn: z.string().min(1, { message: 'This field required' }),
   date: z.string().min(1, { message: 'This field required' }),
-  signature: z.string().min(1, { message: 'This field required' }),
 })
 
 const EIN: NextPage = () => {
@@ -51,17 +36,9 @@ const EIN: NextPage = () => {
     resolver: zodResolver(schema),
   })
 
-  // const [error, setError] = useState('')
-  const [toGenerate, setToGenerate] = useState(false)
+  const [buttonText, setButtonText] = useState('Generate SS-4')
 
-  const { data: entity } = useContractRead({
-    addressOrName: wrappr ? wrappr?.toString() : '',
-    chainId: Number(chainId),
-    contractInterface: WRAPPR,
-    functionName: 'symbol',
-  })
-
-  const { data: tokenUri, error: tokenUriError } = useContractRead({
+  const { data: tokenUri } = useContractRead({
     addressOrName: wrappr ? wrappr?.toString() : '',
     contractInterface: WRAPPR,
     chainId: Number(chainId),
@@ -70,7 +47,8 @@ const EIN: NextPage = () => {
   })
 
   const onSubmit = async (data: Create) => {
-    const { name, ssn, date, signature } = data
+    setButtonText('Generating...')
+    const { name, ssn, date } = data
 
     const org = await fetchTokenMetadata(tokenUri ? tokenUri.toString() : '')
 
@@ -82,10 +60,11 @@ const EIN: NextPage = () => {
       userName: name,
       userSsn: ssn,
       formationDate: date,
-      signature: signature,
     }
 
-    createPdf(pdf)
+    createPdf(pdf).then(() => {
+      setButtonText('Generate SS-4')
+    })
   }
 
   const fetchTokenMetadata = async (URI: string) => {
@@ -117,8 +96,12 @@ const EIN: NextPage = () => {
               <Text>To apply for an EIN:</Text>
               <Text>1. Fill out Form SS-4 by providing the following information.</Text>
               <Text>2. Click &apos;Generate SS-4&apos; and carefully review completed Form SS-4.</Text>
-              <Text>3. Fax the completed Form SS-4 to IRS.</Text>
-              <Text>4. We expect a response with an EIN from the IRS in seven (7) business days.</Text>
+              <Text>3. Sign and date at the bottom of Form SS-4.</Text>
+              <Text>
+                4. For US entities, fax Form SS-4 to IRS at (855)641-6935. For Int'l entities, fax Form SS-4 to
+                (304)707-9471.{' '}
+              </Text>
+              <Text>5. We expect a response with an EIN from the IRS in seven (7) business days.</Text>
             </Stack>
           </Box>
         </Box>
@@ -153,21 +136,11 @@ const EIN: NextPage = () => {
               id="ssn"
               {...register('date')}
               placeholder="Specify the date of formation"
-              error={errors.signature && errors.signature.message}
+              error={errors.date && errors.date.message}
             />
-            <Input
-              label="Signature"
-              labelSecondary={<Tag>Signature Block</Tag>}
-              id="ssn"
-              {...register('signature')}
-              placeholder="Print name here to e-sign Form SS-4"
-              error={errors.signature && errors.signature.message}
-            />
-            {/* <Checkbox label="I agree to e-sign Form SS-4"/> */}
           </Stack>
-          {/* <Text>{error}</Text> */}
         </Box>
-        <Button onClick={handleSubmit(onSubmit)}>Generate SS-4</Button>
+        <Button onClick={handleSubmit(onSubmit)}>{buttonText}</Button>
       </Stack>
     </Layout>
   )
