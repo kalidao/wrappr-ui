@@ -79,9 +79,11 @@ const Wrappr: NextPage = () => {
             <Link href="/clinic" passHref>
               <a>Need help with your entity?</a>
             </Link>
-            <Link href={`/${chainId}/${wrappr}/${tokenId}/ein`} passHref>
-              <a>Apply for EIN</a>
-            </Link>
+            {(uri?.attributes[1].value == 'LLC' || uri?.attributes[1].value == 'UNA') && (
+              <Link href={`/${chainId}/${wrappr}/${tokenId}/ein`} passHref>
+                <a>Apply for EIN</a>
+              </Link>
+            )}
           </Stack>
           <Box width="full">
             <Stack>
