@@ -180,7 +180,7 @@ const EIN: NextPage = () => {
             {org && org.attributes[1].value == 'UNA' && (
               <Input
                 label="Activity"
-                labelSecondary={<Tag>Line 11 of Form SS-4</Tag>}
+                labelSecondary={<Tag>Line 17 of Form SS-4</Tag>}
                 id="ssn"
                 {...register('date')}
                 placeholder="Describe services or products provided"
