@@ -39,8 +39,8 @@ const EIN: NextPage = () => {
   const [buttonText, setButtonText] = useState('Generate SS-4')
 
   const { data: tokenUri } = useContractRead({
-    addressOrName: wrappr ? wrappr?.toString() : '',
-    contractInterface: WRAPPR,
+    address: wrappr ? wrappr?.toString() : '',
+    abi: WRAPPR,
     chainId: Number(chainId),
     functionName: 'uri',
     args: [tokenId],
