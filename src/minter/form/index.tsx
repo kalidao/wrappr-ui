@@ -22,30 +22,30 @@ export default function Form({ store, setStore, setView }: Props) {
   const form: { [key: string]: Form } = {
     deLLC: {
       heading: 'Delaware LLC',
-      description: 'Delaware is the gold standard for corporate law.',
-      link: 'https://docs.wrappr.wtf/how-to/LLC/#delaware-wyoming-series-llcs-differences',
+      description: 'Delaware is the gold standard for corporate law. Members can remain anonymous.',
+      link: 'https://docs.wrappr.wtf/how-to/LLC',
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
     wyLLC: {
       heading: 'Wyoming LLC',
-      description: 'Wyoming is progressive about digital assets.',
-      link: 'https://docs.wrappr.wtf/how-to/LLC/#delaware-wyoming-series-llcs-differences',
+      description: 'Wyoming is friendly to digital assets. Members can remain anonymous.',
+      link: 'https://docs.wrappr.wtf/how-to/LLC',
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
     deUNA: {
       heading: 'Delaware UNA',
-      description: 'Delaware is the gold standard for corporate law.',
-      link: 'https://docs.wrappr.wtf/how-to/non-profit/#non-profit',
+      description: 'Delaware is the gold standard for corporate law. Members can remain anonymous.',
+      link: 'https://docs.wrappr.wtf/how-to/non-profit/',
       component: <UNA store={store} setStore={setStore} setView={setView} />,
     },
     wyUNA: {
       heading: 'Wyoming UNA',
-      description: 'Wyoming is progressive about digital assets.',
-      link: 'https://docs.wrappr.wtf/how-to/non-profit/#non-profit',
+      description: 'Wyoming is friendly to digital assets. Members can remain anonymous.',
+      link: 'https://docs.wrappr.wtf/how-to/non-profit/',
       component: <UNA store={store} setStore={setStore} setView={setView} />,
     },
     lexCharter: {
-      heading: 'LexPunk Charter',
+      heading: 'DAO Charter',
       description:
         'A simple membership agreement for DAOs with emphasis on code deference. Based on LeXpunK legal defense forms.',
       link: 'https://docs.wrappr.wtf/how-to/charter/#lexpunk-dao-charter',
@@ -55,7 +55,7 @@ export default function Form({ store, setStore, setView }: Props) {
       heading: 'Orange Charter',
       description:
         'A simple membership agreement for DAOs with emphasis on social structure and regular cadence. Based on Orange DAO.',
-      link: 'https://docs.wrappr.wtf/how-to/charter/#orange-charter',
+      link: 'https://docs.wrappr.wtf/how-to/charter/#lexpunk-dao-charter',
       component: <Charter store={store} setStore={setStore} setView={setView} />,
     },
   }

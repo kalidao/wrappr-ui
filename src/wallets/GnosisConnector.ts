@@ -1,11 +1,9 @@
 import { Chain, Wallet } from '@rainbow-me/rainbowkit'
-
-import { SafeConnector } from './SafeConnector'
+import { SafeConnector } from '@gnosis.pm/safe-apps-wagmi'
 
 export interface MyWalletOptions {
   chains: Chain[]
 }
-
 const GnosisConnector = ({ chains }: MyWalletOptions): Wallet => ({
   id: 'gnosis-safe',
   name: 'Gnosis Safe',

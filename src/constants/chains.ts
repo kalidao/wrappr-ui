@@ -14,7 +14,7 @@ export const avalanche: Chain = {
     symbol: 'AVAX',
   },
   rpcUrls: {
-    default: { http: ['https://api.avax.network/ext/bc/C/rpc'] },
+    default: 'https://api.avax.network/ext/bc/C/rpc',
   },
   blockExplorers: {
     default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
@@ -32,7 +32,7 @@ export const xdai: Chain & Icon = {
     symbol: 'xDai',
   },
   rpcUrls: {
-    default: { http: ['https://rpc.gnosischain.com'] },
+    default: 'https://rpc.gnosischain.com',
   },
   blockExplorers: {
     default: { name: 'Blockscout', url: 'https://blockscout.com/xdai/mainnet' },
@@ -51,7 +51,7 @@ export const bsc: Chain & Icon = {
     symbol: 'BNB',
   },
   rpcUrls: {
-    default: { http: ['https://rpc.ankr.com/bsc'] },
+    default: 'https://rpc.ankr.com/bsc',
   },
   blockExplorers: {
     default: { name: 'BNB Smart Chain', url: 'https://bscscan.com' },
@@ -70,7 +70,7 @@ export const fantom: Chain & Icon = {
     symbol: 'FTM',
   },
   rpcUrls: {
-    default: { http: ['https://rpc.ankr.com/fantom'] },
+    default: 'https://rpc.ankr.com/fantom',
   },
   blockExplorers: {
     default: { name: 'Fantom Blockchain Explorer', url: 'https://ftmscan.com/' },
