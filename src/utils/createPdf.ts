@@ -6,9 +6,10 @@ type Props = {
   userName: string
   userSsn: string
   formationDate: string
+  taxEntity: string
 }
 
-export async function createPdf({ entityType, entityName, userName, userSsn, formationDate }: Props) {
+export async function createPdf({ entityType, entityName, userName, userSsn, formationDate, taxEntity }: Props) {
   const url = 'https://content.wrappr.wtf/ipfs/QmUBLCBJqtzyvBSpK4USqLapSNhuK2R9EXEB3aGivSFBSd'
 
   const memberCount = '1'
@@ -80,23 +81,45 @@ export async function createPdf({ entityType, entityName, userName, userSsn, for
       color: rgb(0.95, 0.1, 0.1),
     })
 
-    // Line 8a
-    firstPage.drawText(selection, {
-      x: 255,
-      y: 543,
-      size: 12,
-      font: timesRomanFont,
-      color: rgb(0.95, 0.1, 0.1),
-    })
+    if (entityType == 'LLC') {
+      // Line 8a
+      firstPage.drawText(selection, {
+        x: 255,
+        y: 543,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
+    } else if (entityType == 'UNA') {
+      // Line 8a
+      firstPage.drawText(selection, {
+        x: 298,
+        y: 543,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
+    }
 
-    // Line 8b
-    firstPage.drawText(memberCount, {
-      x: 500,
-      y: 543,
-      size: 12,
-      font: timesRomanFont,
-      color: rgb(0.95, 0.1, 0.1),
-    })
+    if (taxEntity == 'sole') {
+      // Line 8b
+      firstPage.drawText(memberCount, {
+        x: 500,
+        y: 543,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
+    } else if (taxEntity == 'partnership') {
+      // Line 8b
+      firstPage.drawText('2', {
+        x: 500,
+        y: 543,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
+    }
 
     // Line 8c
     firstPage.drawText(selection, {
@@ -108,37 +131,75 @@ export async function createPdf({ entityType, entityName, userName, userSsn, for
     })
 
     if (entityType == 'LLC') {
-      // Line 9a - selection
-      firstPage.drawText(selection, {
-        x: 61,
-        y: 507,
-        size: 12,
-        font: timesRomanFont,
-        color: rgb(0.95, 0.1, 0.1),
-      })
+      if (taxEntity == 'sole') {
+        // Line 9a - selection
+        firstPage.drawText(selection, {
+          x: 61,
+          y: 507,
+          size: 12,
+          font: timesRomanFont,
+          color: rgb(0.95, 0.1, 0.1),
+        })
 
-      // Line 9a - ssn
-      firstPage.drawText(userSsn, {
-        x: 165,
-        y: 507,
-        size: 12,
-        font: timesRomanFont,
-        color: rgb(0.95, 0.1, 0.1),
-      })
+        // Line 9a - ssn
+        firstPage.drawText(userSsn, {
+          x: 165,
+          y: 507,
+          size: 12,
+          font: timesRomanFont,
+          color: rgb(0.95, 0.1, 0.1),
+        })
+      } else if (taxEntity == 'partnership') {
+        // Line 9a - selection
+        firstPage.drawText(selection, {
+          x: 61,
+          y: 495,
+          size: 12,
+          font: timesRomanFont,
+          color: rgb(0.95, 0.1, 0.1),
+        })
+      } else if (taxEntity == 'c-corp') {
+        // Line 9a - selection
+        firstPage.drawText(selection, {
+          x: 61,
+          y: 483,
+          size: 12,
+          font: timesRomanFont,
+          color: rgb(0.95, 0.1, 0.1),
+        })
+      } else if (taxEntity == 's-corp') {
+        // Line 9a - selection
+        firstPage.drawText(selection, {
+          x: 61,
+          y: 483,
+          size: 12,
+          font: timesRomanFont,
+          color: rgb(0.95, 0.1, 0.1),
+        })
+
+        // Line 9a - form #
+        firstPage.drawText('1120S', {
+          x: 250,
+          y: 483,
+          size: 12,
+          font: timesRomanFont,
+          color: rgb(0.95, 0.1, 0.1),
+        })
+      }
     } else if (entityType == 'UNA') {
       // Line 9a - selection
       firstPage.drawText(selection, {
         x: 61,
-        y: 445,
+        y: 435,
         size: 12,
         font: timesRomanFont,
         color: rgb(0.95, 0.1, 0.1),
       })
 
       // Line 9a - entity type
-      firstPage.drawText(entityType, {
-        x: 230,
-        y: 447,
+      firstPage.drawText('Disregarded Entity', {
+        x: 165,
+        y: 435,
         size: 12,
         font: timesRomanFont,
         color: rgb(0.95, 0.1, 0.1),
@@ -190,23 +251,43 @@ export async function createPdf({ entityType, entityName, userName, userSsn, for
       color: rgb(0.95, 0.1, 0.1),
     })
 
-    // Line 16 - activity
-    firstPage.drawText('Technology', {
-      x: 420,
-      y: 195,
-      size: 12,
-      font: timesRomanFont,
-      color: rgb(0.95, 0.1, 0.1),
-    })
+    if (entityType == 'LLC') {
+      // Line 16 - activity
+      firstPage.drawText('Technology', {
+        x: 420,
+        y: 195,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
 
-    // Line 17
-    firstPage.drawText('Software / e-commerce / Internet business', {
-      x: 85,
-      y: 171,
-      size: 12,
-      font: timesRomanFont,
-      color: rgb(0.95, 0.1, 0.1),
-    })
+      // Line 17
+      firstPage.drawText('Software / e-commerce / Internet business', {
+        x: 85,
+        y: 171,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
+    } else if (entityType == 'UNA') {
+      // Line 16 - activity
+      firstPage.drawText('Nonprofit', {
+        x: 420,
+        y: 195,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
+
+      // Line 17
+      firstPage.drawText('Software / e-commerce / Internet business', {
+        x: 85,
+        y: 171,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
+    }
 
     // Line 18
     firstPage.drawText(selection, {

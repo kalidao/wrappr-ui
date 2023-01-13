@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import type { NextPage } from 'next'
 import Layout from '../../../../src/layout'
 import { Box, Stack, Input, Button, Text, Tag } from '@kalidao/reality'
@@ -11,12 +11,20 @@ import { WRAPPR } from '../../../../src/constants'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { ethers } from 'ethers'
+import { Select } from '@design/Select'
 
 type Create = {
   name: string
   ssn: string
   date: string
+}
+
+type Org = {
+  name: string
+  attributes: any[]
+  description: string
+  image: string
+  external_url: string
 }
 
 const schema = z.object({
@@ -38,6 +46,8 @@ const EIN: NextPage = () => {
   })
 
   const [buttonText, setButtonText] = useState('Generate SS-4')
+  const [taxEntity, setTaxEntity] = useState('')
+  const [org, setOrg] = useState<Org>()
 
   const wrapprContract = {
     addressOrName: wrappr as string,
@@ -49,32 +59,22 @@ const EIN: NextPage = () => {
       {
         ...wrapprContract,
         functionName: 'uri',
-        args: [tokenId]
+        args: [tokenId],
       },
     ],
   })
-  // const { data: tokenUri } = useContractRead({
-  //   address: wrappr ? wrappr as string as `0xstring` : ethers.constants.AddressZero,
-  //   abi: WRAPPR,
-  //   chainId: Number(chainId),
-  //   functionName: 'uri',
-  //   args: [tokenId],
-  // })
 
   const onSubmit = async (data: Create) => {
     setButtonText('Generating...')
     const { name, ssn, date } = data
 
-    const org = await fetchTokenMetadata(tokenUri ? tokenUri.toString() : '')
-
-    console.log(org.attributes[1].value, org.name)
-
     const pdf = {
-      entityType: org.attributes[1].value,
-      entityName: org.name,
+      entityType: org ? org.attributes[1].value : '',
+      entityName: org ? org.name : '',
       userName: name,
       userSsn: ssn,
       formationDate: date,
+      taxEntity: taxEntity,
     }
 
     createPdf(pdf).then(() => {
@@ -86,6 +86,15 @@ const EIN: NextPage = () => {
     const res = await fetch(URI)
     return res.json()
   }
+
+  useEffect(() => {
+    const getData = async () => {
+      const org = await fetchTokenMetadata(tokenUri ? tokenUri.toString() : '')
+      setOrg(org)
+    }
+
+    getData()
+  }, [])
 
   return (
     <Layout
@@ -111,7 +120,7 @@ const EIN: NextPage = () => {
               <Text>To apply for an EIN:</Text>
               <Text>1. Fill out Form SS-4 by providing the following information.</Text>
               <Text>2. Click &apos;Generate SS-4&apos; and carefully review completed Form SS-4.</Text>
-              <Text>3. Sign and date at the bottom of Form SS-4.</Text>
+              <Text>3. Review, sign, and date at the bottom of Form SS-4.</Text>
               <Text>
                 4. For US entities, fax Form SS-4 to IRS at (855)641-6935. For Int&apos;l entities, fax Form SS-4 to
                 (304)707-9471.{' '}
@@ -130,13 +139,28 @@ const EIN: NextPage = () => {
         >
           <Stack>
             <Input
-              label="Name of responsible party"
+              label="Name of responsible person"
               labelSecondary={<Tag>Line 7a of Form SS-4</Tag>}
               id="name"
               {...register('name')}
               placeholder="Name"
               error={errors.name && errors.name.message}
             />
+            {org && org.attributes[1].value == 'LLC' && (
+              <Select
+                label="Taxed as"
+                description="Pick an entity type."
+                name="type"
+                onChange={(e) => setTaxEntity(e.target.value)}
+                options={[
+                  { value: 'select', label: 'Select' },
+                  { value: 'sole', label: 'Sole Proprietor (single member)' },
+                  { value: 'partnership', label: 'Partnership (multiple members)' },
+                  { value: 'c-corp', label: 'C-Corporation' },
+                  { value: 's-corp', label: 'S-Corporation' },
+                ]}
+              />
+            )}
             <Input
               label="SSN / ITIN "
               labelSecondary={<Tag>Line 7b of Form SS-4</Tag>}
@@ -153,6 +177,16 @@ const EIN: NextPage = () => {
               placeholder="Specify the date of formation"
               error={errors.date && errors.date.message}
             />
+            {org && org.attributes[1].value == 'UNA' && (
+              <Input
+                label="Activity"
+                labelSecondary={<Tag>Line 11 of Form SS-4</Tag>}
+                id="ssn"
+                {...register('date')}
+                placeholder="Describe services or products provided"
+                error={errors.date && errors.date.message}
+              />
+            )}
           </Stack>
         </Box>
         <Button onClick={handleSubmit(onSubmit)}>{buttonText}</Button>
