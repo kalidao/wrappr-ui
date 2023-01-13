@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Box, Button, Input, Stack, Textarea, IconChevronRight } from '@kalidao/reality'
 import { StoreT } from '../types'
-import { useAccount } from 'wagmi'
+import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 
 type Charter = {
@@ -25,12 +25,14 @@ type Props = {
 }
 
 export default function Charter({ store, setStore, setView }: Props) {
-  const { isConnected } = useAccount()
+  const { address, isConnected, isConnecting, isDisconnected } = useAccount()
+  const { chain } = useNetwork()
   const { openConnectModal } = useConnectModal()
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    control,
+    formState: { errors, isSubmitting },
   } = useForm<Charter>({
     resolver: zodResolver(schema),
   })
@@ -67,7 +69,7 @@ export default function Charter({ store, setStore, setView }: Props) {
           {...register('mission')}
           rows={4}
           placeholder="Promote open-source law"
-          description="What is the mission of this organisation?"
+          description="What is the mission of this organization?"
         />
         {!isConnected && openConnectModal ? (
           <Button

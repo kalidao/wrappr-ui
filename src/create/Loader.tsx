@@ -5,7 +5,7 @@ export default function Loader({ message }: { message: string }) {
   return (
     <Stack>
       {message != '' && <Text>{message}</Text>}
-      <Image alt="Loading" src={'/loading.png'} height={150} width={150} unoptimized />
+      <Image alt="Loading" src={'/loading.png'} height="150px" width="150px" unoptimized />
     </Stack>
   )
 }

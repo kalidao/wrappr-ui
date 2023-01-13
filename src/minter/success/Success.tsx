@@ -44,7 +44,7 @@ export default function Minted({ store }: MintedProps) {
           </Button>
           <Link
             href={`/${chain?.id}/${
-              deployments[chain ? chain.id : 1][(store.juris + store.entity) as keyof (typeof deployments)[1]]
+              deployments[chain ? chain.id : 1][(store.juris + store.entity) as keyof typeof deployments[1]]
             }/${store.tokenId}`}
             passHref
           >

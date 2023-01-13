@@ -51,7 +51,7 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
     },
     Charter: {
       description:
-        'Your DAO Charter is ready after minting by creating a membership agreement. Send it to your DAO or multisig for confirmation.',
+        'Your DAO Charter will be drafted after minting. This is a simple membership agreement signable with DAO vote or key-signature.',
       link: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%93%9C-dao-charter',
     },
   }
@@ -149,14 +149,14 @@ const charter = [
   {
     text: 'LexPunk',
     icon: <span className="text-xl">🦍</span>,
-    description: 'Set basic terms for your organization as standardized by LexPunk Army.',
+    description: 'Set basic terms for your organization as standardized by LexPunk Army',
     set: 'lex',
     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%A6%8D-lexpunk-dao-charter',
   },
   {
     text: 'Orange',
     icon: <span className="text-xl">🍊</span>,
-    description: 'Set basic terms for your organization as standardized by Orange DAO.',
+    description: 'Set basic terms for your organization as standardized by Orange DAO',
     set: 'or',
     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
   },

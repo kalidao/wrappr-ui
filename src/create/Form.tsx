@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Box, Stack, Input, Field, Button, Textarea, Text, MediaPicker, IconPlus } from '@kalidao/reality'
 import { AiOutlineDelete } from 'react-icons/ai'
 
@@ -55,7 +55,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<Create>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -69,13 +69,12 @@ export default function CreateForm({ store, setStore, setView }: Props) {
   const [agreement, setAgreement] = useState<File>()
   const [image, setImage] = useState<File>()
   const [submitting, setSubmitting] = useState(false)
-  const { isConnected } = useAccount()
+  const { isConnected, address } = useAccount()
   const { chain } = useNetwork()
-
   const { data: result, writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    address: chain ? (deployments[chain.id]['factory'] as `0xstring`) : ethers.constants.AddressZero,
-    abi: WRAPPR_FACTORY,
+    addressOrName: chain ? deployments[chain.id]['factory'] : ethers.constants.AddressZero,
+    contractInterface: WRAPPR_FACTORY,
     functionName: 'deployWrappr',
   })
   const [error, setError] = useState('')
@@ -151,27 +150,26 @@ export default function CreateForm({ store, setStore, setView }: Props) {
         uri: baseURI as string,
       })
 
-      const res = await writeAsync?.({
+      const res = await writeAsync({
         recklesslySetUnpreparedArgs: [name, symbol, baseURI, ethers.utils.parseEther(mintFee.toString()), admin],
       })
       setMessage('Waiting for confirmation...')
-      if (res)
-        await res.wait(1).then(async (res) => {
-          console.log('logs', res.logs)
-          await res.logs.forEach(async (log: any) => {
-            setMessage('Wrappr Summoned! 🍬')
-            if (log.topics[0] === '0x11a62d632ed0efbf5131a4b627885485564b1bb225f0689f8c58457122e4deb7') {
-              const address = '0x' + log.topics[1].slice(-40)
-              setStore({
-                ...store,
-                hash: res.transactionHash,
-                address: address,
-                chainId: chain?.id,
-              })
-              setView(1)
-            }
-          })
+      await res.wait(1).then(async (res) => {
+        console.log('logs', res.logs)
+        await res.logs.forEach(async (log: any) => {
+          setMessage('Wrappr Summoned! 🍬')
+          if (log.topics[0] === '0x11a62d632ed0efbf5131a4b627885485564b1bb225f0689f8c58457122e4deb7') {
+            const address = '0x' + log.topics[1].slice(-40)
+            setStore({
+              ...store,
+              hash: res.transactionHash,
+              address: address,
+              chainId: chain?.id,
+            })
+            setView(1)
+          }
         })
+      })
     } catch (e) {
       console.error('Failed to deploy Wrappr: ', e)
     }

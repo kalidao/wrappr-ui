@@ -23,12 +23,13 @@ type Props = {
 }
 
 export default function UNA({ store, setStore, setView }: Props) {
-  const { isConnected } = useAccount()
+  const { address, isConnected, isConnecting, isDisconnected } = useAccount()
+  const { chain } = useNetwork()
   const { openConnectModal } = useConnectModal()
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm<UNA>({
     resolver: zodResolver(schema),
   })
