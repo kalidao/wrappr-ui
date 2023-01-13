@@ -6,20 +6,13 @@ type Props = {
   userName: string
   userSsn: string
   formationDate: string
-  signature: string
 }
 
-export async function createPdf({ entityType, entityName, userName, userSsn, formationDate, signature }: Props) {
+export async function createPdf({ entityType, entityName, userName, userSsn, formationDate }: Props) {
   const url = 'https://content.wrappr.wtf/ipfs/QmUBLCBJqtzyvBSpK4USqLapSNhuK2R9EXEB3aGivSFBSd'
 
-  // const entityName = 'KaliCo' // grab from wrappr
-  // const userName = 'audsssy' // user
-  // const userSsn = '123456789' // user
   const memberCount = '1'
-  // const formationDate = '1/1/2022' // mint date
-  // const signature = 'audsssy' // user
   const selection = 'X'
-  // const entityType = 'LLC'
 
   try {
     const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer())
@@ -114,23 +107,43 @@ export async function createPdf({ entityType, entityName, userName, userSsn, for
       color: rgb(0.95, 0.1, 0.1),
     })
 
-    // Line 9a - selection
-    firstPage.drawText(selection, {
-      x: 61,
-      y: 507,
-      size: 12,
-      font: timesRomanFont,
-      color: rgb(0.95, 0.1, 0.1),
-    })
+    if (entityType == 'LLC') {
+      // Line 9a - selection
+      firstPage.drawText(selection, {
+        x: 61,
+        y: 507,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
 
-    // Line 9a - ssn
-    firstPage.drawText(userSsn, {
-      x: 165,
-      y: 507,
-      size: 12,
-      font: timesRomanFont,
-      color: rgb(0.95, 0.1, 0.1),
-    })
+      // Line 9a - ssn
+      firstPage.drawText(userSsn, {
+        x: 165,
+        y: 507,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
+    } else if (entityType == 'UNA') {
+      // Line 9a - selection
+      firstPage.drawText(selection, {
+        x: 61,
+        y: 445,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
+
+      // Line 9a - entity type
+      firstPage.drawText(entityType, {
+        x: 230,
+        y: 447,
+        size: 12,
+        font: timesRomanFont,
+        color: rgb(0.95, 0.1, 0.1),
+      })
+    }
 
     // Line 10 - selection
     firstPage.drawText(selection, {
@@ -249,21 +262,12 @@ export async function createPdf({ entityType, entityName, userName, userSsn, for
       color: rgb(0.95, 0.1, 0.1),
     })
 
-    // Sig
-    firstPage.drawText(`/e/ ${signature.toUpperCase()}`, {
-      x: 100,
-      y: 42,
-      size: 12,
-      font: timesRomanFont,
-      color: rgb(0.95, 0.1, 0.1),
-    })
-
     const pdfBytes = await pdfDoc.save()
 
     var blob = new Blob([pdfBytes], { type: 'application/pdf' })
     var link = document.createElement('a')
     link.href = window.URL.createObjectURL(blob)
-    link.download = 'myFileName.pdf'
+    link.download = `Form SS-4 - ${entityName} .pdf`
     link.click()
   } catch (e) {
     console.log(e)
