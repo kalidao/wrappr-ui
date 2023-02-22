@@ -4,3 +4,12 @@ export type Wrappr = {
   baseURI: string
   mintFee: string
 }
+
+export type WrapprLong = {
+  id: string
+  name: string
+  symbol: string
+  baseURI: string
+  mintFee: string
+  admin: string
+}
