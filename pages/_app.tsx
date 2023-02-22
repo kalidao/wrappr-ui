@@ -7,7 +7,7 @@ import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import '../styles/globals.css'
-import { avalanche, bsc, xdai, fantom } from '~/constants/chains'
+import { avalanche, bsc, xdai, fantom, q, qTestnet } from '~/constants/chains'
 import { GnosisConnector } from '~/wallets/'
 import { getRainbowTheme } from '~/utils/getRainbowTheme'
 import { useThemeStore } from '~/hooks/useThemeStore'
@@ -16,7 +16,7 @@ import '@kalidao/reality/styles'
 import '@design/app.css'
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.optimism, chain.polygon, chain.arbitrum, xdai, avalanche, bsc, chain.goerli, xdai],
+  [chain.mainnet, chain.optimism, chain.polygon, chain.arbitrum, xdai, avalanche, bsc, chain.goerli, xdai, q, qTestnet],
   [infuraProvider({ apiKey: process.env.INFURA_ID }), publicProvider()],
 )
 
