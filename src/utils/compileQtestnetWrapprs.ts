@@ -1,7 +1,4 @@
-import { ethers } from 'ethers'
-import { useSigner, useContractReads } from 'wagmi'
-import { useRouter } from 'next/router'
-import { deployments, WRAPPR } from '~/constants'
+import { deployments } from '~/constants'
 import { Wrappr, WrapprLong } from '~/types/wrappr.types'
 
 export function compileQtestnetWrapprs(chainId: number) {
