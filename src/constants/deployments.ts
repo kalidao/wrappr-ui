@@ -119,17 +119,17 @@ export const deployments: { [key: number]: Contracts } = {
     subgraph: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-avalanche',
   },
   // Q
-  // 35441: {
-  //   factory: '',
-  //   deLLC: '',
-  //   wyLLC: '',
-  //   miLLC: '',
-  //   deUNA: '',
-  //   wyUNA: '',
-  //   lexCharter: '',
-  //   orCharter: '',
-  //   subgraph: '',
-  // },
+  35441: {
+    factory: '',
+    deLLC: '',
+    wyLLC: '',
+    miLLC: '',
+    deUNA: '',
+    wyUNA: '',
+    lexCharter: '',
+    orCharter: '',
+    subgraph: '',
+  },
   // Goerli
   5: {
     testnet: true,
