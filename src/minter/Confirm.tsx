@@ -12,6 +12,7 @@ import { createAgreement } from './utils/createAgreement'
 import createTokenURI from './utils/createTokenURI'
 import { getAgreement } from './utils/getAgreement'
 import { calculateTokenId } from '~/utils/calculateTokenId'
+import { calculateTokenIdonQ } from '~/utils/calculateTokenIdonQ'
 
 type Props = {
   store: StoreT
@@ -41,6 +42,20 @@ export default function Confirm({ store, setStore, setView }: Props) {
     functionName: 'mint',
   })
 
+  const { writeAsync: writeAsyncQtest } = useContractWrite({
+    mode: 'recklesslyUnprepared',
+    addressOrName: deployments[35443][(store.juris + store.entity) as keyof typeof deployments[35443]] as string,
+    contractInterface: WRAPPR,
+    functionName: 'mint',
+  })
+
+  const { writeAsync: writeAsyncQ } = useContractWrite({
+    mode: 'recklesslyUnprepared',
+    addressOrName: deployments[35441][(store.juris + store.entity) as keyof typeof deployments[35441]] as string,
+    contractInterface: WRAPPR,
+    functionName: 'mint',
+  })
+
   const tx = async () => {
     setLoading(true)
     setMessage({
@@ -57,7 +72,15 @@ export default function Confirm({ store, setStore, setView }: Props) {
           icon: <MdSearch />,
         })
 
-        tokenId = await calculateTokenId(contractAddress as string, Number(chain.id))
+        if (chain.id == 35443) {
+          tokenId = await calculateTokenIdonQ(
+            deployments[35443][(store.juris + store.entity) as keyof typeof deployments[35443]] as string,
+          )
+        } else {
+          tokenId = await calculateTokenId(contractAddress as string, Number(chain.id))
+        }
+
+        console.log(tokenId, chain.id)
       } catch (e) {
         console.error(e)
         setMessage({
@@ -127,16 +150,28 @@ export default function Confirm({ store, setStore, setView }: Props) {
         })
 
         if (store.entity === 'LLC') {
-          res = await writeAsync({
-            recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
-            recklesslySetUnpreparedOverrides: {
-              value: ethers.utils.parseEther('0.015'),
-            },
-          })
+          if (chain.id == 35443) {
+            res = await writeAsyncQtest({
+              recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
+            })
+          } else {
+            res = await writeAsync({
+              recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
+              recklesslySetUnpreparedOverrides: {
+                value: ethers.utils.parseEther('0.015'),
+              },
+            })
+          }
         } else {
-          res = await writeAsync({
-            recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
-          })
+          if (chain.id == 35443) {
+            res = await writeAsyncQtest({
+              recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
+            })
+          } else {
+            res = await writeAsync({
+              recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
+            })
+          }
         }
 
         setMessage({

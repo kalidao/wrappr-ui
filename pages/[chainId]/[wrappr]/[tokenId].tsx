@@ -17,15 +17,6 @@ const Wrappr: NextPage = () => {
     addressOrName: wrappr ? wrappr.toString() : ethers.constants.AddressZero,
     contractInterface: WRAPPR,
   }
-  const { data: reads, isLoading: isReading } = useContractReads({
-    contracts: [
-      {
-        ...wrapprContract,
-        functionName: 'ownerOf',
-        args: [tokenId],
-      },
-    ],
-  })
   const collectionId = wrappr?.toString().toLowerCase() + '0x' + Number(tokenId)?.toString(16)
   const { isLoading, error, data } = useQuery(
     ['wrappr', chainId, collectionId],
@@ -42,9 +33,35 @@ const Wrappr: NextPage = () => {
   } = useQuery(['wrappr', data?.['wrappr']?.['baseURI']], () => fetchWrapprURI(URI), {
     enabled: data !== undefined,
   })
+  const { data: qOwner, isLoading: qIsReading } = useContractReads({
+    contracts: [
+      {
+        ...wrapprContract,
+        functionName: 'ownerOf',
+        args: [Number(tokenId)],
+      },
+    ],
+  })
+  const { data: tokenUri, isLoading: isReading } = useContractReads({
+    contracts: [
+      {
+        ...wrapprContract,
+        functionName: 'uri',
+        args: [Number(tokenId)],
+      },
+    ],
+  })
+  const _uri = tokenUri ? tokenUri[0] : ''
+  const {
+    isLoading: qIsLoadingURI,
+    // error: uriError,
+    data: qUri,
+  } = useQuery(['wrappr', _uri], () => fetchWrapprURI(_uri as string), {
+    enabled: _uri !== '',
+  })
 
   // TODO: Add chain not supported if subgraph is undefined for chainId
-  if (chainId && deployments[Number(chainId)]['subgraph'] === undefined) {
+  if (chainId && chainId != '35443' && deployments[Number(chainId)]['subgraph'] === undefined) {
     return (
       <Layout heading="Wrappr" content="Wrap now" back={() => router.push('/')}>
         <Box display={'flex'} alignItems="center" justifyContent={'center'}>
@@ -67,6 +84,8 @@ const Wrappr: NextPage = () => {
           <Stack>
             {data ? (
               <Avatar src={uri?.['image']} size="96" shape="square" label={`Image for ${uri?.['name']}`} />
+            ) : qUri ? (
+              <Avatar src={qUri?.['image']} size="96" shape="square" label={`Image for ${uri?.['name']}`} />
             ) : (
               'No image found'
             )}
@@ -87,12 +106,31 @@ const Wrappr: NextPage = () => {
           </Stack>
           <Box width="full">
             <Stack>
-              <Heading>{isLoading ? <Spinner /> : uri ? uri?.['name'] : 'No name found'}</Heading>
-              <Text as="p">{isLoading ? <Spinner /> : uri ? uri?.['description'] : 'No description found'}</Text>
+              <Heading>{qIsLoadingURI ? <Spinner /> : qUri ? qUri?.['name'] : 'No name found'}</Heading>
+              {/* <Heading>
+                {isLoading ? <Spinner /> : uri ? uri?.['name'] : qUri ? qUri?.['name'] : 'No name found'}
+              </Heading> */}
+              {/* {qUri ? (
+                <Heading>{qUri?.['name']}</Heading>
+              ) : (
+                <Heading>{isLoading ? <Spinner /> : uri ? uri?.['name'] : 'No name found'}</Heading>
+              )} */}
+              {/* <Text as="p">
+                {isLoading ? <Spinner /> : uri ? uri?.['description'] : qUri ? qUri?.['description'] : 'No name found'}
+              </Text> */}
+              {qUri ? (
+                <Text as="p">{qUri?.['description']}</Text>
+              ) : (
+                <Text as="p">{isLoading ? <Spinner /> : uri ? uri?.['description'] : 'No name found'}</Text>
+              )}
               <Heading>Traits</Heading>
               <Stack>
                 {uri
                   ? uri?.['attributes']?.map((trait: TraitType, index: number) => (
+                      <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
+                    ))
+                  : qUri
+                  ? qUri?.['attributes']?.map((trait: TraitType, index: number) => (
                       <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
                     ))
                   : null}
@@ -108,7 +146,7 @@ const Wrappr: NextPage = () => {
                   value={data?.['transferability'] === null ? 'No' : data?.transferability === true ? 'Yes' : 'No'}
                   isBig={false}
                 />
-                <Trait trait_type={'Owner'} value={data?.['owner']} isBig={false} />
+                <Trait trait_type={'Owner'} value={data?.['owner'] || qOwner} isBig={false} />
               </Stack>
             </Stack>
           </Box>

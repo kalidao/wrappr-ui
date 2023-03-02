@@ -78,3 +78,41 @@ export const fantom: Chain & Icon = {
   testnet: false,
   iconUrl: '/chains/fantom.png',
 }
+
+export const qTestnet: Chain & Icon = {
+  id: 35443,
+  name: 'Q Testnet',
+  network: 'qTestnet',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Q Testnet',
+    symbol: 'Q',
+  },
+  rpcUrls: {
+    default: 'https://rpc.qtestnet.org',
+  },
+  blockExplorers: {
+    default: { name: 'Q Testnet', url: 'https://explorer.qtestnet.org/' },
+  },
+  testnet: true,
+  iconUrl: '/chains/q.png',
+}
+
+export const q: Chain & Icon = {
+  id: 35441,
+  name: 'Q',
+  network: 'q',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Q',
+    symbol: 'Q',
+  },
+  rpcUrls: {
+    default: 'https://rpc.q.org',
+  },
+  blockExplorers: {
+    default: { name: 'Q', url: 'https://explorer.q.org/' },
+  },
+  testnet: false,
+  iconUrl: '/chains/q.png',
+}

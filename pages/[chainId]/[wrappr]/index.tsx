@@ -9,6 +9,8 @@ import { useRouter } from 'next/router'
 import { deployments, WRAPPR } from '~/constants'
 import MintWrapprNFT from '~/wrap/MintWrapprNFT'
 import { ethers } from 'ethers'
+import { compileQtestnetWrapprs } from '~/utils/compileQtestnetWrapprs'
+import MintWrapprNFTonQ from '~/wrap/MintWrapprNFTonQ'
 
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
@@ -18,6 +20,7 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
     contractInterface: WRAPPR,
     chainId: Number(chainId),
   }
+
   const { data: reads, isLoading: isReading } = useContractReads({
     contracts: [
       {
@@ -41,11 +44,19 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
             ) : (
               <Avatar src={data?.['image']} size="96" label={`Image for ${data?.['name']}`} shape="square" />
             )}
-            <MintWrapprNFT
-              chainId={Number(chainId)}
-              wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
-              mintFee={wrappr['mintFee']}
-            />
+            {Number(chainId) == 35543 ? (
+              <MintWrapprNFT
+                chainId={Number(chainId)}
+                wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
+                mintFee={wrappr['mintFee']}
+              />
+            ) : (
+              <MintWrapprNFTonQ
+                chainId={Number(chainId)}
+                wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
+                mintFee={wrappr['mintFee']}
+              />
+            )}
           </Stack>
           <Box width="full">
             <Stack>
@@ -73,10 +84,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const wrappr = context?.params?.wrappr as string
   const chainId = Number(context?.params?.chainId as string)
 
+  console.log(wrappr)
   if (!chainId)
     return {
       notFound: true,
     }
+
+  const { wrapprsLong } = compileQtestnetWrapprs(chainId)
+  if (chainId == 35443) {
+    for (let i = 0; i < wrapprsLong.length; i++) {
+      if (wrapprsLong[i].id == wrappr) {
+        return {
+          props: { wrappr: wrapprsLong[i] },
+        }
+      }
+    }
+  }
 
   const res = await fetch(deployments[chainId]['subgraph'] as string, {
     method: 'POST',
@@ -100,7 +123,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   })
 
   const data = await res.json()
-
   return {
     props: { wrappr: data['data']['wrapprs'][0] },
   }
