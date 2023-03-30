@@ -17,8 +17,15 @@ interface Form {
 }
 
 export default function Form({ store, setStore, setView }: Props) {
-  const choice: string = store?.juris + store?.entity
+  let choice: string
 
+  if (store?.entity == 'Terms') {
+    choice = store?.juris
+  } else {
+    choice = store?.juris + store?.entity
+  }
+
+  console.log(choice)
   const form: { [key: string]: Form } = {
     deLLC: {
       heading: 'Delaware LLC',
@@ -53,6 +60,25 @@ export default function Form({ store, setStore, setView }: Props) {
     },
     orCharter: {
       heading: 'Orange Charter',
+      description:
+        'A simple membership agreement for DAOs with emphasis on social structure and regular cadence. Based on Orange DAO.',
+      link: 'https://docs.wrappr.wtf/how-to/charter/#lexpunk-dao-charter',
+      component: <Charter store={store} setStore={setStore} setView={setView} />,
+    },
+    tosDao: {
+      heading: 'DAO Terms of Service',
+      description: 'A terms of service suitable for DAOs developing full-stack solution.',
+      link: 'https://docs.wrappr.wtf/how-to/charter/#lexpunk-dao-charter',
+      component: <TosDao store={store} setStore={setStore} setView={setView} />,
+    },
+    privacy: {
+      heading: 'Privacy Policy',
+      description: '.',
+      link: 'https://docs.wrappr.wtf/how-to/charter/#lexpunk-dao-charter',
+      component: <Charter store={store} setStore={setStore} setView={setView} />,
+    },
+    tosWeb: {
+      heading: 'Website Terms of Service',
       description:
         'A simple membership agreement for DAOs with emphasis on social structure and regular cadence. Based on Orange DAO.',
       link: 'https://docs.wrappr.wtf/how-to/charter/#lexpunk-dao-charter',
@@ -108,3 +134,4 @@ export default function Form({ store, setStore, setView }: Props) {
 import LLC from './LLC'
 import Charter from './Charter'
 import UNA from './UNA'
+import TosDao from './TosDao'

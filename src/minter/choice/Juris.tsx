@@ -54,6 +54,10 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
         'Your DAO Charter will be drafted after minting. This is a simple membership agreement signable with DAO vote or key-signature.',
       link: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%93%9C-dao-charter',
     },
+    Terms: {
+      description: 'Terms selected will be drafted after minting.',
+      link: 'https://docs.wrappr.wtf/how-to/',
+    },
   }
 
   return (
@@ -92,11 +96,25 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
             <IconArrowLeft />
           </Box>
           <Text size="headingOne" align="left" weight="semiBold" color="foreground">
-            Select Jurisdiction
+            {choice.entity.toLowerCase() !== 'terms' ? 'Select Jurisdiction' : 'Select Terms'}
           </Text>
         </Stack>
         <Box className={styles.actionCards}>
-          {choice.entity.toLowerCase() !== 'charter'
+          {choice.entity.toLowerCase() == 'terms'
+            ? terms.map(({ text, set }) => (
+                <Button
+                  // size="small"
+                  key={text}
+                  tone="foreground"
+                  suffix={<IconChevronRight />}
+                  width="3/4"
+                  justifyContent="space-between"
+                  onClick={() => setJuris(set)}
+                >
+                  {text}
+                </Button>
+              ))
+            : choice.entity.toLowerCase() !== 'charter'
             ? entity.map(({ text, set }) => (
                 <Button
                   key={text}
@@ -158,6 +176,30 @@ const charter = [
     icon: <span className="text-xl">🍊</span>,
     description: 'Set basic terms for your organization as standardized by Orange DAO',
     set: 'or',
+    learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
+  },
+]
+
+const terms = [
+  {
+    text: 'DAO Terms of Service',
+    icon: <span className="text-xl">🦍</span>,
+    description: 'Set basic terms for your organization as standardized by LexPunk Army',
+    set: 'tosDao',
+    learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%A6%8D-lexpunk-dao-charter',
+  },
+  {
+    text: 'Privacy Policy',
+    icon: <span className="text-xl">🍊</span>,
+    description: 'Set basic terms for your organization as standardized by Orange DAO',
+    set: 'privacy',
+    learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
+  },
+  {
+    text: 'Website Terms of Service',
+    icon: <span className="text-xl">🍊</span>,
+    description: 'Set basic terms for your organization as standardized by Orange DAO',
+    set: 'tosWeb',
     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
   },
 ]

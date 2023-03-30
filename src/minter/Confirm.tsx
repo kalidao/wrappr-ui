@@ -89,8 +89,15 @@ export default function Confirm({ store, setStore, setView }: Props) {
         })
         setLoading(false)
       }
+
       // creating agreement
       let agreement = getAgreement(store.juris + store.entity)
+      if (store.entity == 'Terms') {
+        agreement = getAgreement(store.juris)
+      } else {
+        agreement = getAgreement(store.juris + store.entity)
+      }
+
       try {
         setMessage({
           text: 'Creating agreement...',
@@ -241,7 +248,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
             >
               <Checkbox
                 variant="transparent"
-                label={<Text>I have read and accept the terms of this agreement.</Text>}
+                label={<Text>I have read and reviewed this agreement.</Text>}
                 onCheckedChange={() => setChecked(!checked)}
               ></Checkbox>
               {isConnected ? (
