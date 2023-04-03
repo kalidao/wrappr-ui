@@ -35,9 +35,18 @@ export default function Confirm({ store, setStore, setView }: Props) {
   const { isConnected, address } = useAccount()
   const { chain } = useNetwork()
   const contractAddress = deployments[1][(store.juris + store.entity) as keyof typeof deployments[1]] as string
+  const termsAddress = deployments[5][store.juris as keyof typeof deployments[1]] as string
+
   const { writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
     addressOrName: contractAddress,
+    contractInterface: WRAPPR,
+    functionName: 'mint',
+  })
+
+  const { writeAsync: writeAsync2 } = useContractWrite({
+    mode: 'recklesslyUnprepared',
+    addressOrName: termsAddress,
     contractInterface: WRAPPR,
     functionName: 'mint',
   })
@@ -91,7 +100,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
       }
 
       // creating agreement
-      let agreement = getAgreement(store.juris + store.entity)
+      let agreement
       if (store.entity == 'Terms') {
         agreement = getAgreement(store.juris)
       } else {
@@ -103,14 +112,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
           text: 'Creating agreement...',
           icon: <MdConstruction />,
         })
-        const res = await createAgreement(
-          store.juris + store.entity,
-          store.name,
-          tokenId.toString(),
-          store.mission,
-          store.jurisdiction,
-          chain.id.toString(),
-        )
+        const res = await createAgreement(tokenId.toString(), chain.id.toString(), store)
 
         if (typeof res === 'string') {
           agreement = res
@@ -169,6 +171,10 @@ export default function Confirm({ store, setStore, setView }: Props) {
               },
             })
           }
+        } else if (store.entity === 'Terms') {
+          res = await writeAsync2({
+            recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
+          })
         } else {
           if (chain.id == 35443) {
             res = await writeAsyncQtest({
@@ -237,7 +243,11 @@ export default function Confirm({ store, setStore, setView }: Props) {
                 <IconArrowLeft />
               </Button>
             </Stack>
-            <PDFViewer src={`/legal/${store.juris + store.entity}.pdf`} />
+            {store.entity == 'Terms' ? (
+              <PDFViewer src={`/legal/${store.juris}.pdf`} />
+            ) : (
+              <PDFViewer src={`/legal/${store.juris + store.entity}.pdf`} />
+            )}
             <Box
               display="flex"
               alignItems={'center'}
