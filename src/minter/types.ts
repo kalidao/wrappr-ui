@@ -14,4 +14,9 @@ export type StoreT = {
   agreement: string
   uri: string
   txHash: string
+  date: string
+  dao_address: string
+  entity_name: string
+  email: string
+  privacy_url: string
 }

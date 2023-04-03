@@ -1,4 +1,5 @@
 export function getAgreement(entity: string): string {
+  console.log(entity)
   switch (entity) {
     case 'deLLC':
       return 'https://de.llc.ricardian.eth.limo/'

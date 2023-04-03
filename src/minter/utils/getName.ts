@@ -1,4 +1,4 @@
-export default function getName(juris: string, type: string) {
+export default function getName(juris: string, entity: string) {
   let jurisdiction
 
   switch (juris) {
@@ -14,7 +14,11 @@ export default function getName(juris: string, type: string) {
     case 'lex':
       jurisdiction = 'LexPunk'
       break
+    case 'tosDao':
+      jurisdiction = 'DAO Terms of Service'
+      entity = ''
+      break
   }
 
-  return jurisdiction + ' ' + type
+  return jurisdiction + ' ' + entity
 }

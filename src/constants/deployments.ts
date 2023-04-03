@@ -8,6 +8,7 @@ interface Contracts {
   wyUNA: string
   lexCharter: string
   orCharter: string
+  tosDao?: string
   subgraph?: string
 }
 
@@ -141,6 +142,7 @@ export const deployments: { [key: number]: Contracts } = {
     wyUNA: '0x73Af00b92073D93b47e1077f796A3D6A12F63909',
     lexCharter: '0xa958f8D815a037E8eDe8194DAD70f9A3f3f94041',
     orCharter: '0x5228eBc680BA2Ac70A8dB9FBF01CEAaC9Dd9b2Ea',
+    tosDao: '0x5228eBc680BA2Ac70A8dB9FBF01CEAaC9Dd9b2Ea',
     subgraph: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-goerli',
   },
   // Q Testnet
