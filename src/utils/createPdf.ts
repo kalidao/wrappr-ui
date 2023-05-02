@@ -107,7 +107,6 @@ export async function createPdf({
         font: timesRomanFont,
         color: rgb(0.95, 0.1, 0.1),
       })
-
     } else if (entityType == 'UNA') {
       // Line 8a
       firstPage.drawText(selection, {
