@@ -64,7 +64,7 @@ const Lexy: NextPage = () => {
           setError(res?.error?.message);
           return;
         }
-        setContext((prev) => [...prev, input, res?.choices?.[0]?.text]);
+        setContext((prev) => [...prev, input, res?.choices?.[0]?.text.trim()]);
       }
     } catch (e) {
       console.error(e);
