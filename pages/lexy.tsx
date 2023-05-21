@@ -28,16 +28,17 @@ const Lexy: NextPage = () => {
     try {
       setLoading(true)
       if (!input || !isConnected) {
-        setLoading(false)
-        return
+        throw new Error('Please connect your wallet and type a question.')
       }
 
       setInput('')
-      setContext((prev) => (prev ? [...prev, { role: 'user', content: input }] : [{ role: 'user', content: input }]))
+      let ctx: ChatMessage[] = [...context, { role: 'user', content: input }]
+      setContext(ctx)
 
-      let res = await getChatCompletion([...context])
+      let res = await getChatCompletion(ctx)
 
-      setContext((prev) => [...prev, res])
+      ctx.push({ role: 'assistant', content: res.content })
+      setContext(ctx)
     } catch (err) {
       console.error(err)
       setError("Sorry, I couldn't generate a valid response. Please try again.")
@@ -61,7 +62,7 @@ const Lexy: NextPage = () => {
                 <Box key={i} className={styles.message}>
                   <Avatar
                     label="aiAvatar"
-                    src={(c.role = 'assistant' ? '/lexy.jpeg' : profile?.picture ?? defaultProfile)}
+                    src={c.role == 'assistant' ? '/lexy.jpeg' : profile?.picture ?? defaultProfile}
                   ></Avatar>
                   <Box className={styles.text}>{c.content}</Box>
                 </Box>
