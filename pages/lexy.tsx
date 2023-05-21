@@ -36,7 +36,7 @@ const Lexy: NextPage = () => {
     try {
       const currentContext = context.join('\n') + '\n' + prompt
       console.log('currentContext', currentContext)
-      const res = await fetch('https://api.openai.com/v1/completions', {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
