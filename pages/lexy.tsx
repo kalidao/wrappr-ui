@@ -58,7 +58,7 @@ const Lexy: NextPage = () => {
             },
             ...messages,
           ],
-          max_tokens: 100,
+          max_tokens: 1337,
           temperature: 0.6,
           top_p: 1,
           frequency_penalty: 0,
