@@ -33,7 +33,7 @@ const Lexy: NextPage = () => {
 
     // Convert context to messages format
     const messages = context.map((msg, idx) => {
-        return { role: idx % 2 === 0 ? 'system' : 'user', content: msg };
+      return { role: idx % 2 === 0 ? 'system' : 'user', content: msg };
     });
     messages.push({ role: 'user', content: input });
 
@@ -65,16 +65,16 @@ const Lexy: NextPage = () => {
           presence_penalty: 0,
         }),
       }).then((res) => res.json());
-  
-      const aiResponse = res?.choices?.[0]?.text.trim();
+
+      const aiResponse = res?.choices?.[0]?.text?.trim() || '';
       if (aiResponse !== '') {
         setContext((prev) => [...prev, input, aiResponse]);
         break;
       }
-  
+
       retries++;
     }
-  
+
     if (retries >= maxRetries) {
       setError("Sorry, I couldn't generate a valid response. Please try again.");
     }
