@@ -24,7 +24,10 @@ const Lexy: NextPage = () => {
 
   const ask = async () => {
     setLoading(true)
-    if (!input || !isConnected) return
+    if (!input || !isConnected) {
+      setLoading(false)
+      return;
+    }
 
     setInput('')
 
@@ -34,8 +37,12 @@ const Lexy: NextPage = () => {
     });
     messages.push({ role: 'user', content: input });
 
-    try {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    const maxRetries = 3;
+    let retries = 0;
+    let res;
+  
+    while (retries < maxRetries) {
+      res = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,25 +58,27 @@ const Lexy: NextPage = () => {
             },
             ...messages,
           ],
-          max_tokens: 1024,
-          temperature: 0.5,
+          max_tokens: 100,
+          temperature: 0.6,
           top_p: 1,
           frequency_penalty: 0,
           presence_penalty: 0,
-          stop: [' Human:', ' AI:'],
         }),
       }).then((res) => res.json());
-      if (res) {
-        if (res.error) {
-          setError(res?.error?.message);
-          return;
-        }
-        setContext((prev) => [...prev, input, (res?.choices?.[0]?.text || '').trim()]);
+  
+      const aiResponse = res?.choices?.[0]?.text.trim();
+      if (aiResponse !== '') {
+        setContext((prev) => [...prev, input, aiResponse]);
+        break;
       }
-    } catch (e) {
-      console.error(e);
-      setError('Oops! There was an error.');
+  
+      retries++;
     }
+  
+    if (retries >= maxRetries) {
+      setError("Sorry, I couldn't generate a valid response. Please try again.");
+    }
+
     setLoading(false);
   }
 
