@@ -1,19 +1,21 @@
 import type { NextPage } from 'next'
 import { useState } from 'react'
-import Layout from '~/layout'
 import { useRouter } from 'next/router'
-import { Heading, Input, Text, Button, Box, Avatar, Divider, Stack } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '~/utils/fetcher'
 import { useAccount } from 'wagmi'
-import { Disclaimer } from '~/lexy'
-import { motion } from 'framer-motion'
+import { Avatar, Box, Button, Divider, Heading, Input, Stack, Text } from '@kalidao/reality'
+import Layout from '~/layout'
 import * as styles from '@design/lexy.css'
+import { Disclaimer } from '~/lexy'
+import { ChatMessage, getChatCompletion } from '~/lexy/utils'
+
+const defaultProfile = 'https://pbs.twimg.com/profile_images/1651277319279984653/YSuLuNlg_400x400.jpg'
 
 const Lexy: NextPage = () => {
   const router = useRouter()
   const [input, setInput] = useState<string>('')
-  const [context, setContext] = useState<string[]>([])
+  const [context, setContext] = useState<ChatMessage[]>([])
   const [error, setError] = useState<string>()
   const [loading, setLoading] = useState<boolean>(false)
   const { address, isConnected } = useAccount()
@@ -23,63 +25,25 @@ const Lexy: NextPage = () => {
   const [checked, setChecked] = useState(false)
 
   const ask = async () => {
-    setLoading(true)
-    if (!input || !isConnected) {
-      setLoading(false)
-      return;
-    }
-
-    setInput('')
-
-    // Convert context to messages format
-    const messages = context.map((msg, idx) => {
-      return { role: idx % 2 === 0 ? 'system' : 'user', content: msg };
-    });
-    messages.push({ role: 'user', content: input });
-
-    const maxRetries = 3;
-    let retries = 0;
-    let res;
-  
-    while (retries < maxRetries) {
-      res = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
-          messages: [
-            {
-              role: 'system',
-              content:
-                'This is a conversation between Lexy, a legal AI chatbot and human. Lexy, please help the user with legal information about DAOs.',
-            },
-            ...messages,
-          ],
-          max_tokens: 1337,
-          temperature: 0.6,
-          top_p: 1,
-          frequency_penalty: 0,
-          presence_penalty: 0,
-        }),
-      }).then((res) => res.json());
-
-      const aiResponse = res?.choices?.[0]?.text?.trim() || '';
-      if (aiResponse !== '') {
-        setContext((prev) => [...prev, input, aiResponse]);
-        break;
+    try {
+      setLoading(true)
+      if (!input || !isConnected) {
+        setLoading(false)
+        return
       }
 
-      retries++;
-    }
+      setInput('')
+      setContext((prev) => (prev ? [...prev, { role: 'user', content: input }] : [{ role: 'user', content: input }]))
 
-    if (retries >= maxRetries) {
-      setError("Sorry, I couldn't generate a valid response. Please try again.");
-    }
+      let res = await getChatCompletion([...context])
 
-    setLoading(false);
+      setContext((prev) => [...prev, res])
+    } catch (err) {
+      console.error(err)
+      setError("Sorry, I couldn't generate a valid response. Please try again.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -95,12 +59,15 @@ const Lexy: NextPage = () => {
             <Box className={styles.chat}>
               {context.map((c, i) => (
                 <Box key={i} className={styles.message}>
-                  <Avatar label="Profile Picture" src={i % 2 !== 0 ? '/lexy.jpeg' : profile?.picture}></Avatar>
-                  <Box className={styles.text}>{c}</Box>
+                  <Avatar
+                    label="aiAvatar"
+                    src={(c.role = 'assistant' ? '/lexy.jpeg' : profile?.picture ?? defaultProfile)}
+                  ></Avatar>
+                  <Box className={styles.text}>{c.content}</Box>
                 </Box>
               ))}
               <Box className={styles.message}>
-              <Avatar label="Custom Image" src="https://pbs.twimg.com/profile_images/1651277319279984653/YSuLuNlg_400x400.jpg"></Avatar>
+                <Avatar label="" src={defaultProfile}></Avatar>
                 <Input
                   label="Type your question here"
                   hideLabel
