@@ -25,17 +25,16 @@ const Lexy: NextPage = () => {
   const ask = async () => {
     setLoading(true)
     if (!input || !isConnected) return
-    let prompt
-    try {
-      prompt = ' Human:' + input
-      setInput('')
-    } catch (e) {
-      console.error(e)
-    }
+
+    setInput('')
+
+    // Convert context to messages format
+    const messages = context.map((msg, idx) => {
+        return { role: idx % 2 === 0 ? 'system' : 'user', content: msg };
+    });
+    messages.push({ role: 'user', content: input });
 
     try {
-      const currentContext = context.join('\n') + '\n' + prompt
-      console.log('currentContext', currentContext)
       const res = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -43,11 +42,15 @@ const Lexy: NextPage = () => {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
         },
         body: JSON.stringify({
-          model: 'gpt-4',
-          prompt:
-            'This is a conversation between Lexy, a legal AI chatbot and human. \n Human: How do I form a legal structure for my DAO? \n AI: To form a legal structure for your DAO, you can choose to mint an NFT representing a legal entity or registration on wrappr.wtf \n Human: How do I form a DAO? \n AI: You can create an ERC20 token-based DAO on app.kali.gg within a minute for absolutely free right now. Kali includes voting, treasury and extensions to help grow your DAO.' +
-            currentContext +
-            ' AI:',
+          model: 'gpt-3.5-turbo',
+          messages: [
+            {
+              role: 'system',
+              content:
+                'This is a conversation between Lexy, a legal AI chatbot and human. Lexy, please help the user with legal information about DAOs.',
+            },
+            ...messages,
+          ],
           max_tokens: 1024,
           temperature: 0.5,
           top_p: 1,
@@ -55,20 +58,21 @@ const Lexy: NextPage = () => {
           presence_penalty: 0,
           stop: [' Human:', ' AI:'],
         }),
-      }).then((res) => res.json())
+      }).then((res) => res.json());
       if (res) {
         if (res.error) {
-          setError(res?.error?.message)
-          return
+          setError(res?.error?.message);
+          return;
         }
-        setContext((prev) => [...prev, input, res?.choices?.[0]?.text])
+        setContext((prev) => [...prev, input, res?.choices?.[0]?.text]);
       }
     } catch (e) {
-      console.error(e)
-      setError('Oops! There was an error.')
+      console.error(e);
+      setError('Oops! There was an error.');
     }
-    setLoading(false)
+    setLoading(false);
   }
+
   return (
     <Layout heading="Lexy" content="Interact with LexDAO's legal engineering assistant" back={() => router.push('/')}>
       <Box className={styles.container}>
