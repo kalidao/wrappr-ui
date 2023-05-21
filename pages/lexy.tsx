@@ -87,7 +87,7 @@ const Lexy: NextPage = () => {
                 </Box>
               ))}
               <Box className={styles.message}>
-                <Avatar label="Profile Picture User" src={profile?.picture}></Avatar>
+              <Avatar label="Custom Image" src="https://pbs.twimg.com/profile_images/1651277319279984653/YSuLuNlg_400x400.jpg"></Avatar>
                 <Input
                   label="Type your question here"
                   hideLabel
