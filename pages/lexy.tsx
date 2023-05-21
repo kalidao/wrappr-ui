@@ -43,7 +43,7 @@ const Lexy: NextPage = () => {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
         },
         body: JSON.stringify({
-          model: 'text-davinci-003',
+          model: 'gpt-4',
           prompt:
             'This is a conversation between Lexy, a legal AI chatbot and human. \n Human: How do I form a legal structure for my DAO? \n AI: To form a legal structure for your DAO, you can choose to mint an NFT representing a legal entity or registration on wrappr.wtf \n Human: How do I form a DAO? \n AI: You can create an ERC20 token-based DAO on app.kali.gg within a minute for absolutely free right now. Kali includes voting, treasury and extensions to help grow your DAO.' +
             currentContext +
