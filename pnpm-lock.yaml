@@ -41,8 +41,8 @@ dependencies:
     specifier: ^1.4.0
     version: 1.4.0
   ethers:
-    specifier: ^6.4.0
-    version: 6.4.0
+    specifier: ^5.7.2 <6.0.0
+    version: 5.7.2
   framer-motion:
     specifier: ^10.12.16
     version: 10.12.16(react-dom@18.2.0)(react@18.2.0)
@@ -968,7 +968,7 @@ packages:
     dependencies:
       '@safe-global/safe-apps-provider': 0.15.2
       '@safe-global/safe-apps-sdk': 7.11.0
-      '@wagmi/core': 0.8.19(ethers@6.4.0)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
+      '@wagmi/core': 0.8.19(ethers@5.7.2)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -1275,16 +1275,8 @@ packages:
       '@noble/hashes': 1.3.0
     dev: false
 
-  /@noble/hashes@1.1.2:
-    resolution: {integrity: sha512-KYRCASVTv6aeUi1tsF8/vpyR7zpfs3FUzy2Jqm+MU+LmUKhQ0y2FpfwqkCcxSg2ua4GALJd8k2R76WxwZGbQpA==}
-    dev: false
-
   /@noble/hashes@1.3.0:
     resolution: {integrity: sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg==}
-    dev: false
-
-  /@noble/secp256k1@1.7.1:
-    resolution: {integrity: sha512-hOUk6AyBFmqVrv7k5WAw/LpszxVbj9gGN4JRkIX52fdFAj1UA61KXmZDvqVEm+pOyec3+fIeZB02LYa/pWOArw==}
     dev: false
 
   /@nodelib/fs.scandir@2.1.5:
@@ -2048,10 +2040,6 @@ packages:
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
     dev: false
 
-  /@types/node@18.15.13:
-    resolution: {integrity: sha512-N+0kuo9KgrUQ1Sn/ifDXsvg0TTleP7rIy4zOBGECxAljqvqfqpTfzx0Q1NUedOixRMBfe2Whhb056a42cWs26Q==}
-    dev: false
-
   /@types/node@20.2.3:
     resolution: {integrity: sha512-pg9d0yC4rVNWQzX8U7xb4olIOFuuVL9za3bzMT2pu2SU0SNEi66i2qrvhE2qt0HvkhuCaWJu7pLNOt/Pj8BIrw==}
 
@@ -2319,7 +2307,7 @@ packages:
       typescript: 5.0.4
     dev: false
 
-  /@wagmi/connectors@0.1.10(@wagmi/core@0.8.19)(ethers@6.4.0)(react@18.2.0):
+  /@wagmi/connectors@0.1.10(@wagmi/core@0.8.19)(ethers@5.7.2)(react@18.2.0):
     resolution: {integrity: sha512-kEFzqNlB+EEl4gcvTMYZOSGlWXn53YGIiAsvXnqo3MEim4ZfTqcNZ71NV+DVmQu+N+F09wvq2FkbLO4lLVB78g==}
     peerDependencies:
       '@wagmi/core': 0.8.x
@@ -2330,11 +2318,11 @@ packages:
     dependencies:
       '@coinbase/wallet-sdk': 3.6.6
       '@ledgerhq/connect-kit-loader': 1.0.2
-      '@wagmi/core': 0.8.19(ethers@6.4.0)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
+      '@wagmi/core': 0.8.19(ethers@5.7.2)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4)
       '@walletconnect/ethereum-provider': 1.8.0
       '@walletconnect/universal-provider': 2.7.7
       '@web3modal/standalone': 2.4.1(react@18.2.0)
-      ethers: 6.4.0
+      ethers: 5.7.2
       eventemitter3: 4.0.7
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
@@ -2383,7 +2371,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@0.8.19(ethers@6.4.0)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4):
+  /@wagmi/core@0.8.19(ethers@5.7.2)(react@18.2.0)(typescript@5.0.4)(zod@3.21.4):
     resolution: {integrity: sha512-B1iXB4MRjxgoybZATRmBI7YEfUhpIl3aZGUjo5GXPU1SNtlXIA4/3wePlmLD64XzICXVBp99kynrrdlvJxc4gw==}
     peerDependencies:
       '@coinbase/wallet-sdk': '>=3.6.0'
@@ -2396,9 +2384,9 @@ packages:
         optional: true
     dependencies:
       '@wagmi/chains': 0.1.14
-      '@wagmi/connectors': 0.1.10(@wagmi/core@0.8.19)(ethers@6.4.0)(react@18.2.0)
+      '@wagmi/connectors': 0.1.10(@wagmi/core@0.8.19)(ethers@5.7.2)(react@18.2.0)
       abitype: 0.2.5(typescript@5.0.4)(zod@3.21.4)
-      ethers: 6.4.0
+      ethers: 5.7.2
       eventemitter3: 4.0.7
       zustand: 4.3.8(react@18.2.0)
     transitivePeerDependencies:
@@ -3019,7 +3007,7 @@ packages:
   /@walletconnect/window-metadata@1.0.0:
     resolution: {integrity: sha512-9eFvmJxIKCC3YWOL97SgRkKhlyGXkrHwamfechmqszbypFspaSk+t2jQXAEU7YClHF6Qjw5eYOmy1//zFi9/GA==}
     dependencies:
-      '@walletconnect/window-getters': 1.0.0
+      '@walletconnect/window-getters': 1.0.1
     dev: false
 
   /@walletconnect/window-metadata@1.0.1:
@@ -3229,10 +3217,6 @@ packages:
 
   /aes-js@3.1.2:
     resolution: {integrity: sha512-e5pEa2kBnBOgR4Y/p20pskXI74UEz7de8ZGVo58asOtvSVG5YAbJeELPZxOmt+Bnz3rX753YKhfIn4X4l1PPRQ==}
-    dev: false
-
-  /aes-js@4.0.0-beta.5:
-    resolution: {integrity: sha512-G965FqalsNyrPqgEGON7nIx1e/OVENSgiEIzyC63haUMuvNnwIgIjMs52hlTCKhkBny7A2ORNlfY9Zu+jmGk1Q==}
     dev: false
 
   /agent-base@6.0.2:
@@ -4519,22 +4503,6 @@ packages:
       '@ethersproject/wallet': 5.7.0
       '@ethersproject/web': 5.7.1
       '@ethersproject/wordlists': 5.7.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
-
-  /ethers@6.4.0:
-    resolution: {integrity: sha512-nksaMCwX+BOdV2NQ1/57OehSD2JtujbhrdC2+Fb9VpvBO0WO6h+WWwu3oMMw7aUiTa5lvQcWX1vl4aOy7Q3CTg==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@adraffy/ens-normalize': github.com/ricmoo/ens-normalize.js/2d040533e57e4f25f9a7cc4715e219658ad454b5
-      '@noble/hashes': 1.1.2
-      '@noble/secp256k1': 1.7.1
-      '@types/node': 18.15.13
-      aes-js: 4.0.0-beta.5
-      tslib: 2.4.0
-      ws: 8.5.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -7024,10 +6992,6 @@ packages:
   /tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
 
-  /tslib@2.4.0:
-    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
-    dev: false
-
   /tslib@2.5.2:
     resolution: {integrity: sha512-5svOrSA2w3iGFDs1HibEVBGbDrAY82bFQ3HZ3ixB+88nsbsWQoKqDRb5UBYAUPEzbBn6dAp5gRNXglySbx1MlA==}
 
@@ -7806,19 +7770,6 @@ packages:
       utf-8-validate: 5.0.10
     dev: false
 
-  /ws@8.5.0:
-    resolution: {integrity: sha512-BWX0SWVgLPzYwF8lTzEy1egjhS4S4OEAHfsO8o65WOVsrnSRGaSiUaa9e0ggGlkMTtBlmOpEXiie9RUcBO86qg==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    dev: false
-
   /xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
@@ -7903,10 +7854,4 @@ packages:
     dependencies:
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
-    dev: false
-
-  github.com/ricmoo/ens-normalize.js/2d040533e57e4f25f9a7cc4715e219658ad454b5:
-    resolution: {tarball: https://codeload.github.com/ricmoo/ens-normalize.js/tar.gz/2d040533e57e4f25f9a7cc4715e219658ad454b5}
-    name: '@adraffy/ens-normalize'
-    version: 1.9.0
     dev: false
