@@ -13,6 +13,7 @@ export default function MintWrapprNFT({ chainId, wrappr, mintFee }: { chainId: n
   const { data: tokenId } = useQuery(['tokenId', wrappr, chainId], () => calculateTokenId(wrappr, chainId), {
     staleTime: 1 * 60 * 1000, // a minute
   })
+
   const { config, error: isPrepareError } = usePrepareContractWrite({
     addressOrName: wrappr,
     contractInterface: WRAPPR,

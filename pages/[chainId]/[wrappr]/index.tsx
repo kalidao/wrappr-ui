@@ -45,13 +45,13 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
               <Avatar src={data?.['image']} size="96" label={`Image for ${data?.['name']}`} shape="square" />
             )}
             {Number(chainId) == 35543 ? (
-              <MintWrapprNFT
+              <MintWrapprNFTonQ
                 chainId={Number(chainId)}
                 wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
                 mintFee={wrappr['mintFee']}
               />
             ) : (
-              <MintWrapprNFTonQ
+              <MintWrapprNFT
                 chainId={Number(chainId)}
                 wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
                 mintFee={wrappr['mintFee']}
