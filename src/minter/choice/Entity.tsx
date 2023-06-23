@@ -84,15 +84,6 @@ export default function Entity({ choice, setChoice, setView }: Props) {
           >
             Non-Profit
           </Button>
-          <Button
-            tone="foreground"
-            suffix={<IconChevronRight />}
-            width="3/4"
-            justifyContent="space-between"
-            onClick={() => setEntity('Charter')}
-          >
-            Charter
-          </Button>
         </Box>
       </Box>
     </Box>

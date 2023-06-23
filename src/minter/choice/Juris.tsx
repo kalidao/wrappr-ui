@@ -96,31 +96,18 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
           </Text>
         </Stack>
         <Box className={styles.actionCards}>
-          {choice.entity.toLowerCase() !== 'charter'
-            ? entity.map(({ text, set }) => (
-                <Button
-                  key={text}
-                  tone="foreground"
-                  suffix={<IconChevronRight />}
-                  width="3/4"
-                  justifyContent="space-between"
-                  onClick={() => setJuris(set)}
-                >
-                  {text}
-                </Button>
-              ))
-            : charter.map(({ text, set }) => (
-                <Button
-                  key={text}
-                  tone="foreground"
-                  suffix={<IconChevronRight />}
-                  width="3/4"
-                  justifyContent="space-between"
-                  onClick={() => setJuris(set)}
-                >
-                  {text}
-                </Button>
-              ))}
+          {entity.map(({ text, set }) => (
+            <Button
+              key={text}
+              tone="foreground"
+              suffix={<IconChevronRight />}
+              width="3/4"
+              justifyContent="space-between"
+              onClick={() => setJuris(set)}
+            >
+              {text}
+            </Button>
+          ))}
         </Box>
       </Box>
     </Box>
@@ -145,19 +132,19 @@ const entity = [
   },
 ]
 
-const charter = [
-  {
-    text: 'LexPunk',
-    icon: <span className="text-xl">🦍</span>,
-    description: 'Set basic terms for your organization as standardized by LexPunk Army',
-    set: 'lex',
-    learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%A6%8D-lexpunk-dao-charter',
-  },
-  {
-    text: 'Orange',
-    icon: <span className="text-xl">🍊</span>,
-    description: 'Set basic terms for your organization as standardized by Orange DAO',
-    set: 'or',
-    learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
-  },
-]
+// const charter = [
+//   {
+//     text: 'LexPunk',
+//     icon: <span className="text-xl">🦍</span>,
+//     description: 'Set basic terms for your organization as standardized by LexPunk Army',
+//     set: 'lex',
+//     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%A6%8D-lexpunk-dao-charter',
+//   },
+//   {
+//     text: 'Orange',
+//     icon: <span className="text-xl">🍊</span>,
+//     description: 'Set basic terms for your organization as standardized by Orange DAO',
+//     set: 'or',
+//     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
+//   },
+// ]

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
-import { Button, Box, IconUserSolid, IconGrid, IconPencil, IconBookOpenSolid, Stack } from '@kalidao/reality'
+import { Button, Box, IconUserSolid, IconBookOpenSolid, Stack } from '@kalidao/reality'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount, useNetwork } from 'wagmi'
 import * as styles from './styles.css'
@@ -11,7 +11,6 @@ import ToggleMode from './ToggleMode'
 
 export default function Header() {
   const router = useRouter()
-  const { chain } = useNetwork()
   const { isConnected, address } = useAccount()
 
   return (
@@ -27,13 +26,10 @@ export default function Header() {
       </motion.div>
       <Box as="nav" display="flex" gap="2" alignItems={'center'}>
         {isConnected && <Item label="user" src={`/users/${address}`} icon={<IconUserSolid />} />}
-        <Item label="make" src="/create" icon={<IconPencil />} />
-        <Item label="find" src={`/${chain ? chain.id : 1}/explore`} icon={<IconGrid />} />
         <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<IconBookOpenSolid />} isExternal />
         <ToggleMode />
       </Box>
       <Stack direction={'horizontal'}>
-        {/* <ToggleMode /> */}
         <ConnectButton label="login" />
       </Stack>
     </Box>
@@ -47,7 +43,7 @@ type ItemProps = {
   isExternal?: boolean
 }
 
-const Item = ({ src, icon, label, isExternal }: ItemProps) => {
+const Item = ({ src, label, isExternal }: ItemProps) => {
   const router = useRouter()
   const isActive = router.asPath === src
 
@@ -55,7 +51,6 @@ const Item = ({ src, icon, label, isExternal }: ItemProps) => {
     return (
       <Button
         as="a"
-        // prefix={icon}
         href={src}
         size="medium"
         variant={isActive ? 'secondary' : 'transparent'}
