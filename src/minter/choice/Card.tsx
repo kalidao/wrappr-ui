@@ -1,6 +1,6 @@
-import { Box, IconArrowRight, Text } from '@kalidao/reality'
-import * as styles from '../styles.css'
+import { ArrowRightIcon } from '@radix-ui/react-icons'
 import Tilt from 'react-parallax-tilt'
+import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter } from '~/components/ui/card'
 
 type CardProps = {
   name: string
@@ -11,7 +11,7 @@ type CardProps = {
   onClick: React.MouseEventHandler
 } & HTMLButtonElement
 
-const Card = ({ name, onClick, disabled, type }: CardProps) => {
+const TiltCard = ({ name, onClick, disabled, type }: CardProps) => {
   return (
     <Tilt
       className="rounded-xl"
@@ -23,21 +23,14 @@ const Card = ({ name, onClick, disabled, type }: CardProps) => {
       glareMaxOpacity={0.01}
       glarePosition={'all'}
     >
-      <Box
-        className={styles.card}
-        backgroundColor="foreground"
-        as="button"
-        disabled={disabled}
-        type={type}
-        onClick={onClick}
-      >
-        <Text size={'extraLarge'} weight="bold" color="background">
-          {name}
-        </Text>
-        <IconArrowRight color={'background'} />
-      </Box>
+      <Card onClick={onClick}>
+        <CardHeader>
+          <CardTitle>{name}</CardTitle>
+        </CardHeader>
+        <ArrowRightIcon color={'background'} />
+      </Card>
     </Tilt>
   )
 }
 
-export default Card
+export default TiltCard

@@ -1,8 +1,8 @@
-import { Box, Text, Button, IconUserSolid } from '@kalidao/reality'
+import { FaUser } from 'react-icons/fa'
 import { isValidURL } from '../utils'
 import { HiExternalLink } from 'react-icons/hi'
-import { ethers } from 'ethers'
-import * as styles from './styles.css'
+import { formatEther, isAddress } from 'viem'
+import { Button, buttonVariants } from '~/components/ui/button'
 
 export type TraitType = {
   trait_type: string
@@ -20,11 +20,16 @@ export default function Trait({ trait_type, value, isBig }: TraitType) {
     )
   }
 
-  if (ethers.utils.isAddress(value as string) === true) {
+  if (isAddress(value as string) === true) {
     renderValue = (
-      <Button variant="transparent" size="small" as="a" href={`/users/${value}`}>
-        <IconUserSolid />
-      </Button>
+      <a
+        className={buttonVariants({
+          variant: 'link',
+        })}
+        href={`/users/${value}`}
+      >
+        <FaUser />
+      </a>
     )
   }
 
@@ -32,14 +37,14 @@ export default function Trait({ trait_type, value, isBig }: TraitType) {
     if (value == 0) {
       renderValue = <i>FREE</i>
     } else {
-      renderValue = <>{ethers.utils.formatEther(value)}</>
+      renderValue = <>{formatEther(BigInt(value))}</>
     }
   }
 
   return (
-    <Box className={styles.trait}>
-      <Text>{trait_type}</Text>
-      <Text>{renderValue}</Text>
-    </Box>
+    <div>
+      <p>{trait_type}</p>
+      <p>{renderValue}</p>
+    </div>
   )
 }

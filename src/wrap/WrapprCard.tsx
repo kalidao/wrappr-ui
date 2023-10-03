@@ -1,8 +1,7 @@
-import { Skeleton, Spinner } from '@kalidao/reality'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
-import { Box, Avatar, Text } from '@kalidao/reality'
-import * as styles from './styles.css'
+import { Spinner } from '~/components/ui/spinner'
+import { WrapprImage } from '~/components/wrappr-image'
 
 const fetchWrapprData = async (URI: string) => {
   const res = await fetch(URI)
@@ -21,22 +20,10 @@ export default function WrapprCard({ name, id, baseURI, chainId }: WrapprCardPro
 
   return (
     <Link href={`/${chainId}/${id}`} passHref>
-      <Box
-        className={styles.wrapprCard}
-        as="a"
-        display="flex"
-        flexDirection={'column'}
-        justifyContent="center"
-        alignItems="center"
-        gap="2"
-      >
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <Avatar src={data?.['image']} shape="square" size="52" label={`Image for ${data?.['name']}`} />
-        )}
-        <Text variant="label">{name}</Text>
-      </Box>
+      <div className="hover:scale-105 transition-all duration-200 ease-in-out flex flex-col items-center justify-center space-y-2">
+        {isLoading ? <Spinner /> : <WrapprImage src={data?.['image']} />}
+        <p className="text-sm text-secondary-foreground">{name}</p>
+      </div>
     </Link>
   )
 }

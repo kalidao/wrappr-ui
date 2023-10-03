@@ -1,22 +1,18 @@
 import { useCallback } from 'react'
-import { Button, IconSun, IconMoon, useTheme } from '@kalidao/reality'
-import { useThemeStore } from '~/hooks/useThemeStore'
-import { setThemeMode } from '~/utils/cookies'
+import { useTheme } from 'next-themes'
+import { Button } from '~/components/ui/button'
+import { SunIcon, MoonIcon } from '@radix-ui/react-icons'
 
 export default function ToggleMode() {
-  const { mode, setMode } = useTheme()
-  const toggleModeState = useThemeStore((state) => state.toggleMode)
+  const { setTheme, resolvedTheme } = useTheme()
 
   const toggleMode = useCallback(() => {
-    const nextMode = mode === 'dark' ? 'light' : 'dark'
-    setMode(nextMode)
-    setThemeMode(nextMode)
-    toggleModeState()
-  }, [mode, setMode, toggleModeState])
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+  }, [resolvedTheme, setTheme])
 
   return (
-    <Button shape="circle" variant="transparent" aria-label="Toggle dark mode" onClick={toggleMode} size="small">
-      {mode === 'light' ? <IconMoon /> : <IconSun />}
+    <Button aria-label="Toggle dark mode" onClick={toggleMode} size="icon" className="rounded-full">
+      {resolvedTheme === 'light' ? <MoonIcon /> : <SunIcon />}
     </Button>
   )
 }

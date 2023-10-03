@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { randomBytes } from 'crypto'
 import { deployments } from '~/constants'
 
 export const getTokenId = async (address: string, chainId: number) => {
@@ -32,6 +32,6 @@ export const getTokenId = async (address: string, chainId: number) => {
 
     return tokenId
   } else {
-    return ethers.BigNumber.from(ethers.utils.randomBytes(4)).toNumber()
+    return Number(randomBytes(4))
   }
 }

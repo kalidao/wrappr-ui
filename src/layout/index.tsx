@@ -1,11 +1,11 @@
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { Button, Box, IconArrowLeft, IconHand } from '@kalidao/reality'
 import Header from './Header'
 import Footer from './Footer'
-import * as styles from './styles.css'
 import { useRouter } from 'next/router'
+import { Button } from '~/components/ui/button'
+import { ArrowLeftIcon, HandIcon } from '@radix-ui/react-icons'
 
 type LayoutProps = {
   heading: string
@@ -20,7 +20,7 @@ export default function Layout({ heading, content, back, children }: LayoutProps
   const chatActive = router.pathname === '/lexy' ? true : false
 
   return (
-    <Box className={styles.layout}>
+    <div className="min-h-screen">
       <Head>
         <title>{title}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
@@ -31,22 +31,24 @@ export default function Layout({ heading, content, back, children }: LayoutProps
         <link rel="manifest" href="/site.webmanifest"></link>
       </Head>
       <Header />
-      <Box margin="3">
+      <div className="m-3">
         {back && (
-          <Button shape="circle" size="small" variant="transparent" onClick={back}>
-            <IconArrowLeft />
+          <Button size="sm" variant="outline" className="rounded-full" onClick={back}>
+            <ArrowLeftIcon />
           </Button>
         )}
-      </Box>
-      <Box className={styles.container}>{children}</Box>
+      </div>
+      <div className="min-h-[90vh] relative">{children}</div>
       {chatActive ? null : (
-        <Link href="/lexy" passHref>
-          <Box as="a" className={styles.chat}>
-            <IconHand />
-          </Box>
+        <Link
+          className="fixed bottom-6 right-6 p-3 bg-accent text-accent-foreground rounded-full z-10 hover:animate-bounce"
+          href="/lexy"
+          passHref
+        >
+          <HandIcon />
         </Link>
       )}
       <Footer />
-    </Box>
+    </div>
   )
 }

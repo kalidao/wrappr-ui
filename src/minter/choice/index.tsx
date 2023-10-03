@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Box } from '@kalidao/reality'
 
 import Entity from './Entity'
 import Juris from './Juris'
@@ -19,5 +18,5 @@ export default function Choice({ setScreen, setChoice, choice }: Props) {
     <Juris key={'juris'} choice={choice} setChoice={setChoice} setView={setView} setScreen={setScreen} />,
   ]
 
-  return <Box>{views[view]}</Box>
+  return <div>{views[view]}</div>
 }

@@ -1,4 +1,5 @@
-import { Text, Stack, Checkbox } from '@kalidao/reality'
+import { Checkbox } from '~/components/ui/checkbox'
+import { Label } from '~/components/ui/label'
 
 const Disclaimer = ({
   checked,
@@ -14,20 +15,20 @@ const Disclaimer = ({
     'You are loved ♡.',
   ]
   return (
-    <Stack align="flex-start">
-      <Text>The following disclaimer applies to any interaction with Lexy:</Text>
+    <div className="flex flex-col items-start">
+      <p>The following disclaimer applies to any interaction with Lexy:</p>
       {terms.map((term, i) => (
-        <Stack key={i} direction="horizontal" justify={'space-between'}>
-          <Text>{i + 1}.</Text>
-          <Text key={i}>{term}</Text>
-        </Stack>
+        <div key={i} className="flex flex-row justify-between">
+          <p>{i + 1}.</p>
+          <p key={i}>{term}</p>
+        </div>
       ))}
 
-      <Checkbox
-        label={<Text>I have read and understood the disclaimer.</Text>}
-        onCheckedChange={() => setChecked(!checked)}
-      />
-    </Stack>
+      <Label>
+        I have read and understood the disclaimer.
+        <Checkbox onCheckedChange={() => setChecked(!checked)} />
+      </Label>
+    </div>
   )
 }
 

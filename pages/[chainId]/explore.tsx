@@ -1,12 +1,12 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '~/layout'
-import { Box, Spinner, Stack, Text } from '@kalidao/reality'
 import { WrapprCard } from '~/wrap'
 import { Wrappr } from '~/types/wrappr.types'
 import { deployments } from '~/constants'
 import { useQuery } from '@tanstack/react-query'
 import { compileQtestnetWrapprs } from '~/utils/compileQtestnetWrapprs'
+import { Spinner } from '~/components/ui/spinner'
 
 const Explore: NextPage = () => {
   const router = useRouter()
@@ -38,8 +38,8 @@ const Explore: NextPage = () => {
     console.log(wrapprs)
     return (
       <Layout heading="Wrappr" content="ddWrap now" back={() => router.push('/')}>
-        <Box padding="6">
-          <Stack direction={'horizontal'} align="center" justify={'flex-start'} space="8" wrap>
+        <div className="p-6">
+          <div className="flex flex-row justify-start items-center flex-wrap space-x-8">
             {isLoading ? (
               <Spinner />
             ) : (
@@ -53,35 +53,24 @@ const Explore: NextPage = () => {
                 />
               ))
             )}
-          </Stack>
-        </Box>
+          </div>
+        </div>
       </Layout>
     )
   } else if (chainId && deployments[Number(chainId)]['subgraph'] === undefined) {
     return (
       <Layout heading="Wrappr" content="Wrap now" back={() => router.push('/')}>
-        <Box display={'flex'} alignItems="center" justifyContent={'center'}>
-          <Text>This chain is not yet supported. Please switch to a supported chain.</Text>
-        </Box>
+        <div className="flex items-center justify-center">
+          <p>This chain is not yet supported. Please switch to a supported chain.</p>
+        </div>
       </Layout>
     )
   }
 
-  // TODO: Add chain not supported if subgraph is undefined for chainId
-  // if (chainId && deployments[Number(chainId)]['subgraph'] === undefined) {
-  //   return (
-  //     <Layout heading="Wrappr" content="Wrap now" back={() => router.push('/')}>
-  //       <Box display={'flex'} alignItems="center" justifyContent={'center'}>
-  //         <Text>This chain is not yet supported. Please switch to a supported chain.</Text>
-  //       </Box>
-  //     </Layout>
-  //   )
-  // }
-
   return (
     <Layout heading="Explore" content="Explore wrapprs. Wrap anything." back={() => router.push('/explore')}>
-      <Box padding="6">
-        <Stack direction={'horizontal'} align="center" justify={'flex-start'} space="8" wrap>
+      <div className="p-6">
+        <div className="flex flex-row justify-start items-center flex-wrap space-x-8">
           {isLoading ? (
             <Spinner />
           ) : (
@@ -95,8 +84,8 @@ const Explore: NextPage = () => {
               />
             ))
           )}
-        </Stack>
-      </Box>
+        </div>
+      </div>
     </Layout>
   )
 }

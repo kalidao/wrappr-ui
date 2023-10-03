@@ -1,10 +1,13 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Stack, Box, Button, Input, Textarea, IconChevronRight } from '@kalidao/reality'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { Button } from '~/components/ui/button'
+import { Input } from '~/components/ui/input'
+import { Textarea } from '~/components/ui/textarea'
+import { ChevronRightIcon } from '@radix-ui/react-icons'
 
 type UNA = {
   name: string
@@ -47,50 +50,37 @@ export default function UNA({ store, setStore, setView }: Props) {
   }
 
   return (
-    <Box as="form" onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
-      <Stack>
-        <Input
-          type="text"
-          description={"What's the name of your non-profit?"}
-          {...register('name')}
-          id="name"
-          placeholder=" "
-          required
-          label="Name"
-        />
+    <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
+      <Input
+        type="text"
+        // description={"What's the name of your non-profit?"}
+        {...register('name')}
+        id="name"
+        placeholder=" "
+        required
+        // label="Name"
+      />
 
-        <Textarea
-          id="mission"
-          description="What is your mission?"
-          {...register('mission')}
-          rows={4}
-          label="Your Mission"
-          placeholder="Promote open-source law"
-        />
+      <Textarea
+        id="mission"
+        // description="What is your mission?"
+        {...register('mission')}
+        rows={4}
+        // label="Your Mission"
+        placeholder="Promote open-source law"
+      />
 
-        {!isConnected && openConnectModal ? (
-          <Button
-            tone="foreground"
-            suffix={<IconChevronRight />}
-            width="full"
-            justifyContent="space-between"
-            onClick={openConnectModal}
-          >
-            Login
-          </Button>
-        ) : (
-          <Button
-            tone="foreground"
-            suffix={<IconChevronRight />}
-            width="full"
-            justifyContent="space-between"
-            type="submit"
-            loading={isSubmitting}
-          >
-            Review Document
-          </Button>
-        )}
-      </Stack>
-    </Box>
+      {!isConnected && openConnectModal ? (
+        <Button className="flex items-center justify-between w-full" onClick={openConnectModal}>
+          <ChevronRightIcon />
+          Login
+        </Button>
+      ) : (
+        <Button className="flex items-center justify-between w-full" type="submit">
+          <ChevronRightIcon />
+          Review Document
+        </Button>
+      )}
+    </form>
   )
 }

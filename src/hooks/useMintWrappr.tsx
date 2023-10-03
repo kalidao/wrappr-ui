@@ -1,4 +1,4 @@
-import { usePrepareContractWrite, useContractWrite, Address } from 'wagmi'
+import { Address, useWalletClient, usePublicClient } from 'wagmi'
 import { Hex } from 'viem'
 import { WRAPPR } from '~/constants'
 
@@ -10,14 +10,35 @@ interface IMintWrappr {
   data: Hex
   tokenURI: string
   owner: Address
+  value: bigint
 }
 
-export const useMintWrappr = ({ address, to, id, amount, data, tokenURI, owner }: IMintWrappr) => {
-  const { config } = usePrepareContractWrite({
-    address,
-    abi: WRAPPR,
-    functionName: 'mint',
-    args: [to, id, amount, data, tokenURI, owner],
-  })
-  return useContractWrite(config)
+export const useMintWrappr = ({ chainId }: { chainId: number }) => {
+  const { data: walletClient } = useWalletClient({ chainId })
+  const publicClient = usePublicClient({ chainId })
+
+  const writeAsync = async ({ address, to, id, amount, data, tokenURI, owner, value }: IMintWrappr) => {
+    if (!walletClient) {
+      throw new Error('Wallet client not found')
+    }
+    if (!publicClient) {
+      throw new Error('Public client not found')
+    }
+
+    const hash = await walletClient.writeContract({
+      address,
+      abi: WRAPPR,
+      functionName: 'mint',
+      value,
+      args: [to, id, amount, data, tokenURI, owner],
+    })
+
+    const receipt = await publicClient.getTransactionReceipt({ hash })
+
+    return receipt
+  }
+
+  return {
+    writeAsync,
+  }
 }

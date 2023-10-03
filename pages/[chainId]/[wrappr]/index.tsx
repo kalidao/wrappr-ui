@@ -1,16 +1,15 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Layout from '~/layout'
-import { Box, Stack, Text, Spinner, Skeleton, Avatar, Heading } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { Trait, TraitType } from '~/wrap'
 import { useRouter } from 'next/router'
-import { deployments, WRAPPR } from '~/constants'
+import { deployments } from '~/constants'
 import MintWrapprNFT from '~/wrap/MintWrapprNFT'
 import { compileQtestnetWrapprs } from '~/utils/compileQtestnetWrapprs'
-import MintWrapprNFTonQ from '~/wrap/MintWrapprNFTonQ'
 import { zeroAddress } from 'viem'
 import { useWrapprName } from '~/hooks/useWrapprName'
 import { getAddress } from 'viem'
+import { Spinner } from '~/components/ui/spinner'
 
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
@@ -29,46 +28,38 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   // TODO: Add mint fee
   return (
     <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/explore`)}>
-      <Box padding="6">
-        <Stack direction={'horizontal'} align="flex-start" justify={'space-between'}>
-          <Stack>
+      <div className="p-6">
+        <div className="flex flex-row justify-between items-start">
+          <div className="flex flex-col">
             {isLoading ? (
               <Spinner />
             ) : (
-              <Avatar src={data?.['image']} size="96" label={`Image for ${data?.['name']}`} shape="square" />
+              <img src={data?.['image']} alt={`Image for ${data?.['name']}`} className="w-24 h-24 object-cover" />
             )}
-            {Number(chainId) == 35543 ? (
-              <MintWrapprNFTonQ
-                chainId={Number(chainId)}
-                wrappr={address ? address : zeroAddress}
-                mintFee={wrappr['mintFee']}
-              />
-            ) : (
-              <MintWrapprNFT
-                chainId={Number(chainId)}
-                wrappr={address ? address : zeroAddress}
-                mintFee={wrappr['mintFee']}
-              />
-            )}
-          </Stack>
-          <Box width="full">
-            <Stack>
-              <Heading>{name ? name : 'No name found'}</Heading>
-              {/* className="whitespace-pre-line break-normal text-gray-400" */}
-              <Text wordBreak="break-word">{data ? data['description'] : 'No description found'}</Text>
-              <Heading>Traits</Heading>
-              <Stack>
+
+            <MintWrapprNFT
+              chainId={Number(chainId)}
+              wrappr={address ? address : zeroAddress}
+              mintFee={wrappr['mintFee']}
+            />
+          </div>
+          <div className="w-full">
+            <div className="flex flex-col">
+              <h1>{name ? name : 'No name found'}</h1>
+              <p className="break-words">{data ? data['description'] : 'No description found'}</p>
+              <h1>Traits</h1>
+              <div className="flex flex-col">
                 {data &&
                   data?.['attributes']?.map((trait: TraitType, index: number) => (
                     <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
                   ))}
                 {wrappr ? <Trait trait_type={'Admin'} value={wrappr?.['admin']} isBig={false} /> : <Spinner />}
                 {wrappr ? <Trait trait_type={'Mint Fee'} value={wrappr?.['mintFee']} isBig={true} /> : <Spinner />}
-              </Stack>
-            </Stack>
-          </Box>
-        </Stack>
-      </Box>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </Layout>
   )
 }

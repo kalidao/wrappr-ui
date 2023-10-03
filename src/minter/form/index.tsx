@@ -1,7 +1,6 @@
 import React from 'react'
 import { StoreT } from '../types'
-import { Box, Stack, Text, IconBookOpen, IconArrowRight, IconArrowLeft } from '@kalidao/reality'
-import * as styles from '../styles.css'
+import { badgeVariants } from '~/components/ui/badge'
 
 type Props = {
   store: StoreT
@@ -61,50 +60,39 @@ export default function Form({ store, setStore, setView }: Props) {
   }
 
   return (
-    <Box
-      display={'flex'}
-      flexDirection={{
-        xs: 'column',
-        md: 'row',
-      }}
-    >
-      <Box className={styles.splashContainer}>
-        <Box
-          display="flex"
-          flexDirection={'column'}
-          width={{
-            xs: 'full',
-            md: '2/3',
-          }}
-          gap="5"
-        >
-          <Text size="headingOne" color="foreground" align="left">
-            {form[choice]['description']}
-          </Text>
-          <Box as="a" className={styles.pill} href={form[choice]['link']} target="_blank">
-            <Stack direction={'horizontal'} align="center">
-              <IconBookOpen />
-              <Text>Learn More</Text>
-            </Stack>
-            <IconArrowRight />
-          </Box>
-        </Box>
-      </Box>
-      <Box className={styles.action}>
-        <Stack>
-          <Box className={styles.back} as="button" onClick={() => setView(0)} aria-label="Go back!">
-            <IconArrowLeft />
-          </Box>
-          <Text size="headingOne" align="left" weight="semiBold" color="foreground">
-            {form[choice]['heading']}
-          </Text>
-        </Stack>
-        <Box className={styles.actionCards}>{form[choice]['component']}</Box>
-      </Box>
-    </Box>
+    <div className="flex flex-col md:flex-row w-full h-full">
+      <div className="flex flex-col justify-between h-full w-full md:w-2/3 space-y-5">
+        <div className="flex flex-col justify-between h-full w-full md:w-2/3 space-y-5">
+          <p className="text-left text-foreground text-4xl">{form[choice]['description']}</p>
+          <a
+            className={badgeVariants({ variant: 'default' })}
+            href={form[choice]['link']}
+            target="_blank"
+            rel="noopenner noreferrer"
+          >
+            <div className="flex items-center justify-center">
+              <FaBookOpen />
+              <p>Learn More</p>
+            </div>
+            <ArrowRightIcon />
+          </a>
+        </div>
+      </div>
+      <div>
+        <Button size="icon" onClick={() => setView(0)} aria-label="Go back!">
+          <ArrowLeftIcon />
+        </Button>
+        <p className="text-left font-semibold text-foreground">{form[choice]['heading']}</p>
+
+        <div>{form[choice]['component']}</div>
+      </div>
+    </div>
   )
 }
 
 import LLC from './LLC'
 import Charter from './Charter'
 import UNA from './UNA'
+import { Button } from '~/components/ui/button'
+import { FaBookOpen } from 'react-icons/fa'
+import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons'

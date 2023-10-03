@@ -1,8 +1,6 @@
-import { Skeleton, Box, Spinner, Avatar, Text } from '@kalidao/reality'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
-import * as styles from '~/wrap/styles.css'
+import { AspectRatio } from '~/components/ui/aspect-ratio'
 
 type Props = {
   tokenURI: string
@@ -16,22 +14,16 @@ const CollectionCard = ({ tokenURI, chainId, address, id }: Props) => {
 
   return (
     <Link href={`/${chainId}/${address}/${id}`} passHref>
-      <Box
-        className={styles.wrapprCard}
-        as="a"
-        display="flex"
-        flexDirection={'column'}
-        justifyContent="center"
-        alignItems="center"
-        gap="2"
-      >
-        {isLoading ? (
-          <Avatar shape="square" size="52" label={`Image`} placeholder />
-        ) : (
-          <Avatar src={data?.['image']} shape="square" size="52" label={`Image for ${data?.['name']}`} />
-        )}
-        <Text variant="label">{data ? data?.['name'] : 'Fetching...'}</Text>
-      </Box>
+      <div className="flex flex-col justify-center items-center gap-2">
+        <AspectRatio ratio={1 / 1}>
+          <img
+            src={data?.['image']}
+            alt={`Image for ${data?.['name']}`}
+            className="rounded-md h-20 w-20 object-cover"
+          />
+        </AspectRatio>
+        <p>{data ? data?.['name'] : 'Fetching...'}</p>
+      </div>
     </Link>
   )
 }

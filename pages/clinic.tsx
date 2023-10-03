@@ -2,11 +2,11 @@ import type { NextPage } from 'next'
 import Layout from '../src/layout'
 import { Widget } from '@typeform/embed-react'
 import { useRouter } from 'next/router'
-import { useThemeStore } from '~/hooks/useThemeStore'
+import { useTheme } from 'next-themes'
 
 const Clinic: NextPage = () => {
   const router = useRouter()
-  const mode = useThemeStore((state) => state.mode)
+  const { resolvedTheme } = useTheme()
 
   return (
     <Layout
@@ -19,7 +19,7 @@ const Clinic: NextPage = () => {
         style={{
           height: '75vh',
           width: '100%',
-          backgroundColor: mode === 'dark' ? 'black' : 'white',
+          backgroundColor: resolvedTheme === 'dark' ? 'black' : 'white',
         }}
       />
     </Layout>

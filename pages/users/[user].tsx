@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '~/layout'
-import { Stack, Heading, Button, Box, Text, Spinner, Divider, IconEth } from '@kalidao/reality'
 import { deployments } from '~/constants'
 import { useQuery } from '@tanstack/react-query'
 import { CollectionCard } from '~/collection'
 import { getChainDetails, getExplorerLink } from '~/utils/getChainDetails'
+import { Separator } from '~/components/ui/separator'
+import { Spinner } from '~/components/ui/spinner'
+import { buttonVariants } from '~/components/ui/button'
 
 const User: NextPage = () => {
   const router = useRouter()
@@ -26,34 +28,32 @@ const User: NextPage = () => {
 
   return (
     <Layout heading="User" content="Explore wrapprs created by users. Wrap anything." back={() => router.push('/')}>
-      <Box display="flex" flexDirection={'column'} alignItems="center" justifyContent="center" gap="2">
-        <Stack>
-          <Heading>{user ? user.slice(0, 5) + '...' + user.slice(-4) : null}</Heading>
+      <div className="flex flex-col items-center justify-center space-y-2">
+        <div>
+          <h1>{user ? user.slice(0, 5) + '...' + user.slice(-4) : null}</h1>
           {/* Add link on etherscan */}
-          <Stack direction="horizontal">
-            <Button
-              shape="circle"
-              variant="transparent"
-              as="a"
+          <div className="flex flex-row">
+            <a
+              className={buttonVariants({ variant: 'outline' })}
               href={`https://etherscan.io/address/${user}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <IconEth />
-            </Button>
-          </Stack>
-        </Stack>
-        <Divider />
-        <Stack>
+              View on Etherscan
+            </a>
+          </div>
+        </div>
+        <Separator />
+        <div>
           {isLoading ? (
             <Spinner />
           ) : data && data?.length === 0 ? (
-            <Text>We could not find any Wrapprs owned by this user.</Text>
+            <p>We could not find any Wrapprs owned by this user.</p>
           ) : (
             data?.map((chain: any, index) => <UserCollection key={index} chainId={chain.chainId} data={chain.data} />)
           )}
-        </Stack>
-      </Box>
+        </div>
+      </div>
     </Layout>
   )
 }
@@ -62,9 +62,9 @@ export const UserCollection = ({ chainId, data }: { chainId: number; data: any[]
   const chain = getChainDetails(chainId)
 
   return (
-    <Stack direction={'vertical'}>
-      <Heading>{chain?.name}</Heading>
-      <Stack direction={'horizontal'} wrap>
+    <div className="flex flex-col">
+      <h1>{chain?.name}</h1>
+      <div className="flex flex-row flex-wrap">
         {data?.map((wrappr: any) => {
           return (
             <CollectionCard
@@ -76,8 +76,8 @@ export const UserCollection = ({ chainId, data }: { chainId: number; data: any[]
             />
           )
         })}
-      </Stack>
-    </Stack>
+      </div>
+    </div>
   )
 }
 

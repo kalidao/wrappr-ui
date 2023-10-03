@@ -1,19 +1,19 @@
-import { Stack, Button, Text } from '@kalidao/reality'
 import { GiIsland } from 'react-icons/gi'
+import { Button } from '~/components/ui/button'
 
 const Soon = () => {
   return (
-    <Stack>
-      <Stack>
+    <div>
+      <div>
         <GiIsland />
-        <Text as="h2">Offshore</Text>
-      </Stack>
-      <Text as={'p'}>Explore new horizons</Text>
-      <Stack>
+        <h2>Offshore</h2>
+      </div>
+      <p>Explore new horizons</p>
+      <div>
         <Button disabled={true}>Learn More</Button>
         <Button>Coming soon</Button>
-      </Stack>
-    </Stack>
+      </div>
+    </div>
   )
 }
 

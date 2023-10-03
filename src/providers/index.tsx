@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react'
-import { RainbowKitProvider, DisclaimerComponent, Theme, getDefaultWallets } from '@rainbow-me/rainbowkit'
+import { useState } from 'react'
+import { RainbowKitProvider, DisclaimerComponent, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { getRainbowTheme } from '~/utils/getRainbowTheme'
-import { useThemeStore } from '~/hooks/useThemeStore'
-import { ThemeProvider } from '@kalidao/reality'
+import { ThemeProvider } from 'next-themes'
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
 
 import { SUPPORTED_CHAINS } from '~/constants/chains'
@@ -31,10 +29,10 @@ const wagmiClient = createConfig({
 })
 
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
-  <Text>
+  <p>
     By connecting your wallet, you agree to the <Link href="/tos">Terms of Service</Link> and acknowledge you have read
     and understand the included Disclaimers.
-  </Text>
+  </p>
 )
 
 export default function RootProvider({
@@ -45,15 +43,9 @@ export default function RootProvider({
   pageProps: AppProps['pageProps']
 }) {
   const [queryClient] = useState(() => new QueryClient())
-  const mode = useThemeStore((state) => state.mode)
-  const [theme, setTheme] = useState<Theme>()
-
-  useEffect(() => {
-    setTheme(getRainbowTheme(mode))
-  }, [mode])
 
   return (
-    <ThemeProvider defaultAccent="teal" defaultMode={mode}>
+    <ThemeProvider>
       <WagmiConfig config={wagmiClient}>
         <RainbowKitProvider
           appInfo={{
@@ -64,12 +56,11 @@ export default function RootProvider({
           chains={chains}
           coolMode={true}
           modalSize="compact"
-          theme={theme}
         >
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               {children}
-              <Toaster richColors theme={mode} />
+              <Toaster richColors />
             </Hydrate>
           </QueryClientProvider>
         </RainbowKitProvider>

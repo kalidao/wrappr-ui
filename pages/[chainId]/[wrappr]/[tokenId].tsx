@@ -1,14 +1,13 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import Layout from '~/layout'
-import { Box, Stack, Spinner, Text, Divider, Skeleton, Avatar, Heading } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { MintWrappr, Trait, TraitType } from '~/wrap'
 import { useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
 import { deployments, WRAPPR } from '~/constants'
 import { zeroAddress } from 'viem'
+import { Spinner } from '~/components/ui/spinner'
 
 const Wrappr: NextPage = () => {
   const router = useRouter()
@@ -64,9 +63,9 @@ const Wrappr: NextPage = () => {
   if (chainId && chainId != '35443' && deployments[Number(chainId)]['subgraph'] === undefined) {
     return (
       <Layout heading="Wrappr" content="Wrap now" back={() => router.push('/')}>
-        <Box display={'flex'} alignItems="center" justifyContent={'center'}>
-          <Text>This chain is not yet supported. Please switch to a supported chain.</Text>
-        </Box>
+        <div className="flex items-center justify-center">
+          <p>This chain is not yet supported. Please switch to a supported chain.</p>
+        </div>
       </Layout>
     )
   }
@@ -74,80 +73,62 @@ const Wrappr: NextPage = () => {
   // TODO: Add Back
   return (
     <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/${wrappr}`)}>
-      <Box padding="6">
-        <Stack
-          direction={{
-            xs: 'vertical',
-            md: 'horizontal',
-          }}
-        >
-          <Stack>
-            {data ? (
-              <Avatar src={uri?.['image']} size="96" shape="square" label={`Image for ${uri?.['name']}`} />
-            ) : qUri ? (
-              <Avatar src={qUri?.['image']} size="96" shape="square" label={`Image for ${uri?.['name']}`} />
-            ) : (
-              'No image found'
-            )}
+      <div className="p-6 flex flex-col md:flex-row">
+        <div>
+          {/* {data ? (
+            <Avatar src={uri?.['image']} size="96" shape="square" label={`Image for ${uri?.['name']}`} />
+          ) : qUri ? (
+            <Avatar src={qUri?.['image']} size="96" shape="square" label={`Image for ${uri?.['name']}`} />
+          ) : (
+            'No image found'
+          )} */}
 
-            <MintWrappr chainId={4} wrappr={wrappr ? wrappr.toString() : zeroAddress} tokenId={Number(tokenId)} />
-            <Link href="/clinic" passHref>
-              <a>Need help with your entity?</a>
+          <MintWrappr chainId={4} wrappr={wrappr ? wrappr.toString() : zeroAddress} tokenId={Number(tokenId)} />
+          <Link href="/clinic" passHref>
+            <a>Need help with your entity?</a>
+          </Link>
+          {(uri?.attributes[1].value == 'LLC' || uri?.attributes[1].value == 'UNA') && (
+            <Link href={`/${chainId}/${wrappr}/${tokenId}/ein`} passHref>
+              <a>Apply for EIN</a>
             </Link>
-            {(uri?.attributes[1].value == 'LLC' || uri?.attributes[1].value == 'UNA') && (
-              <Link href={`/${chainId}/${wrappr}/${tokenId}/ein`} passHref>
-                <a>Apply for EIN</a>
-              </Link>
+          )}
+        </div>
+        <div className="w-full">
+          <div>
+            <p>{qIsLoadingURI ? <Spinner /> : qUri ? qUri?.['name'] : 'No name found'}</p>
+            {qUri ? (
+              <p>{qUri?.['description']}</p>
+            ) : (
+              <p>{isLoading ? <Spinner /> : uri ? uri?.['description'] : 'No name found'}</p>
             )}
-          </Stack>
-          <Box width="full">
-            <Stack>
-              <Heading>{qIsLoadingURI ? <Spinner /> : qUri ? qUri?.['name'] : 'No name found'}</Heading>
-              {/* <Heading>
-                {isLoading ? <Spinner /> : uri ? uri?.['name'] : qUri ? qUri?.['name'] : 'No name found'}
-              </Heading> */}
-              {/* {qUri ? (
-                <Heading>{qUri?.['name']}</Heading>
-              ) : (
-                <Heading>{isLoading ? <Spinner /> : uri ? uri?.['name'] : 'No name found'}</Heading>
-              )} */}
-              {/* <Text as="p">
-                {isLoading ? <Spinner /> : uri ? uri?.['description'] : qUri ? qUri?.['description'] : 'No name found'}
-              </Text> */}
-              {qUri ? (
-                <Text as="p">{qUri?.['description']}</Text>
-              ) : (
-                <Text as="p">{isLoading ? <Spinner /> : uri ? uri?.['description'] : 'No name found'}</Text>
-              )}
-              <Heading>Traits</Heading>
-              <Stack>
-                {uri
-                  ? uri?.['attributes']?.map((trait: TraitType, index: number) => (
-                      <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
-                    ))
-                  : qUri
-                  ? qUri?.['attributes']?.map((trait: TraitType, index: number) => (
-                      <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
-                    ))
-                  : null}
-              </Stack>
-              <Stack>
-                <Trait
-                  trait_type={'Permissioned'}
-                  value={data?.['permissioned'] === null ? 'No' : data?.permissioned === true ? 'Yes' : 'No'}
-                  isBig={false}
-                />
-                <Trait
-                  trait_type={'Transferable'}
-                  value={data?.['transferability'] === null ? 'No' : data?.transferability === true ? 'Yes' : 'No'}
-                  isBig={false}
-                />
-                <Trait trait_type={'Owner'} value={data?.['owner'] || qOwner} isBig={false} />
-              </Stack>
-            </Stack>
-          </Box>
-        </Stack>
-      </Box>
+            <h2>Traits</h2>
+            <div>
+              {uri
+                ? uri?.['attributes']?.map((trait: TraitType, index: number) => (
+                    <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
+                  ))
+                : qUri
+                ? qUri?.['attributes']?.map((trait: TraitType, index: number) => (
+                    <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
+                  ))
+                : null}
+            </div>
+            <div>
+              <Trait
+                trait_type={'Permissioned'}
+                value={data?.['permissioned'] === null ? 'No' : data?.permissioned === true ? 'Yes' : 'No'}
+                isBig={false}
+              />
+              <Trait
+                trait_type={'Transferable'}
+                value={data?.['transferability'] === null ? 'No' : data?.transferability === true ? 'Yes' : 'No'}
+                isBig={false}
+              />
+              <Trait trait_type={'Owner'} value={data?.['owner'] || qOwner} isBig={false} />
+            </div>
+          </div>
+        </div>
+      </div>
     </Layout>
   )
 }

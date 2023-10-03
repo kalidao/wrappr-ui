@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
-const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin')
-const withVanillaExtract = createVanillaExtractPlugin({
-  identifiers: 'short',
-})
+const { withSentryConfig } = require("@sentry/nextjs");
 
 const nextConfig = {
   reactStrictMode: true,
@@ -10,45 +7,38 @@ const nextConfig = {
   images: {
     domains: ['gateway.pinata.cloud', 'content.wrappr.wtf'],
   },
+};
+
+const sentryWebpackPluginOptions = {
+  // Additional config options for the Sentry webpack plugin. Keep in mind that
+  // the following options are set automatically, and overriding them is not
+  // recommended:
+  //   release, url, configFile, stripPrefix, urlPrefix, include, ignore
+
+  org: "kalico",
+  project: "wrappr-ui",
 }
 
-module.exports = withVanillaExtract(nextConfig)
+// const sentryOptions = {
+//   // For all available options, see:
+//   // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
+//   // Upload a larger set of source maps for prettier stack traces (increases build time)
+//   widenClientFileUpload: true,
 
+//   // Transpiles SDK to be compatible with IE11 (increases bundle size)
+//   transpileClientSDK: true,
 
-// Inected Content via Sentry Wizard Below
+//   // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
+//   tunnelRoute: "/monitoring",
 
-const { withSentryConfig } = require("@sentry/nextjs");
+//   // Hides source maps from generated client bundles
+//   hideSourceMaps: true,
 
-module.exports = withSentryConfig(
-  module.exports,
-  {
-    // For all available options, see:
-    // https://github.com/getsentry/sentry-webpack-plugin#options
+//   // Automatically tree-shake Sentry logger statements to reduce bundle size
+//   disableLogger: true,
+// }
 
-    // Suppresses source map uploading logs during build
-    silent: true,
+// Make sure adding Sentry options is the last code to run before exporting
+module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);
 
-    org: "kalico",
-    project: "wrappr-ui",
-  },
-  {
-    // For all available options, see:
-    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-    // Upload a larger set of source maps for prettier stack traces (increases build time)
-    widenClientFileUpload: true,
-
-    // Transpiles SDK to be compatible with IE11 (increases bundle size)
-    transpileClientSDK: true,
-
-    // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
-    tunnelRoute: "/monitoring",
-
-    // Hides source maps from generated client bundles
-    hideSourceMaps: true,
-
-    // Automatically tree-shake Sentry logger statements to reduce bundle size
-    disableLogger: true,
-  }
-);

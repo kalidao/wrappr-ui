@@ -1,12 +1,13 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Box, Button, Text, Input, IconChevronRight } from '@kalidao/reality'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useEffect, useState } from 'react'
-import * as styles from '../styles.css'
+import { Input } from '~/components/ui/input'
+import { ChevronRightIcon } from '@radix-ui/react-icons'
+import { Button } from '~/components/ui/button'
 
 type LLC = {
   name: string
@@ -74,42 +75,31 @@ export default function LLC({ store, setStore, setView }: Props) {
   }
 
   return (
-    <Box as="form" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Input
         type="text"
         width="full"
-        description={"What's the name of your LLC?"}
+        // description={"What's the name of your LLC?"}
         {...register('name')}
         id="name"
         placeholder=" "
         required
-        label="Name"
-        suffix={'LLC'}
-        error={errors.name && errors.name.message}
+        // label="Name"
+        // suffix={'LLC'}
+        // error={errors.name && errors.name.message}
       />
-      <Text>{message}</Text>
+      <p>{message}</p>
       {!isConnected && openConnectModal ? (
-        <Button
-          tone="foreground"
-          suffix={<IconChevronRight />}
-          width="full"
-          justifyContent="space-between"
-          onClick={openConnectModal}
-        >
+        <Button className="flex items-center justify-between w-full" onClick={openConnectModal}>
+          <ChevronRightIcon />
           Login
         </Button>
       ) : (
-        <Button
-          tone="foreground"
-          suffix={<IconChevronRight />}
-          width="full"
-          justifyContent="space-between"
-          type="submit"
-          loading={isSubmitting}
-        >
+        <Button className="flex items-center justify-between w-full" type="submit">
+          <ChevronRightIcon />
           Review Document
         </Button>
       )}
-    </Box>
+    </form>
   )
 }

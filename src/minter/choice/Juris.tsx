@@ -1,15 +1,7 @@
+import { ArrowRightIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import { StoreT } from '../types'
-import {
-  Stack,
-  Button,
-  Box,
-  Text,
-  IconBookOpen,
-  IconArrowRight,
-  IconChevronRight,
-  IconArrowLeft,
-} from '@kalidao/reality'
-import * as styles from '../styles.css'
+import { Button } from '~/components/ui/button'
+import { FaBookOpen } from 'react-icons/fa'
 
 type Props = {
   choice: StoreT
@@ -57,60 +49,36 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
   }
 
   return (
-    <Box
-      display={'flex'}
-      flexDirection={{
-        xs: 'column',
-        md: 'row',
-      }}
-    >
-      <Box className={styles.splashContainer}>
-        <Box
-          display="flex"
-          flexDirection={'column'}
-          width={{
-            xs: 'full',
-            md: '2/3',
-          }}
-          gap="5"
-        >
-          <Text size="headingOne" color="foreground" align="left">
-            {info[choice.entity].description}
-          </Text>
-          <Box as="a" className={styles.pill} href={info[choice.entity].link} target="_blank">
-            <Stack direction={'horizontal'} align="center">
-              <IconBookOpen />
-              <Text>Learn More</Text>
-            </Stack>
-            <IconArrowRight />
-          </Box>
-        </Box>
-      </Box>
-      <Box className={styles.action}>
-        <Stack>
-          <Box className={styles.back} as="button" onClick={back} aria-label="Go back!">
-            <IconArrowLeft />
-          </Box>
-          <Text size="headingOne" align="left" weight="semiBold" color="foreground">
-            Select Jurisdiction
-          </Text>
-        </Stack>
-        <Box className={styles.actionCards}>
+    <div className="flex flex-col md:flex-row">
+      <div>
+        <div className="flex flex-col w-full md:w-2/3 space-y-5">
+          <p className="text-foreground text-xl align-left">{info[choice.entity].description}</p>
+          <a href={info[choice.entity].link} target="_blank" rel="noopenner noreferrer">
+            <div className="flex flex-row items-center">
+              <FaBookOpen />
+              <p>Learn More</p>
+            </div>
+            <ArrowRightIcon />
+          </a>
+        </div>
+      </div>
+      <div>
+        <div>
+          <Button onClick={back} aria-label="Go back!">
+            <ArrowRightIcon />
+          </Button>
+          <p className="text-left font-semibold text-foreground">Select Jurisdiction</p>
+        </div>
+        <div>
           {entity.map(({ text, set }) => (
-            <Button
-              key={text}
-              tone="foreground"
-              suffix={<IconChevronRight />}
-              width="3/4"
-              justifyContent="space-between"
-              onClick={() => setJuris(set)}
-            >
+            <Button key={text} className="flex items-center justify-between w-full" onClick={() => setJuris(set)}>
+              <ChevronRightIcon />
               {text}
             </Button>
           ))}
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -131,20 +99,3 @@ const entity = [
     learn: 'https://docs.wrappr.wtf/get-started/where/#%F0%9F%A6%AC-wyoming',
   },
 ]
-
-// const charter = [
-//   {
-//     text: 'LexPunk',
-//     icon: <span className="text-xl">🦍</span>,
-//     description: 'Set basic terms for your organization as standardized by LexPunk Army',
-//     set: 'lex',
-//     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%A6%8D-lexpunk-dao-charter',
-//   },
-//   {
-//     text: 'Orange',
-//     icon: <span className="text-xl">🍊</span>,
-//     description: 'Set basic terms for your organization as standardized by Orange DAO',
-//     set: 'or',
-//     learn: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%8D%8A-orange-charter',
-//   },
-// ]

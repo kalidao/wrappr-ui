@@ -1,15 +1,8 @@
+import { ArrowLeftIcon, ArrowRightIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import { StoreT } from '../types'
-import {
-  Box,
-  Text,
-  Button,
-  Stack,
-  IconChevronRight,
-  IconBookOpen,
-  IconArrowRight,
-  IconArrowLeft,
-} from '@kalidao/reality'
-import * as styles from '../styles.css'
+import { badgeVariants } from '~/components/ui/badge'
+import { Button } from '~/components/ui/button'
+import { FaBookOpen } from 'react-icons/fa'
 
 type Props = {
   choice: StoreT
@@ -27,65 +20,40 @@ export default function Entity({ choice, setChoice, setView }: Props) {
   }
 
   return (
-    <Box
-      display={'flex'}
-      flexDirection={{
-        xs: 'column',
-        md: 'row',
-      }}
-    >
-      <Box className={styles.splashContainer}>
-        <Box
-          display="flex"
-          flexDirection={'column'}
-          width={{
-            xs: 'full',
-            md: '2/3',
-          }}
-          gap="5"
+    <div className="flex-col md:flex-row">
+      <div>
+        <p className="text-foreground text-xl align-left">Legal wrappers for your digital assets</p>
+        <a
+          className={badgeVariants({ variant: 'default' })}
+          href="https://docs.wrappr.wtf/get-started/what/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <Text size="headingOne" color="foreground" align="left">
-            Legal wrappers for your digital assets
-          </Text>
-          <Box as="a" className={styles.pill} href="https://docs.wrappr.wtf/get-started/what/" target="_blank">
-            <Stack direction={'horizontal'} align="center">
-              <IconBookOpen />
-              <Text>How it works</Text>
-            </Stack>
-            <IconArrowRight />
-          </Box>
-        </Box>
-      </Box>
-      <Box className={styles.action}>
-        <Stack>
-          <Box className={styles.back} as="button" disabled={true}>
-            <IconArrowLeft />
-          </Box>
-          <Text size="headingOne" align="left" weight="semiBold" color="foreground">
-            Mint
-          </Text>
-        </Stack>
-        <Box className={styles.actionCards}>
-          <Button
-            tone="foreground"
-            suffix={<IconChevronRight />}
-            width="3/4"
-            justifyContent="space-between"
-            onClick={() => setEntity('LLC')}
-          >
+          <div className="flex flex-row items-center">
+            <FaBookOpen />
+            <p>How it works</p>
+          </div>
+          <ArrowRightIcon />
+        </a>
+      </div>
+      <div>
+        <div>
+          <Button size="icon" disabled={true}>
+            <ArrowLeftIcon />
+          </Button>
+          <p>Mint</p>
+        </div>
+        <div>
+          <Button className="flex items-center justify-between w-3/4" onClick={() => setEntity('LLC')}>
+            <ChevronRightIcon />
             LLC
           </Button>
-          <Button
-            tone="foreground"
-            suffix={<IconChevronRight />}
-            width="3/4"
-            justifyContent="space-between"
-            onClick={() => setEntity('UNA')}
-          >
+          <Button className="flex items-center justify-between w-3/4" onClick={() => setEntity('UNA')}>
+            <ChevronRightIcon />
             Non-Profit
           </Button>
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   )
 }
