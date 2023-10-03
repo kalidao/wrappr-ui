@@ -1,34 +1,27 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import Image from 'next/image'
 import Layout from '~/layout'
 import { Box, Stack, Text, Spinner, Skeleton, Avatar, Heading } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { Trait, TraitType } from '~/wrap'
-import { useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
 import { deployments, WRAPPR } from '~/constants'
 import MintWrapprNFT from '~/wrap/MintWrapprNFT'
-import { ethers } from 'ethers'
 import { compileQtestnetWrapprs } from '~/utils/compileQtestnetWrapprs'
 import MintWrapprNFTonQ from '~/wrap/MintWrapprNFTonQ'
+import { zeroAddress } from 'viem'
+import { useWrapprName } from '~/hooks/useWrapprName'
+import { getAddress } from 'viem'
 
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
-  const { chainId, wrappr: contractAddress } = router.query
-  const wrapprContract = {
-    addressOrName: contractAddress as string,
-    contractInterface: WRAPPR,
-    chainId: Number(chainId),
-  }
+  const address = getAddress(router.query.wrappr as string)
+  const chainId = Number(router.query.chainId)
 
-  const { data: reads, isLoading: isReading } = useContractReads({
-    contracts: [
-      {
-        ...wrapprContract,
-        functionName: 'name',
-      },
-    ],
+  const { data: name, isLoading: isReading } = useWrapprName({
+    address,
+    chainId,
   })
+
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
     fetchWrapprData(wrappr?.['baseURI']),
   )
@@ -47,20 +40,20 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
             {Number(chainId) == 35543 ? (
               <MintWrapprNFTonQ
                 chainId={Number(chainId)}
-                wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
+                wrappr={address ? address : zeroAddress}
                 mintFee={wrappr['mintFee']}
               />
             ) : (
               <MintWrapprNFT
                 chainId={Number(chainId)}
-                wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
+                wrappr={address ? address : zeroAddress}
                 mintFee={wrappr['mintFee']}
               />
             )}
           </Stack>
           <Box width="full">
             <Stack>
-              <Heading>{reads ? reads?.[0] : 'No name found'}</Heading>
+              <Heading>{name ? name : 'No name found'}</Heading>
               {/* className="whitespace-pre-line break-normal text-gray-400" */}
               <Text wordBreak="break-word">{data ? data['description'] : 'No description found'}</Text>
               <Heading>Traits</Heading>

@@ -1,6 +1,6 @@
 import { Stack, Button, Input } from '@kalidao/reality'
 import { useAccount, usePrepareContractWrite, useContractWrite, useQuery } from 'wagmi'
-import { WRAPPR } from '../constants'
+import { WRAPPR } from '~/constants'
 import { useState } from 'react'
 import { ethers } from 'ethers'
 import { GrPowerReset } from 'react-icons/gr'

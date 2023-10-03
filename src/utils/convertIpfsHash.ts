@@ -1,4 +1,6 @@
-export const convertIpfsHash = (source: string): string => {
-  const desiredGatewayPrefix = 'https://content.wrappr.wtf/ipfs/'
+export function convertIpfsHash(
+  source: string,
+  desiredGatewayPrefix: string = 'https://content.wrappr.wtf/ipfs/',
+): string {
   return desiredGatewayPrefix + source
 }

@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import type { NextPage } from 'next'
-import Layout from '../../../../src/layout'
+import Layout from '~/layout'
 import { Box, Stack, Input, Button, Text, Tag } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import { createPdf } from '~/utils/createPdf'
-
-import { useContractReads } from 'wagmi'
-import { WRAPPR } from '../../../../src/constants'
+import { getAddress } from 'viem'
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Select } from '@design/Select'
+import { useTokenUri } from '~/hooks/useTokenUri'
 
 type Create = {
   name: string
@@ -29,7 +28,10 @@ const schema = z.object({
 
 const EIN: NextPage = () => {
   const router = useRouter()
-  const { wrappr, chainId, tokenId } = router.query
+  const wrappr = getAddress(router.query.wrappr as string)
+  const tokenId = BigInt(router.query.tokenId as string)
+  const chainId = Number(router.query.chainId)
+
   const {
     register,
     handleSubmit,
@@ -43,19 +45,10 @@ const EIN: NextPage = () => {
   const [orgType, setOrgType] = useState('')
   const [orgName, setOrgName] = useState('')
 
-  const wrapprContract = {
-    addressOrName: wrappr as string,
-    contractInterface: WRAPPR,
-    chainId: Number(chainId),
-  }
-  const { data: tokenUri } = useContractReads({
-    contracts: [
-      {
-        ...wrapprContract,
-        functionName: 'uri',
-        args: [tokenId],
-      },
-    ],
+  const { data: tokenUri } = useTokenUri({
+    address: wrappr,
+    chainId: chainId,
+    tokenId: BigInt(tokenId),
   })
 
   const onSubmit = async (data: Create) => {

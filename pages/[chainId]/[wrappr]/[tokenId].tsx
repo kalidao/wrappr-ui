@@ -8,13 +8,13 @@ import { MintWrappr, Trait, TraitType } from '~/wrap'
 import { useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
 import { deployments, WRAPPR } from '~/constants'
-import { ethers } from 'ethers'
+import { zeroAddress } from 'viem'
 
 const Wrappr: NextPage = () => {
   const router = useRouter()
   const { wrappr, chainId, tokenId } = router.query
   const wrapprContract = {
-    addressOrName: wrappr ? wrappr.toString() : ethers.constants.AddressZero,
+    addressOrName: wrappr ? wrappr.toString() : zeroAddress,
     contractInterface: WRAPPR,
   }
   const collectionId = wrappr?.toString().toLowerCase() + '0x' + Number(tokenId)?.toString(16)
@@ -90,11 +90,7 @@ const Wrappr: NextPage = () => {
               'No image found'
             )}
 
-            <MintWrappr
-              chainId={4}
-              wrappr={wrappr ? wrappr.toString() : ethers.constants.AddressZero}
-              tokenId={Number(tokenId)}
-            />
+            <MintWrappr chainId={4} wrappr={wrappr ? wrappr.toString() : zeroAddress} tokenId={Number(tokenId)} />
             <Link href="/clinic" passHref>
               <a>Need help with your entity?</a>
             </Link>

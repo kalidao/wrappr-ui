@@ -34,7 +34,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
   })
   const { isConnected, address } = useAccount()
   const { chain } = useNetwork()
-  const contractAddress = deployments[1][(store.juris + store.entity) as keyof typeof deployments[1]] as string
+  const contractAddress = deployments[1][(store.juris + store.entity) as keyof (typeof deployments)[1]] as string
   const { writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
     addressOrName: contractAddress,
@@ -44,14 +44,14 @@ export default function Confirm({ store, setStore, setView }: Props) {
 
   const { writeAsync: writeAsyncQtest } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: deployments[35443][(store.juris + store.entity) as keyof typeof deployments[35443]] as string,
+    addressOrName: deployments[35443][(store.juris + store.entity) as keyof (typeof deployments)[35443]] as string,
     contractInterface: WRAPPR,
     functionName: 'mint',
   })
 
   const { writeAsync: writeAsyncQ } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: deployments[35441][(store.juris + store.entity) as keyof typeof deployments[35441]] as string,
+    addressOrName: deployments[35441][(store.juris + store.entity) as keyof (typeof deployments)[35441]] as string,
     contractInterface: WRAPPR,
     functionName: 'mint',
   })
@@ -74,7 +74,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
 
         if (chain.id == 35443) {
           tokenId = await calculateTokenIdonQ(
-            deployments[35443][(store.juris + store.entity) as keyof typeof deployments[35443]] as string,
+            deployments[35443][(store.juris + store.entity) as keyof (typeof deployments)[35443]] as string,
           )
         } else {
           tokenId = await calculateTokenId(contractAddress as string, Number(chain.id))
@@ -261,7 +261,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
             <Text size="headingThree" color="text">
               {message.text}
             </Text>
-            <Image src={'/loading.png'} height="150px" width="150px" unoptimized />
+            <Image src={'/loading.png'} height="150px" width="150px" alt="Loading..." unoptimized />
           </Stack>
         )}
       </Box>

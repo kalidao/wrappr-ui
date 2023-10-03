@@ -2,7 +2,6 @@ import { Stack, Button, Input } from '@kalidao/reality'
 import { useAccount, useSigner, useContract, usePrepareContractWrite, useContractWrite, useQuery } from 'wagmi'
 import { WRAPPR } from '../constants'
 import { useState, useEffect } from 'react'
-import { ethers } from 'ethers'
 import { GrPowerReset } from 'react-icons/gr'
 
 export default function MintWrapprNFTonQ({
@@ -57,7 +56,7 @@ export default function MintWrapprNFTonQ({
           const owner = await wrapprInstance.ownerOf(i)
           console.log('id owner', owner)
 
-          if (owner == ethers.constants.AddressZero) {
+          if (owner == zeroAddress) {
             setFreeId(i)
             break
           }

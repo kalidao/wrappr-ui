@@ -1,7 +1,6 @@
 import { getCollections } from '~/graph/getCollections'
-import { useAccount, useSigner, useContract, usePrepareContractWrite, useContractWrite, useQuery } from 'wagmi'
+import { useAccount, usePrepareContractWrite, useContractWrite, useQuery } from 'wagmi'
 import { WRAPPR } from '../constants'
-import { ethers } from 'ethers'
 
 export const calculateTokenIdonQ = async (address: string) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum as unknown as ethers.providers.ExternalProvider)
@@ -16,7 +15,7 @@ export const calculateTokenIdonQ = async (address: string) => {
       const owner = await wrappr.ownerOf(i)
       console.log('id owner', owner)
 
-      if (owner == ethers.constants.AddressZero) {
+      if (owner == zeroAddress) {
         // setFreeId(i)
         break
       }

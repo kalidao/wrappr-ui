@@ -3,7 +3,6 @@ import { Box, Stack, Input, Field, Button, Textarea, Text, MediaPicker, IconPlus
 import { AiOutlineDelete } from 'react-icons/ai'
 
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
-import { ethers } from 'ethers'
 
 import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -73,7 +72,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
   const { chain } = useNetwork()
   const { data: result, writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: chain ? deployments[chain.id]['factory'] : ethers.constants.AddressZero,
+    addressOrName: chain ? deployments[chain.id]['factory'] : zeroAddress,
     contractInterface: WRAPPR_FACTORY,
     functionName: 'deployWrappr',
   })
@@ -222,7 +221,7 @@ export default function CreateForm({ store, setStore, setView }: Props) {
             label="Admin"
             id="admin"
             {...register('admin')}
-            placeholder={ethers.constants.AddressZero}
+            placeholder={zeroAddress}
             error={errors.admin && errors.admin.message}
           />
           <Input
