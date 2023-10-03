@@ -1,7 +1,7 @@
-import { ArrowRightIcon, ChevronRightIcon } from '@radix-ui/react-icons'
+import { ChevronRightIcon } from '@radix-ui/react-icons'
 import { StoreT } from '../types'
 import { Button } from '~/components/ui/button'
-import { FaBookOpen } from 'react-icons/fa'
+import { BackButton } from '~/components/back-button'
 
 type Props = {
   choice: StoreT
@@ -25,58 +25,21 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
     })
   }
 
-  console.log('choice', choice)
-  const info: {
-    [key: string]: {
-      description: string
-      link: string
-    }
-  } = {
-    LLC: {
-      description:
-        'Your LLC will be created after minting. State formation and taxes included. Which jurisdiction do you want?',
-      link: 'https://docs.wrappr.wtf/how-to/LLC/',
-    },
-    UNA: {
-      description: 'Your Non-Profit (UNA) will be created after minting. Which jurisdiction do you want?',
-      link: 'https://daos.paradigm.xyz/',
-    },
-    Charter: {
-      description:
-        'Your DAO Charter will be drafted after minting. This is a simple membership agreement signable with DAO vote or key-signature.',
-      link: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%93%9C-dao-charter',
-    },
-  }
-
   return (
-    <div className="flex flex-col md:flex-row">
-      <div>
-        <div className="flex flex-col w-full md:w-2/3 space-y-5">
-          <p className="text-foreground text-xl align-left">{info[choice.entity].description}</p>
-          <a href={info[choice.entity].link} target="_blank" rel="noopenner noreferrer">
-            <div className="flex flex-row items-center">
-              <FaBookOpen />
-              <p>Learn More</p>
-            </div>
-            <ArrowRightIcon />
-          </a>
-        </div>
+    <div className="flex-col md:flex-row space-y-5">
+      <div className="flex flex-row space-x-2 border-b">
+        <BackButton onClick={() => setView(0)} disabled={true} />
+        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+          Select Jurisdiction
+        </h2>
       </div>
-      <div>
-        <div>
-          <Button onClick={back} aria-label="Go back!">
-            <ArrowRightIcon />
+      <div className="flex flex-col space-y-2">
+        {entity.map(({ text, set }) => (
+          <Button key={text} className="flex items-center justify-between w-full" onClick={() => setJuris(set)}>
+            <ChevronRightIcon />
+            {text}
           </Button>
-          <p className="text-left font-semibold text-foreground">Select Jurisdiction</p>
-        </div>
-        <div>
-          {entity.map(({ text, set }) => (
-            <Button key={text} className="flex items-center justify-between w-full" onClick={() => setJuris(set)}>
-              <ChevronRightIcon />
-              {text}
-            </Button>
-          ))}
-        </div>
+        ))}
       </div>
     </div>
   )

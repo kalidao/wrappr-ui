@@ -5,13 +5,18 @@ import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useEffect, useState } from 'react'
-import { Input } from '~/components/ui/input'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form"
+import { Input } from "~/components/ui/input"
 import { ChevronRightIcon } from '@radix-ui/react-icons'
 import { Button } from '~/components/ui/button'
-
-type LLC = {
-  name: string
-}
 
 const schema = z.object({
   name: z.string().min(1, { message: 'A name is required' }),
@@ -27,12 +32,7 @@ export default function LLC({ store, setStore, setView }: Props) {
   const { isConnected } = useAccount()
   const { chain } = useNetwork()
   const { openConnectModal } = useConnectModal()
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors, isSubmitting },
-  } = useForm<LLC>({
+  const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   })
   const [message, setMessage] = useState('')
@@ -45,7 +45,7 @@ export default function LLC({ store, setStore, setView }: Props) {
     }
   }, [isConnected, message])
 
-  const onSubmit = async (data: LLC) => {
+  const onSubmit = async (data: z.infer<typeof schema>) => {
     if (!isConnected) return setMessage('Please connect your wallet')
     if (!chain) return setMessage('Please connect to a network')
     const { name } = data
@@ -74,32 +74,36 @@ export default function LLC({ store, setStore, setView }: Props) {
     setView(2)
   }
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Input
-        type="text"
-        width="full"
-        // description={"What's the name of your LLC?"}
-        {...register('name')}
-        id="name"
-        placeholder=" "
-        required
-        // label="Name"
-        // suffix={'LLC'}
-        // error={errors.name && errors.name.message}
-      />
-      <p>{message}</p>
+  return  (<Form {...form}>
+  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+    <FormField
+      control={form.control}
+      name="name"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Name</FormLabel>
+          <FormControl>
+            <Input placeholder="wrappr" {...field} />
+          </FormControl>
+          <FormDescription>
+            A unique name for your LLC.
+          </FormDescription>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
       {!isConnected && openConnectModal ? (
-        <Button className="flex items-center justify-between w-full" onClick={openConnectModal}>
+        <Button className="flex items-center justify-between space-x-2" onClick={openConnectModal}>
           <ChevronRightIcon />
-          Login
+          <span>Login</span>
         </Button>
       ) : (
-        <Button className="flex items-center justify-between w-full" type="submit">
+        <Button className="flex items-center justify-between space-x-2" type="submit">
           <ChevronRightIcon />
-          Review Document
+         <span>Review Document</span> 
         </Button>
       )}
-    </form>
-  )
+  </form>
+</Form>)
+
 }

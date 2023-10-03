@@ -57,7 +57,7 @@ const Item = ({ src, label, isExternal }: ItemProps) => {
         href={src}
         target="_blank"
         rel="noopenner noreferrer"
-        className={buttonVariants({ variant: isActive ? 'secondary' : 'outline' })}
+        className={buttonVariants({ variant: isActive ? 'outline' : 'link' })}
       >
         {label}
       </a>
@@ -65,7 +65,7 @@ const Item = ({ src, label, isExternal }: ItemProps) => {
   }
 
   return (
-    <Link as="a" href={src} className={buttonVariants({ variant: isActive ? 'secondary' : 'outline' })}>
+    <Link href={src} className={buttonVariants({ variant: isActive ? 'outline' : 'link' })}>
       {label}
     </Link>
   )

@@ -1,6 +1,7 @@
 import React from 'react'
 import { StoreT } from '../types'
-import { badgeVariants } from '~/components/ui/badge'
+import { Button } from '~/components/ui/button'
+import { ArrowLeftIcon } from '@radix-ui/react-icons'
 
 type Props = {
   store: StoreT
@@ -60,32 +61,14 @@ export default function Form({ store, setStore, setView }: Props) {
   }
 
   return (
-    <div className="flex flex-col md:flex-row w-full h-full">
-      <div className="flex flex-col justify-between h-full w-full md:w-2/3 space-y-5">
-        <div className="flex flex-col justify-between h-full w-full md:w-2/3 space-y-5">
-          <p className="text-left text-foreground text-4xl">{form[choice]['description']}</p>
-          <a
-            className={badgeVariants({ variant: 'default' })}
-            href={form[choice]['link']}
-            target="_blank"
-            rel="noopenner noreferrer"
-          >
-            <div className="flex items-center justify-center">
-              <FaBookOpen />
-              <p>Learn More</p>
-            </div>
-            <ArrowRightIcon />
-          </a>
-        </div>
+    <div className="flex-col md:flex-row space-y-5">
+      <div className="flex flex-row space-x-2 border-b">
+        <BackButton onClick={() => setView(0)} disabled={true} />
+        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+          {form[choice]['heading']}
+        </h2>
       </div>
-      <div>
-        <Button size="icon" onClick={() => setView(0)} aria-label="Go back!">
-          <ArrowLeftIcon />
-        </Button>
-        <p className="text-left font-semibold text-foreground">{form[choice]['heading']}</p>
-
-        <div>{form[choice]['component']}</div>
-      </div>
+      <div className="flex flex-col space-y-2">{form[choice]['component']}</div>
     </div>
   )
 }
@@ -93,6 +76,4 @@ export default function Form({ store, setStore, setView }: Props) {
 import LLC from './LLC'
 import Charter from './Charter'
 import UNA from './UNA'
-import { Button } from '~/components/ui/button'
-import { FaBookOpen } from 'react-icons/fa'
-import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons'
+import { BackButton } from '~/components/back-button'

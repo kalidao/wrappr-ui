@@ -20,7 +20,7 @@ export default function Layout({ heading, content, back, children }: LayoutProps
   const chatActive = router.pathname === '/lexy' ? true : false
 
   return (
-    <div className="min-h-screen">
+    <div className="bg-background min-h-screen">
       <Head>
         <title>{title}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />

@@ -29,10 +29,10 @@ const wagmiClient = createConfig({
 })
 
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
-  <p>
+  <Text>
     By connecting your wallet, you agree to the <Link href="/tos">Terms of Service</Link> and acknowledge you have read
     and understand the included Disclaimers.
-  </p>
+  </Text>
 )
 
 export default function RootProvider({

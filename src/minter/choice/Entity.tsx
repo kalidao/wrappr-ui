@@ -3,6 +3,7 @@ import { StoreT } from '../types'
 import { badgeVariants } from '~/components/ui/badge'
 import { Button } from '~/components/ui/button'
 import { FaBookOpen } from 'react-icons/fa'
+import { BackButton } from '~/components/back-button'
 
 type Props = {
   choice: StoreT
@@ -20,39 +21,20 @@ export default function Entity({ choice, setChoice, setView }: Props) {
   }
 
   return (
-    <div className="flex-col md:flex-row">
-      <div>
-        <p className="text-foreground text-xl align-left">Legal wrappers for your digital assets</p>
-        <a
-          className={badgeVariants({ variant: 'default' })}
-          href="https://docs.wrappr.wtf/get-started/what/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div className="flex flex-row items-center">
-            <FaBookOpen />
-            <p>How it works</p>
-          </div>
-          <ArrowRightIcon />
-        </a>
+    <div className="flex-col md:flex-row space-y-5">
+      <div className="flex flex-row space-x-2 border-b">
+        <BackButton onClick={() => setView(0)} disabled={true} />
+        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">Mint</h2>
       </div>
-      <div>
-        <div>
-          <Button size="icon" disabled={true}>
-            <ArrowLeftIcon />
-          </Button>
-          <p>Mint</p>
-        </div>
-        <div>
-          <Button className="flex items-center justify-between w-3/4" onClick={() => setEntity('LLC')}>
-            <ChevronRightIcon />
-            LLC
-          </Button>
-          <Button className="flex items-center justify-between w-3/4" onClick={() => setEntity('UNA')}>
-            <ChevronRightIcon />
-            Non-Profit
-          </Button>
-        </div>
+      <div className="flex flex-col space-y-2">
+        <Button className="flex items-center justify-between w-3/4" onClick={() => setEntity('LLC')}>
+          <ChevronRightIcon />
+          LLC
+        </Button>
+        <Button className="flex items-center justify-between w-3/4" onClick={() => setEntity('UNA')}>
+          <ChevronRightIcon />
+          Non-Profit
+        </Button>
       </div>
     </div>
   )

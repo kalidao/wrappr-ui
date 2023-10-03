@@ -15,6 +15,8 @@ import { parseEther } from 'viem'
 import { Button } from '~/components/ui/button'
 import { Checkbox } from '~/components/ui/checkbox'
 import { ArrowRightIcon } from '@radix-ui/react-icons'
+import { BackButton } from '~/components/back-button'
+import { Label } from '~/components/ui/label'
 
 type Props = {
   store: StoreT
@@ -166,29 +168,22 @@ export default function Confirm({ store, setStore, setView }: Props) {
   }
 
   return (
-    <div className="flex items-center justify-center p-3 md:p-6">
-      <div className="w-full md:w-3/4 lg:w-1/2">
+    <div className="w-screen flex items-center justify-center p-3 md:p-6">
+      <div className="w-full md:w-3/4 lg:w-1/2 flex flex-col space-y-2">
         {loading === false ? (
           <div>
-            <div className="flex justify-between items-center">
-              <p>
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
                 Confirm {getName(store.juris, store.entity)} for {store.name}{' '}
-              </p>
-              <Button
-                onClick={() => setView(1)}
-                aria-label="Go back!"
-                //variant="transparent" shape="circle"
-              >
-                <ArrowRightIcon />
-              </Button>
+              </h2>
+              <BackButton onClick={() => setView(1)} />
             </div>
             <PDFViewer src={`/legal/${store.juris + store.entity}.pdf`} />
             <div className="flex items-center justify-between border-t-2 border-foregroundSecondary pt-1">
-              <Checkbox
-                // variant="transparent"
-                // label={<p>I have read and accept the terms of this agreement.</p>}
-                onCheckedChange={() => setChecked(!checked)}
-              ></Checkbox>
+              <Label className="flex flex-row space-x-2 items-center justify-between">
+                <Checkbox onCheckedChange={() => setChecked((checked) => !checked)}></Checkbox>
+                <span>I have read and accept the terms of this agreement.</span>
+              </Label>
               {isConnected ? (
                 <Button
                   // tone="foreground"
@@ -204,7 +199,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
             </div>
           </div>
         ) : (
-          <div className="flex justify-center items-center space-y-20">
+          <div className="flex flex-col justify-center items-center space-y-20">
             <p className="text-2xl text-foreground text-center">We are working our magic, please be patient</p>
             <p>{message.text}</p>
             <Image src={'/loading.png'} height="150" width="150" alt="Loading..." unoptimized />
