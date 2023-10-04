@@ -57,8 +57,7 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
   }
 
   const filteredEntity = entity.filter(
-    (item) =>
-      (choice.entity === 'LLC' && (item.text === 'Delaware' || item.text === 'Offshore'))
+    (item) => choice.entity === 'LLC' && (item.text === 'Delaware' || item.text === 'Offshore'),
   )
 
   return (
