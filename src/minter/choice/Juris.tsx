@@ -56,6 +56,11 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
     },
   }
 
+  const filteredEntity = entity.filter(
+    (item) =>
+      (choice.entity === 'LLC' && (item.text === 'Delaware' || item.text === 'Offshore'))
+  )
+
   return (
     <Box
       display={'flex'}
@@ -96,7 +101,7 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
           </Text>
         </Stack>
         <Box className={styles.actionCards}>
-          {entity.map(({ text, set }) => (
+          {filteredEntity.map(({ text, set }) => (
             <Button
               key={text}
               tone="foreground"
@@ -129,6 +134,13 @@ const entity = [
     set: 'wy',
     icon: <span className="text-xl">🌇</span>,
     learn: 'https://docs.wrappr.wtf/get-started/where/#%F0%9F%A6%AC-wyoming',
+  },
+  {
+    text: 'Offshore',
+    description: 'Offshore alternative to Delaware.',
+    set: 'mi',
+    icon: <span className="text-xl">🏝️</span>,
+    learn: 'https://docs.wrappr.wtf/get-started/where/#%F0%9F%8F%A2-delaware',
   },
 ]
 

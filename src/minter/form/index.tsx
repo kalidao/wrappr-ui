@@ -58,6 +58,12 @@ export default function Form({ store, setStore, setView }: Props) {
       link: 'https://docs.wrappr.wtf/how-to/charter/#lexpunk-dao-charter',
       component: <Charter store={store} setStore={setStore} setView={setView} />,
     },
+    miLLC: {
+      heading: 'Marshall Islands LLC',
+      description: 'Marshall Islands offers an offshore alternative for LLC formation',
+      link: 'https://docs.wrappr.wtf/how-to/LLC',
+      component: <LLC store={store} setStore={setStore} setView={setView} />,
+    },
   }
 
   return (
