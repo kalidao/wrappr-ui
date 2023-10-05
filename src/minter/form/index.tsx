@@ -26,20 +26,20 @@ export default function Form({ store, setStore, setView }: Props) {
       link: 'https://docs.wrappr.wtf/how-to/LLC',
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
-    wyLLC: {
-      heading: 'Wyoming LLC',
-      description: 'Wyoming is friendly to digital assets. Members can remain anonymous.',
-      link: 'https://docs.wrappr.wtf/how-to/LLC',
-      component: <LLC store={store} setStore={setStore} setView={setView} />,
-    },
-    deUNA: {
-      heading: 'Delaware UNA',
-      description: 'Delaware is the gold standard for corporate law. Members can remain anonymous.',
-      link: 'https://docs.wrappr.wtf/how-to/non-profit/',
-      component: <UNA store={store} setStore={setStore} setView={setView} />,
-    },
+    // wyLLC: {
+    //   heading: 'Wyoming LLC',
+    //   description: 'Wyoming is friendly to digital assets. Members can remain anonymous.',
+    //   link: 'https://docs.wrappr.wtf/how-to/LLC',
+    //   component: <LLC store={store} setStore={setStore} setView={setView} />,
+    // },
+    // deUNA: {
+    //   heading: 'Delaware UNA',
+    //   description: 'Delaware is the gold standard for corporate law. Members can remain anonymous.',
+    //   link: 'https://docs.wrappr.wtf/how-to/non-profit/',
+    //   component: <UNA store={store} setStore={setStore} setView={setView} />,
+    // },
     wyUNA: {
-      heading: 'Wyoming UNA',
+      heading: 'UNA',
       description: 'Wyoming is friendly to digital assets. Members can remain anonymous.',
       link: 'https://docs.wrappr.wtf/how-to/non-profit/',
       component: <UNA store={store} setStore={setStore} setView={setView} />,
@@ -65,7 +65,7 @@ export default function Form({ store, setStore, setView }: Props) {
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
   }
-  const selectedForm = form[choice] || form['wyUNA'];
+  const selectedForm = form[choice] || form['wyUNA']
   return (
     <Box
       display={'flex'}

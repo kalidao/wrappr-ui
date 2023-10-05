@@ -24,7 +24,6 @@ export default function Entity({ choice, setChoice, setView, setScreen }: Props)
       ...choice,
       entity: to,
     })
-    console.log('choice', choice)
     if (to === 'UNA') {
       setScreen(1)
     } else {
