@@ -26,20 +26,20 @@ export default function Form({ store, setStore, setView }: Props) {
       link: 'https://docs.wrappr.wtf/how-to/LLC',
       component: <LLC store={store} setStore={setStore} setView={setView} />,
     },
-    wyLLC: {
-      heading: 'Wyoming LLC',
-      description: 'Wyoming is friendly to digital assets. Members can remain anonymous.',
-      link: 'https://docs.wrappr.wtf/how-to/LLC',
-      component: <LLC store={store} setStore={setStore} setView={setView} />,
-    },
-    deUNA: {
-      heading: 'Delaware UNA',
-      description: 'Delaware is the gold standard for corporate law. Members can remain anonymous.',
-      link: 'https://docs.wrappr.wtf/how-to/non-profit/',
-      component: <UNA store={store} setStore={setStore} setView={setView} />,
-    },
+    // wyLLC: {
+    //   heading: 'Wyoming LLC',
+    //   description: 'Wyoming is friendly to digital assets. Members can remain anonymous.',
+    //   link: 'https://docs.wrappr.wtf/how-to/LLC',
+    //   component: <LLC store={store} setStore={setStore} setView={setView} />,
+    // },
+    // deUNA: {
+    //   heading: 'Delaware UNA',
+    //   description: 'Delaware is the gold standard for corporate law. Members can remain anonymous.',
+    //   link: 'https://docs.wrappr.wtf/how-to/non-profit/',
+    //   component: <UNA store={store} setStore={setStore} setView={setView} />,
+    // },
     wyUNA: {
-      heading: 'Wyoming UNA',
+      heading: 'UNA',
       description: 'Wyoming is friendly to digital assets. Members can remain anonymous.',
       link: 'https://docs.wrappr.wtf/how-to/non-profit/',
       component: <UNA store={store} setStore={setStore} setView={setView} />,
@@ -58,8 +58,14 @@ export default function Form({ store, setStore, setView }: Props) {
       link: 'https://docs.wrappr.wtf/how-to/charter/#lexpunk-dao-charter',
       component: <Charter store={store} setStore={setStore} setView={setView} />,
     },
+    miLLC: {
+      heading: 'Marshall Islands LLC',
+      description: 'Marshall Islands offers an offshore alternative for LLC formation',
+      link: 'https://docs.wrappr.wtf/how-to/LLC',
+      component: <LLC store={store} setStore={setStore} setView={setView} />,
+    },
   }
-
+  const selectedForm = form[choice] || form['wyUNA']
   return (
     <Box
       display={'flex'}
@@ -79,9 +85,9 @@ export default function Form({ store, setStore, setView }: Props) {
           gap="5"
         >
           <Text size="headingOne" color="foreground" align="left">
-            {form[choice]['description']}
+            {selectedForm['description']}
           </Text>
-          <Box as="a" className={styles.pill} href={form[choice]['link']} target="_blank">
+          <Box as="a" className={styles.pill} href={selectedForm['link']} target="_blank">
             <Stack direction={'horizontal'} align="center">
               <IconBookOpen />
               <Text>Learn More</Text>
@@ -96,10 +102,10 @@ export default function Form({ store, setStore, setView }: Props) {
             <IconArrowLeft />
           </Box>
           <Text size="headingOne" align="left" weight="semiBold" color="foreground">
-            {form[choice]['heading']}
+            {selectedForm['heading']}
           </Text>
         </Stack>
-        <Box className={styles.actionCards}>{form[choice]['component']}</Box>
+        <Box className={styles.actionCards}>{selectedForm['component']}</Box>
       </Box>
     </Box>
   )
