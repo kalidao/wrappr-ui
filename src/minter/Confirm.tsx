@@ -223,9 +223,11 @@ export default function Confirm({ store, setStore, setView }: Props) {
         {loading === false ? (
           <Stack>
             <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-              <Text size="headingTwo" color="foreground">
-                Confirm {getName(store.juris, store.entity)} for {store.name}{' '}
-              </Text>
+            <Text size="headingTwo" color="foreground">
+              {"Confirm "}
+              {store.entity === 'UNA' && store.juris ? store.entity : getName(store.juris, store.entity) + " "}
+              {" for " + store.name}
+            </Text>
               <Button onClick={() => setView(1)} aria-label="Go back!" variant="transparent" shape="circle">
                 <IconArrowLeft />
               </Button>
