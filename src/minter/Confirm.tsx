@@ -26,7 +26,7 @@ type Message = {
 }
 
 export default function Confirm({ store, setStore, setView }: Props) {
-  console.log("store.juris:", store.juris);
+  console.log('store.juris:', store.juris)
   const [checked, setChecked] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<Message>({
@@ -224,16 +224,15 @@ export default function Confirm({ store, setStore, setView }: Props) {
         {loading === false ? (
           <Stack>
             <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-            <Text size="headingTwo" color="foreground">
-                {"Confirm "}
+              <Text size="headingTwo" color="foreground">
+                {'Confirm '}
                 {store.entity === 'UNA'
-                    ? store.entity
-                    : store.juris === 'mi'
-                        ? 'Marshall Islands ' + store.entity
-                        : getName(store.juris, store.entity) + " "
-                }
-                {" for " + store.name}
-            </Text>
+                  ? store.entity
+                  : store.juris === 'mi'
+                  ? 'Marshall Islands ' + store.entity
+                  : getName(store.juris, store.entity) + ' '}
+                {' for ' + store.name}
+              </Text>
               <Button onClick={() => setView(1)} aria-label="Go back!" variant="transparent" shape="circle">
                 <IconArrowLeft />
               </Button>
