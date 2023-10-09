@@ -27,6 +27,12 @@ type Message = {
 
 export default function Confirm({ store, setStore, setView }: Props) {
   console.log('store.juris:', store.juris)
+  if(store.entity === 'UNA' && store.juris !== 'wy') {
+    setStore(prev => ({
+      ...prev,
+      juris: 'wy'
+    }));
+  }
   const [checked, setChecked] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<Message>({
