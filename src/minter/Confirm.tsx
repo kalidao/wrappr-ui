@@ -26,6 +26,7 @@ type Message = {
 }
 
 export default function Confirm({ store, setStore, setView }: Props) {
+  console.log("store.juris:", store.juris);
   const [checked, setChecked] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<Message>({
@@ -223,14 +224,22 @@ export default function Confirm({ store, setStore, setView }: Props) {
         {loading === false ? (
           <Stack>
             <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-              <Text size="headingTwo" color="foreground">
-                Confirm {getName(store.juris, store.entity)} for {store.name}{' '}
-              </Text>
+            <Text size="headingTwo" color="foreground">
+                {"Confirm "}
+                {store.entity === 'UNA'
+                    ? store.entity
+                    : store.juris === 'mi'
+                        ? 'Marshall Islands ' + store.entity
+                        : getName(store.juris, store.entity) + " "
+                }
+                {" for " + store.name}
+            </Text>
               <Button onClick={() => setView(1)} aria-label="Go back!" variant="transparent" shape="circle">
                 <IconArrowLeft />
               </Button>
             </Stack>
-            <PDFViewer src={`/legal/${store.juris + store.entity}.pdf`} />
+            {/* Same here, pdf wasn't loading */}
+            <PDFViewer src={`/legal/${store.entity === 'UNA' ? 'wyUNA' : store.juris + store.entity}.pdf`} />
             <Box
               display="flex"
               alignItems={'center'}
