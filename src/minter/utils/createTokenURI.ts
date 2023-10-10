@@ -9,20 +9,20 @@ export default async function createURI(name: string, tokenId: number, entity: s
       attributes[2].value = agreement
       obj = { ...deLLC, name: name, attributes: [...attributes] }
       break
-    case 'wyLLC':
-      attributes = wyLLC.attributes
-      attributes[2].value = agreement
-      obj = {
-        ...wyLLC,
-        name: `Wrappr LLC - ${name} - Series ${tokenId}`,
-        attributes: [...attributes],
-      }
-      break
-    case 'deUNA':
-      attributes = deUNA.attributes
-      attributes[2].value = agreement
-      obj = { ...deUNA, name: name, attributes: [...attributes] }
-      break
+    // case 'wyLLC':
+    //   attributes = wyLLC.attributes
+    //   attributes[2].value = agreement
+    //   obj = {
+    //     ...wyLLC,
+    //     name: `Wrappr LLC - ${name} - Series ${tokenId}`,
+    //     attributes: [...attributes],
+    //   }
+    //   break
+    // case 'deUNA':
+    //   attributes = deUNA.attributes
+    //   attributes[2].value = agreement
+    //   obj = { ...deUNA, name: name, attributes: [...attributes] }
+    //   break
     case 'wyUNA':
       attributes = wyUNA.attributes
       attributes[2].value = agreement
@@ -36,6 +36,11 @@ export default async function createURI(name: string, tokenId: number, entity: s
         name: name,
         attributes: [...attributes],
       }
+      break
+      case 'miLLC':
+      attributes = miLLC.attributes
+      attributes[2].value = agreement
+      obj = { ...miLLC, name: name, attributes: [...attributes] }
       break
     // TODO //WIP
     case 'orCharter':
@@ -85,32 +90,6 @@ const deLLC = {
   ],
 }
 
-const wyLLC = {
-  name: 'Wrappr LLC (Wyoming)',
-  description: 'Secure your wallet or DAO as an LLC (Series) and make agreements',
-  external_url: 'https://www.wrappr.wtf/',
-  image: 'https://gateway.pinata.cloud/ipfs/QmVEmynzYzRjYhBzCK85eNBMPaL3PMLvy7GCDiNb6oH7sY',
-  attributes: [
-    { trait_type: 'Jurisdiction', value: 'Wyoming' },
-    { trait_type: 'Entity', value: 'LLC' },
-    { trait_type: 'Agreement', value: 'https://wy.llc.wrappr.documen.eth.link/' },
-    { trait_type: 'Registered Agent', value: 'Registered Agents Inc., 30 N Gould St Ste R, Sheridan, WY 82801, USA' },
-    { display_type: 'number', trait_type: 'Registration Number', value: 2022001140872 },
-  ],
-}
-
-const deUNA = {
-  name: 'Wrappr UNA (Delaware)',
-  description: 'Secure your DAO as UNA non-profit and qualify for tax benefits',
-  external_url: 'https://www.wrappr.wtf/',
-  image: 'https://gateway.pinata.cloud/ipfs/QmYVGfZd9djKd7ExpTKPzbV5qMNqHT6XPxAdweg4ptowEo',
-  attributes: [
-    { trait_type: 'Jurisdiction', value: 'Delaware' },
-    { trait_type: 'Entity', value: 'UNA' },
-    { trait_type: 'Agreement', value: 'https://del.una.wrappr.documen.eth.link/' },
-  ],
-}
-
 const wyUNA = {
   name: 'Wrappr UNA (Wyoming)',
   description: 'Secure your DAO as UNA non-profit and qualify for tax benefits',
@@ -122,6 +101,46 @@ const wyUNA = {
     { trait_type: 'Agreement', value: 'https://wy.una.wrappr.documen.eth.link/' },
   ],
 }
+
+const miLLC = {
+  name: 'Wrappr LLC (Offshore)',
+  description: 'Secure your wallet or DAO as an LLC (Series) and make agreements',
+  external_url: 'https://www.wrappr.wtf/',
+  image: 'https://content.wrappr.wtf/ipfs/QmTYMktt8ev7scx5usfVXrxeuG4eyem3Pi81qJXbtzF5Tx',
+  attributes: [
+    { trait_type: 'Jurisdiction', value: 'Marshall Islands' },
+    { trait_type: 'Entity', value: 'LLC' },
+    { trait_type: 'Agreement', value: 'mi.llc.ricardian.eth.limo/' },
+    { trait_type: 'Registered Agent', value: 'The Trust Company of the Marshall Islands, Inc.' },
+    { display_type: 'number', trait_type: 'Registration Number', value: 965909 },
+  ],
+}
+
+// const wyLLC = {
+//   name: 'Wrappr LLC (Wyoming)',
+//   description: 'Secure your wallet or DAO as an LLC (Series) and make agreements',
+//   external_url: 'https://www.wrappr.wtf/',
+//   image: 'https://gateway.pinata.cloud/ipfs/QmVEmynzYzRjYhBzCK85eNBMPaL3PMLvy7GCDiNb6oH7sY',
+//   attributes: [
+//     { trait_type: 'Jurisdiction', value: 'Wyoming' },
+//     { trait_type: 'Entity', value: 'LLC' },
+//     { trait_type: 'Agreement', value: 'https://wy.llc.wrappr.documen.eth.link/' },
+//     { trait_type: 'Registered Agent', value: 'Registered Agents Inc., 30 N Gould St Ste R, Sheridan, WY 82801, USA' },
+//     { display_type: 'number', trait_type: 'Registration Number', value: 2022001140872 },
+//   ],
+// }
+
+// const deUNA = {
+//   name: 'Wrappr UNA (Delaware)',
+//   description: 'Secure your DAO as UNA non-profit and qualify for tax benefits',
+//   external_url: 'https://www.wrappr.wtf/',
+//   image: 'https://gateway.pinata.cloud/ipfs/QmYVGfZd9djKd7ExpTKPzbV5qMNqHT6XPxAdweg4ptowEo',
+//   attributes: [
+//     { trait_type: 'Jurisdiction', value: 'Delaware' },
+//     { trait_type: 'Entity', value: 'UNA' },
+//     { trait_type: 'Agreement', value: 'https://del.una.wrappr.documen.eth.link/' },
+//   ],
+// }
 
 // TODO
 const lexCharter = {
