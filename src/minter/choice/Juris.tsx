@@ -25,23 +25,89 @@ export default function Juris({ choice, setChoice, setView, setScreen }: Props) 
     })
   }
 
+
+  console.log('choice', choice)
+  const info: {
+    [key: string]: {
+      description: string
+      link: string
+    }
+  } = {
+    LLC: {
+      description:
+        'Your LLC will be created after minting. State formation and taxes included. Which jurisdiction do you want?',
+      link: 'https://docs.wrappr.wtf/how-to/LLC/',
+    },
+    UNA: {
+      description: 'Your Non-Profit (UNA) will be created after minting. Which jurisdiction do you want?',
+      link: 'https://daos.paradigm.xyz/',
+    },
+    Charter: {
+      description:
+        'Your DAO Charter will be drafted after minting. This is a simple membership agreement signable with DAO vote or key-signature.',
+      link: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%93%9C-dao-charter',
+    },
+  }
+
+  const filteredEntity = entity.filter(
+    (item) => choice.entity === 'LLC' && (item.text === 'Delaware' || item.text === 'Offshore'),
+  )
+
   return (
-    <div className="flex-col md:flex-row space-y-5">
-      <div className="flex flex-row space-x-2 border-b">
-        <BackButton onClick={() => setView(0)} disabled={true} />
-        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-          Select Jurisdiction
-        </h2>
-      </div>
-      <div className="flex flex-col space-y-2">
-        {entity.map(({ text, set }) => (
-          <Button key={text} className="flex items-center justify-between w-full" onClick={() => setJuris(set)}>
-            <ChevronRightIcon />
-            {text}
-          </Button>
-        ))}
-      </div>
-    </div>
+    <Box
+      display={'flex'}
+      flexDirection={{
+        xs: 'column',
+        md: 'row',
+      }}
+    >
+      <Box className={styles.splashContainer}>
+        <Box
+          display="flex"
+          flexDirection={'column'}
+          width={{
+            xs: 'full',
+            md: '2/3',
+          }}
+          gap="5"
+        >
+          <Text size="headingOne" color="foreground" align="left">
+            {info[choice.entity].description}
+          </Text>
+          <Box as="a" className={styles.pill} href={info[choice.entity].link} target="_blank">
+            <Stack direction={'horizontal'} align="center">
+              <IconBookOpen />
+              <Text>Learn More</Text>
+            </Stack>
+            <IconArrowRight />
+          </Box>
+        </Box>
+      </Box>
+      <Box className={styles.action}>
+        <Stack>
+          <Box className={styles.back} as="button" onClick={back} aria-label="Go back!">
+            <IconArrowLeft />
+          </Box>
+          <Text size="headingOne" align="left" weight="semiBold" color="foreground">
+            Select Jurisdiction
+          </Text>
+        </Stack>
+        <Box className={styles.actionCards}>
+          {filteredEntity.map(({ text, set }) => (
+            <Button
+              key={text}
+              tone="foreground"
+              suffix={<IconChevronRight />}
+              width="3/4"
+              justifyContent="space-between"
+              onClick={() => setJuris(set)}
+            >
+              {text}
+            </Button>
+          ))}
+        </Box>
+      </Box>
+    </Box>
   )
 }
 
@@ -60,5 +126,12 @@ const entity = [
     set: 'wy',
     icon: <span className="text-xl">🌇</span>,
     learn: 'https://docs.wrappr.wtf/get-started/where/#%F0%9F%A6%AC-wyoming',
+  },
+  {
+    text: 'Offshore',
+    description: 'Offshore alternative to Delaware.',
+    set: 'mi',
+    icon: <span className="text-xl">🏝️</span>,
+    learn: 'https://docs.wrappr.wtf/get-started/where/#%F0%9F%8F%A2-delaware',
   },
 ]

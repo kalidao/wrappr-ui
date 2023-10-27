@@ -30,6 +30,13 @@ type Message = {
 }
 
 export default function Confirm({ store, setStore, setView }: Props) {
+  console.log('store.juris:', store.juris)
+  if(store.entity === 'UNA' && store.juris !== 'wy') {
+    setStore(prev => ({
+      ...prev,
+      juris: 'wy'
+    }));
+  }
   const [checked, setChecked] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<Message>({
@@ -171,19 +178,36 @@ export default function Confirm({ store, setStore, setView }: Props) {
     <div className="w-screen flex items-center justify-center p-3 md:p-6">
       <div className="w-full md:w-3/4 lg:w-1/2 flex flex-col space-y-2">
         {loading === false ? (
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-                Confirm {getName(store.juris, store.entity)} for {store.name}{' '}
-              </h2>
-              <BackButton onClick={() => setView(1)} />
-            </div>
-            <PDFViewer src={`/legal/${store.juris + store.entity}.pdf`} />
-            <div className="flex items-center justify-between border-t-2 border-foregroundSecondary pt-1">
-              <Label className="flex flex-row space-x-2 items-center justify-between">
-                <Checkbox onCheckedChange={() => setChecked((checked) => !checked)}></Checkbox>
-                <span>I have read and accept the terms of this agreement.</span>
-              </Label>
+          <Stack>
+            <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+              <Text size="headingTwo" color="foreground">
+                {'Confirm '}
+                {store.entity === 'UNA'
+                  ? store.entity
+                  : store.juris === 'mi'
+                  ? 'Marshall Islands ' + store.entity
+                  : getName(store.juris, store.entity) + ' '}
+                {' for ' + store.name}
+              </Text>
+              <Button onClick={() => setView(1)} aria-label="Go back!" variant="transparent" shape="circle">
+                <IconArrowLeft />
+              </Button>
+            </Stack>
+            {/* Same here, pdf wasn't loading */}
+            <PDFViewer src={`/legal/${store.entity === 'UNA' ? 'wyUNA' : store.juris + store.entity}.pdf`} />
+            <Box
+              display="flex"
+              alignItems={'center'}
+              justifyContent="space-between"
+              borderTopWidth={'0.375'}
+              borderColor="foregroundSecondary"
+              paddingTop="1"
+            >
+              <Checkbox
+                variant="transparent"
+                label={<Text>I have read and accept the terms of this agreement.</Text>}
+                onCheckedChange={() => setChecked(!checked)}
+              ></Checkbox>
               {isConnected ? (
                 <Button
                   // tone="foreground"

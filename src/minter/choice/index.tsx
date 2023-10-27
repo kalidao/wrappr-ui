@@ -14,7 +14,7 @@ export default function Choice({ setScreen, setChoice, choice }: Props) {
   const [view, setView] = useState(0)
 
   const views = [
-    <Entity key={'entity'} choice={choice} setChoice={setChoice} setView={setView} />,
+    <Entity key={'entity'} choice={choice} setChoice={setChoice} setView={setView} setScreen={setScreen} />,
     <Juris key={'juris'} choice={choice} setChoice={setChoice} setView={setView} setScreen={setScreen} />,
   ]
 

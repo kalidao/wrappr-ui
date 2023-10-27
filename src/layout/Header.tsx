@@ -28,9 +28,9 @@ export default function Header() {
       >
         <Image src={'/logo.png'} height={60} width={80} alt={`Wrappr logo`} />
       </motion.div>
-      <div className="flex gap-2 items-center" role="navigation">
-        {isConnected && <Item label="user" src={`/users/${address}`} icon={<FaUser />} />}
-        <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<FaBookOpen />} isExternal />
+      <Box as="nav" display="flex" gap="2" alignItems={'center'}>
+        {/* {isConnected && <Item label="user" src={`/users/${address}`} icon={<IconUserSolid />} />} */}
+        <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<IconBookOpenSolid />} isExternal />
         <ToggleMode />
       </div>
       <div className="flex">

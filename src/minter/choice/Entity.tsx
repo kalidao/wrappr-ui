@@ -9,15 +9,20 @@ type Props = {
   choice: StoreT
   setChoice: React.Dispatch<React.SetStateAction<StoreT>>
   setView: React.Dispatch<React.SetStateAction<number>>
+  setScreen: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function Entity({ choice, setChoice, setView }: Props) {
+export default function Entity({ choice, setChoice, setView, setScreen }: Props) {
   const setEntity = (to: string) => {
     setChoice({
       ...choice,
       entity: to,
     })
-    setView(1)
+    if (to === 'UNA') {
+      setScreen(1)
+    } else {
+      setView(1)
+    }
   }
 
   return (
