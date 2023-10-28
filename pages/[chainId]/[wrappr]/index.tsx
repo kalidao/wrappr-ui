@@ -10,6 +10,9 @@ import { zeroAddress } from 'viem'
 import { useWrapprName } from '~/hooks/useWrapprName'
 import { getAddress } from 'viem'
 import { Spinner } from '~/components/ui/spinner'
+import { AspectRatio } from '~/components/ui/aspect-ratio'
+import Image from 'next/image'
+import { Table, TableBody, TableCaption } from '~/components/ui/table'
 
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
@@ -34,9 +37,17 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
             {isLoading ? (
               <Spinner />
             ) : (
-              <img src={data?.['image']} alt={`Image for ${data?.['name']}`} className="w-24 h-24 object-cover" />
+              <div className="w-[50rem]">
+                <AspectRatio ratio={1 / 1}>
+                  <Image
+                    layout="fill"
+                    src={data?.['image']}
+                    alt={`Image for ${data?.['name']}`}
+                    className="rounded-md object-cover"
+                  />
+                </AspectRatio>
+              </div>
             )}
-
             <MintWrapprNFT
               chainId={Number(chainId)}
               wrappr={address ? address : zeroAddress}
@@ -44,18 +55,27 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
             />
           </div>
           <div className="w-full">
-            <div className="flex flex-col">
-              <h1>{name ? name : 'No name found'}</h1>
-              <p className="break-words">{data ? data['description'] : 'No description found'}</p>
-              <h1>Traits</h1>
-              <div className="flex flex-col">
-                {data &&
-                  data?.['attributes']?.map((trait: TraitType, index: number) => (
-                    <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
-                  ))}
-                {wrappr ? <Trait trait_type={'Admin'} value={wrappr?.['admin']} isBig={false} /> : <Spinner />}
-                {wrappr ? <Trait trait_type={'Mint Fee'} value={wrappr?.['mintFee']} isBig={true} /> : <Spinner />}
+            <div className="flex flex-col space-y-5">
+              <div>
+                <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl capitalize">
+                  {name ? name : 'No name found'}
+                </h1>
+                <p className="text-xl text-muted-foreground break-words capitalize">
+                  {data ? data['description'] : 'No description found'}
+                </p>
               </div>
+              <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">Traits</h2>
+              <Table>
+                <TableCaption className="text-xs">Traits of {name ? name : ''}</TableCaption>
+                <TableBody>
+                  {data &&
+                    data?.['attributes']?.map((trait: TraitType, index: number) => (
+                      <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
+                    ))}
+                  {wrappr ? <Trait trait_type={'Admin'} value={wrappr?.['admin']} isBig={false} /> : <Spinner />}
+                  {wrappr ? <Trait trait_type={'Mint Fee'} value={wrappr?.['mintFee']} isBig={true} /> : <Spinner />}
+                </TableBody>
+              </Table>
             </div>
           </div>
         </div>

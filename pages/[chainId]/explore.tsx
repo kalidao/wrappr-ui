@@ -37,9 +37,9 @@ const Explore: NextPage = () => {
     const { wrapprs } = compileQtestnetWrapprs(chainId)
     console.log(wrapprs)
     return (
-      <Layout heading="Wrappr" content="ddWrap now" back={() => router.push('/')}>
-        <div className="p-6">
-          <div className="flex flex-row justify-start items-center flex-wrap space-x-8">
+      <Layout heading="Wrappr" content="Wrap now" back={() => router.push('/')}>
+        <div className="">
+          <div className="grid grid-cols-3 justify-start items-center  space-x-8 space-y-10">
             {isLoading ? (
               <Spinner />
             ) : (

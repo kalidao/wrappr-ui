@@ -14,7 +14,7 @@ interface IMintWrappr {
 }
 
 export const useMintWrappr = ({ chainId }: { chainId: number }) => {
-  const { data: walletClient } = useWalletClient({ chainId })
+  const { data: walletClient, isError, isLoading } = useWalletClient({ chainId })
   const publicClient = usePublicClient({ chainId })
 
   const writeAsync = async ({ address, to, id, amount, data, tokenURI, owner, value }: IMintWrappr) => {
@@ -40,5 +40,7 @@ export const useMintWrappr = ({ chainId }: { chainId: number }) => {
 
   return {
     writeAsync,
+    isError,
+    isLoading,
   }
 }

@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import { useTheme } from 'next-themes'
 import { Button } from '~/components/ui/button'
 import { SunIcon, MoonIcon } from '@radix-ui/react-icons'
@@ -6,6 +5,7 @@ import { SunIcon, MoonIcon } from '@radix-ui/react-icons'
 export default function ToggleMode() {
   const { setTheme, resolvedTheme } = useTheme()
 
+  console.log('resolvedTheme:', resolvedTheme)
   return (
     <Button
       aria-label="Toggle dark mode"

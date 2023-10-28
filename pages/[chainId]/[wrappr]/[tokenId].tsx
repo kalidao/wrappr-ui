@@ -85,11 +85,11 @@ const Wrappr: NextPage = () => {
 
           <MintWrappr chainId={4} wrappr={wrappr ? wrappr.toString() : zeroAddress} tokenId={Number(tokenId)} />
           <Link href="/clinic" passHref>
-            <a>Need help with your entity?</a>
+            Need help with your entity?
           </Link>
           {(uri?.attributes[1].value == 'LLC' || uri?.attributes[1].value == 'UNA') && (
             <Link href={`/${chainId}/${wrappr}/${tokenId}/ein`} passHref>
-              <a>Apply for EIN</a>
+              Apply for EIN
             </Link>
           )}
         </div>

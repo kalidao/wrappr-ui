@@ -1,4 +1,3 @@
-import { StoreT } from '../types'
 import Link from 'next/link'
 import { useNetwork } from 'wagmi'
 import { FaWpexplorer, FaScroll } from 'react-icons/fa'
@@ -7,24 +6,22 @@ import Confetti from '~/utils/Confetti'
 import MintedImage from './MintedImage'
 import { deployments } from '~/constants'
 import { buttonVariants } from '~/components/ui/button'
+import { useMinterStore } from '../useMinterStore'
 
-type MintedProps = {
-  store: StoreT
-}
-
-export default function Minted({ store }: MintedProps) {
+export default function Minted() {
+  const { juris, entity, tokenId, agreement, txHash } = useMinterStore()
   const { chain } = useNetwork()
 
   return (
     <div className="flex items-center justify-center p-6">
       <div className="w-1/2 flex flex-col items-center justify-center space-y-10">
-        <MintedImage entity={store.juris + store.entity} tokenId={store.tokenId} />
+        <MintedImage entity={juris! + entity!} tokenId={tokenId} />
         <div className="flex justify-center items-center">
           <a
             className={buttonVariants({
               variant: 'default',
             })}
-            href={`${chain?.blockExplorers?.default?.url}/tx/${store.txHash}`}
+            href={`${chain?.blockExplorers?.default?.url}/tx/${txHash}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -35,7 +32,7 @@ export default function Minted({ store }: MintedProps) {
             className={buttonVariants({
               variant: 'default',
             })}
-            href={`${store.agreement}`}
+            href={`${agreement}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -45,8 +42,8 @@ export default function Minted({ store }: MintedProps) {
 
           <Link
             href={`/${chain?.id}/${
-              deployments[chain ? chain.id : 1][(store.juris + store.entity) as keyof (typeof deployments)[1]]
-            }/${store.tokenId}`}
+              deployments[chain ? chain.id : 1][(juris! + entity!) as keyof (typeof deployments)[1]]
+            }/${tokenId}`}
             className={buttonVariants({ variant: 'default' })}
           >
             <TbCandy />

@@ -4,3 +4,11 @@ export function convertIpfsHash(
 ): string {
   return desiredGatewayPrefix + source
 }
+
+export function isIpfsUrl(url: string): boolean {
+  return url.startsWith('ipfs://')
+}
+
+export function convertIpfsToGateway(url: string): string {
+  return convertIpfsHash(url.replace('ipfs://', ''))
+}

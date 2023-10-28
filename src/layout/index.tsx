@@ -6,6 +6,7 @@ import Footer from './Footer'
 import { useRouter } from 'next/router'
 import { Button } from '~/components/ui/button'
 import { ArrowLeftIcon, HandIcon } from '@radix-ui/react-icons'
+import { BackButton } from '~/components/back-button'
 
 type LayoutProps = {
   heading: string
@@ -31,13 +32,7 @@ export default function Layout({ heading, content, back, children }: LayoutProps
         <link rel="manifest" href="/site.webmanifest"></link>
       </Head>
       <Header />
-      <div className="m-3">
-        {back && (
-          <Button size="sm" variant="outline" className="rounded-full" onClick={back}>
-            <ArrowLeftIcon />
-          </Button>
-        )}
-      </div>
+      <div className="m-3">{back && <BackButton onClick={back} />}</div>
       <div className="min-h-[90vh] relative">{children}</div>
       {chatActive ? null : (
         <Link

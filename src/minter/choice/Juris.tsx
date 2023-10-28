@@ -1,7 +1,8 @@
-import { ChevronRightIcon } from '@radix-ui/react-icons'
 import { StoreT } from '../types'
-import { Button } from '~/components/ui/button'
+import { Button, buttonVariants } from '~/components/ui/button'
 import { BackButton } from '~/components/back-button'
+import { Icons } from '~/components/ui/icons'
+import { Jurisdiction, ViewsEnum, useMinterStore } from '../useMinterStore'
 
 type Props = {
   choice: StoreT
@@ -10,108 +11,50 @@ type Props = {
   setView: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function Juris({ choice, setChoice, setView, setScreen }: Props) {
-  const setJuris = (to: string) => {
-    setChoice({ ...choice, juris: to })
-    setScreen(1)
+export default function Juris() {
+  const { entity, setJuris: setStoreJuris, setView, reset } = useMinterStore()
+
+  const setJuris = (to: Exclude<Jurisdiction, 'wy'>) => {
+    setStoreJuris(to)
+    setView(to === 'de' ? ViewsEnum.deLLC : ViewsEnum.miLLC)
   }
 
   const back = () => {
-    setView(0)
-    setChoice({
-      ...choice,
-      juris: '',
-      entity: '',
-    })
+    setView(ViewsEnum.entity)
+    reset()
   }
 
-
-  console.log('choice', choice)
-  const info: {
-    [key: string]: {
-      description: string
-      link: string
-    }
-  } = {
-    LLC: {
-      description:
-        'Your LLC will be created after minting. State formation and taxes included. Which jurisdiction do you want?',
-      link: 'https://docs.wrappr.wtf/how-to/LLC/',
-    },
-    UNA: {
-      description: 'Your Non-Profit (UNA) will be created after minting. Which jurisdiction do you want?',
-      link: 'https://daos.paradigm.xyz/',
-    },
-    Charter: {
-      description:
-        'Your DAO Charter will be drafted after minting. This is a simple membership agreement signable with DAO vote or key-signature.',
-      link: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%93%9C-dao-charter',
-    },
-  }
-
-  const filteredEntity = entity.filter(
-    (item) => choice.entity === 'LLC' && (item.text === 'Delaware' || item.text === 'Offshore'),
+  const filteredEntity = entities.filter(
+    (item) => entity === 'LLC' && (item.text === 'Delaware' || item.text === 'Offshore'),
   )
 
   return (
-    <Box
-      display={'flex'}
-      flexDirection={{
-        xs: 'column',
-        md: 'row',
-      }}
-    >
-      <Box className={styles.splashContainer}>
-        <Box
-          display="flex"
-          flexDirection={'column'}
-          width={{
-            xs: 'full',
-            md: '2/3',
-          }}
-          gap="5"
-        >
-          <Text size="headingOne" color="foreground" align="left">
-            {info[choice.entity].description}
-          </Text>
-          <Box as="a" className={styles.pill} href={info[choice.entity].link} target="_blank">
-            <Stack direction={'horizontal'} align="center">
-              <IconBookOpen />
-              <Text>Learn More</Text>
-            </Stack>
-            <IconArrowRight />
-          </Box>
-        </Box>
-      </Box>
-      <Box className={styles.action}>
-        <Stack>
-          <Box className={styles.back} as="button" onClick={back} aria-label="Go back!">
-            <IconArrowLeft />
-          </Box>
-          <Text size="headingOne" align="left" weight="semiBold" color="foreground">
-            Select Jurisdiction
-          </Text>
-        </Stack>
-        <Box className={styles.actionCards}>
+    <div>
+      <div>
+        <div className="flex flex-col space-y-2 border-b">
+          <BackButton onClick={back} />
+          <h2 className="scroll-m-20 pb-2 text-5xl font-semibold tracking-tight transition-colors first:mt-0">
+            Jurisdiction
+          </h2>
+        </div>
+        <div className="flex flex-col space-y-2 mt-2">
           {filteredEntity.map(({ text, set }) => (
             <Button
               key={text}
-              tone="foreground"
-              suffix={<IconChevronRight />}
-              width="3/4"
-              justifyContent="space-between"
-              onClick={() => setJuris(set)}
+              className="flex items-center justify-between w-3/4 text-xl rounded-xl p-5"
+              onClick={() => setJuris(set as 'de' | 'mi')}
             >
               {text}
+              <Icons.chevronRight className="ml-2" />
             </Button>
           ))}
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   )
 }
 
-const entity = [
+const entities = [
   {
     text: 'Delaware',
     description: 'Standard business-friendly jurisdiction.',

@@ -1,91 +1,117 @@
-import { useState } from 'react'
-import Choice from './choice'
-import Form from './form'
 import Confirm from './Confirm'
 import Success from './success/Success'
-import { StoreT } from './types'
-import { ArrowRightIcon } from '@radix-ui/react-icons'
-import { FaBookOpen } from 'react-icons/fa'
 import { badgeVariants } from '~/components/ui/badge'
 import { cn } from '~/utils'
+import { Icons } from '~/components/ui/icons'
+import Juris from './choice/Juris'
+import LLC from './form/LLC'
+import UNA from './form/UNA'
+import { ViewsEnum, useMinterStore } from './useMinterStore'
+import Entity from './choice/Entity'
+import FormShell from './form'
+import { Error } from './error'
 
-export default function Skeleton() {
-  const [view, setView] = useState(0)
-  const [store, setStore] = useState<StoreT>({
-    entity: '',
-    juris: '',
-    name: '',
-    mission: '',
-    jurisdiction: '',
-    tokenId: 0,
-    agreement: '',
-    uri: '',
-    txHash: '',
-  })
-
-  const views = [
-    {
-      description: 'Choose your entity type',
-      link: 'https://docs.wrappr.wtf/how-to/choose-entity',
-      component: <Choice key={'choice'} setScreen={setView} setChoice={setStore} choice={store} />,
-    },
-    {
-      description: 'Form',
-      link: 'https://docs.wrappr.wtf/how-to/form',
-      component: <Form key={'form'} store={store} setStore={setStore} setView={setView} />,
-    },
-    {
-      description: '',
-      link: '',
-      component: <Confirm key={'confirm'} store={store} setStore={setStore} setView={setView} />,
-    },
-    {
-      description: '',
-      link: '',
-      component: <Success key={'success'} store={store} />,
-    },
-  ]
-
-  return (
-    <div className="min-h-[90vh] px-5 grid grid-cols-2">
-      {views[view]['description'] !== '' ? <div className={cn(views[view].description === '' ? 'hidden' : 'grid-cols-1', 'flex flex-col items-center')}>
-        <p className="text-xl text-muted-foreground">{views[view]['description']}</p>
-        <a
-          className={cn((badgeVariants({ variant: 'default' })), 'flex flex-row items-center justify-between w-fit space-x-3')}
-          href={views[view]['link']}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div className="flex flex-row items-center space-x-1">
-            <FaBookOpen />
-            <p>How it works</p>
-          </div>
-          <ArrowRightIcon />
-        </a>
-      </div> : null}
-      <div className={cn(view > 1 ? 'grid-cols-2' : 'grid-cols-1')}>{views[view]['component']}</div>
-    </div>
-  )
+interface IView {
+  heading?: string
+  description: string
+  link: string
+  component: React.ReactNode
 }
 
-const info: {
-  [key: string]: {
-    description: string
-    link: string
+export default function Skeleton() {
+  const { view } = useMinterStore()
+
+  const views: { [key in ViewsEnum]: IView } = {
+    entity: {
+      description: 'Legal wrappers for your digital assets',
+      link: 'https://docs.wrappr.wtf/how-to/choose-entity',
+      component: <Entity key={'entity'} />,
+    },
+    juris: {
+      description:
+        'Your LLC will be created after minting. State formation and taxes included. Which jurisdiction do you want?',
+      link: 'https://docs.wrappr.wtf/how-to/choose-entity',
+      component: <Juris key={'juris'} />,
+    },
+    deLLC: {
+      heading: 'Delaware LLC',
+      description: 'Delaware is the gold standard for corporate law. Members can remain anonymous.',
+      link: 'https://docs.wrappr.wtf/how-to/LLC',
+      component: (
+        <FormShell choice="deLLC">
+          <LLC />
+        </FormShell>
+      ),
+    },
+    wyUNA: {
+      heading: 'UNA',
+      description: 'Wyoming is friendly to digital assets. Members can remain anonymous.',
+      link: 'https://docs.wrappr.wtf/how-to/non-profit/',
+      component: (
+        <FormShell choice="wyUNA">
+          <UNA />
+        </FormShell>
+      ),
+    },
+    miLLC: {
+      heading: 'Marshall Islands LLC',
+      description: 'Marshall Islands offers an offshore alternative for LLC formation',
+      link: 'https://docs.wrappr.wtf/how-to/LLC',
+      component: (
+        <FormShell choice="miLLC">
+          <LLC />
+        </FormShell>
+      ),
+    },
+    mint: {
+      description: '',
+      link: '',
+      component: <Confirm key={'confirm'} />,
+    },
+    success: {
+      description: '',
+      link: '',
+      component: <Success key={'success'} />,
+    },
+    error: {
+      description: '',
+      link: '',
+      component: <Error key={'error'} />,
+    },
   }
-} = {
-  LLC: {
-    description:
-      'Your LLC will be created after minting. State formation and taxes included. Which jurisdiction do you want?',
-    link: 'https://docs.wrappr.wtf/how-to/LLC/',
-  },
-  UNA: {
-    description: 'Your Non-Profit (UNA) will be created after minting. Which jurisdiction do you want?',
-    link: 'https://daos.paradigm.xyz/',
-  },
-  Charter: {
-    description:
-      'Your DAO Charter will be drafted after minting. This is a simple membership agreement signable with DAO vote or key-signature.',
-    link: 'https://docs.wrappr.wtf/how-to/charter/#%F0%9F%93%9C-dao-charter',
-  },
+
+  return (
+    <div className="grid min-h-[90vh] w-screen px-5 grid-cols-5">
+      {views[view]['description'] !== '' ? (
+        <div
+          className={cn(
+            views[view].description === '' ? 'hidden' : 'col-span-3',
+            'flex flex-col items-center justify-center space-y-5 h-full',
+          )}
+        >
+          <div className="flex flex-col space-y-3">
+            <p className="text-4xl text-primary max-w-2xl">{views[view]['description']}</p>
+            <a
+              className={cn(
+                badgeVariants({ variant: 'outline' }),
+                'flex flex-row items-center justify-between w-fit space-x-3 rounded-3xl text-md py-2 px-5',
+              )}
+              href={views[view]['link']}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="flex flex-row items-center space-x-3">
+                <Icons.book size={20} />
+                <p>How it works</p>
+              </div>
+              <Icons.arrowRight />
+            </a>
+          </div>
+        </div>
+      ) : null}
+      <div className={cn(views[view].description == '' ? 'col-span-full' : 'col-span-2')}>
+        {views[view]['component']}
+      </div>
+    </div>
+  )
 }

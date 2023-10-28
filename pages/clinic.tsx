@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import Layout from '../src/layout'
+import Layout from '~/layout'
 import { Widget } from '@typeform/embed-react'
 import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'

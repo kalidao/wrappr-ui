@@ -1,10 +1,13 @@
-import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
+import Image from 'next/image'
+
+import { AspectRatio } from '~/components/ui/aspect-ratio'
 
 export function WrapprImage({ src }: { src: string }) {
   return (
-    <Avatar>
-      <AvatarImage src={src} alt="NFT Image" className="w-24 h-24 object-cover rounded-md" />
-      <AvatarFallback />
-    </Avatar>
+    <div className="w-[30rem]">
+      <AspectRatio ratio={1 / 1}>
+        <Image src={src} alt="Image" className="rounded-md object-cover" layout="fill" />
+      </AspectRatio>
+    </div>
   )
 }

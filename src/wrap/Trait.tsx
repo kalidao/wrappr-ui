@@ -1,8 +1,9 @@
-import { FaUser } from 'react-icons/fa'
 import { isValidURL } from '../utils'
 import { HiExternalLink } from 'react-icons/hi'
 import { formatEther, isAddress } from 'viem'
-import { Button, buttonVariants } from '~/components/ui/button'
+import { buttonVariants } from '~/components/ui/button'
+import { TableCell, TableRow } from '~/components/ui/table'
+import { Icons } from '~/components/ui/icons'
 
 export type TraitType = {
   trait_type: string
@@ -22,13 +23,8 @@ export default function Trait({ trait_type, value, isBig }: TraitType) {
 
   if (isAddress(value as string) === true) {
     renderValue = (
-      <a
-        className={buttonVariants({
-          variant: 'link',
-        })}
-        href={`/users/${value}`}
-      >
-        <FaUser />
+      <a href={`/users/${value}`} className="flex flex-row items-center space-y-1">
+        <span className="">{value}</span>
       </a>
     )
   }
@@ -37,14 +33,14 @@ export default function Trait({ trait_type, value, isBig }: TraitType) {
     if (value == 0) {
       renderValue = <i>FREE</i>
     } else {
-      renderValue = <>{formatEther(BigInt(value))}</>
+      renderValue = <p>{`${formatEther(BigInt(value))} ETH`}</p>
     }
   }
 
   return (
-    <div>
-      <p>{trait_type}</p>
-      <p>{renderValue}</p>
-    </div>
+    <TableRow>
+      <TableCell className="capitalize">{trait_type}</TableCell>
+      <TableCell className="font-semiBold">{renderValue}</TableCell>
+    </TableRow>
   )
 }

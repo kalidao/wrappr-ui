@@ -10,7 +10,6 @@ export default function Header() {
         <a href={siteConfig.links.tos} target="_blank" rel="noopenner noreferrer">
           Terms
         </a>
-
         <a href={siteConfig.links.privacy} target="_blank" rel="noopenner noreferrer">
           Privacy Policy
         </a>

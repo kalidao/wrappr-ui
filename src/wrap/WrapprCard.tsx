@@ -16,13 +16,13 @@ type WrapprCardProps = {
 }
 
 export default function WrapprCard({ name, id, baseURI, chainId }: WrapprCardProps) {
-  const { isLoading, error, data } = useQuery(['wrappr', baseURI], () => fetchWrapprData(baseURI))
+  const { isLoading, data } = useQuery(['wrappr', baseURI], () => fetchWrapprData(baseURI))
 
   return (
-    <Link href={`/${chainId}/${id}`} passHref>
-      <div className="hover:scale-105 transition-all duration-200 ease-in-out flex flex-col items-center justify-center space-y-2">
+    <Link href={`/${chainId}/${id}`} passHref className="p-3">
+      <div className="hover:scale-105 transition-all duration-200 ease-in-out flex flex-col items-center justify-start space-y-2">
         {isLoading ? <Spinner /> : <WrapprImage src={data?.['image']} />}
-        <p className="text-sm text-secondary-foreground">{name}</p>
+        <p className="text-xl text-muted-foreground">{name}</p>
       </div>
     </Link>
   )

@@ -5,12 +5,17 @@ export async function createAgreement(
   name: string,
   tokenId: string,
   mission: string,
-  jurisdiction: string,
   chainId: string,
 ) {
   let agreement_params
   switch (template_name) {
     case 'deLLC':
+      agreement_params = {
+        name: name,
+        ricardianId: `${chainId}:${tokenId}`,
+      }
+      break
+    case 'miLLC':
       agreement_params = {
         name: name,
         ricardianId: `${chainId}:${tokenId}`,
@@ -34,22 +39,6 @@ export async function createAgreement(
         name: name,
         ricardianId: `${chainId}:${tokenId}`,
         mission: mission,
-      }
-      break
-    case 'lexCharter':
-      agreement_params = {
-        name: name,
-        ricardianId: `${chainId}:${tokenId}`,
-        mission: mission,
-        jurisdiction: jurisdiction,
-      }
-      break
-    case 'orCharter':
-      agreement_params = {
-        name: name,
-        ricardianId: `${chainId}:${tokenId}`,
-        mission: mission,
-        jurisdiction: jurisdiction,
       }
       break
   }

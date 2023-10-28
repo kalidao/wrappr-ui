@@ -9,6 +9,7 @@ import { useIsMounted } from '~/hooks/useIsMounted'
 import { buttonVariants } from '~/components/ui/button'
 import Link from 'next/link'
 import { FaBookOpen, FaUser } from 'react-icons/fa'
+import { Icons } from '~/components/ui/icons'
 
 export default function Header() {
   const router = useRouter()
@@ -18,7 +19,7 @@ export default function Header() {
   if (!isMounted) return null
 
   return (
-    <div className="max-h-[15vh] py-5 flex items-center justify-between z-10 gap-2 relative border-b-1 border-border">
+    <div className="max-h-[15vh] py-3 px-2 flex items-center justify-between z-10 gap-2 relative border-b-1 border-border">
       <motion.div
         whileHover={{
           rotate: Math.floor(Math.random() * (360 - 20)) + 20,
@@ -28,11 +29,11 @@ export default function Header() {
       >
         <Image src={'/logo.png'} height={60} width={80} alt={`Wrappr logo`} />
       </motion.div>
-      <Box as="nav" display="flex" gap="2" alignItems={'center'}>
-        {/* {isConnected && <Item label="user" src={`/users/${address}`} icon={<IconUserSolid />} />} */}
-        <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<IconBookOpenSolid />} isExternal />
+      <nav className="flex gap-2 items-center">
+        {isConnected && <Item label="user" src={`/users/${address}`} icon={<Icons.user />} />}
+        <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<FaBookOpen />} isExternal />
         <ToggleMode />
-      </div>
+      </nav>
       <div className="flex">
         <ConnectButton label="login" />
       </div>

@@ -1,37 +1,90 @@
-import React from 'react'
-import type { NextPage } from 'next'
+import React, { useMemo } from 'react'
+import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '~/layout'
 import { deployments } from '~/constants'
-import { useQuery } from '@tanstack/react-query'
-import { CollectionCard } from '~/collection'
-import { getChainDetails, getExplorerLink } from '~/utils/getChainDetails'
 import { Separator } from '~/components/ui/separator'
-import { Spinner } from '~/components/ui/spinner'
 import { buttonVariants } from '~/components/ui/button'
+import { getAddress, isAddress, zeroAddress } from 'viem'
+import { CollectionCard } from '~/collection'
+import { useEnsAvatar, useEnsName, useNetwork } from 'wagmi'
+import { truncateAddress } from '~/utils/address'
+import { blo } from 'blo'
+import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
+import { FullAddressCopy } from '~/components/full-address-copy'
 
-const User: NextPage = () => {
+export const getServerSideProps = (async (context) => {
+  const user = context.params?.user?.toString()
+  const testnet = Boolean(context.query?.testnet)
+
+  if (!user || !isAddress(user)) {
+    return {
+      notFound: true,
+    }
+  }
+
+  const data = await fetchAllCollections(user, testnet)
+
+  return {
+    props: {
+      data,
+    },
+  }
+}) satisfies GetServerSideProps<{
+  data: any
+}>
+
+export default function UserPage({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter()
   const user = router.query.user ? router.query.user.toString() : undefined
-  const { data, isLoading } = useQuery(
-    ['userCollections', user],
-    async () => {
-      const data = await fetchAllCollections(user as string, true)
-      return data
-    },
-    {
-      enabled: user !== undefined,
-    },
-  )
+  const { data: ensName } = useEnsName({
+    address: user ? getAddress(user) : undefined,
+    chainId: 1,
+  })
+  const {
+    data: ensAvatar,
+    isError,
+    isLoading,
+  } = useEnsAvatar({
+    name: ensName,
+    chainId: 1,
+  })
 
-  console.log('user data', data)
+  const name = useMemo(() => {
+    if (ensName) return ensName
+    if (user && isAddress(user)) return truncateAddress(getAddress(user))
+    return 'User'
+  }, [ensName, user])
+  const avatar = useMemo(() => {
+    if (ensAvatar) return ensAvatar
+    if (user && isAddress(user)) return blo(user)
+    return blo(zeroAddress)
+  }, [ensAvatar, user])
+
+  if (!user || !isAddress(user)) {
+    return (
+      <Layout heading="User" content="Explore wrapprs created by users. Wrap anything." back={() => router.push('/')}>
+        <div className="flex flex-col items-center justify-center space-y-2">
+          <p>Could not find user.</p>
+        </div>
+      </Layout>
+    )
+  }
 
   return (
     <Layout heading="User" content="Explore wrapprs created by users. Wrap anything." back={() => router.push('/')}>
       <div className="flex flex-col items-center justify-center space-y-2">
-        <div>
-          <h1>{user ? user.slice(0, 5) + '...' + user.slice(-4) : null}</h1>
-          {/* Add link on etherscan */}
+        <div className="flex flex-col space-y-3">
+          <div className="flex flex-row items-center justify-center space-x-3">
+            <Avatar className="w-20 h-20">
+              <AvatarImage src={avatar} />
+              <AvatarFallback>W</AvatarFallback>
+            </Avatar>
+            <div>
+              <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">{name}</h1>
+              {ensName ? <FullAddressCopy address={user} /> : null}
+            </div>
+          </div>
           <div className="flex flex-row">
             <a
               className={buttonVariants({ variant: 'outline' })}
@@ -39,32 +92,35 @@ const User: NextPage = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              View on Etherscan
+              Etherscan
             </a>
           </div>
         </div>
         <Separator />
-        <div>
-          {isLoading ? (
-            <Spinner />
-          ) : data && data?.length === 0 ? (
-            <p>We could not find any Wrapprs owned by this user.</p>
-          ) : (
-            data?.map((chain: any, index) => <UserCollection key={index} chainId={chain.chainId} data={chain.data} />)
-          )}
-        </div>
+        {data && data?.length === 0 ? (
+          <p>We could not find any Wrapprs owned by this user.</p>
+        ) : (
+          <div className="min-h-screen w-screen flex flex-col space-x-4 p-4">
+            {data?.map((chain: any, index) => <UserCollection key={index} chainId={chain.chainId} data={chain.data} />)}
+          </div>
+        )}
       </div>
     </Layout>
   )
 }
 
 export const UserCollection = ({ chainId, data }: { chainId: number; data: any[] }) => {
-  const chain = getChainDetails(chainId)
+  const { chains } = useNetwork()
+  const chain = chains.find((c) => c.id === chainId)
+
+  if (!chain) return null
 
   return (
-    <div className="flex flex-col">
-      <h1>{chain?.name}</h1>
-      <div className="flex flex-row flex-wrap">
+    <div className="flex flex-col space-y-5 items-center justify-center p-2 w-full">
+      <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 w-full">
+        {chain.name}
+      </h2>
+      <div className="grid grid-cols-10 w-full">
         {data?.map((wrappr: any) => {
           return (
             <CollectionCard
@@ -83,9 +139,12 @@ export const UserCollection = ({ chainId, data }: { chainId: number; data: any[]
 
 const fetchAllCollections = async (user: string, testnet: boolean) => {
   const address = user.toLowerCase()
-  const chains = Object.keys(deployments)
-    .filter((chainId) => deployments[Number(chainId)]['subgraph'] !== undefined)
-    .filter((chainId) => !(deployments[Number(chainId)]['testnet'] === testnet))
+  const chains = Object.keys(deployments).filter(
+    (chainId) =>
+      deployments[Number(chainId)]['subgraph'] !== null &&
+      (testnet ? true : deployments[Number(chainId)]['testnet'] === testnet),
+  )
+
   const res = await Promise.all(
     chains.map((chainId) =>
       fetch(deployments[Number(chainId)]['subgraph'] as string, {
@@ -129,5 +188,3 @@ const fetchAllCollections = async (user: string, testnet: boolean) => {
 
   return collections
 }
-
-export default User

@@ -37,7 +37,7 @@ export default async function createURI(name: string, tokenId: number, entity: s
         attributes: [...attributes],
       }
       break
-      case 'miLLC':
+    case 'miLLC':
       attributes = miLLC.attributes
       attributes[2].value = agreement
       obj = { ...miLLC, name: name, attributes: [...attributes] }

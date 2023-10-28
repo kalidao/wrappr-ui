@@ -17,6 +17,9 @@ dependencies:
   '@microsoft/fetch-event-source':
     specifier: ^2.0.1
     version: 2.0.1
+  '@phosphor-icons/react':
+    specifier: ^2.0.13
+    version: 2.0.13(react-dom@18.2.0)(react@18.2.0)
   '@pinata/sdk':
     specifier: ^1.2.1
     version: 1.2.1
@@ -65,6 +68,9 @@ dependencies:
   axios:
     specifier: ^1.5.1
     version: 1.5.1
+  blo:
+    specifier: ^1.1.1
+    version: 1.1.1
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
@@ -964,6 +970,17 @@ packages:
 
   /@pedrouid/environment@1.0.1:
     resolution: {integrity: sha512-HaW78NszGzRZd9SeoI3JD11JqY+lubnaOx7Pewj5pfjqWXOEATpeKIFb9Z4t2WBUK2iryiXX3lzWwmYWgUL0Ug==}
+    dev: false
+
+  /@phosphor-icons/react@2.0.13(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-lRjFfCv4pU8vDnPgZ8/QFzYmAJS08Vx+J2/+Ldh217pXaxvaayBZMC/3EinuMwmMylc97+XYCMPdH+y10I+f0g==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>= 16.8'
+      react-dom: '>= 16.8'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@pinata/sdk@1.2.1:
@@ -3342,6 +3359,11 @@ packages:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
     dependencies:
       file-uri-to-path: 1.0.0
+    dev: false
+
+  /blo@1.1.1:
+    resolution: {integrity: sha512-1uGZInlRD4X1WQP2G1QjDGwGZ8HdGgFKqnzyRdA2TYYc0MOQCmCi37RTQ8oJuI0UF6DYFKXHwV/t1kZkO/fTaA==}
+    engines: {node: '>=16'}
     dev: false
 
   /bn.js@4.11.8:

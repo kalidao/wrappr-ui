@@ -2,9 +2,8 @@ import { useState } from 'react'
 import Image from 'next/image'
 import PDFViewer from '@design/PDFViewer'
 import { useAccount, useNetwork } from 'wagmi'
-import { StoreT } from './types'
 import { MdConstruction, MdError, MdSend, MdSearch, MdAccessTimeFilled, MdCheckCircle } from 'react-icons/md'
-import getName from './utils/getName'
+import getName, { getPdfName } from './utils/getName'
 import { createAgreement } from './utils/createAgreement'
 import createTokenURI from './utils/createTokenURI'
 import { getAgreement } from './utils/getAgreement'
@@ -14,29 +13,16 @@ import { getEntityAddress } from '~/constants/deployments'
 import { parseEther } from 'viem'
 import { Button } from '~/components/ui/button'
 import { Checkbox } from '~/components/ui/checkbox'
-import { ArrowRightIcon } from '@radix-ui/react-icons'
+import { ViewsEnum, useMinterStore } from './useMinterStore'
 import { BackButton } from '~/components/back-button'
-import { Label } from '~/components/ui/label'
-
-type Props = {
-  store: StoreT
-  setStore: React.Dispatch<React.SetStateAction<StoreT>>
-  setView: React.Dispatch<React.SetStateAction<number>>
-}
 
 type Message = {
   text: string
   icon: React.ReactNode
 }
 
-export default function Confirm({ store, setStore, setView }: Props) {
-  console.log('store.juris:', store.juris)
-  if(store.entity === 'UNA' && store.juris !== 'wy') {
-    setStore(prev => ({
-      ...prev,
-      juris: 'wy'
-    }));
-  }
+export default function Confirm() {
+  const { entity, juris, name, mission, setTokenId, setAgreement, setTxHash, setView, setError } = useMinterStore()
   const [checked, setChecked] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<Message>({
@@ -48,6 +34,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
   const { writeAsync } = useMintWrappr({
     chainId: chain?.id ?? 1,
   })
+
   const tx = async () => {
     try {
       setLoading(true)
@@ -64,8 +51,12 @@ export default function Confirm({ store, setStore, setView }: Props) {
         throw new Error('Could not find chainId, please try reconnecting to the network')
       }
 
+      if (!juris || !entity) {
+        throw new Error('Could not find entity or jurisdiction, please try again.')
+      }
+
       // fetching tokenId
-      const contractAddress = getEntityAddress(chain.id, store.juris + store.entity)
+      const contractAddress = getEntityAddress(chain.id, juris + entity)
 
       let tokenId = 0
 
@@ -77,22 +68,16 @@ export default function Confirm({ store, setStore, setView }: Props) {
       tokenId = await calculateTokenId(contractAddress, Number(chain.id))
 
       console.log(tokenId, chain.id)
+      setTokenId(tokenId)
 
       // creating agreement
-      let agreement = getAgreement(store.juris + store.entity)
+      let agreement = getAgreement(juris + entity)
 
       setMessage({
         text: 'Creating agreement...',
         icon: <MdConstruction />,
       })
-      await createAgreement(
-        store.juris + store.entity,
-        store.name,
-        tokenId.toString(),
-        store.mission,
-        store.jurisdiction,
-        chain.id.toString(),
-      )
+      await createAgreement(juris! + entity!, name, tokenId.toString(), mission, chain.id.toString())
         .then((res) => {
           agreement = res
 
@@ -112,7 +97,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
         text: 'Building token metadata...',
         icon: <MdConstruction />,
       })
-      await createTokenURI(store.name, tokenId, store.juris + store.entity, agreement)
+      await createTokenURI(name, tokenId, juris + entity, agreement)
         .then((res) => {
           tokenURI = res
 
@@ -124,8 +109,6 @@ export default function Confirm({ store, setStore, setView }: Props) {
         .catch((e) => {
           throw new Error(e)
         })
-
-      // sending tx
 
       setMessage({
         text: 'Sending your transaction...',
@@ -140,7 +123,7 @@ export default function Confirm({ store, setStore, setView }: Props) {
         data: '0x',
         tokenURI: tokenURI,
         owner: address,
-        value: store.entity === 'LLC' ? parseEther('0.015') : parseEther('0'),
+        value: entity === 'LLC' ? parseEther('0.015') : parseEther('0'),
       })
 
       setMessage({
@@ -148,78 +131,62 @@ export default function Confirm({ store, setStore, setView }: Props) {
         icon: <MdAccessTimeFilled />,
       })
 
-      setStore({
-        ...store,
-        agreement: agreement,
-        tokenId: tokenId,
-        txHash: receipt.transactionHash,
-      })
-      setView(3)
+      setTokenId(tokenId)
+      setAgreement(agreement)
+      setTxHash(receipt.transactionHash)
+      setView(ViewsEnum.success)
     } catch (e) {
       console.error(e)
-
+      // @TODO handle User rejected the request
       if (e instanceof Error) {
-        setMessage({
-          text: e.message,
-          icon: <MdError />,
-        })
+        setError(e.message)
       } else {
-        setMessage({
-          text: 'Something went wrong, please try again',
-          icon: <MdError />,
-        })
+        setError('Something went wrong, please try again.')
       }
+      setView(ViewsEnum.error)
     } finally {
       setLoading(false)
     }
   }
-
+  console.log('confirm', juris, entity, getPdfName(juris!, entity!))
   return (
     <div className="w-screen flex items-center justify-center p-3 md:p-6">
       <div className="w-full md:w-3/4 lg:w-1/2 flex flex-col space-y-2">
         {loading === false ? (
-          <Stack>
-            <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-              <Text size="headingTwo" color="foreground">
-                {'Confirm '}
-                {store.entity === 'UNA'
-                  ? store.entity
-                  : store.juris === 'mi'
-                  ? 'Marshall Islands ' + store.entity
-                  : getName(store.juris, store.entity) + ' '}
-                {' for ' + store.name}
-              </Text>
-              <Button onClick={() => setView(1)} aria-label="Go back!" variant="transparent" shape="circle">
-                <IconArrowLeft />
-              </Button>
-            </Stack>
-            {/* Same here, pdf wasn't loading */}
-            <PDFViewer src={`/legal/${store.entity === 'UNA' ? 'wyUNA' : store.juris + store.entity}.pdf`} />
-            <Box
-              display="flex"
-              alignItems={'center'}
-              justifyContent="space-between"
-              borderTopWidth={'0.375'}
-              borderColor="foregroundSecondary"
-              paddingTop="1"
-            >
-              <Checkbox
-                variant="transparent"
-                label={<Text>I have read and accept the terms of this agreement.</Text>}
-                onCheckedChange={() => setChecked(!checked)}
-              ></Checkbox>
-              {isConnected ? (
-                <Button
-                  // tone="foreground"
-                  type="submit"
-                  disabled={!checked}
-                  onClick={tx}
-                >
-                  Confirm Mint
-                </Button>
-              ) : (
-                <p>Please connect to a wallet.</p>
-              )}
+          <div>
+            <div className="flex flex-col justify-start items-start space-y-2 border-b">
+              <BackButton
+                onClick={() =>
+                  setView(entity === 'UNA' ? ViewsEnum.wyUNA : juris == 'de' ? ViewsEnum.deLLC : ViewsEnum.miLLC)
+                }
+              />
+              <h2 className="scroll-m-20 pb-2 text-5xl font-semibold tracking-tight transition-colors first:mt-0">
+                {`Confirm ${getName(juris!, entity!)} for ${name}`}
+              </h2>
+            </div>
+            <div>
+              <PDFViewer src={`/legal/${getPdfName(juris!, entity!)}.pdf`} />
+              <div className="flex items-center justify-between border-t-2 border-foregroundSecondary pt-3">
+                <div className="items-top flex space-x-2">
+                  <Checkbox id="terms" checked={checked} onCheckedChange={() => setChecked(!checked)} />
+                  <div className="grid gap-1.5 leading-none">
+                    <label
+                      htmlFor="terms"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      Accept terms and conditions
+                    </label>
+                    <p className="text-sm text-muted-foreground">I have read and accept the terms of this agreement.</p>
+                  </div>
+                </div>
+                {isConnected ? (
+                  <Button type="submit" disabled={!checked} onClick={tx}>
+                    Confirm Mint
+                  </Button>
+                ) : (
+                  <p>Please connect to a wallet.</p>
+                )}
+              </div>
             </div>
           </div>
         ) : (
