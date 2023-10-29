@@ -1,14 +1,14 @@
-import { deployments } from '~/constants'
+import { getEntityAddress } from '~/constants/deployments'
 import { Wrappr, WrapprLong } from '~/types/wrappr.types'
 
 export function compileQtestnetWrapprs(chainId: number) {
-  const deLLC = deployments[chainId]['deLLC']
-  const wyLLC = deployments[chainId]['wyLLC']
-  const miLLC = deployments[chainId]['miLLC']
-  const deUNA = deployments[chainId]['deUNA']
-  const wyUNA = deployments[chainId]['wyUNA']
-  const lexCharter = deployments[chainId]['lexCharter']
-  const orCharter = deployments[chainId]['orCharter']
+  const deLLC = getEntityAddress(chainId, 'deLLC')
+  const wyLLC = getEntityAddress(chainId, 'wyLLC')
+  const miLLC = getEntityAddress(chainId, 'miLLC')
+  const deUNA = getEntityAddress(chainId, 'deUNA')
+  const wyUNA = getEntityAddress(chainId, 'wyUNA')
+  const lexCharter = getEntityAddress(chainId, 'lexCharter')
+  const orCharter = getEntityAddress(chainId, 'orCharter')
 
   // Prep for building `wrapprs` variable
   const wrapprAddresses = [deLLC, wyLLC, miLLC, deUNA, wyUNA, lexCharter, orCharter]

@@ -1,38 +1,28 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import PDFViewer from '@design/PDFViewer'
-import { Stack, Box, Checkbox, Text, Button, IconArrowLeft } from '@kalidao/reality'
-import { useAccount, useNetwork, useContractWrite } from 'wagmi'
-import { StoreT } from './types'
-import { ethers } from 'ethers'
-import { deployments, WRAPPR } from '../constants'
+import { useAccount, useNetwork } from 'wagmi'
 import { MdConstruction, MdError, MdSend, MdSearch, MdAccessTimeFilled, MdCheckCircle } from 'react-icons/md'
-import getName from './utils/getName'
+import getName, { getPdfName } from './utils/getName'
 import { createAgreement } from './utils/createAgreement'
 import createTokenURI from './utils/createTokenURI'
 import { getAgreement } from './utils/getAgreement'
 import { calculateTokenId } from '~/utils/calculateTokenId'
-import { calculateTokenIdonQ } from '~/utils/calculateTokenIdonQ'
-
-type Props = {
-  store: StoreT
-  setStore: React.Dispatch<React.SetStateAction<StoreT>>
-  setView: React.Dispatch<React.SetStateAction<number>>
-}
+import { useMintWrappr } from '~/hooks/useMintWrappr'
+import { getEntityAddress } from '~/constants/deployments'
+import { parseEther } from 'viem'
+import { Button } from '~/components/ui/button'
+import { Checkbox } from '~/components/ui/checkbox'
+import { ViewsEnum, useMinterStore } from './useMinterStore'
+import { BackButton } from '~/components/back-button'
 
 type Message = {
   text: string
   icon: React.ReactNode
 }
 
-export default function Confirm({ store, setStore, setView }: Props) {
-  console.log('store.juris:', store.juris)
-  if(store.entity === 'UNA' && store.juris !== 'wy') {
-    setStore(prev => ({
-      ...prev,
-      juris: 'wy'
-    }));
-  }
+export default function Confirm() {
+  const { entity, juris, name, mission, setTokenId, setAgreement, setTxHash, setView, setError } = useMinterStore()
   const [checked, setChecked] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<Message>({
@@ -41,244 +31,172 @@ export default function Confirm({ store, setStore, setView }: Props) {
   })
   const { isConnected, address } = useAccount()
   const { chain } = useNetwork()
-  const contractAddress = deployments[1][(store.juris + store.entity) as keyof typeof deployments[1]] as string
-  const { writeAsync } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    addressOrName: contractAddress,
-    contractInterface: WRAPPR,
-    functionName: 'mint',
-  })
-
-  const { writeAsync: writeAsyncQtest } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    addressOrName: deployments[35443][(store.juris + store.entity) as keyof typeof deployments[35443]] as string,
-    contractInterface: WRAPPR,
-    functionName: 'mint',
-  })
-
-  const { writeAsync: writeAsyncQ } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    addressOrName: deployments[35441][(store.juris + store.entity) as keyof typeof deployments[35441]] as string,
-    contractInterface: WRAPPR,
-    functionName: 'mint',
+  const { writeAsync } = useMintWrappr({
+    chainId: chain?.id ?? 1,
   })
 
   const tx = async () => {
-    setLoading(true)
-    setMessage({
-      text: 'Preparing your transaction...',
-      icon: <MdConstruction />,
-    })
-    if (!isConnected && !chain) return
-    if (chain) {
-      // fetching tokenId
-      let tokenId = 0
-      try {
-        setMessage({
-          text: 'Fetching tokenId...',
-          icon: <MdSearch />,
-        })
+    try {
+      setLoading(true)
+      setMessage({
+        text: 'Preparing your transaction...',
+        icon: <MdConstruction />,
+      })
 
-        if (chain.id == 35443) {
-          tokenId = await calculateTokenIdonQ(
-            deployments[35443][(store.juris + store.entity) as keyof typeof deployments[35443]] as string,
-          )
-        } else {
-          tokenId = await calculateTokenId(contractAddress as string, Number(chain.id))
-        }
-
-        console.log(tokenId, chain.id)
-      } catch (e) {
-        console.error(e)
-        setMessage({
-          text: 'Something went wrong, please try again',
-          icon: <MdError />,
-        })
-        setLoading(false)
+      if (!address) {
+        throw new Error('Please connect your wallet.')
       }
-      // creating agreement
-      let agreement = getAgreement(store.juris + store.entity)
-      try {
-        setMessage({
-          text: 'Creating agreement...',
-          icon: <MdConstruction />,
-        })
-        const res = await createAgreement(
-          store.juris + store.entity,
-          store.name,
-          tokenId.toString(),
-          store.mission,
-          store.jurisdiction,
-          chain.id.toString(),
-        )
 
-        if (typeof res === 'string') {
+      if (!chain) {
+        throw new Error('Could not find chainId, please try reconnecting to the network')
+      }
+
+      if (!juris || !entity) {
+        throw new Error('Could not find entity or jurisdiction, please try again.')
+      }
+
+      // fetching tokenId
+      const contractAddress = getEntityAddress(chain.id, juris + entity)
+
+      let tokenId = 0
+
+      setMessage({
+        text: 'Fetching tokenId...',
+        icon: <MdSearch />,
+      })
+
+      tokenId = await calculateTokenId(contractAddress, Number(chain.id))
+
+      console.log(tokenId, chain.id)
+      setTokenId(tokenId)
+
+      // creating agreement
+      let agreement = getAgreement(juris + entity)
+
+      setMessage({
+        text: 'Creating agreement...',
+        icon: <MdConstruction />,
+      })
+      await createAgreement(juris! + entity!, name, tokenId.toString(), mission, chain.id.toString())
+        .then((res) => {
           agreement = res
+
           setMessage({
             text: 'Agreement created',
             icon: <MdCheckCircle />,
           })
-        }
-      } catch (e) {
-        console.error(e)
-        setMessage({
-          text: 'Something went wrong, please try again',
-          icon: <MdError />,
         })
-        setLoading(false)
-      }
+        .catch((e) => {
+          throw new Error(e)
+        })
 
       // building token URI
       let tokenURI = ''
-      try {
-        setMessage({
-          text: 'Building token metadata...',
-          icon: <MdConstruction />,
-        })
-        const res = await createTokenURI(store.name, tokenId, store.juris + store.entity, agreement)
-        if (res) {
-          tokenURI = res
-        }
-      } catch (e) {
-        console.error(e)
-        setMessage({
-          text: 'Something went wrong, please try again',
-          icon: <MdError />,
-        })
-        setLoading(false)
-      }
 
-      // sending tx
-      let res
-      try {
-        setMessage({
-          text: 'Sending your transaction...',
-          icon: <MdSend />,
-        })
-
-        if (store.entity === 'LLC') {
-          if (chain.id == 35443) {
-            res = await writeAsyncQtest({
-              recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
-            })
-          } else {
-            res = await writeAsync({
-              recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
-              recklesslySetUnpreparedOverrides: {
-                value: ethers.utils.parseEther('0.015'),
-              },
-            })
-          }
-        } else {
-          if (chain.id == 35443) {
-            res = await writeAsyncQtest({
-              recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
-            })
-          } else {
-            res = await writeAsync({
-              recklesslySetUnpreparedArgs: [address, tokenId, 1, ethers.constants.HashZero, tokenURI, address],
-            })
-          }
-        }
-
-        setMessage({
-          text: 'Awaiting confirmation...',
-          icon: <MdAccessTimeFilled />,
-        })
-        // success
-        await res.wait(1)
-        setStore({
-          ...store,
-          agreement: agreement,
-          tokenId: tokenId,
-          txHash: res.hash,
-        })
-        setView(3)
-      } catch (e) {
-        console.error(e)
-        setMessage({
-          text: 'Something went wrong, please try again',
-          icon: <MdError />,
-        })
-        setLoading(false)
-      }
-    } else {
       setMessage({
-        text: 'Could not find chainId, please try reconnecting to the network',
-        icon: <MdError />,
+        text: 'Building token metadata...',
+        icon: <MdConstruction />,
       })
+      await createTokenURI(name, tokenId, juris + entity, agreement)
+        .then((res) => {
+          tokenURI = res
+
+          setMessage({
+            text: 'Token metadata built',
+            icon: <MdCheckCircle />,
+          })
+        })
+        .catch((e) => {
+          throw new Error(e)
+        })
+
+      setMessage({
+        text: 'Sending your transaction...',
+        icon: <MdSend />,
+      })
+
+      const receipt = await writeAsync({
+        address: contractAddress,
+        to: address,
+        id: BigInt(tokenId),
+        amount: BigInt(1),
+        data: '0x',
+        tokenURI: tokenURI,
+        owner: address,
+        value: entity === 'LLC' ? parseEther('0.015') : parseEther('0'),
+      })
+
+      setMessage({
+        text: 'Awaiting confirmation...',
+        icon: <MdAccessTimeFilled />,
+      })
+
+      setTokenId(tokenId)
+      setAgreement(agreement)
+      setTxHash(receipt.transactionHash)
+      setView(ViewsEnum.success)
+    } catch (e) {
+      console.error(e)
+      // @TODO handle User rejected the request
+      if (e instanceof Error) {
+        setError(e.message)
+      } else {
+        setError('Something went wrong, please try again.')
+      }
+      setView(ViewsEnum.error)
+    } finally {
+      setLoading(false)
     }
   }
-
+  console.log('confirm', juris, entity, getPdfName(juris!, entity!))
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent={'center'}
-      padding={{
-        xs: '3',
-        md: '6',
-      }}
-    >
-      <Box
-        width={{
-          xs: 'full',
-          md: '3/4',
-          lg: '1/2',
-        }}
-      >
+    <div className="w-screen flex items-center justify-center p-3 md:p-6">
+      <div className="w-full md:w-3/4 lg:w-1/2 flex flex-col space-y-2">
         {loading === false ? (
-          <Stack>
-            <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-              <Text size="headingTwo" color="foreground">
-                {'Confirm '}
-                {store.entity === 'UNA'
-                  ? store.entity
-                  : store.juris === 'mi'
-                  ? 'Marshall Islands ' + store.entity
-                  : getName(store.juris, store.entity) + ' '}
-                {' for ' + store.name}
-              </Text>
-              <Button onClick={() => setView(1)} aria-label="Go back!" variant="transparent" shape="circle">
-                <IconArrowLeft />
-              </Button>
-            </Stack>
-            {/* Same here, pdf wasn't loading */}
-            <PDFViewer src={`/legal/${store.entity === 'UNA' ? 'wyUNA' : store.juris + store.entity}.pdf`} />
-            <Box
-              display="flex"
-              alignItems={'center'}
-              justifyContent="space-between"
-              borderTopWidth={'0.375'}
-              borderColor="foregroundSecondary"
-              paddingTop="1"
-            >
-              <Checkbox
-                variant="transparent"
-                label={<Text>I have read and accept the terms of this agreement.</Text>}
-                onCheckedChange={() => setChecked(!checked)}
-              ></Checkbox>
-              {isConnected ? (
-                <Button tone="foreground" type="submit" disabled={!checked} onClick={tx}>
-                  Confirm Mint
-                </Button>
-              ) : (
-                <Text>Please connect to a wallet.</Text>
-              )}
-            </Box>
-          </Stack>
+          <div>
+            <div className="flex flex-col justify-start items-start space-y-2 border-b">
+              <BackButton
+                onClick={() =>
+                  setView(entity === 'UNA' ? ViewsEnum.wyUNA : juris == 'de' ? ViewsEnum.deLLC : ViewsEnum.miLLC)
+                }
+              />
+              <h2 className="scroll-m-20 pb-2 text-5xl font-semibold tracking-tight transition-colors first:mt-0">
+                {`Confirm ${getName(juris!, entity!)} for ${name}`}
+              </h2>
+            </div>
+            <div>
+              <PDFViewer src={`/legal/${getPdfName(juris!, entity!)}.pdf`} />
+              <div className="flex items-center justify-between border-t-2 border-foregroundSecondary pt-3">
+                <div className="items-top flex space-x-2">
+                  <Checkbox id="terms" checked={checked} onCheckedChange={() => setChecked(!checked)} />
+                  <div className="grid gap-1.5 leading-none">
+                    <label
+                      htmlFor="terms"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      Accept terms and conditions
+                    </label>
+                    <p className="text-sm text-muted-foreground">I have read and accept the terms of this agreement.</p>
+                  </div>
+                </div>
+                {isConnected ? (
+                  <Button type="submit" disabled={!checked} onClick={tx}>
+                    Confirm Mint
+                  </Button>
+                ) : (
+                  <p>Please connect to a wallet.</p>
+                )}
+              </div>
+            </div>
+          </div>
         ) : (
-          <Stack align="center" justify="center" space="20">
-            <Text size="headingOne" color="foreground" align="center">
-              We are working our magic, please be patient
-            </Text>
-            <Text size="headingThree" color="text">
-              {message.text}
-            </Text>
-            <Image src={'/loading.png'} height="150px" width="150px" unoptimized />
-          </Stack>
+          <div className="flex flex-col justify-center items-center space-y-20">
+            <p className="text-2xl text-foreground text-center">We are working our magic, please be patient</p>
+            <p>{message.text}</p>
+            <Image src={'/loading.png'} height="150" width="150" alt="Loading..." unoptimized />
+          </div>
         )}
-      </Box>
-    </Box>
+      </div>
+    </div>
   )
 }

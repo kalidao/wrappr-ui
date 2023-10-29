@@ -1,8 +1,9 @@
-import { Box, Text, Button, IconUserSolid } from '@kalidao/reality'
 import { isValidURL } from '../utils'
 import { HiExternalLink } from 'react-icons/hi'
-import { ethers } from 'ethers'
-import * as styles from './styles.css'
+import { formatEther, isAddress } from 'viem'
+import { buttonVariants } from '~/components/ui/button'
+import { TableCell, TableRow } from '~/components/ui/table'
+import { Icons } from '~/components/ui/icons'
 
 export type TraitType = {
   trait_type: string
@@ -20,11 +21,11 @@ export default function Trait({ trait_type, value, isBig }: TraitType) {
     )
   }
 
-  if (ethers.utils.isAddress(value as string) === true) {
+  if (isAddress(value as string) === true) {
     renderValue = (
-      <Button variant="transparent" size="small" as="a" href={`/users/${value}`}>
-        <IconUserSolid />
-      </Button>
+      <a href={`/users/${value}`} className="flex flex-row items-center space-y-1">
+        <span className="">{value}</span>
+      </a>
     )
   }
 
@@ -32,14 +33,14 @@ export default function Trait({ trait_type, value, isBig }: TraitType) {
     if (value == 0) {
       renderValue = <i>FREE</i>
     } else {
-      renderValue = <>{ethers.utils.formatEther(value)}</>
+      renderValue = <p>{`${formatEther(BigInt(value))} ETH`}</p>
     }
   }
 
   return (
-    <Box className={styles.trait}>
-      <Text>{trait_type}</Text>
-      <Text>{renderValue}</Text>
-    </Box>
+    <TableRow>
+      <TableCell className="capitalize">{trait_type}</TableCell>
+      <TableCell className="font-semiBold">{renderValue}</TableCell>
+    </TableRow>
   )
 }

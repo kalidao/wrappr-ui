@@ -1,16 +1,16 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Box, Button, Text, Input, IconChevronRight } from '@kalidao/reality'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useEffect, useState } from 'react'
-import * as styles from '../styles.css'
-
-type LLC = {
-  name: string
-}
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
+import { Input } from '~/components/ui/input'
+import { ChevronRightIcon } from '@radix-ui/react-icons'
+import { Button } from '~/components/ui/button'
+import { ViewsEnum, useMinterStore } from '../useMinterStore'
+import { Icons } from '~/components/ui/icons'
 
 const schema = z.object({
   name: z.string().min(1, { message: 'A name is required' }),
@@ -22,17 +22,16 @@ type Props = {
   setView: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function LLC({ store, setStore, setView }: Props) {
+export default function LLC() {
   const { isConnected } = useAccount()
   const { chain } = useNetwork()
   const { openConnectModal } = useConnectModal()
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors, isSubmitting },
-  } = useForm<LLC>({
+  const { name, juris, setName, setView } = useMinterStore()
+  const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      name: name,
+    },
   })
   const [message, setMessage] = useState('')
 
@@ -44,12 +43,12 @@ export default function LLC({ store, setStore, setView }: Props) {
     }
   }, [isConnected, message])
 
-  const onSubmit = async (data: LLC) => {
+  const onSubmit = async (data: z.infer<typeof schema>) => {
     if (!isConnected) return setMessage('Please connect your wallet')
     if (!chain) return setMessage('Please connect to a network')
     const { name } = data
 
-    if (store.juris === 'de' && chain.id !== 5) {
+    if (juris === 'de' && chain.id !== 5) {
       const res = await fetch('api/isNameAvailable', {
         method: 'POST',
         body: name,
@@ -57,6 +56,7 @@ export default function LLC({ store, setStore, setView }: Props) {
 
       if (res.error) {
         setMessage('We are having trouble checking the name.')
+        return
       }
 
       if (res.isAvailable === false) {
@@ -65,51 +65,39 @@ export default function LLC({ store, setStore, setView }: Props) {
       }
     }
 
-    setStore({
-      ...store,
-      name: name,
-    })
-
-    setView(2)
+    setName(name)
+    setView(ViewsEnum.mint)
   }
 
   return (
-    <Box as="form" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <Input
-        type="text"
-        width="full"
-        description={"What's the name of your LLC?"}
-        {...register('name')}
-        id="name"
-        placeholder=" "
-        required
-        label="Name"
-        suffix={'LLC'}
-        error={errors.name && errors.name.message}
-      />
-      <Text>{message}</Text>
-      {!isConnected && openConnectModal ? (
-        <Button
-          tone="foreground"
-          suffix={<IconChevronRight />}
-          width="full"
-          justifyContent="space-between"
-          onClick={openConnectModal}
-        >
-          Login
-        </Button>
-      ) : (
-        <Button
-          tone="foreground"
-          suffix={<IconChevronRight />}
-          width="full"
-          justifyContent="space-between"
-          type="submit"
-          loading={isSubmitting}
-        >
-          Review Document
-        </Button>
-      )}
-    </Box>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="wrappr" className="w-3/4" {...field} />
+              </FormControl>
+              <FormDescription>A unique name for your LLC.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {!isConnected && openConnectModal ? (
+          <Button className="flex items-center justify-between w-3/4 text-xl rounded-xl p-5" onClick={openConnectModal}>
+            <span>Login</span>
+            <Icons.chevronRight />
+          </Button>
+        ) : (
+          <Button className="flex items-center justify-between w-3/4 text-xl rounded-xl p-5" type="submit">
+            <span>Review Document</span>
+            <Icons.chevronRight />
+          </Button>
+        )}
+      </form>
+    </Form>
   )
 }

@@ -2,19 +2,24 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
-import { Button, Box, IconUserSolid, IconBookOpenSolid, Stack } from '@kalidao/reality'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { useAccount, useNetwork } from 'wagmi'
-import * as styles from './styles.css'
-import { ReactNodeNoStrings } from '@kalidao/reality/dist/types/types'
+import { useAccount } from 'wagmi'
 import ToggleMode from './ToggleMode'
+import { useIsMounted } from '~/hooks/useIsMounted'
+import { buttonVariants } from '~/components/ui/button'
+import Link from 'next/link'
+import { FaBookOpen, FaUser } from 'react-icons/fa'
+import { Icons } from '~/components/ui/icons'
 
 export default function Header() {
   const router = useRouter()
   const { isConnected, address } = useAccount()
+  const isMounted = useIsMounted()
+
+  if (!isMounted) return null
 
   return (
-    <Box className={styles.header}>
+    <div className="max-h-[15vh] py-3 px-2 flex items-center justify-between z-10 gap-2 relative border-b-1 border-border">
       <motion.div
         whileHover={{
           rotate: Math.floor(Math.random() * (360 - 20)) + 20,
@@ -24,22 +29,22 @@ export default function Header() {
       >
         <Image src={'/logo.png'} height={60} width={80} alt={`Wrappr logo`} />
       </motion.div>
-      <Box as="nav" display="flex" gap="2" alignItems={'center'}>
-        {isConnected && <Item label="user" src={`/users/${address}`} icon={<IconUserSolid />} />}
-        <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<IconBookOpenSolid />} isExternal />
+      <nav className="flex gap-2 items-center">
+        {isConnected && <Item label="user" src={`/users/${address}`} icon={<Icons.user />} />}
+        <Item label="docs" src="https://docs.wrappr.wtf/get-started/what/" icon={<FaBookOpen />} isExternal />
         <ToggleMode />
-      </Box>
-      <Stack direction={'horizontal'}>
+      </nav>
+      <div className="flex">
         <ConnectButton label="login" />
-      </Stack>
-    </Box>
+      </div>
+    </div>
   )
 }
 
 type ItemProps = {
   label: string
   src: string
-  icon: ReactNodeNoStrings
+  icon: React.ReactNode
   isExternal?: boolean
 }
 
@@ -49,21 +54,20 @@ const Item = ({ src, label, isExternal }: ItemProps) => {
 
   if (isExternal) {
     return (
-      <Button
-        as="a"
+      <a
         href={src}
-        size="medium"
-        variant={isActive ? 'secondary' : 'transparent'}
         target="_blank"
         rel="noopenner noreferrer"
+        className={buttonVariants({ variant: isActive ? 'outline' : 'link' })}
       >
         {label}
-      </Button>
+      </a>
     )
   }
+
   return (
-    <Button as="a" href={src} size="medium" variant={isActive ? 'secondary' : 'transparent'}>
+    <Link href={src} className={buttonVariants({ variant: isActive ? 'outline' : 'link' })}>
       {label}
-    </Button>
+    </Link>
   )
 }

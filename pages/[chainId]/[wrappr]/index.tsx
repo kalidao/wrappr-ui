@@ -1,34 +1,29 @@
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import Image from 'next/image'
 import Layout from '~/layout'
-import { Box, Stack, Text, Spinner, Skeleton, Avatar, Heading } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { Trait, TraitType } from '~/wrap'
-import { useContractReads } from 'wagmi'
 import { useRouter } from 'next/router'
-import { deployments, WRAPPR } from '~/constants'
+import { deployments } from '~/constants'
 import MintWrapprNFT from '~/wrap/MintWrapprNFT'
-import { ethers } from 'ethers'
 import { compileQtestnetWrapprs } from '~/utils/compileQtestnetWrapprs'
-import MintWrapprNFTonQ from '~/wrap/MintWrapprNFTonQ'
+import { zeroAddress } from 'viem'
+import { useWrapprName } from '~/hooks/useWrapprName'
+import { getAddress } from 'viem'
+import { Spinner } from '~/components/ui/spinner'
+import { AspectRatio } from '~/components/ui/aspect-ratio'
+import Image from 'next/image'
+import { Table, TableBody, TableCaption } from '~/components/ui/table'
 
 const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
-  const { chainId, wrappr: contractAddress } = router.query
-  const wrapprContract = {
-    addressOrName: contractAddress as string,
-    contractInterface: WRAPPR,
-    chainId: Number(chainId),
-  }
+  const address = getAddress(router.query.wrappr as string)
+  const chainId = Number(router.query.chainId)
 
-  const { data: reads, isLoading: isReading } = useContractReads({
-    contracts: [
-      {
-        ...wrapprContract,
-        functionName: 'name',
-      },
-    ],
+  const { data: name, isLoading: isReading } = useWrapprName({
+    address,
+    chainId,
   })
+
   const { isLoading, error, data } = useQuery(['wrappr', wrappr?.['baseURI']], () =>
     fetchWrapprData(wrappr?.['baseURI']),
   )
@@ -36,46 +31,55 @@ const Wrappr: NextPage = ({ wrappr }: InferGetServerSidePropsType<typeof getServ
   // TODO: Add mint fee
   return (
     <Layout heading="Wrappr" content="Wrap now" back={() => router.push(`/${chainId}/explore`)}>
-      <Box padding="6">
-        <Stack direction={'horizontal'} align="flex-start" justify={'space-between'}>
-          <Stack>
+      <div className="p-6">
+        <div className="flex flex-row justify-between items-start">
+          <div className="flex flex-col">
             {isLoading ? (
               <Spinner />
             ) : (
-              <Avatar src={data?.['image']} size="96" label={`Image for ${data?.['name']}`} shape="square" />
+              <div className="w-[50rem]">
+                <AspectRatio ratio={1 / 1}>
+                  <Image
+                    layout="fill"
+                    src={data?.['image']}
+                    alt={`Image for ${data?.['name']}`}
+                    className="rounded-md object-cover"
+                  />
+                </AspectRatio>
+              </div>
             )}
-            {Number(chainId) == 35543 ? (
-              <MintWrapprNFTonQ
-                chainId={Number(chainId)}
-                wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
-                mintFee={wrappr['mintFee']}
-              />
-            ) : (
-              <MintWrapprNFT
-                chainId={Number(chainId)}
-                wrappr={contractAddress ? (contractAddress as string) : ethers.constants.AddressZero}
-                mintFee={wrappr['mintFee']}
-              />
-            )}
-          </Stack>
-          <Box width="full">
-            <Stack>
-              <Heading>{reads ? reads?.[0] : 'No name found'}</Heading>
-              {/* className="whitespace-pre-line break-normal text-gray-400" */}
-              <Text wordBreak="break-word">{data ? data['description'] : 'No description found'}</Text>
-              <Heading>Traits</Heading>
-              <Stack>
-                {data &&
-                  data?.['attributes']?.map((trait: TraitType, index: number) => (
-                    <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
-                  ))}
-                {wrappr ? <Trait trait_type={'Admin'} value={wrappr?.['admin']} isBig={false} /> : <Spinner />}
-                {wrappr ? <Trait trait_type={'Mint Fee'} value={wrappr?.['mintFee']} isBig={true} /> : <Spinner />}
-              </Stack>
-            </Stack>
-          </Box>
-        </Stack>
-      </Box>
+            <MintWrapprNFT
+              chainId={Number(chainId)}
+              wrappr={address ? address : zeroAddress}
+              mintFee={wrappr['mintFee']}
+            />
+          </div>
+          <div className="w-full">
+            <div className="flex flex-col space-y-5">
+              <div>
+                <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl capitalize">
+                  {name ? name : 'No name found'}
+                </h1>
+                <p className="text-xl text-muted-foreground break-words capitalize">
+                  {data ? data['description'] : 'No description found'}
+                </p>
+              </div>
+              <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">Traits</h2>
+              <Table>
+                <TableCaption className="text-xs">Traits of {name ? name : ''}</TableCaption>
+                <TableBody>
+                  {data &&
+                    data?.['attributes']?.map((trait: TraitType, index: number) => (
+                      <Trait key={index} trait_type={trait['trait_type']} value={trait['value']} isBig={false} />
+                    ))}
+                  {wrappr ? <Trait trait_type={'Admin'} value={wrappr?.['admin']} isBig={false} /> : <Spinner />}
+                  {wrappr ? <Trait trait_type={'Mint Fee'} value={wrappr?.['mintFee']} isBig={true} /> : <Spinner />}
+                </TableBody>
+              </Table>
+            </div>
+          </div>
+        </div>
+      </div>
     </Layout>
   )
 }

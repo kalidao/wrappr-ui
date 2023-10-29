@@ -1,10 +1,13 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Box, Button, Input, Stack, Textarea, IconChevronRight } from '@kalidao/reality'
 import { StoreT } from '../types'
 import { useNetwork, useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { Button } from '~/components/ui/button'
+import { Input } from '~/components/ui/input'
+import { Textarea } from '~/components/ui/textarea'
+import { ChevronRightIcon } from '@radix-ui/react-icons'
 
 type Charter = {
   name: string
@@ -51,49 +54,43 @@ export default function Charter({ store, setStore, setView }: Props) {
   }
 
   return (
-    <Box as="form" onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
-      <Stack>
-        <Input type="text" {...register('name')} id="name" placeholder=" " required label="Name" />
-        <Input
-          type="text"
-          {...register('jurisdiction')}
-          id="jurisdiction"
-          placeholder=" "
-          required
-          label="Jurisdiction"
-          description="What jurisdiction will this Charter be under?"
-        />
-        <Textarea
-          id="mission"
-          label="Your Mission"
-          {...register('mission')}
-          rows={4}
-          placeholder="Promote open-source law"
-          description="What is the mission of this organization?"
-        />
-        {!isConnected && openConnectModal ? (
-          <Button
-            tone="foreground"
-            suffix={<IconChevronRight />}
-            width="full"
-            justifyContent="space-between"
-            onClick={openConnectModal}
-          >
-            Login
-          </Button>
-        ) : (
-          <Button
-            tone="foreground"
-            suffix={<IconChevronRight />}
-            width="full"
-            justifyContent="space-between"
-            type="submit"
-            loading={isSubmitting}
-          >
-            Review Document
-          </Button>
-        )}
-      </Stack>
-    </Box>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
+      <Input
+        type="text"
+        {...register('name')}
+        id="name"
+        placeholder=" "
+        required
+        // label="Name"
+      />
+      <Input
+        type="text"
+        {...register('jurisdiction')}
+        id="jurisdiction"
+        placeholder=" "
+        required
+        // label="Jurisdiction"
+        // description="What jurisdiction will this Charter be under?"
+      />
+      <Textarea
+        id="mission"
+        // label="Your Mission"
+        {...register('mission')}
+        rows={4}
+        placeholder="Promote open-source law"
+        // description="What is the mission of this organization?"
+      />
+      {!isConnected && openConnectModal ? (
+        <Button className="flex items-center justify-between w-full" onClick={openConnectModal}>
+          <ChevronRightIcon />
+          Login
+        </Button>
+      ) : (
+        <Button type="submit" className="flex items-center justify-between w-full">
+          <ChevronRightIcon />
+          Review Document
+        </Button>
+      )}
+    </form>
   )
 }

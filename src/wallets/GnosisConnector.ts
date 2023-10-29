@@ -4,7 +4,7 @@ import { SafeConnector } from '@gnosis.pm/safe-apps-wagmi'
 export interface MyWalletOptions {
   chains: Chain[]
 }
-const GnosisConnector = ({ chains }: MyWalletOptions): Wallet => ({
+const GnosisConnector = ({ chains }: MyWalletOptions) => ({
   id: 'gnosis-safe',
   name: 'Gnosis Safe',
   iconUrl: '/connectors/SafeConnector.jpg',
@@ -13,12 +13,12 @@ const GnosisConnector = ({ chains }: MyWalletOptions): Wallet => ({
     android: 'https://play.google.com/store/apps/details?id=io.gnosis.safe',
     ios: 'https://apps.apple.com/app/id1515759131',
   },
-  createConnector: () => {
-    const connector = new SafeConnector({ chains })
-    return {
-      connector,
-    }
-  },
+  // createConnector: () => {
+  //   const connector = new SafeConnector({ chains })
+  //   return {
+  //     connector,
+  //   }
+  // },
 })
 
 export default GnosisConnector

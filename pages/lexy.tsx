@@ -4,11 +4,12 @@ import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '~/utils/fetcher'
 import { useAccount } from 'wagmi'
-import { Avatar, Box, Button, Divider, Heading, Input, Stack, Text } from '@kalidao/reality'
 import Layout from '~/layout'
-import * as styles from '@design/lexy.css'
 import { Disclaimer } from '~/lexy'
 import { ChatMessage, getChatCompletion } from '~/lexy/utils'
+import { Input } from '~/components/ui/input'
+import { Button } from '~/components/ui/button'
+import { Separator } from '@radix-ui/react-select'
 
 const defaultProfile = 'https://pbs.twimg.com/profile_images/1651277319279984653/YSuLuNlg_400x400.jpg'
 
@@ -49,29 +50,27 @@ const Lexy: NextPage = () => {
 
   return (
     <Layout heading="Lexy" content="Interact with LexDAO's legal engineering assistant" back={() => router.push('/')}>
-      <Box className={styles.container}>
-        <Stack align="center" justify={'center'}>
-          <Heading>Chat with Lexy</Heading>
-          <Text>Lexy is a legal assistant built on GPT.</Text>
-          <Divider />
+      <div>
+        <div className="flex justify-center items-center">
+          <h1>Chat with Lexy</h1>
+          <p>Lexy is a legal assistant built on GPT.</p>
+          <Separator />
           {!checked ? (
             <Disclaimer checked={checked} setChecked={setChecked} />
           ) : (
-            <Box className={styles.chat}>
+            <div>
               {context.map((c, i) => (
-                <Box key={i} className={styles.message}>
-                  <Avatar
+                <div key={i} className="flex flex-row space-x-2 p-3">
+                  {/* <Avatar
                     label="aiAvatar"
                     src={c.role == 'assistant' ? '/lexy.jpeg' : profile?.picture ?? defaultProfile}
-                  ></Avatar>
-                  <Box className={styles.text}>{c.content}</Box>
-                </Box>
+                  ></Avatar> */}
+                  <div>{c.content}</div>
+                </div>
               ))}
-              <Box className={styles.message}>
-                <Avatar label="" src={defaultProfile}></Avatar>
+              <div>
+                {/* <Avatar label="" src={defaultProfile}></Avatar> */}
                 <Input
-                  label="Type your question here"
-                  hideLabel
                   placeholder="Type here"
                   value={input}
                   onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -81,22 +80,16 @@ const Lexy: NextPage = () => {
                   }}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.currentTarget.value)}
                 />
-              </Box>
-              <Text>{error}</Text>
-              {!isConnected && <Text>Please connect your wallet to start chatting with Lexy.</Text>}
-              <Button
-                width="full"
-                onClick={ask}
-                loading={loading}
-                disabled={loading || !isConnected || !checked}
-                tone="foreground"
-              >
+              </div>
+              <p>{error}</p>
+              {!isConnected && <p>Please connect your wallet to start chatting with Lexy.</p>}
+              <Button onClick={ask} disabled={loading || !isConnected || !checked} className="w-full">
                 Message
               </Button>
-            </Box>
+            </div>
           )}
-        </Stack>
-      </Box>
+        </div>
+      </div>
     </Layout>
   )
 }

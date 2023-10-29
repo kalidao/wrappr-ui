@@ -1,20 +1,19 @@
-export default function getName(juris: string, type: string) {
-  let jurisdiction
+import { Jurisdiction } from '../useMinterStore'
 
-  switch (juris) {
-    case 'de':
-      jurisdiction = 'Delaware'
-      break
-    case 'wy':
-      jurisdiction = 'Wyoming'
-      break
-    case 'or':
-      jurisdiction = 'Orange'
-      break
-    case 'lex':
-      jurisdiction = 'LexPunk'
-      break
-  }
+const jurisMap: {
+  [J in Jurisdiction]: string
+} = {
+  de: 'Delaware',
+  wy: 'Wyoming',
+  mi: 'Marshall Islands',
+}
 
-  return jurisdiction + ' ' + type
+export default function getName(juris: Jurisdiction, type: string) {
+  if (type === 'UNA') return 'Wyoming UNA'
+  return jurisMap[juris] + ' ' + type
+}
+
+export const getPdfName = (juris: Jurisdiction, type: string) => {
+  if (type === 'UNA') return 'wyUNA'
+  return juris + type
 }
