@@ -23,6 +23,7 @@ const User: NextPage = () => {
   )
 
   console.log('user data', data)
+  console.log('user address', user)
 
   return (
     <Layout heading="User" content="Explore wrapprs created by users. Wrap anything." back={() => router.push('/')}>
