@@ -1,8 +1,9 @@
-import { useContractRead, useNetwork } from 'wagmi'
-import { WRAPPR, deployments } from '~/constants'
+import { useNetwork } from 'wagmi'
 import { useQuery } from '@tanstack/react-query'
-import { ethers } from 'ethers'
-import { Avatar } from '@kalidao/reality'
+import { useTokenUri } from '~/hooks/useTokenUri'
+import { getEntityAddress } from '~/constants/deployments'
+import { zeroAddress } from 'viem'
+import { WrapprImage } from '~/components/wrappr-image'
 
 const fetchWrapprData = async (URI: string | undefined) => {
   if (URI) {
@@ -18,17 +19,16 @@ export default function MintedImage({ entity, tokenId }: { entity: string; token
     isLoading: isLoadingURI,
     isSuccess,
     error,
-  } = useContractRead({
-    addressOrName: chain
-      ? (deployments[Number(chain.id)][entity as keyof typeof deployments[1]] as string)
-      : ethers.constants.AddressZero,
-    contractInterface: WRAPPR,
-    functionName: 'uri',
-    args: [tokenId],
+  } = useTokenUri({
+    address: chain ? getEntityAddress(chain.id, entity) : zeroAddress,
+    chainId: chain?.id ?? 1,
+    tokenId: BigInt(tokenId),
   })
   const { isLoading, error: reactError, data } = useQuery(['wrappr', uri], () => fetchWrapprData(String(uri)))
 
   if (isLoadingURI && isLoading) return <>Fetching</>
 
-  return <Avatar src={data?.image} label="Minted NFT image" shape="square" size="96" />
+  if (data?.image === undefined) return <>No image</>
+
+  return <WrapprImage src={data.image} />
 }

@@ -1,17 +1,18 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Stack, Box, Button, Input, Textarea, IconChevronRight } from '@kalidao/reality'
 import { StoreT } from '../types'
-import { useNetwork, useAccount } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { Button } from '~/components/ui/button'
+import { Input } from '~/components/ui/input'
+import { Textarea } from '~/components/ui/textarea'
+import { ChevronRightIcon } from '@radix-ui/react-icons'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
+import { ViewsEnum, useMinterStore } from '../useMinterStore'
+import { Icons } from '~/components/ui/icons'
 
-type UNA = {
-  name: string
-  mission: string
-}
-
-const schema = z.object({
+const UNASchema = z.object({
   name: z.string().min(1, { message: 'A name is required' }),
   mission: z.string().min(1, { message: 'A mission is required' }),
 })
@@ -22,75 +23,69 @@ type Props = {
   setView: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function UNA({ store, setStore, setView }: Props) {
-  const { address, isConnected, isConnecting, isDisconnected } = useAccount()
-  const { chain } = useNetwork()
+export default function UNA() {
+  const { isConnected } = useAccount()
   const { openConnectModal } = useConnectModal()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<UNA>({
-    resolver: zodResolver(schema),
-  })
-
-  const onSubmit = async (data: UNA) => {
-    const { name, mission } = data
-
-    setStore({
-      ...store,
+  const { name, setName, mission, setMission, setView } = useMinterStore()
+  const form = useForm<z.infer<typeof UNASchema>>({
+    resolver: zodResolver(UNASchema),
+    defaultValues: {
       name: name,
       mission: mission,
-    })
+    },
+  })
 
-    setView(2)
+  const onSubmit = async (data: z.infer<typeof UNASchema>) => {
+    const { name, mission } = data
+
+    setName(name)
+    setMission(mission)
+    setView(ViewsEnum.mint)
   }
 
   return (
-    <Box as="form" onSubmit={handleSubmit(onSubmit)} className="flex-col space-y-4">
-      <Stack>
-        <Input
-          type="text"
-          description={"What's the name of your non-profit?"}
-          {...register('name')}
-          id="name"
-          placeholder=" "
-          required
-          label="Name"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col space-y-4">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="" {...field} />
+              </FormControl>
+              <FormDescription>What&apos;s the name of your non-profit?</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-
-        <Textarea
-          id="mission"
-          description="What is your mission?"
-          {...register('mission')}
-          rows={4}
-          label="Your Mission"
-          placeholder="Promote open-source law"
+        <FormField
+          control={form.control}
+          name="mission"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Your Mission</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Promote open-source law" className="resize-y" {...field} />
+              </FormControl>
+              <FormDescription>What is your mission?</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-
         {!isConnected && openConnectModal ? (
-          <Button
-            tone="foreground"
-            suffix={<IconChevronRight />}
-            width="full"
-            justifyContent="space-between"
-            onClick={openConnectModal}
-          >
+          <Button type="button" className="flex items-center py-3 justify-between w-full" onClick={openConnectModal}>
             Login
+            <Icons.chevronRight />
           </Button>
         ) : (
-          <Button
-            tone="foreground"
-            suffix={<IconChevronRight />}
-            width="full"
-            justifyContent="space-between"
-            type="submit"
-            loading={isSubmitting}
-          >
+          <Button type="submit" className="flex items-center py-3 justify-between w-full">
             Review Document
+            <Icons.chevronRight />
           </Button>
         )}
-      </Stack>
-    </Box>
+      </form>
+    </Form>
   )
 }

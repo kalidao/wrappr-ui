@@ -1,81 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import type { NextPage } from 'next'
-import Layout from '../../../../src/layout'
-import { Box, Stack, Input, Button, Text, Tag } from '@kalidao/reality'
+import Layout from '~/layout'
 import { useRouter } from 'next/router'
-import { createPdf } from '~/utils/createPdf'
-
-import { useContractReads } from 'wagmi'
-import { WRAPPR } from '../../../../src/constants'
-
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Select } from '@design/Select'
-
-type Create = {
-  name: string
-  ssn: string
-  date: string
-  activity: string
-}
-
-const schema = z.object({
-  name: z.string().min(1, { message: 'This field is required' }),
-  ssn: z.string().min(1, { message: 'This field required' }),
-  date: z.string().min(1, { message: 'This field required' }),
-  activity: z.any(),
-})
+import { getAddress, zeroAddress } from 'viem'
+import { useTokenUri } from '~/hooks/useTokenUri'
+import { EinForm } from '~/ein/ein-form'
 
 const EIN: NextPage = () => {
   const router = useRouter()
-  const { wrappr, chainId, tokenId } = router.query
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Create>({
-    resolver: zodResolver(schema),
-  })
+  const wrappr = router.query.wrappr ? getAddress(router.query.wrappr as string) : zeroAddress
+  const tokenId = router.query.tokenId ? BigInt(router.query.tokenId as string) : BigInt(0)
+  const chainId = router.query.chainId ? Number(router.query.chainId) : 1
 
-  const [buttonText, setButtonText] = useState('Generate SS-4')
-  const [taxEntity, setTaxEntity] = useState('')
   const [orgType, setOrgType] = useState('')
   const [orgName, setOrgName] = useState('')
 
-  const wrapprContract = {
-    addressOrName: wrappr as string,
-    contractInterface: WRAPPR,
-    chainId: Number(chainId),
-  }
-  const { data: tokenUri } = useContractReads({
-    contracts: [
-      {
-        ...wrapprContract,
-        functionName: 'uri',
-        args: [tokenId],
-      },
-    ],
+  const { data: tokenUri } = useTokenUri({
+    address: wrappr,
+    chainId: chainId,
+    tokenId: BigInt(tokenId),
   })
-
-  const onSubmit = async (data: Create) => {
-    setButtonText('Generating...')
-    const { name, ssn, date, activity } = data
-
-    const pdf = {
-      entityType: orgType,
-      entityName: orgName,
-      userName: name,
-      userSsn: ssn,
-      formationDate: date,
-      taxEntity: taxEntity,
-      activity: activity,
-    }
-
-    createPdf(pdf).then(() => {
-      setButtonText('Generate SS-4')
-    })
-  }
 
   const fetchTokenMetadata = async (URI: string) => {
     const res = await fetch(URI)
@@ -90,7 +34,7 @@ const EIN: NextPage = () => {
     }
 
     getData()
-  }, [])
+  }, [tokenUri])
 
   return (
     <Layout
@@ -98,95 +42,30 @@ const EIN: NextPage = () => {
       content="Fill out and apply for EIN"
       back={() => router.push(`/${chainId}/${wrappr}/${tokenId}`)}
     >
-      <Stack
-        align="center"
-        // backgroundColor="red"
-      >
-        <Box alignItems="flex-start" width="1/2" borderBottomWidth={'0.375'} paddingBottom="6">
-          <Stack>
-            <Text size="headingOne" color="foreground">
-              🍬 Apply for EIN
-            </Text>
-            <Text>
+      <div className="flex items-center">
+        <div className="flex flex-start w-1/2 border-b-4 pb-6">
+          <div>
+            <p className="text-4xl text-foreground">🍬 Apply for EIN</p>
+            <p>
               An EIN is a unique nine-digit number that identifies your business in the United States for tax purposes.
-            </Text>
-          </Stack>
-          <Box paddingLeft="10" paddingTop="5">
-            <Stack>
-              <Text>To apply for an EIN:</Text>
-              <Text>1. Fill out Form SS-4 by providing the following information.</Text>
-              <Text>2. Click &apos;Generate SS-4&apos; and carefully review completed Form SS-4.</Text>
-              <Text>3. Review, sign, and date at the bottom of Form SS-4.</Text>
-              <Text>
+            </p>
+          </div>
+          <div className="pt-5 pl-10">
+            <div>
+              <p>To apply for an EIN:</p>
+              <p>1. Fill out Form SS-4 by providing the following information.</p>
+              <p>2. Click &apos;Generate SS-4&apos; and carefully review completed Form SS-4.</p>
+              <p>3. Review, sign, and date at the bottom of Form SS-4.</p>
+              <p>
                 4. For US entities, fax Form SS-4 to IRS at (855)641-6935. For Int&apos;l entities, fax Form SS-4 to
                 (304)707-9471.{' '}
-              </Text>
-              <Text>5. We expect a response with an EIN from the IRS in seven (7) business days.</Text>
-            </Stack>
-          </Box>
-        </Box>
-        <Box
-          as="form"
-          width="1/2"
-          // display="flex"
-          flexDirection={'column'}
-          gap="20"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Stack>
-            <Input
-              label="Name of responsible person"
-              labelSecondary={<Tag>Line 7a of Form SS-4</Tag>}
-              id="name"
-              {...register('name')}
-              placeholder="Name"
-              error={errors.name && errors.name.message}
-            />
-            {orgType == 'LLC' && (
-              <Select
-                label="Taxed as"
-                description="Pick an entity type."
-                name="type"
-                onChange={(e) => setTaxEntity(e.target.value)}
-                options={[
-                  { value: 'select', label: 'Select' },
-                  { value: 'sole', label: 'Sole Proprietor (single member)' },
-                  { value: 'partnership', label: 'Partnership (multiple members)' },
-                  { value: 'c-corp', label: 'C-Corporation' },
-                  { value: 's-corp', label: 'S-Corporation' },
-                ]}
-              />
-            )}
-            <Input
-              label="SSN / ITIN "
-              labelSecondary={<Tag>Line 7b of Form SS-4</Tag>}
-              id="ssn"
-              {...register('ssn')}
-              placeholder="Social Security Number / Individual Taxpayer Identification Number"
-              error={errors.ssn && errors.ssn.message}
-            />
-            <Input
-              label="Formation Date"
-              labelSecondary={<Tag>Line 11 of Form SS-4</Tag>}
-              id="date"
-              {...register('date')}
-              placeholder="Specify the date of formation"
-              error={errors.date && errors.date.message}
-            />
-            {orgType == 'UNA' && (
-              <Input
-                label="Activity"
-                labelSecondary={<Tag>Line 17 of Form SS-4</Tag>}
-                id="activity"
-                {...register('activity')}
-                placeholder="Describe services or products provided"
-                error={errors.activity && errors.activity.message}
-              />
-            )}
-          </Stack>
-        </Box>
-        <Button onClick={handleSubmit(onSubmit)}>{buttonText}</Button>
-      </Stack>
+              </p>
+              <p>5. We expect a response with an EIN from the IRS in seven (7) business days.</p>
+            </div>
+          </div>
+        </div>
+        <EinForm orgType={orgType} orgName={orgName} />
+      </div>
     </Layout>
   )
 }

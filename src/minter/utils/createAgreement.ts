@@ -5,12 +5,17 @@ export async function createAgreement(
   name: string,
   tokenId: string,
   mission: string,
-  jurisdiction: string,
   chainId: string,
 ) {
   let agreement_params
   switch (template_name) {
     case 'deLLC':
+      agreement_params = {
+        name: name,
+        ricardianId: `${chainId}:${tokenId}`,
+      }
+      break
+    case 'miLLC':
       agreement_params = {
         name: name,
         ricardianId: `${chainId}:${tokenId}`,
@@ -36,23 +41,8 @@ export async function createAgreement(
         mission: mission,
       }
       break
-    case 'lexCharter':
-      agreement_params = {
-        name: name,
-        ricardianId: `${chainId}:${tokenId}`,
-        mission: mission,
-        jurisdiction: jurisdiction,
-      }
-      break
-    case 'orCharter':
-      agreement_params = {
-        name: name,
-        ricardianId: `${chainId}:${tokenId}`,
-        mission: mission,
-        jurisdiction: jurisdiction,
-      }
-      break
   }
+
   try {
     const obj = {
       template_name: template_name,
@@ -68,18 +58,20 @@ export async function createAgreement(
     })
     const blob = await res.blob()
 
-    if (res.ok) {
-      const formData = new FormData()
-      formData.append('file', blob, 'agreement.pdf')
-      const upload = await uploadFile(formData)
-      if (upload) {
-        return upload
-      }
-    } else {
-      return Error(`${res.status.toString()} ${res.statusText}`)
+    if (!res.ok) {
+      throw new Error(`${res.status.toString()} ${res.statusText}`)
     }
+    const formData = new FormData()
+    formData.append('file', blob, 'agreement.pdf')
+    const upload = await uploadFile(formData)
+    if (!upload) {
+      throw new Error('Error uploading file')
+    }
+
+    return upload
   } catch (e) {
-    console.error('Error', e)
-    return Error(`${e}`)
+    console.error(e)
+    if (e instanceof Error) throw new Error(e.message)
+    else throw new Error('Error')
   }
 }

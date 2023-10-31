@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Layout from '../src/layout'
 import { useRouter } from 'next/router'
 import { useNetwork } from 'wagmi'
-import { Stack, Button, Card, Box, Heading, IconArrowRight } from '@kalidao/reality'
+import { ArrowRightIcon } from '@radix-ui/react-icons'
 
 const Explore: NextPage = () => {
   const router = useRouter()
@@ -11,23 +11,21 @@ const Explore: NextPage = () => {
 
   return (
     <Layout heading="Explore" content="Explore the universe of Wrapprs" back={() => router.push('/')}>
-      <Stack direction={'horizontal'} align="center" justify={'center'} wrap>
+      <div className="flex justify-center items-center flex-wrap">
         {chains.map((chain) => (
-          <Card key={chain.id} width="128" padding="6" as="a" borderRadius="2xLarge" hover>
-            <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-              <Stack>
-                <Heading>{chain.name}</Heading>
-                <Box color="foreground">{chain.nativeCurrency?.symbol}</Box>
-              </Stack>
-              <Link href={`/${chain.id}/explore`} passHref>
-                <Button as="a" variant="secondary">
-                  <IconArrowRight />
-                </Button>
+          <div key={chain.id} className="w-32 p-6 rounded-2xl hover:shadow-lg cursor-pointer">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-lg font-bold">{chain.name}</h1>
+                <div className="text-foreground">{chain.nativeCurrency?.symbol}</div>
+              </div>
+              <Link href={`/${chain.id}/explore`} className="bg-secondary text-white rounded-full p-2" passHref>
+                <ArrowRightIcon />
               </Link>
-            </Stack>
-          </Card>
+            </div>
+          </div>
         ))}
-      </Stack>
+      </div>
     </Layout>
   )
 }

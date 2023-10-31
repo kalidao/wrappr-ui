@@ -1,65 +1,60 @@
-import { StoreT } from '../types'
 import Link from 'next/link'
 import { useNetwork } from 'wagmi'
-import { Button, Box, Stack, Text } from '@kalidao/reality'
 import { FaWpexplorer, FaScroll } from 'react-icons/fa'
 import { TbCandy } from 'react-icons/tb'
 import Confetti from '~/utils/Confetti'
 import MintedImage from './MintedImage'
 import { deployments } from '~/constants'
+import { buttonVariants } from '~/components/ui/button'
+import { useMinterStore } from '../useMinterStore'
 
-type MintedProps = {
-  store: StoreT
-}
-
-export default function Minted({ store }: MintedProps) {
+export default function Minted() {
+  const { juris, entity, tokenId, agreement, txHash } = useMinterStore()
   const { chain } = useNetwork()
 
   return (
-    <Box display="flex" alignItems="center" justifyContent={'center'} padding="6">
-      <Box width="1/2" display="flex" flexDirection={'column'} alignItems="center" justifyContent={'center'} gap="10">
-        <MintedImage entity={store.juris + store.entity} tokenId={store.tokenId} />
-        <Stack direction={'horizontal'} align="center" justify={'center'}>
-          <Button
-            as="a"
-            prefix={<FaWpexplorer />}
-            href={`${chain?.blockExplorers?.default?.url}/tx/${store.txHash}`}
+    <div className="flex items-center justify-center p-6">
+      <div className="w-1/2 flex flex-col items-center justify-center space-y-10">
+        <MintedImage entity={juris! + entity!} tokenId={tokenId} />
+        <div className="flex justify-center items-center">
+          <a
+            className={buttonVariants({
+              variant: 'default',
+            })}
+            href={`${chain?.blockExplorers?.default?.url}/tx/${txHash}`}
             target="_blank"
             rel="noopener noreferrer"
-            tone="foreground"
-            size="medium"
           >
-            Explorer
-          </Button>
-          <Button
-            tone="foreground"
-            as={'a'}
-            prefix={<FaScroll />}
-            href={`${store.agreement}`}
+            <FaWpexplorer />
+            <span>Explorer</span>
+          </a>
+          <a
+            className={buttonVariants({
+              variant: 'default',
+            })}
+            href={`${agreement}`}
             target="_blank"
             rel="noopener noreferrer"
-            size="medium"
           >
-            Agreement
-          </Button>
+            <FaScroll />
+            <span>Agreement</span>
+          </a>
+
           <Link
             href={`/${chain?.id}/${
-              deployments[chain ? chain.id : 1][(store.juris + store.entity) as keyof typeof deployments[1]]
-            }/${store.tokenId}`}
-            passHref
+              deployments[chain ? chain.id : 1][(juris! + entity!) as keyof (typeof deployments)[1]]
+            }/${tokenId}`}
+            className={buttonVariants({ variant: 'default' })}
           >
-            <Button tone="foreground" as={'a'} prefix={<TbCandy />} size="medium">
-              Gallery
-            </Button>
+            <TbCandy />
+            Gallery
           </Link>
-        </Stack>
+        </div>
         <Link href={`/clinic`} passHref>
-          <a>
-            <Text>Need help with your new entity?</Text>
-          </a>
+          <p>Need help with your new entity?</p>
         </Link>
-      </Box>
+      </div>
       <Confetti />
-    </Box>
+    </div>
   )
 }

@@ -6,4 +6,5 @@ export const siteConfig = {
     privacy: 'https://app.kali.gg/privacy',
     tos: 'https://app.kali.gg/tos',
   },
+  docsBaseUrl: 'https://docs.wrappr.wtf',
 }

@@ -1,96 +1,41 @@
-import { StoreT } from '../types'
-import {
-  Box,
-  Text,
-  Button,
-  Stack,
-  IconChevronRight,
-  IconBookOpen,
-  IconArrowRight,
-  IconArrowLeft,
-} from '@kalidao/reality'
-import * as styles from '../styles.css'
+import { Button } from '~/components/ui/button'
+import { Entity, ViewsEnum, useMinterStore } from '../useMinterStore'
+import { Icons } from '~/components/ui/icons'
 
-type Props = {
-  choice: StoreT
-  setChoice: React.Dispatch<React.SetStateAction<StoreT>>
-  setView: React.Dispatch<React.SetStateAction<number>>
-  setScreen: React.Dispatch<React.SetStateAction<number>>
-}
+export default function Entity() {
+  const { setEntity: setStoreEntity, setJuris, setView } = useMinterStore()
 
-export default function Entity({ choice, setChoice, setView, setScreen }: Props) {
-  const setEntity = (to: string) => {
-    setChoice({
-      ...choice,
-      entity: to,
-    })
+  const setEntity = (to: Entity) => {
+    setStoreEntity(to)
     if (to === 'UNA') {
-      setScreen(1)
+      setJuris('wy')
+      setView(ViewsEnum.wyUNA)
     } else {
-      setView(1)
+      setView(ViewsEnum.juris)
     }
   }
 
   return (
-    <Box
-      display={'flex'}
-      flexDirection={{
-        xs: 'column',
-        md: 'row',
-      }}
-    >
-      <Box className={styles.splashContainer}>
-        <Box
-          display="flex"
-          flexDirection={'column'}
-          width={{
-            xs: 'full',
-            md: '2/3',
-          }}
-          gap="5"
+    <div className="flex-col md:flex-row space-y-5">
+      <div className="flex flex-row space-x-2 border-b">
+        <h2 className="scroll-m-20 pb-2 text-5xl font-semibold tracking-tight transition-colors first:mt-0">Mint</h2>
+      </div>
+      <div className="flex flex-col space-y-2">
+        <Button
+          className="flex items-center justify-between w-3/4 text-xl rounded-xl p-5"
+          onClick={() => setEntity('LLC')}
         >
-          <Text size="headingOne" color="foreground" align="left">
-            Legal wrappers for your digital assets
-          </Text>
-          <Box as="a" className={styles.pill} href="https://docs.wrappr.wtf/get-started/what/" target="_blank">
-            <Stack direction={'horizontal'} align="center">
-              <IconBookOpen />
-              <Text>How it works</Text>
-            </Stack>
-            <IconArrowRight />
-          </Box>
-        </Box>
-      </Box>
-      <Box className={styles.action}>
-        <Stack>
-          <Box className={styles.back} as="button" disabled={true}>
-            <IconArrowLeft />
-          </Box>
-          <Text size="headingOne" align="left" weight="semiBold" color="foreground">
-            Mint
-          </Text>
-        </Stack>
-        <Box className={styles.actionCards}>
-          <Button
-            tone="foreground"
-            suffix={<IconChevronRight />}
-            width="3/4"
-            justifyContent="space-between"
-            onClick={() => setEntity('LLC')}
-          >
-            LLC
-          </Button>
-          <Button
-            tone="foreground"
-            suffix={<IconChevronRight />}
-            width="3/4"
-            justifyContent="space-between"
-            onClick={() => setEntity('UNA')}
-          >
-            Non-Profit
-          </Button>
-        </Box>
-      </Box>
-    </Box>
+          LLC
+          <Icons.chevronRight />
+        </Button>
+        <Button
+          className="flex items-center justify-between w-3/4 text-xl rounded-xl p-5"
+          onClick={() => setEntity('UNA')}
+        >
+          Non-Profit
+          <Icons.chevronRight />
+        </Button>
+      </div>
+    </div>
   )
 }

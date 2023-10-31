@@ -1,8 +1,9 @@
-import { Skeleton, Box, Spinner, Avatar, Text } from '@kalidao/reality'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
-import * as styles from '~/wrap/styles.css'
+import { AspectRatio } from '~/components/ui/aspect-ratio'
+import Image from 'next/image'
+import { convertIpfsToGateway, isIpfsUrl } from '~/utils/convertIpfsHash'
+import { Skeleton } from '~/components/ui/skeleton'
 
 type Props = {
   tokenURI: string
@@ -11,34 +12,32 @@ type Props = {
   id: string
 }
 
-const CollectionCard = ({ tokenURI, chainId, address, id }: Props) => {
-  const { isLoading, data } = useQuery(['wrappr', tokenURI], () => fetchCollectionData(tokenURI))
+export const CollectionCard = ({ tokenURI, chainId, address, id }: Props) => {
+  const { data } = useQuery(['wrappr', tokenURI], () => fetchCollectionData(tokenURI))
 
   return (
-    <Link href={`/${chainId}/${address}/${id}`} passHref>
-      <Box
-        className={styles.wrapprCard}
-        as="a"
-        display="flex"
-        flexDirection={'column'}
-        justifyContent="center"
-        alignItems="center"
-        gap="2"
-      >
-        {isLoading ? (
-          <Avatar shape="square" size="52" label={`Image`} placeholder />
-        ) : (
-          <Avatar src={data?.['image']} shape="square" size="52" label={`Image for ${data?.['name']}`} />
-        )}
-        <Text variant="label">{data ? data?.['name'] : 'Fetching...'}</Text>
-      </Box>
+    <Link href={`/${chainId}/${address}/${id}`} passHref className="col-span-1">
+      <div className="flex flex-col justify-center items-center gap-2 w-[10rem]">
+        <AspectRatio ratio={1 / 1}>
+          {data?.['image'] === undefined || data?.['image'] === '' || data?.['image'] === null ? (
+            <Skeleton className="w-full h-full animate-pulse" />
+          ) : (
+            <Image
+              src={data?.['image']}
+              alt={`Image for ${data?.['name']}`}
+              className="rounded-md h-20 w-20 object-cover"
+              layout="fill"
+            />
+          )}
+        </AspectRatio>
+        <p>{data ? data?.['name'] : ''}</p>
+      </div>
     </Link>
   )
 }
 
 const fetchCollectionData = async (URI: string) => {
+  isIpfsUrl(URI) && (URI = convertIpfsToGateway(URI))
   const res = await fetch(URI)
   return res.json()
 }
-
-export default CollectionCard
