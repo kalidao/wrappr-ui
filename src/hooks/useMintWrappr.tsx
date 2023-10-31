@@ -33,6 +33,8 @@ export const useMintWrappr = ({ chainId }: { chainId: number }) => {
       args: [to, id, amount, data, tokenURI, owner],
     })
 
+    await publicClient.waitForTransactionReceipt({ hash })
+
     const receipt = await publicClient.getTransactionReceipt({ hash })
 
     return receipt

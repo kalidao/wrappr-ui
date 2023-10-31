@@ -148,7 +148,7 @@ export default function Confirm() {
       setLoading(false)
     }
   }
-  console.log('confirm', juris, entity, getPdfName(juris!, entity!))
+
   return (
     <div className="w-screen flex items-center justify-center p-3 md:p-6">
       <div className="w-full md:w-3/4 lg:w-1/2 flex flex-col space-y-2">
